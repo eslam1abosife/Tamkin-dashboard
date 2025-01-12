@@ -3,7 +3,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { ref, computed, watch, onMounted, defineProps, defineEmits } from "vue";
 import { useDebounce } from "@vueuse/core";
 
-const {t} = useI18n()
+const { t } = useI18n();
 const props = defineProps({
   list: Array,
   placeholderinput: String,
@@ -90,18 +90,22 @@ const filteredList = computed(() => {
       if (translatedA === lowerSearchValue) return -1;
       if (translatedB === lowerSearchValue) return 1;
 
-      if (translatedA.startsWith(lowerSearchValue) && !translatedB.startsWith(lowerSearchValue)) return -1;
-      if (!translatedA.startsWith(lowerSearchValue) && translatedB.startsWith(lowerSearchValue)) return 1;
+      if (
+        translatedA.startsWith(lowerSearchValue) &&
+        !translatedB.startsWith(lowerSearchValue)
+      )
+        return -1;
+      if (
+        !translatedA.startsWith(lowerSearchValue) &&
+        translatedB.startsWith(lowerSearchValue)
+      )
+        return 1;
 
       return 0;
     });
 
   return matches.length > 0 ? matches : [];
 });
-
-
-
-
 
 onMounted(() => {
   if (props.currentListValue) {
@@ -118,14 +122,23 @@ onMounted(() => {
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
     <button
       @click.prevent="toggleDropdown"
-      class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between 
-            h-[40px] px-4  peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
-      :class="[isListOpen ? 'border-tamkin' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '', errorField ? 'input_error' : '', successField ? 'input_success' : '']"
+      class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between h-[40px] px-4 peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
+      :class="[
+        isListOpen ? 'border-tamkin' : '',
+        disabled
+          ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0'
+          : '',
+        errorField ? 'input_error' : '',
+        successField ? 'input_success' : '',
+      ]"
     >
       <div
-        class="floating_country px-[6px]   
-        ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
-        :class="[selectedOption && (selectedOption[nameKey] || selectedOption[idField]) ? '!text-[#585B5B] font-[400] ' : 'text-light']"
+        class="floating_country px-[6px] ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
+        :class="[
+          selectedOption && (selectedOption[nameKey] || selectedOption[idField])
+            ? '!text-[#585B5B] font-[400] '
+            : 'text-light',
+        ]"
       >
         <div class="flex items-center justify-start">
           <img
@@ -134,9 +147,21 @@ onMounted(() => {
             class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
           />
           <div
-            :class="[errorField ? '!text-error' : '', selectedOption && selectedOption[nameKey] && selectedOption[nameKey].length >= 20 ? 'w-64 truncate' : 'w-auto']"
+            class="dark:text-whiteTamkin"
+            :class="[
+              errorField ? '!text-error' : '',
+              selectedOption &&
+              selectedOption[nameKey] &&
+              selectedOption[nameKey].length >= 20
+                ? 'w-64 truncate'
+                : 'w-auto',
+            ]"
           >
-            {{ selectedOption ? $t(selectedOption[nameKey]) : $t(placeholderinput) }}
+            {{
+              selectedOption
+                ? $t(selectedOption[nameKey])
+                : $t(placeholderinput)
+            }}
           </div>
         </div>
       </div>
@@ -146,45 +171,62 @@ onMounted(() => {
         class="rtl:mr-auto ltr:ml-auto w-[14px] h-[8px]"
       />
     </button>
-    <div v-if="isListOpen" class="absolute z-[10] top-[0] w-full rounded-[10px] bg-white  border-[#D9D9D9]">
+    <div
+      v-if="isListOpen"
+      class="absolute z-[10] top-[0] w-full rounded-[10px] bg-white border-[#D9D9D9]"
+    >
       <div class="search_input w-full rounded-t-[10px]" v-if="enableSearch">
         <input
           type="text"
-          class="input_dashboard_search rtl:!pr-[48px] ltr:!pl-[48px] !w-full !rounded-b-none 
-          !text-[12px] !placeholder:text-[12px]"
+          class="input_dashboard_search rtl:!pr-[48px] ltr:!pl-[48px] !w-full !rounded-b-none !text-[12px] !placeholder:text-[12px]"
           v-model="search"
           :placeholder="$t('Search') + '...'"
         />
         <div class="absolute top-[14px] rtl:right-[20px] ltr:left-[20px]">
           <img src="/assets/imgs/icons/search.svg" />
         </div>
-        <div v-if="search" @click="search = ''" class="absolute top-[14px] cursor-pointer rtl:left-[20px] ltr:right-[20px]">
+        <div
+          v-if="search"
+          @click="search = ''"
+          class="absolute top-[14px] cursor-pointer rtl:left-[20px] ltr:right-[20px]"
+        >
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul v-if="isListOpen && filteredList.length > 0" class="max-h-[150px]  overflow-y-scroll absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">
+      <ul
+        v-if="isListOpen && filteredList.length > 0"
+        class="max-h-[150px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin overflow-y-scroll absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]"
+      >
         <li
           v-for="(listItem, i) in filteredList"
           :key="listItem[idField]"
           @click="selectList(listItem)"
-          :class="[selectedOption && selectedOption[idField] === listItem[idField] ? '!bg-tamkinLight' : '']"
-          class="flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight cursor-pointer"
+          :class="[
+            selectedOption && selectedOption[idField] === listItem[idField]
+              ? '!bg-tamkinLight dark:text-tamkinDarkPrimary'
+              : '',
+          ]"
+          class="flex items-center px-[16px] py-2 text-[12px] hover:dark:text-tamkinDarkPrimary hover:bg-tamkinLight cursor-pointer"
         >
-          <img :src="listItem[iconKey]" v-if="iconKey" class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2" />
+          <img
+            :src="listItem[iconKey]"
+            v-if="iconKey"
+            class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
+          />
           <div>{{ t(listItem[nameKey]) }}</div>
         </li>
       </ul>
-      
-      <!-- Show a message when no records are found -->
-      <div v-if="isListOpen && filteredList.length === 0" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2">
-        {{ $t('No countries found.') }}
-      </div>
-      
 
+      <!-- Show a message when no records are found -->
+      <div
+        v-if="isListOpen && filteredList.length === 0"
+        class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2"
+      >
+        {{ $t("No countries found.") }}
+      </div>
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .floating_country {
