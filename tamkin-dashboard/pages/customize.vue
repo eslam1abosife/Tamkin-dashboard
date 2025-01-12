@@ -638,7 +638,7 @@ watch(colorcurrentpicker, (newVal) => {
                         class="h-[34px] dark:bg-p border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient"
                         @input="updateGradient"
-                        style="background: black"
+                        style="background: none"
                       />
                     </div>
                   </div>
@@ -657,6 +657,7 @@ watch(colorcurrentpicker, (newVal) => {
                         class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient2"
                         @input="updategradient2"
+                        style="background-color: none !important"
                       />
                     </div>
                   </div>

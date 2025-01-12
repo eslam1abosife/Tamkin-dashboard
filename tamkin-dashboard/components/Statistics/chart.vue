@@ -1002,7 +1002,9 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
         />
 
         <div v-else class="flex items-center justify-center h-full w-full">
-          <h1 class="text-center">{{ $t("No data available yet") }}</h1>
+          <h1 class="text-center dark:text-whiteTamkin">
+            {{ $t("No data available yet") }}
+          </h1>
         </div>
       </div>
       <div
@@ -1057,7 +1059,9 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
         />
 
         <div v-else class="flex items-center justify-center h-full w-full">
-          <h1 class="text-center">No data available yet</h1>
+          <h1 class="text-center dark:text-whiteTamkin">
+            No data available yet
+          </h1>
         </div>
       </div>
     </div>
