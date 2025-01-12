@@ -530,9 +530,10 @@ export const usePlayerStore = defineStore("player", {
 
 activeCharCurrentlyWearedSkinsCategories: (state) => {
   const activeClothes = {};
-
+  const items = [];
   state.activeCharacter?.allowed_skins_list.forEach((item) => {
     if(item.is_weared) {
+      items.push(item);
       if (activeClothes[item.category]) {
         activeClothes[item.category].push(item.name);
       } else {
@@ -540,6 +541,18 @@ activeCharCurrentlyWearedSkinsCategories: (state) => {
       }
     }
   });
+
+  if(items.length <= 0) {
+    state.activeCharacter?.allowed_skins_list.forEach((item) => {
+      if(item.is_default) {
+        if (activeClothes[item.category]) {
+          activeClothes[item.category].push(item.name);
+        } else {
+          activeClothes[item.category] = [item.name];
+        }
+      }
+    });
+  }
 
   return activeClothes;
 },
