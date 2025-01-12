@@ -6,6 +6,8 @@ import { useOverviewStore } from "@/stores/overview";
 const {locale } = useI18n();
 const navStore = useNavbarStore();
 
+
+
 const {
   isOpen,
   currentView,
@@ -175,10 +177,16 @@ const runtimec = useRuntimeConfig()
           class="!mt-[30px]"
         />
 
-        <LanguageServicesOverviewWebplugins
-      />
+    <KeepAlive>
+      <LanguageServicesOverviewWebplugins
+      v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'"
+
+    />
+    </KeepAlive>
 
         <LanguageServicesOverviewTranslationaccuracy
+        v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Act2ive'"
+
         />
 
 
