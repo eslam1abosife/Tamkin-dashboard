@@ -146,6 +146,7 @@ onMounted(async () => {
   playerStore.characters = characters.value;
   let activeChar = playerStore.backendActiveChar;
   playerStore.activeCharacter = activeChar;
+  
   // playerStore.changeCharacter(activeChar, true);
   if (
     marketStore.categoriesWithSkinItems &&

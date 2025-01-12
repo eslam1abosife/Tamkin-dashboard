@@ -14,7 +14,7 @@ const loaChar = ref(window.loaChar);
 const loadedplayer = ref(false);
 const showLoader = ref(true); // New flag to control loader visibility
 
-const activeChar = ref("");
+// const activeChar = ref("");
 
 
 // Add event listener to update `loaChar` when the custom event is dispatched
@@ -47,8 +47,8 @@ watch(
 
 onMounted(async () => {
   // Fetch characters
-  await getFullDataFormated();
-  activeChar.value = characters.value.find((character) => character.is_used);
+  // await getFullDataFormated();
+  // activeChar.value = characters.value.find((character) => character.is_used);
   // Add event listener for `loaCharChanged`
   window.addEventListener("loaCharChanged", updateLoaChar);
 
@@ -71,7 +71,7 @@ function controlPlayerLoad() {
     setTimeout(async () => {
       if(!loadedplayer.value && loaChar.value) {
         loadedplayer.value = true;
-        await window.changeCharacter(activeChar.value.name);
+        await window.changeCharacter(playerStore.activeCharacter.name);
         await window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
         playerStore.WearAllisWearedSkins();
       }
