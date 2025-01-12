@@ -521,9 +521,9 @@ const settingStore = useSettingsStore();
       >
         <img
           v-if="playerStore.currentBackground.isImage"
-          class="absolute inset-0 rounded-[10px]"
+          class="absolute inset-0 top-0 w-full h-full object-cover object-center rounded-[10px]"
           :src="playerStore.currentBackground.colorOrUrl"
-          alt=""
+          alt="Background"
         />
         <div
           @click.prevent="openModal('mycart', 'market')"
