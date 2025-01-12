@@ -183,7 +183,7 @@ onUpdated(() => {
           .getAddonsOrExtras('Extra')
           .filter((g) => g.custom_extra_type === 'words').length
       "
-      class="mt-[32px] w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
+      class="mt-[32px] w-full p-[40px] grid dark:bg-p gap-[30px] grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
       <div
         v-for="addon in packagesStore
@@ -191,7 +191,7 @@ onUpdated(() => {
           .filter((g) => g.custom_extra_type === 'words')
           .sort((a, b) => a.sort - b.sort)"
         :key="addon.name"
-        class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px]"
+        class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       >
         <div class="absolute top-[-24.5px]">
           <img
@@ -200,22 +200,26 @@ onUpdated(() => {
             alt=""
           />
         </div>
-        <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
+        <div
+          class="text-[16px] font-[600] dark:text-whiteTamkin leading-[32px] text-[#021328]"
+        >
           {{ $t(addon.title) }}
         </div>
         <div
-          class="text-[13px] leading-[19px] font-[500] text-black text-center"
+          class="text-[13px] leading-[19px] dark:text-whiteTamkin font-[500] text-black text-center"
         >
           {{ $t(addon.description) }}
         </div>
 
         <div
-          class="my-[14px] text-[16px] font-[700] leading-[32px] text-[#021328]"
+          class="my-[14px] text-[16px] font-[700] dark:text-whiteTamkin leading-[32px] text-[#021328]"
         >
           {{ $t(addon.sub_title) }}
         </div>
 
-        <div class="text-[15px] font-[600] leading-[29px] text-darkGrey">
+        <div
+          class="text-[15px] font-[600] leading-[29px] dark:text-whiteTamkin text-darkGrey"
+        >
           $
 
           {{ addon.package_price_role[0].cost_month.toFixed(0) }}

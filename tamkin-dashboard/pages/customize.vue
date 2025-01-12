@@ -265,36 +265,36 @@ onBeforeRouteLeave((to, from, next) => {
 const navStore = useNavbarStore();
 const inputGradient = ref(customizeStore.gradient1);
 const inputGradient2 = ref(customizeStore.gradient2);
-    const colorPickerGradient = ref(customizeStore.gradient1);
-    const colorPickerGradient2 = ref(customizeStore.gradient2);
-    const colorcurrentpicker = ref(customizeStore.currentColor);
-    const inputcurrentcolor = ref(customizeStore.currentColor);
+const colorPickerGradient = ref(customizeStore.gradient1);
+const colorPickerGradient2 = ref(customizeStore.gradient2);
+const colorcurrentpicker = ref(customizeStore.currentColor);
+const inputcurrentcolor = ref(customizeStore.currentColor);
 
-    const updateGradient = () => {
-      customizeStore.gradient1 = inputGradient.value;
-      colorPickerGradient.value = inputGradient.value;
-    };
-    const updategradient2 = ()=>{
-      customizeStore.gradient2 = inputGradient2.value;
-      colorPickerGradient.value = inputGradient.value;
-    }
-    const updatecurrentcolor = ()=>{
-      customizeStore.currentColor = inputcurrentcolor.value;
-      colorcurrentpicker.value = inputcurrentcolor.value;
-    }
-    watch(colorPickerGradient, (newVal) => {
-      customizeStore.gradient1 = newVal;
-      inputGradient.value = newVal;
-    });
-    watch(colorPickerGradient2, (newVal) => {
-      customizeStore.gradient2 = newVal;
-      inputGradient2.value = newVal;
-    });
+const updateGradient = () => {
+  customizeStore.gradient1 = inputGradient.value;
+  colorPickerGradient.value = inputGradient.value;
+};
+const updategradient2 = () => {
+  customizeStore.gradient2 = inputGradient2.value;
+  colorPickerGradient.value = inputGradient.value;
+};
+const updatecurrentcolor = () => {
+  customizeStore.currentColor = inputcurrentcolor.value;
+  colorcurrentpicker.value = inputcurrentcolor.value;
+};
+watch(colorPickerGradient, (newVal) => {
+  customizeStore.gradient1 = newVal;
+  inputGradient.value = newVal;
+});
+watch(colorPickerGradient2, (newVal) => {
+  customizeStore.gradient2 = newVal;
+  inputGradient2.value = newVal;
+});
 
-    watch(colorcurrentpicker, (newVal) => {
-      customizeStore.currentColor = newVal;
-      inputcurrentcolor.value = newVal;
-    });
+watch(colorcurrentpicker, (newVal) => {
+  customizeStore.currentColor = newVal;
+  inputcurrentcolor.value = newVal;
+});
 </script>
 
 <template>
@@ -329,9 +329,7 @@ const inputGradient2 = ref(customizeStore.gradient2);
       </div>
 
       <div v-else>
-        <LanguageServicesNodata
-          v-if="!navStore.defaultappobj"
-        />
+        <LanguageServicesNodata v-if="!navStore.defaultappobj" />
         <div v-else>
           <div
             v-if="customizeStore.isBtnColorActive"
@@ -586,7 +584,7 @@ const inputGradient2 = ref(customizeStore.gradient2);
                       class="h-[24px] w-[24px] rounded-[5px]"
                     ></div>
                     <div
-                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B]"
                     >
                       {{ $t("Gradient") }}
                     </div>
@@ -607,12 +605,14 @@ const inputGradient2 = ref(customizeStore.gradient2);
                     :style="{ backgroundColor: customizeStore.currentColor }"
                   ></div>
                   <div
-                    class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                    class="text-[14px] leading-[21px] font-[400] dark:bg-tamkinDarkPrimary text-[#585B5B]"
                   >
-                  <input type="text" 
-                  class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
-                  v-model="inputcurrentcolor"
-        @input="updatecurrentcolor">
+                    <input
+                      type="text"
+                      class="h-[34px] focus:ring-0 border-tamkin dark:bg-tamkinDarkPrimary border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                      v-model="inputcurrentcolor"
+                      @input="updatecurrentcolor"
+                    />
                   </div>
                 </div>
 
@@ -631,12 +631,15 @@ const inputGradient2 = ref(customizeStore.gradient2);
                       :style="{ backgroundColor: customizeStore.gradient1 }"
                     ></div>
                     <div
-                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B]"
                     >
-                    <input type="text" 
-                    class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
-                    v-model="inputGradient"
-          @input="updateGradient">
+                      <input
+                        type="text"
+                        class="h-[34px] dark:bg-p border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        v-model="inputGradient"
+                        @input="updateGradient"
+                        style="background: black"
+                      />
                     </div>
                   </div>
                   <div
@@ -649,10 +652,12 @@ const inputGradient2 = ref(customizeStore.gradient2);
                     <div
                       class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                     >
-                    <input type="text" 
-                    class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
-                    v-model="inputGradient2"
-          @input="updategradient2">
+                      <input
+                        type="text"
+                        class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        v-model="inputGradient2"
+                        @input="updategradient2"
+                      />
                     </div>
                   </div>
                 </div>
@@ -666,7 +671,6 @@ const inputGradient2 = ref(customizeStore.gradient2);
                 "
               >
                 <Client-only>
-
                   <Vue3ColorPicker
                     v-model="colorcurrentpicker"
                     mode="solid"
@@ -692,8 +696,8 @@ const inputGradient2 = ref(customizeStore.gradient2);
                 <div class="flex items-center justify-start w-full">
                   <Client-only>
                     <Vue3ColorPicker
-                    v-model="colorPickerGradient"
-                    mode="solid"
+                      v-model="colorPickerGradient"
+                      mode="solid"
                       :showColorList="false"
                       :showEyeDrop="false"
                       :showAlpha="false"
@@ -708,8 +712,8 @@ const inputGradient2 = ref(customizeStore.gradient2);
                 <div class="flex items-center justify-start w-full">
                   <Client-only>
                     <Vue3ColorPicker
-                    v-model="colorPickerGradient2"
-                    mode="solid"
+                      v-model="colorPickerGradient2"
+                      mode="solid"
                       :showColorList="false"
                       :showEyeDrop="false"
                       :showAlpha="false"

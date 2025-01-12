@@ -373,7 +373,7 @@ const accuracy = computed(() => {
             class="w-full small_circle text-[12px]"
           />
 
-          <div class="text-[18px] font-[500] text-black">
+          <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
             {{ $t("Translation accuracy") }}
           </div>
         </div>

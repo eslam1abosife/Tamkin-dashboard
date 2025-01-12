@@ -1,54 +1,54 @@
 <script lang="ts" setup>
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
 function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
-const openBuyModal = (pck)=>{
-  packagesStore.currentPackage = pck
-  packagesStore.currentWebsite = ''
-  packagesStore.openedCurrentSite = false
+const openBuyModal = (pck) => {
+  packagesStore.currentPackage = pck;
+  packagesStore.currentWebsite = "";
+  packagesStore.openedCurrentSite = false;
 
-  openModal('add_package_modal_packages')
-
-}
+  openModal("add_package_modal_packages");
+};
 </script>
 -
 <template>
   <div class="flex flex-col items-center justify-center w-full">
     <div
-    class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
-
+      class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
     >
       <div
         v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')"
         :key="pak.name"
-        class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative  !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+        class="flex items-center flex-col dark:bg-tamkinDarkPrimary dark:text-whiteTamkin custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
         style="padding: 16px, 10px, 16px, 10px"
       >
         <div
           v-if="pak.type_deal !== 'None'"
-          :class="[pak.type_deal === 'Best Value' ? ' bg-[#C16487] ':pak.type_deal === 'Best Deal' ?
-           'bg-gradient-to-br from-[#2dada3] to-[#71dad2]':'bg-[#5E4352]']"
-           class="absolute flex items-center justify-center text-[13px] leading-[17.76px]
-            font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin 
-            top-[-15px]   rtl:lg:right-[250px] ltr:lg:left-[250px]"
+          :class="[
+            pak.type_deal === 'Best Value'
+              ? ' bg-[#C16487] '
+              : pak.type_deal === 'Best Deal'
+              ? 'bg-gradient-to-br from-[#2dada3] to-[#71dad2]'
+              : 'bg-[#5E4352]',
+          ]"
+          class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-whiteTamkin top-[-15px] rtl:lg:right-[250px] ltr:lg:left-[250px]"
         >
-          <div class=" ">{{$t(pak.type_deal)}}</div>
+          <div class=" ">{{ $t(pak.type_deal) }}</div>
         </div>
         <div class="absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]">
-          <img :src="`http://tamkin.app/${pak.icon}`" class="w-[50px] h-[50px]" />
+          <img
+            :src="`http://tamkin.app/${pak.icon}`"
+            class="w-[50px] h-[50px]"
+          />
         </div>
 
-        <div class="flex items-center justify-center w-full px-[15px] mt-[48px]">
+        <div
+          class="flex items-center justify-center w-full px-[15px] mt-[48px]"
+        >
           <div class="order-2 w-full">
             <h1
               class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin"
@@ -67,11 +67,16 @@ const openBuyModal = (pck)=>{
               $
               {{
                 packagesStore.discountType === "month"
-                  ? pak.package_price_role[0].cost_month.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  : pak.package_price_role[0].cost_yearly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  ? pak.package_price_role[0].cost_month
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : pak.package_price_role[0].cost_yearly
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }}
 
-              <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
+              <span
+                class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
                 >/{{ $t(packagesStore.discountType) }}</span
               >
             </h3>
@@ -88,8 +93,12 @@ const openBuyModal = (pck)=>{
                   pak.package_price_role[0].cost_before_month !== 0
                 "
               >
-                $ {{ pak.package_price_role[0].cost_before_month.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-           
+                $
+                {{
+                  pak.package_price_role[0].cost_before_month
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }}
               </span>
               <span
                 v-if="
@@ -97,26 +106,35 @@ const openBuyModal = (pck)=>{
                   pak.package_price_role[0].cost_before_yearly !== 0
                 "
               >
-                $ {{ pak.package_price_role[0].cost_before_yearly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-            
+                $
+                {{
+                  pak.package_price_role[0].cost_before_yearly
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }}
               </span>
             </div>
-            <div v-if="packagesStore.discountType === 'month' &&
-                  pak.package_price_role[0].cost_before_month === 0 || packagesStore.discountType === 'year' &&
-                  pak.package_price_role[0].cost_before_yearly === 0" class="my-[24px]">
+            <div
+              v-if="
+                (packagesStore.discountType === 'month' &&
+                  pak.package_price_role[0].cost_before_month === 0) ||
+                (packagesStore.discountType === 'year' &&
+                  pak.package_price_role[0].cost_before_yearly === 0)
+              "
+              class="my-[24px]"
+            >
               <!-- Content here will be displayed if either cost_before_month or cost_before_yearly is zero -->
             </div>
-                       
+
             <p
               class="font-[700] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"
             >
-              {{ $t(pak.description )}}
+              {{ $t(pak.description) }}
             </p>
           </div>
         </div>
         <div
-          class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
-           flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse rounded-t-none rounded-[10px] p-4"
+          class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse rounded-t-none rounded-[10px] p-4"
         >
           <div
             v-for="item in pak.package_items
@@ -136,14 +154,14 @@ const openBuyModal = (pck)=>{
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
-                {{ $t(item.title)}}
+                {{ $t(item.title) }}
               </h3>
             </div>
           </div>
 
           <div class="flex items-center justify-center mx-auto w-full">
             <button
-            @click="openBuyModal(pak)"
+              @click="openBuyModal(pak)"
               :disabled="
                 pak.cost_month !== 0 &&
                 pak.cost_yearly !== 0 &&
@@ -153,33 +171,40 @@ const openBuyModal = (pck)=>{
               class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
             >
               <!-- Contact Us Case -->
-              <span v-if="pak.is_contact_us"> {{ $t('Contact us') }} </span>
+              <span v-if="pak.is_contact_us"> {{ $t("Contact us") }} </span>
 
               <!-- Trial or Buy Now Case -->
               <span
                 v-else-if="
                   pak.trial_days > 0 ||
-                  (pak.trial_days === 0 && pak.cost_month !== 0 && pak.cost_yearly !== 0)
+                  (pak.trial_days === 0 &&
+                    pak.cost_month !== 0 &&
+                    pak.cost_yearly !== 0)
                 "
               >
                 {{
                   pak.trial_days > 0
-                    ? `Try now for ${pak.trial_days} ${getDayLabel(pak.trial_days)}`
+                    ? `Try now for ${pak.trial_days} ${getDayLabel(
+                        pak.trial_days
+                      )}`
                     : ""
                 }}
               </span>
 
               <!-- Free Package Case -->
               <span v-else-if="pak.cost_month === 0 && pak.cost_yearly === 0">
-                {{$t('Free Package')}}
+                {{ $t("Free Package") }}
               </span>
-              <span v-else>{{$t('Get Started')}}</span>
+              <span v-else>{{ $t("Get Started") }}</span>
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <PackagesFeatures :current-page="'sign'" v-if="!packagesStore.loadingData" />
+    <PackagesFeatures
+      :current-page="'sign'"
+      v-if="!packagesStore.loadingData"
+    />
   </div>
 </template>

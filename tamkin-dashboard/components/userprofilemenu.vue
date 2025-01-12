@@ -207,18 +207,20 @@ onMounted(async () => {
           <svg
             width="12"
             height="14"
-            class="dark:fill-whiteTamkin"
+            fill="none"
             viewBox="0 0 12 14"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M0.5 13.4999V12.7777C0.5 10.3844 2.34682 8.44434 4.625 8.44434H7.375C9.65317 8.44434 11.5 10.3844 11.5 12.7777V13.4999"
               stroke="#585B5B"
+              class="dark:stroke-whiteTamkin"
               stroke-linecap="round"
             />
             <path
               d="M6 6.27778C4.48122 6.27778 3.25 4.98438 3.25 3.38889C3.25 1.7934 4.48122 0.5 6 0.5C7.51876 0.5 8.75 1.7934 8.75 3.38889C8.75 4.98438 7.51876 6.27778 6 6.27778Z"
               stroke="#585B5B"
+              class="dark:stroke-whiteTamkin"
               stroke-linecap="round"
             />
           </svg>
