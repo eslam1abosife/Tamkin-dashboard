@@ -33,12 +33,17 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
       :key="skin_item.name"
       :class="[
         playerStore.lastClickedSkinItemName == skin_item.name
-          ? '!bg-selected custom-border-tamkin padding-override-1'
+          ? 'bg-selected dark:bg-p custom-border-tamkin padding-override-1'
           : '',
       ]"
     >
       <div
-        class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative"
+        :class="[
+          playerStore.lastClickedSkinItemName == skin_item.name
+            ? 'dark:bg-tamkinDarkPrimary'
+            : '',
+        ]"
+        class="w-full dark:bg-tamkinDarkPrimary bg-[#f2efef] flex items-center justify-center rounded-[10px] relative"
       >
         <div class="h-[120px] flex items-center justify-center">
           <img
@@ -128,7 +133,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         <h1
           :class="[
             playerStore.lastClickedSkinItemName == skin_item.name
-              ? 'text-darkGrey'
+              ? 'dark:text-whiteTamkin'
               : 'dark:text-whiteTamkin ',
           ]"
           class="text-[11px] font-[500] w-full text-darkGrey leading-[17px] mt-2"
@@ -138,7 +143,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         <p
           :class="[
             playerStore.lastClickedSkinItemName == skin_item.name
-              ? 'text-darkGrey'
+              ? 'dark:text-whiteTamkin'
               : 'dark:text-whiteTamkin ',
           ]"
           class="text-[10px] font-[300] leading-[17px] max-w-2/4 truncate"
@@ -171,7 +176,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               </div>
               <div class="flex items-center justify-center">
                 <div
-                  class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
+                  class="text-[13px] dark:text-whiteTamkin font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
                 >
                   ${{ skin_item.offer_cost }}
                 </div>

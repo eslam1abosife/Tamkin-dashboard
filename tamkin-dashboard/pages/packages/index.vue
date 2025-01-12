@@ -61,7 +61,7 @@ onUpdated(() => {
       <!-- <PackagesPaymentModalsAddons/> -->
       <!-- <PackagesPaymentModalsJoinInvestorStep1/> -->
       <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
+        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap dark:text-whiteTamkin"
       >
         <div v-html="$t(`${packagesStore.getTabDetails().color_title}`)"></div>
         <!-- <div class="flex items-center justify-center space-x-1 ">
@@ -71,7 +71,7 @@ onUpdated(() => {
       </div>
 
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12 dark:text-whiteTamkin"
       >
         {{ $t(packagesStore.getTabDetails().description) }}
       </div>

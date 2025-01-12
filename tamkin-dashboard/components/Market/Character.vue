@@ -10,10 +10,23 @@ import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 import { useEditCustomerCharacter } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
-const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
-const  customCharacterCost = useEditCustomerCharacter().customCharacterCost;
-const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
-  useModalManager();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loadDefaultApp,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+const customCharacterCost = useEditCustomerCharacter().customCharacterCost;
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  setData,
+} = useModalManager();
 
 const openModalAndHideChat = () => {
   if (process.client && !isOpen("requestmodal")) {
@@ -72,12 +85,21 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             v-if="customCharacterCost.offer_cost > 0"
             class="flex items-center justify-between w-full"
           >
-            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
+            <div
+              class="flex items-start flex-col justify-evenly space-y-[10px]"
+            >
               <div
                 class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
               >
                 <div>
-                  %{{ (((customCharacterCost.cost - customCharacterCost.offer_cost) / customCharacterCost.cost) * 100).toFixed(2) }}
+                  %{{
+                    (
+                      ((customCharacterCost.cost -
+                        customCharacterCost.offer_cost) /
+                        customCharacterCost.cost) *
+                      100
+                    ).toFixed(2)
+                  }}
                   {{ $t("OFF") }}
                 </div>
               </div>
@@ -100,7 +122,8 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             class="flex items-end justify-between w-full mt-[5px]"
             v-if="
               customCharacterCost.cost &&
-              (!customCharacterCost.offer_cost || customCharacterCost.offer_cost == 0)
+              (!customCharacterCost.offer_cost ||
+                customCharacterCost.offer_cost == 0)
             "
           >
             <div
@@ -110,7 +133,6 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
@@ -122,13 +144,17 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
       :key="char.name"
       :class="[
         playerStore.activeCharacter?.name == char.name
-          ? ' !bg-selected   custom-border-tamkin padding-override-1  '
+          ? 'bg-selected dark:bg-p custom-border-tamkin padding-override-1  '
           : '',
       ]"
-      style="background-image: none; color: black"
     >
       <div
-        class="w-full bg-[#f2efef] dark:bg-[#3a4a60] flex items-center justify-center rounded-[10px] relative"
+        :class="[
+          playerStore.activeCharacter?.name == char.name
+            ? 'dark:bg-p_secondary'
+            : '',
+        ]"
+        class="w-full dark:bg-p bg-white flex items-center justify-center rounded-[10px] relative"
         :style="'background-color: ' + char.background_color + '!important;'"
       >
         <div class="h-[120px] flex items-end justify-center">
@@ -201,7 +227,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
         <h1
           :class="[
             playerStore.activeCharacter?.name == char.name
-              ? 'text-darkGrey'
+              ? 'dark:text-whiteTamkin'
               : 'dark:text-whiteTamkin ',
           ]"
           class="text-[11px] font-[500] w-full leading-[17px] mt-2"
@@ -211,7 +237,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
         <p
           :class="[
             playerStore.activeCharacter?.name == char.name
-              ? 'text-darkGrey'
+              ? 'dark:text-whiteTamkin'
               : 'dark:text-whiteTamkin ',
           ]"
           class="text-[10px] font-[300] leading-[17px] max-w-2/4 truncate"
@@ -245,7 +271,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
                 <div
                   :class="[
                     playerStore.activeCharacter?.name == char.name
-                      ? 'text-darkGrey'
+                      ? 'dark:text-whiteTamkin'
                       : 'dark:text-whiteTamkin ',
                   ]"
                   class="text-[13px] font-[600] rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
@@ -276,7 +302,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
                   ? 'bg-opacity-40 !cursor-not-allowed '
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+              class="disabled:bg-gray-200 dark:bg-p_secondary dark:border-darkborder hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
               <div
                 v-if="!defaultApp"
