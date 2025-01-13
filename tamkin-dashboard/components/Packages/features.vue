@@ -140,7 +140,7 @@ const openBuyModal = (pck, contact) => {
   <div class="w-full relative" v-if="compareg">
     <div
       v-if="!showAllFeatures"
-      class="bg-gradient-to-t dark:from-[#384558]/40 dark:via-[#384558]/30 absolute inset-auto h-full w-full z-[40]"
+      class="bg-gradient-to-t dark:from-darkTamkin absolute inset-auto h-full w-full z-[40]"
       :class="[
         currentPage === 'sign'
           ? 'from-[#EEF5FF] via-[#EEF5FF]/30 '
@@ -457,13 +457,13 @@ const openBuyModal = (pck, contact) => {
         <div v-if="!showAllFeatures && name === 'addons'">
           <div
             @click="toggleTab(name)"
-            class="bg-[#ECECF0] dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin cursor-pointer w-full h-[60px] mt-[16px] flex items-center justify-between px-[20px]"
+            class="bg-[#ECECF0] dark:bg-darkSecondary border-[1px] dark:border-darkborder dark:text-whiteTamkin cursor-pointer w-full h-[60px] mt-[16px] flex items-center justify-between px-[20px]"
             :class="[
               openedTabs.includes(name) ? 'rounded-t-[10px]' : 'rounded-[10px]',
             ]"
           >
             <div
-              class="flex dark:bg-tamkinDarkPrimary dark:text-whiteTamkin items-center justify-center gap-4"
+              class="flex items-center justify-center gap-4"
             >
               <svg
                 v-if="name === 'addons'"
@@ -517,7 +517,7 @@ const openBuyModal = (pck, contact) => {
                 ></path>
               </svg>
               <div
-                class="text-[17px] !font-[700] text-[#18181B] leading-[20px]"
+                class="text-[17px] !font-[700] text-[#18181B] dark:text-whiteTamkin leading-[20px]"
               >
                 {{ $t(name.toUpperCase()) }}
               </div>
@@ -581,7 +581,7 @@ const openBuyModal = (pck, contact) => {
                     class="px-6 w-2/4 py-4 text-sm text-gray-700 border border-gray-200"
                   >
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
+                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
                     >
                       <div class="whitespace-nowrap">{{ $t(value.title) }}</div>
                       <span

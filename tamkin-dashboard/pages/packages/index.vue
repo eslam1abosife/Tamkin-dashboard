@@ -110,16 +110,16 @@ onUpdated(() => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"
         :class="[
           packagesStore.discountType === 'month'
-            ? 'bg-white dark:bg-light rounded-full'
+            ? 'bg-white dark:bg-darkTamkin rounded-full'
             : '',
         ]"
-        class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
+        class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
       >
         {{ $t("Monthly") }}
       </button>
@@ -127,17 +127,17 @@ onUpdated(() => {
         @click="switchBetweenMonthlyAndAnnual('year')"
         :class="[
           packagesStore.discountType === 'year'
-            ? 'bg-white dark:bg-light rounded-full'
+            ? 'bg-white dark:bg-darkTamkin rounded-full'
             : '',
         ]"
-        class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
+        class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
       >
         <div>{{ $t("Annual") }}</div>
         <div
           class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
         >
-          <div class="text-black font-[800] !text-[10px]">{{ $t("SAVE") }}</div>
-          <div class="text-black font-[800] !text-[10px]">
+          <div class="text-black dark:text-white font-[800] !text-[10px]">{{ $t("SAVE") }}</div>
+          <div class="text-black dark:text-white font-[800] !text-[10px]">
             {{
               packagesStore.types.length
                 ? packagesStore.types.find(

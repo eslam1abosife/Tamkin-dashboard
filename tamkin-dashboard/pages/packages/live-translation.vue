@@ -49,16 +49,16 @@ provide("pricingType", pricingType);
       </div>
     </div>
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[100px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:border-darkborder absolute right-[3.3%] top-[100px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('monthly')"
         :class="[
           pricingType === 'monthly'
-            ? 'bg-white dark:bg-light rounded-full'
+            ? 'bg-white dark:bg-darkTamkin rounded-full'
             : '',
         ]"
-        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/90 font-[500] text-[10px] leading-[22.5px]"
       >
         Monthly
       </button>
@@ -69,11 +69,11 @@ provide("pricingType", pricingType);
         @click="switchBetweenMonthlyAndAnnual('annual')"
         class="h-[22px] p-1 transition-all ease-in-out flex items-center justify-center"
       >
-        <div class="text-darkGrey dark:text-whiteTamkin font-[500] text-[10px]">
+        <div class="text-darkGrey dark:text-whiteTamkin/90 font-[500] text-[10px]">
           Annual
         </div>
         <div
-          class="ml-1 !text-black dark:!text-whiteTamkin/80 !text-[10px] !font-[600]"
+          class="ml-1 text-black dark:text-whiteTamkin !text-[10px] !font-[600]"
         >
           SAVE 12%
         </div>

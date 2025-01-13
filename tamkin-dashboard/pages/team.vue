@@ -543,7 +543,7 @@ const isOwner = computed(() => {
       >
         <div class="flex flex-col items-start justify-start">
           <div
-            class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
+            class="text-[#021328] dark:text-whiteTamkin/90 text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
           >
             <div>
               <img

@@ -75,7 +75,7 @@ watch(
 
     <!-- Links -->
     <nuxt-link
-      class="relative  z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/overview')"
     >
       {{ $t("Overview") }}
@@ -109,15 +109,17 @@ watch(
 
 <style scoped>
 /*
-
-
 .router-link-active.router-link-exact-active {
   @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
-
-
 */
+
+.router-link-active.router-link-exact-active {
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+   border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
+}
+
 a {
   @apply !text-[13px] font-[500] text-center;
 }

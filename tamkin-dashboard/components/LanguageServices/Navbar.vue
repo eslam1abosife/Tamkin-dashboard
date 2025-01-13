@@ -103,31 +103,32 @@ const getNavLinkIndex = (path) => {
       ></div>
     </transition>
     <nuxt-link
-      class="relative z-[20] w-full lg:px-0 px-2 !ml-0 lg:w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/overview')"
     >
+
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/addons')"
     >
       {{ $t("Addons") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/statistics')"
     >
       {{ $t("Statistics") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/customize')"
     >
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin mr-[5px]"
       :to="localePath('/sign-language/settings')"
     >
       {{ $t("Settings") }}
@@ -148,9 +149,10 @@ const getNavLinkIndex = (path) => {
 }
 
 .router-link-active.router-link-exact-active {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-  border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+   border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
+
 a {
   @apply !text-[13px] font-[500] text-center;
 }

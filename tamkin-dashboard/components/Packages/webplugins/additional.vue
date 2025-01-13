@@ -30,7 +30,7 @@ const openBuyModal = (pck) => {
       <img src="/imgs/addons_vector.png" class="h-[200px]" alt="" />
     </div>
     <div
-      class="text-[20px] font-[600] leading-[32px] text-[#24292F] text-center"
+      class="text-[20px] font-[600] leading-[32px] text-[#24292F] dark:text-white text-center"
     >
       {{ $t("Additional add-ons") }}
     </div>
@@ -76,7 +76,7 @@ const openBuyModal = (pck) => {
           <span
             class="!font-[500] !text-[10px] !leading-[15px] !text-darkGrey dark:text-whiteTamkin"
             >/</span
-          ><span class="!font-[500] !text-darkGrey dark:text-whiteTamkin">{{
+          ><span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin/80">{{
             $t(packagesStore.discountType)
           }}</span>
         </div>

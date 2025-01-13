@@ -577,12 +577,12 @@ const closeModalPackage = () => {
               alt=""
             />
           </div>
-          <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
+          <div class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center">
             {{ $t(mysiteStore.currentPackage.title) }}
           </div>
        
         </div>
-        <div class="font-[400] text-[16px] leading-[30px] text-black text-center ">
+        <div class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center ">
           {{ $t(mysiteStore.currentPackage.type) }}
         </div>
          </div>
@@ -885,7 +885,7 @@ const closeModalPackage = () => {
                 >
                   <div class="w-[150px] flex items-center h-[46px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] 
+                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] dark:text-white 
                       font-[500] whitespace-nowrap"
                     >
                       <div>{{ $t(`${website.title}`)}}</div>

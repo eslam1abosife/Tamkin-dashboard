@@ -73,7 +73,7 @@ module.exports = {
         darkTamkin: "#384558",
         darkSecondary: "#303E56",
         tamkinDarkPrimary: "#323E50",
-        darkborder:'#333333'
+        darkborder:'#8F8F8F'
       },
       backgroundSize: {
         "size-200": "200% 200%",

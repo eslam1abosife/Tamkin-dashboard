@@ -302,12 +302,12 @@ const filterdLanguages = computed(() => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
-                class="stroke-current rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[-15px] ltr:mr-[15px]"
+                class="rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[-15px] ltr:mr-[15px]"
                 @click.stop="toggleDropdown"
               >
                 <path
                   d="M11.027 8.61302C11.2715 8.81307 11.2715 9.18693 11.027 9.38698L1.31662 17.3319C0.990153 17.599 0.5 17.3667 0.5 16.9449L0.500001 1.05512C0.500001 0.633308 0.990154 0.401035 1.31662 0.668143L11.027 8.61302Z"
-                  fill="currentColor"
+                  class="dark:fill-whiteTamkin"
                 />
               </svg>
             </button>

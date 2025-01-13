@@ -13,18 +13,18 @@ const openModalFromLocked = () => {
 
 <template>
   <div
-    class="absolute z-[50] h-full w-full inset-0 bg-white bg-opacity-50 backdrop-filter backdrop-blur-sm flex items-center justify-center rounded-[10px]"
+    class="absolute z-[50] h-full w-full inset-0 bg-white dark:bg-tamkinDarkPrimary !bg-opacity-50 backdrop-filter backdrop-blur-sm flex items-center justify-center rounded-[10px]"
   >
     <!-- Modal -->
-    <div class="bg-white px-6 rounded-lg drop-shadow-2xl text-center h-[200px]">
+    <div class="bg-white dark:bg-tamkinDarkPrimary px-6 rounded-lg drop-shadow-2xl text-center h-[200px]">
       <div class="mt-[12px]">
         <img
           src="/assets/imgs/customize/locked.svg"
           class="mx-auto w-[64px] h-[64px]"
         />
       </div>
-      <h2 class="text-md font-semibold my-2">{{ $t("Purchase a Package") }}</h2>
-      <p class="text-gray-600 text-sm mb-[12px]">
+      <h2 class="text-md font-semibold dark:text-white my-2">{{ $t("Purchase a Package") }}</h2>
+      <p class="text-gray-600 dark:text-whiteTamkin/90 text-sm mb-[12px]">
         {{ $t("Buy a package now to unlock these features.") }}
       </p>
       <nuxt-link
