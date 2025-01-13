@@ -531,12 +531,12 @@ const openInvestor = (app, pack) => {
         v-if="isOpen('upgrade_mysite_package')"
       />
     </transition>
-    <!-- <transition
+    <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
     >
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-    </transition> -->
+    </transition>
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
