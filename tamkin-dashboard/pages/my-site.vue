@@ -816,7 +816,7 @@ const openInvestor = (app, pack) => {
         <!-- Placeholder Content -->
         <div class="w-full space-y-[16px]">
           <!-- Header Placeholder -->
-          <div class="bg-gray-300 h-[20px] rounded-md">
+          <div class="bg-gray-300 h-[20px] rounded-md dark:bg-p">
             <!-- Placeholder for Title -->
           </div>
 
@@ -828,16 +828,24 @@ const openInvestor = (app, pack) => {
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              <div class="w-[40px] h-[20px] bg-gray-300 rounded-md"></div>
+              <div
+                class="w-[40px] h-[20px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-md"
+              ></div>
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <div class="w-[100px] h-[14px] bg-gray-300 rounded-md"></div>
-                <div class="w-[120px] h-[14px] bg-gray-300 rounded-md"></div>
+                <div
+                  class="w-[100px] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-md"
+                ></div>
+                <div
+                  class="w-[120px] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-md"
+                ></div>
               </div>
             </div>
 
             <!-- Placeholder for Button -->
             <div>
-              <div class="w-[100px] h-[30px] bg-gray-300 rounded-md"></div>
+              <div
+                class="w-[100px] h-[30px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-md"
+              ></div>
             </div>
           </div>
         </div>
@@ -854,10 +862,10 @@ const openInvestor = (app, pack) => {
           <div
             class="h-[30px] w-full relative py-[4.5px] to-white flex items-center justify-start space-x-6"
           >
-            <div class="h-[21px] w-full bg-gray-200 rounded"></div>
+            <div class="h-[21px] w-full bg-gray-200 dark:bg-p rounded"></div>
             <!-- Placeholder for text -->
             <div
-              class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"
+              class="h-[21px] w-[30px] bg-gray-200 dark:bg-p rounded absolute rtl:right-28 ltr:left-24"
             ></div>
             <!-- Placeholder for number -->
           </div>
@@ -866,10 +874,10 @@ const openInvestor = (app, pack) => {
           <div
             class="h-[30px] w-full relative py-[4.5px] to-white flex items-center justify-start space-x-6"
           >
-            <div class="h-[21px] w-full bg-gray-200 rounded"></div>
+            <div class="h-[21px] w-full bg-gray-200 dark:bg-p rounded"></div>
             <!-- Placeholder for text -->
             <div
-              class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"
+              class="h-[21px] w-[30px] bg-gray-200 dark:bg-p rounded absolute rtl:right-28 ltr:left-24"
             ></div>
             <!-- Placeholder for number -->
           </div>
@@ -878,10 +886,10 @@ const openInvestor = (app, pack) => {
           <div
             class="h-[30px] w-full relative py-[4.5px] to-white flex items-center justify-start space-x-6"
           >
-            <div class="h-[21px] w-[100px] bg-gray-200 rounded"></div>
+            <div class="h-[21px] w-[100px] bg-gray-200 dark:bg-p rounded"></div>
             <!-- Placeholder for text -->
             <div
-              class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"
+              class="h-[21px] w-[30px] bg-gray-200 dark:bg-p rounded absolute rtl:right-28 ltr:left-24"
             ></div>
             <!-- Placeholder for number -->
           </div>
@@ -889,7 +897,7 @@ const openInvestor = (app, pack) => {
 
         <!-- Placeholder for image -->
         <div class="absolute top-0 right-[-26px]">
-          <div class="h-full w-[210px] bg-gray-200 rounded"></div>
+          <div class="h-full w-[210px] bg-gray-200 dark:bg-p rounded"></div>
         </div>
       </div>
     </div>
@@ -2272,28 +2280,28 @@ const openInvestor = (app, pack) => {
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
                 >
                   <div
-                    class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[100px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[200px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[150px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-3/4 h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </th>
               </tr>
@@ -2309,10 +2317,10 @@ const openInvestor = (app, pack) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                     <div
-                      class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+                      class="w-[30px] h-[30px] bg-gray-300 dark:bg-p rounded-full animate-pulse"
                     ></div>
                     <div
-                      class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                      class="w-[150px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                     ></div>
                   </div>
                 </td>
@@ -2320,21 +2328,21 @@ const openInvestor = (app, pack) => {
                   class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[200px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[150px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[90px] h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </td>
               </tr>

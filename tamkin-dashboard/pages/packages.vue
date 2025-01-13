@@ -181,12 +181,12 @@ onUpdated(async () => {
       <div class="flex flex-col items-center justify-center w-full mt-[26px]">
         <!-- Title Skeleton -->
         <div
-          class="h-[30px] w-2/4 bg-gray-300 rounded-lg animate-pulse mb-2"
+          class="h-[30px] w-2/4 bg-gray-300 rounded-lg animate-pulse mb-2 dark:bg-p"
         ></div>
 
         <!-- Description Skeleton -->
         <div
-          class="h-[20px] w-3/4 bg-gray-300 rounded-lg animate-pulse mb-4"
+          class="h-[20px] w-3/4 bg-gray-300 rounded-lg animate-pulse mb-4 dark:bg-p"
         ></div>
       </div>
 
@@ -203,57 +203,111 @@ onUpdated(async () => {
           class="flex flex-col items-center dark:bg-tamkinDarkPrimary justify-start p-6 bg-white rounded-lg animate-pulse"
         >
           <!-- Icon Skeleton -->
-          <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
+          <div
+            class="w-[50px] h-[50px] bg-gray-300 dark:bg-p rounded-full mb-4"
+          ></div>
           <!-- Title Skeleton -->
-          <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
+          <div
+            class="h-[30px] w-[150px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
           <!-- Subtitle Skeleton -->
-          <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
+          <div
+            class="h-[15px] w-[100px] bg-gray-300 dark:bg-p rounded-lg mb-4"
+          ></div>
           <!-- Price Skeleton -->
-          <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
+          <div
+            class="h-[29px] w-[120px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
           <!-- Description Skeleton -->
-          <div class="h-[32px] w-[200px] bg-gray-200 rounded-lg mb-4"></div>
+          <div
+            class="h-[32px] w-[200px] bg-gray-200 dark:bg-p rounded-lg mb-4"
+          ></div>
           <!-- Features Skeleton -->
           <div class="flex flex-col space-y-2">
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
           </div>
           <!-- Button Skeleton -->
-          <div class="w-[205px] h-[48px] bg-gray-300 rounded-[19px] mt-4"></div>
+          <div
+            class="w-[205px] h-[48px] bg-gray-300 dark:bg-p rounded-[19px] mt-4"
+          ></div>
         </div>
 
         <!-- Repeat Skeleton Card -->
         <div
           class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-start p-6 bg-white rounded-lg animate-pulse"
         >
-          <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
-          <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
-          <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
-          <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
-          <div class="h-[32px] w-[200px] bg-gray-200 rounded-lg mb-4"></div>
+          <div
+            class="w-[50px] h-[50px] bg-gray-300 dark:bg-p rounded-full mb-4"
+          ></div>
+          <div
+            class="h-[30px] w-[150px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
+          <div
+            class="h-[15px] w-[100px] bg-gray-300 dark:bg-p rounded-lg mb-4"
+          ></div>
+          <div
+            class="h-[29px] w-[120px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
+          <div
+            class="h-[32px] w-[200px] bg-gray-200 dark:bg-p rounded-lg mb-4"
+          ></div>
           <div class="flex flex-col space-y-2">
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
           </div>
-          <div class="w-[205px] h-[48px] bg-gray-300 rounded-[19px] mt-4"></div>
+          <div
+            class="w-[205px] h-[48px] bg-gray-300 dark:bg-p rounded-[19px] mt-4"
+          ></div>
         </div>
 
         <!-- Repeat Skeleton Card -->
         <div
           class="flex dark:bg-tamkinDarkPrimary flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
         >
-          <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
-          <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
-          <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
-          <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
-          <div class="h-[32px] w-[200px] bg-gray-200 rounded-lg mb-4"></div>
+          <div
+            class="w-[50px] h-[50px] bg-gray-300 dark:bg-p rounded-full mb-4"
+          ></div>
+          <div
+            class="h-[30px] w-[150px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
+          <div
+            class="h-[15px] w-[100px] bg-gray-300 dark:bg-p rounded-lg mb-4"
+          ></div>
+          <div
+            class="h-[29px] w-[120px] bg-gray-300 dark:bg-p rounded-lg mb-2"
+          ></div>
+          <div
+            class="h-[32px] w-[200px] bg-gray-200 dark:bg-p rounded-lg mb-4"
+          ></div>
           <div class="flex flex-col space-y-2">
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
-            <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
+            <div
+              class="h-[20px] w-[150px] bg-gray-200 dark:bg-p rounded-lg"
+            ></div>
           </div>
-          <div class="w-[205px] h-[48px] bg-gray-300 rounded-[19px] mt-4"></div>
+          <div
+            class="w-[205px] h-[48px] bg-gray-300 dark:bg-p rounded-[19px] mt-4"
+          ></div>
         </div>
       </div>
     </div>

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
-import { useModalManager } from '@/composables/useModalManager';
-import { useEditCustomerCharacter, useCart } from '~/composables/useMarket';
-import { useRuntimeConfig } from '#app'
-import { defineEmits } from 'vue';
-const {t} = useI18n()
-const emit = defineEmits(['updateData']);
-const config = useRuntimeConfig()
-const baseImageURL = config.public.baseImagerUrl
+import { useModalManager } from "@/composables/useModalManager";
+import { useEditCustomerCharacter, useCart } from "~/composables/useMarket";
+import { useRuntimeConfig } from "#app";
+import { defineEmits } from "vue";
+const { t } = useI18n();
+const emit = defineEmits(["updateData"]);
+const config = useRuntimeConfig();
+const baseImageURL = config.public.baseImagerUrl;
 const {
   isOpen,
   currentView,
@@ -16,7 +16,7 @@ const {
   goBack,
   navigateTo,
   getData,
-  setData
+  setData,
 } = useModalManager();
 import { useMarketStore } from "@/stores/market";
 const marketStore = useMarketStore();
@@ -25,56 +25,57 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { formatDate } from "@vueuse/core";
 const state = reactive({
   characterName: "",
-  characterAge:"",
-  gender:"",
-  Description:'',
+  characterAge: "",
+  gender: "",
+  Description: "",
 });
 const rules = {
-    characterName: { required },
-    characterAge: { required },
-    gender:{required},
-    Description:{required},
+  characterName: { required },
+  characterAge: { required },
+  gender: { required },
+  Description: { required },
 };
 
 const v$ = useVuelidate(rules, state);
 let isFilesPopulated = false;
-const loadingUpdate = ref(false) 
+const loadingUpdate = ref(false);
 const acceptedFilesRef = ref<File[]>([]);
 const base64ImagesRef = ref<{ Base64: string }[]>([]);
 const deletedIdsRef = ref<string[]>([]);
-const customFileIds =ref([])
+const customFileIds = ref([]);
 
 const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFilesRef.value.push(...acceptedFiles);
-  acceptedFiles.forEach(file => convertToBase64(file));
-
+  acceptedFiles.forEach((file) => convertToBase64(file));
 };
-const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true , accept: "image/*"  });
+const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  onDrop,
+  multiple: true,
+  accept: "image/*",
+});
 const fileURL = (file) => {
   console.log(file.image);
   return URL.createObjectURL(file);
 };
 
 const removeFile = (file: File) => {
-
-  const index = acceptedFilesRef.value.findIndex(f => f === file);
+  const index = acceptedFilesRef.value.findIndex((f) => f === file);
 
   if (index !== -1) {
     // Check if the file's ID is in the customFileIds array
     if (customFileIds.value.includes(file.name)) {
-   
-      deletedIdsRef.value.push(file.name);  // Store the ID of the deleted custom file
+      deletedIdsRef.value.push(file.name); // Store the ID of the deleted custom file
     }
     acceptedFilesRef.value.splice(index, 1); // Remove the file from the array
-  
-    base64ImagesRef.value.splice(index, 1);  // Remove the corresponding Base64 entry
+
+    base64ImagesRef.value.splice(index, 1); // Remove the corresponding Base64 entry
   }
 };
 
 const convertToBase64 = (file) => {
   const reader = new FileReader();
   reader.onload = (e) => {
-    const base64String = e.target.result.split(',')[1]; // Extract Base64 part
+    const base64String = e.target.result.split(",")[1]; // Extract Base64 part
     base64ImagesRef.value.push({ Base64: base64String });
   };
   reader.readAsDataURL(file);
@@ -84,52 +85,58 @@ onBeforeUnmount(() => {
     URL.revokeObjectURL(file);
   });
 });
-const {$toast} = useNuxtApp()
-const noUpload=ref(false)
-const closeAndShowChat = ()=>{
-    // window.$chatwoot.toggleBubbleVisibility('show')
-    closeModal('requestmodal')
-    isFilesPopulated=false;
-    acceptedFilesRef.value=[]
-}
+const { $toast } = useNuxtApp();
+const noUpload = ref(false);
+const closeAndShowChat = () => {
+  // window.$chatwoot.toggleBubbleVisibility('show')
+  closeModal("requestmodal");
+  isFilesPopulated = false;
+  acceptedFilesRef.value = [];
+};
 
-const requestData=({})
-const price=ref('')
+const requestData = {};
+const price = ref("");
 
-const isUpdating=ref(false)
+const isUpdating = ref(false);
 const { EditCustomCharacter, customCharacterCost } = useEditCustomerCharacter();
 const { getCartItems } = useCart();
 
-const updateData = async()=>{
-  loadingUpdate.value = true
+const updateData = async () => {
+  loadingUpdate.value = true;
 
-  const FormData={
-    name:state.characterName,
-    age:state.characterAge,
-    gender:state.gender=='Male',
-    description:state.Description,
-    images:base64ImagesRef.value.length>0 ? base64ImagesRef.value : [{ Base64 :''}],
-  }
+  const FormData = {
+    name: state.characterName,
+    age: state.characterAge,
+    gender: state.gender == "Male",
+    description: state.Description,
+    images:
+      base64ImagesRef.value.length > 0
+        ? base64ImagesRef.value
+        : [{ Base64: "" }],
+  };
   var msg;
   if (!requestData.value?.name) {
     // if creating
-    await marketStore.addToCart(FormData, 'custom_character', 'Custom Character')
+    await marketStore.addToCart(
+      FormData,
+      "custom_character",
+      "Custom Character"
+    );
     // getCartItems();
     // msg = t("Request Created Successfully")
-  }else{
+  } else {
     // elseif updating
     FormData.id = requestData.value.id;
     FormData.delted_images = deletedIdsRef.value;
-    await EditCustomCharacter(FormData)
+    await EditCustomCharacter(FormData);
     getCartItems();
-    $toast(t("Request Updated Successfully"), { hideIn: 3000});
+    $toast(t("Request Updated Successfully"), { hideIn: 3000 });
 
-    emit('updateData', 'refresh');
- 
+    emit("updateData", "refresh");
   }
-  loadingUpdate.value = false
-  closeAndShowChat()
-}
+  loadingUpdate.value = false;
+  closeAndShowChat();
+};
 // the modal request component has appeared
 // initialized is set to false whenever the model is opened as the component lifecycle starts over with each open
 // so this allows watchEffect to be triggered as !isInitialized will be true
@@ -138,57 +145,58 @@ const updateData = async()=>{
 // without isInitialized, the watchEffect will be triggered (form reset happens)
 // with any change in the dropzone, meaning your changed data will be reset.
 const isInitialized = ref(false);
-  // console.log('isInitialized.value = ', isInitialized.value , ' modal open = ',isOpen('requestmodal'));
+// console.log('isInitialized.value = ', isInitialized.value , ' modal open = ',isOpen('requestmodal'));
 watchEffect(() => {
-  
-  if (isOpen('requestmodal') && !isInitialized.value) {
+  if (isOpen("requestmodal") && !isInitialized.value) {
     isInitialized.value = true;
 
     requestData.value = getData();
     if (requestData.value?.name) {
-        isUpdating.value = true
-        
-        // state.characterName = requestData.value.name;
-        // changed it because name has the backend name for deleting ...etc
-        state.characterName = requestData.value.item_title;
-        state.characterAge = requestData.value.age;
-        state.gender = requestData.value.gender;
-        state.Description = requestData.value.description;
-        
-        if(requestData.value?.image?.length > 0 && !isFilesPopulated){
-          console.log('images', requestData.value.image);
-          
-          for(let i=0; i < requestData.value.image.length; i++) {
-            const customFile = new File([""], requestData.value.image[i].name, {
-              type: "image/jpeg", // or the appropriate MIME type
-              lastModified: new Date().getTime(),
-            });
-            customFile.id = requestData.value.image[i].id;
-            customFile.image =  requestData.value.image[i].image;
-            acceptedFilesRef.value.unshift(customFile);
-          }
-          customFileIds.value = requestData.value.image.map(image => image.name);
+      isUpdating.value = true;
+
+      // state.characterName = requestData.value.name;
+      // changed it because name has the backend name for deleting ...etc
+      state.characterName = requestData.value.item_title;
+      state.characterAge = requestData.value.age;
+      state.gender = requestData.value.gender;
+      state.Description = requestData.value.description;
+
+      if (requestData.value?.image?.length > 0 && !isFilesPopulated) {
+        console.log("images", requestData.value.image);
+
+        for (let i = 0; i < requestData.value.image.length; i++) {
+          const customFile = new File([""], requestData.value.image[i].name, {
+            type: "image/jpeg", // or the appropriate MIME type
+            lastModified: new Date().getTime(),
+          });
+          customFile.id = requestData.value.image[i].id;
+          customFile.image = requestData.value.image[i].image;
+          acceptedFilesRef.value.unshift(customFile);
         }
-        isFilesPopulated = true;
-        price.value = requestData.value.cost;
-    }else{
-      isUpdating.value = false
-      price.value = customCharacterCost.value
+        customFileIds.value = requestData.value.image.map(
+          (image) => image.name
+        );
+      }
+      isFilesPopulated = true;
+      price.value = requestData.value.cost;
+    } else {
+      isUpdating.value = false;
+      price.value = customCharacterCost.value;
     }
   }
-
-
 });
-
 </script>
 
 <template>
-    <div v-if="isOpen('requestmodal') && requestData "
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] 
-       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto "
+  <div
+    v-if="isOpen('requestmodal') && requestData"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto"
+  >
+    <div
+      style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
+      class="close_btn_payment dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[24px] !cursor-pointer z-[999]"
+      @click="closeAndShowChat"
     >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px]  !cursor-pointer z-[999]" @click="closeAndShowChat">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -203,54 +211,108 @@ watchEffect(() => {
         />
       </svg>
     </div>
-    <div class="w-full ">
-      <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
-        {{ $t('Request a specific character') }}
+    <div class="w-full">
+      <h1
+        class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px]"
+      >
+        {{ $t("Request a specific character") }}
       </h1>
       <div
-      class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
-       w-full   h-full pb-[20px] 
-      px-[20px] rounded-[10px] mt-[16px] pt-[20px]  "
-      style="box-shadow: 0px 4px 24px 8px #51459f14"
-   >
+        class="flex flex-col items-start justify-center space-y-[20px] bg-white dark:bg-tamkinDarkPrimary w-full h-full pb-[20px] px-[20px] rounded-[10px] mt-[16px] pt-[20px]"
+        style="box-shadow: 0px 4px 24px 8px #51459f14"
+      >
         <!-- Your form content here -->
-        <div class="w-full relative  ">
-          <input  type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
-            input_error: (v$.characterName.$error && v$.characterName.required.$invalid),
-            error_text: (v$.characterName.$error && v$.characterName.required.$invalid),
-            input_success: !v$.characterName.$error && !v$.characterName.$invalid,
-          }" />
-          <label for="characterName" class="floating_label" :class="[
-            (v$.characterName.$error && v$.characterName.required.$invalid) ? '!text-error' : '',
-          ]">
-            {{ $t('Character Name*') }}
+        <div class="w-full relative">
+          <input
+            type="text"
+            placeholder="characterName"
+            id="characterName"
+            class="input_floating_label peer w-full"
+            v-model="v$.characterName.$model"
+            :class="{
+              input_error:
+                v$.characterName.$error && v$.characterName.required.$invalid,
+              error_text:
+                v$.characterName.$error && v$.characterName.required.$invalid,
+              input_success:
+                !v$.characterName.$error && !v$.characterName.$invalid,
+            }"
+          />
+          <label
+            for="characterName"
+            class="floating_label"
+            :class="[
+              v$.characterName.$error && v$.characterName.required.$invalid
+                ? '!text-error'
+                : '',
+            ]"
+          >
+            {{ $t("Character Name*") }}
           </label>
-          <div class="w-full lg:w-4/6 " v-if="(v$.characterName.$error && v$.characterName.required.$invalid)">
+          <div
+            class="w-full lg:w-4/6"
+            v-if="v$.characterName.$error && v$.characterName.required.$invalid"
+          >
             <p class="error_message">
-              <span v-if="v$.characterName.$error && v$.characterName.required.$invalid">{{ $t("Character Name is Required") }}</span>
+              <span
+                v-if="
+                  v$.characterName.$error && v$.characterName.required.$invalid
+                "
+                >{{ $t("Character Name is Required") }}</span
+              >
             </p>
           </div>
         </div>
         <div class="w-full relative">
-          <input   type="number" placeholder="characterAge" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
-            input_error: (v$.characterAge.$error && v$.characterAge.required.$invalid),
-            error_text: (v$.characterAge.$error && v$.characterAge.required.$invalid),
-            input_success: !v$.characterAge.$error && !v$.characterAge.$invalid,
-          }" />
-          <label for="characterAge" class="floating_label" :class="[
-            (v$.characterAge.$error && v$.characterAge.required.$invalid) ? '!text-error' : '',
-          ]">
-            {{$t('Character Age*')}}
+          <input
+            type="number"
+            placeholder="characterAge"
+            id="characterAge"
+            class="input_floating_label peer w-full"
+            v-model="v$.characterAge.$model"
+            :class="{
+              input_error:
+                v$.characterAge.$error && v$.characterAge.required.$invalid,
+              error_text:
+                v$.characterAge.$error && v$.characterAge.required.$invalid,
+              input_success:
+                !v$.characterAge.$error && !v$.characterAge.$invalid,
+            }"
+          />
+          <label
+            for="characterAge"
+            class="floating_label"
+            :class="[
+              v$.characterAge.$error && v$.characterAge.required.$invalid
+                ? '!text-error'
+                : '',
+            ]"
+          >
+            {{ $t("Character Age*") }}
           </label>
-          <div class="w-full lg:w-4/6 " v-if="(v$.characterAge.$error && v$.characterAge.required.$invalid)">
+          <div
+            class="w-full lg:w-4/6"
+            v-if="v$.characterAge.$error && v$.characterAge.required.$invalid"
+          >
             <p class="error_message">
-              <span v-if="v$.characterAge.$error && v$.characterAge.required.$invalid">{{ $t("Character Age is Required") }}</span>
+              <span
+                v-if="
+                  v$.characterAge.$error && v$.characterAge.required.$invalid
+                "
+                >{{ $t("Character Age is Required") }}</span
+              >
             </p>
           </div>
         </div>
         <div class="w-full flex-col flex items-start justify-start">
-          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">{{$t('Gender')}}</h1>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[100px] w-full">
+          <h1
+            class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Gender") }}
+          </h1>
+          <div
+            class="flex items-center justify-start rtl:space-x-reverse space-x-[100px] w-full"
+          >
             <div class="flex items-center justify-start mt-[16px]">
               <input
                 id="gender_radio_1"
@@ -259,13 +321,26 @@ watchEffect(() => {
                 class="hidden"
                 value="Male"
                 v-model="v$.gender.$model"
-                :checked="v$.gender.$model==='Male'"
+                :checked="v$.gender.$model === 'Male'"
               />
-              
-              <label for="gender_radio_1" class="flex items-center cursor-pointer">
-                <span :class="[v$.gender.$model === 'Male' ? 'radio-tamkin' : 'radio-normal']"></span>
+
+              <label
+                for="gender_radio_1"
+                class="flex items-center cursor-pointer"
+              >
+                <span
+                  :class="[
+                    v$.gender.$model === 'Male'
+                      ? 'radio-tamkin'
+                      : 'radio-normal',
+                  ]"
+                ></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Male')}}</h2>
+              <h2
+                class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin"
+              >
+                {{ $t("Male") }}
+              </h2>
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -275,12 +350,25 @@ watchEffect(() => {
                 class="hidden"
                 value="Female"
                 v-model="v$.gender.$model"
-                :checked="v$.gender.$model==='Female'"
+                :checked="v$.gender.$model === 'Female'"
               />
-              <label for="gender_radio_2" class="flex items-center cursor-pointer">
-                <span :class="[v$.gender.$model === 'Female' ? 'radio-tamkin' : 'radio-normal']"></span>
+              <label
+                for="gender_radio_2"
+                class="flex items-center cursor-pointer"
+              >
+                <span
+                  :class="[
+                    v$.gender.$model === 'Female'
+                      ? 'radio-tamkin'
+                      : 'radio-normal',
+                  ]"
+                ></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Female')}}</h2>
+              <h2
+                class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin"
+              >
+                {{ $t("Female") }}
+              </h2>
             </div>
           </div>
         </div>
@@ -291,7 +379,8 @@ watchEffect(() => {
             class="input_floating_label_text_area peer w-full"
             v-model="v$.Description.$model"
             :class="{
-              input_error: (v$.Description.$error && v$.Description.required.$invalid),
+              input_error:
+                v$.Description.$error && v$.Description.required.$invalid,
               input_success: !v$.Description.$error && !v$.Description.$invalid,
             }"
           ></textarea>
@@ -299,72 +388,115 @@ watchEffect(() => {
             for="description"
             class="floating_label_text_area"
             :class="[
-              (v$.Description.$error && v$.Description.required.$invalid) ? '!text-error' : '',
+              v$.Description.$error && v$.Description.required.$invalid
+                ? '!text-error'
+                : '',
             ]"
           >
-            {{$t('Description*')}}
+            {{ $t("Description*") }}
           </label>
-          <div class="w-full lg:w-4/6" v-if="(v$.Description.$error && v$.Description.required.$invalid)">
+          <div
+            class="w-full lg:w-4/6"
+            v-if="v$.Description.$error && v$.Description.required.$invalid"
+          >
             <p class="error_message text_area">
-              <span v-if="v$.Description.$error && v$.Description.required.$invalid">{{ $t("Please enter a Description") }}</span>
+              <span
+                v-if="v$.Description.$error && v$.Description.required.$invalid"
+                >{{ $t("Please enter a Description") }}</span
+              >
             </p>
           </div>
         </div>
-        <div class="w-full ">
-          <h1 class="rtl:text-right ltr:text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">{{$t('Upload Character image')}}</h1>
+        <div class="w-full">
+          <h1
+            class="rtl:text-right ltr:text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Upload Character image") }}
+          </h1>
           <div
             v-bind="getRootProps()"
-            class="w-full h-auto p-[10px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
-            flex items-center justify-center flex-col space-y-[10px]"
+            class="w-full h-auto p-[10px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px] " 
-            v-if="acceptedFilesRef.length > 0">
+            <div
+              class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px]"
+              v-if="acceptedFilesRef.length > 0"
+            >
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
-                style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-"
-                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
+                class="rounded-[10px] bg-gradient-to-b from-[#FEFEFE] via-[#EEF5FF] via-[#F6F3FC] to-[#FEF5F6] upload-file-item dark:bg-p relative border-[2px] border-dashed border-tamkin p-2"
               >
-                <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
-                 border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
-                 transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
-                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"
-                   class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px] dark:text-whiteTamkin">
-                    <path d="M1.21191 0.59375L8.78806 8.16989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.34082 8.04297L8.66443 0.719362" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <div
+                  @click.stop="removeFile(file)"
+                  class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"
+                >
+                  <svg
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px] dark:text-whiteTamkin"
+                  >
+                    <path
+                      d="M1.21191 0.59375L8.78806 8.16989"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M1.34082 8.04297L8.66443 0.719362"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </div>
-                <img 
-                  :src="file.image ? (baseImageURL + file.image) : (fileURL(file))"
+                <img
+                  :src="file.image ? baseImageURL + file.image : fileURL(file)"
                   :alt="file.name"
                   class="w-[140px] h-[70px] object-cover rounded-[5px]"
-                  
                 />
-                
               </div>
-              <div class="upload-file-item relative  cursor-pointer m-auto">
-                <img src="/assets/pngs/market/add_image.png" class="w-[83px] h-[83px]" alt="">
+              <div class="upload-file-item relative cursor-pointer m-auto">
+                <img
+                  src="/assets/pngs/market/add_image.png"
+                  class="w-[83px] h-[83px]"
+                  alt=""
+                />
               </div>
             </div>
             <div v-else-if="acceptedFilesRef.length === 0">
-              <img src="/assets/pngs/market/upload_request.png" class="w-[84px] h-[52px]" />
+              <img
+                src="/assets/pngs/market/upload_request.png"
+                class="w-[84px] h-[52px]"
+              />
             </div>
             <div class="w-full">
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
-                {{ $t('Drop the files here ...') }}
+              <h1
+                class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
+                v-if="isDragActive"
+              >
+                {{ $t("Drop the files here ...") }}
               </h1>
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" 
-              v-if="acceptedFilesRef.length === 0">
-                <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop media here') }}
+              <h1
+                class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
+                v-if="acceptedFilesRef.length === 0"
+              >
+                <span class="text-tamkin cursor-pointer">{{
+                  $t("Click here")
+                }}</span>
+                {{ $t("to upload or drop media here") }}
               </h1>
             </div>
           </div>
         </div>
-        <div class="!text-error" v-if="noUpload"> {{$t('please Upload atleast one image')}} </div>
+        <div class="!text-error" v-if="noUpload">
+          {{ $t("please Upload atleast one image") }}
+        </div>
 
-       <!-- <div class="flex flex-col gap-2">
+        <!-- <div class="flex flex-col gap-2">
         <div class="custom-border flex items-center justify-center rtl:space-x-reverse min-w-full space-x-[20px] rtl:mr-auto ltr:ml-auto w-fit px-2 justify-between h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
@@ -376,28 +508,51 @@ watchEffect(() => {
           <div class="text-[16px] font-[600]">{{ price.offer_cost }} $</div>
         </div>
        </div> -->
-        <div class="mt-8 flex justify-end  space-x-[20px] rtl:mr-auto ltr:ml-auto rtl:flex-row-reverse  py-3">
-          <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
-          <button class="btn-dashboard hover_tamkin max-w-[200px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
+        <div
+          class="mt-8 flex justify-end space-x-[20px] rtl:mr-auto ltr:ml-auto rtl:flex-row-reverse py-3"
+        >
+          <button class="btn_bordered_dashboard" @click="closeAndShowChat">
+            {{ $t("Cancel") }}
+          </button>
+          <button
+            class="btn-dashboard hover_tamkin max-w-[200px]"
+            @click="updateData"
+            :disabled="
+              loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0
+            "
+          >
             <div class="flex items-center justify-center">
-              <div :class="loadingUpdate ? 'rtl:ml-4 ltr:mr-4':''">
-               {{ isUpdating ? $t('Update') : $t('Add To Cart') }}
+              <div :class="loadingUpdate ? 'rtl:ml-4 ltr:mr-4' : ''">
+                {{ isUpdating ? $t("Update") : $t("Add To Cart") }}
               </div>
-         
-               <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+
+              <svg
+                v-if="loadingUpdate"
+                class="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
-             </div>
+            </div>
           </button>
         </div>
       </div>
     </div>
   </div>
-  
 </template>
 
-
-<style>
-
-</style>
+<style></style>

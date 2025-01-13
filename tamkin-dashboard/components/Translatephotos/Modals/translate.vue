@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs ,requiredIf} from "@vuelidate/validators";
+import { required, email, sameAs, requiredIf } from "@vuelidate/validators";
 import USa from "/public/assets/imgs/translatevideo/USA.svg";
 import { useModalManager } from "@/composables/useModalManager";
 import { useTranslateStore } from "~/stores/translate";
 
-import {useGetProjects} from '@/composables/useInternal'
-const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
+import { useGetProjects } from "@/composables/useInternal";
+const {
+  getProjects,
+  loadMoreProjects,
+  projects,
+  allLoaded,
+  loading,
+  loadMoreProjectsLoading,
+} = useGetProjects();
 import {
   useTranslateDoc,
   useTranslateImages,
@@ -15,39 +22,35 @@ import {
   useTranslateAudio,
   useTranslateLive,
 } from "@/composables/useInternal";
-import { useDebounceFn } from '@vueuse/core'
-
+import { useDebounceFn } from "@vueuse/core";
 
 const { getLanguages } = useGetLangs();
 const { translateImage, codeStatus, messageData } = useTranslateImages();
 const translateStore = useTranslateStore();
 
-
-const languagesArr =ref([])
-const ogLang = ref('')
-const translateTo = ref('')
-const signOGlang = ref('')
+const languagesArr = ref([]);
+const ogLang = ref("");
+const translateTo = ref("");
+const signOGlang = ref("");
 const handleSelectedItemProjectName = (item: any) => {
-  translateTo.value = item.name
+  translateTo.value = item.name;
 };
 const selectOgLang = (item: any) => {
-  ogLang.value = item.name
-
+  ogLang.value = item.name;
 };
 const selectSignOgLang = (item: any) => {
-  signOGlang.value = item.name
-
+  signOGlang.value = item.name;
 };
-onMounted(async ()=>{
-const languages = await getLanguages()
-languagesArr.value = languages.Images.map((g)=>{
-  return {
-    id:g.name,
-    title:g.title1,
-    description:g.description
-  }
-})
-})
+onMounted(async () => {
+  const languages = await getLanguages();
+  languagesArr.value = languages.Images.map((g) => {
+    return {
+      id: g.name,
+      title: g.title1,
+      description: g.description,
+    };
+  });
+});
 
 // const allowedSocialMediaUrl = (value) => {
 //   if (acceptedFilesRef.value.length === 0) {
@@ -57,30 +60,24 @@ languagesArr.value = languages.Images.map((g)=>{
 //     return true;
 //   }
 // };
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const props = defineProps({
   translateType: String,
 });
 const modalStore = useModalStore();
 const acceptedFilesRef = ref<File[]>([]);
 
-
-const localePath = useLocalePath()
-
+const localePath = useLocalePath();
 
 const state = reactive({
   documentLink: "",
   projectName: "",
 });
 const rules = {
-  documentLink: { requiredIf: requiredIf(() => acceptedFilesRef.value.length === 0) },
+  documentLink: {
+    requiredIf: requiredIf(() => acceptedFilesRef.value.length === 0),
+  },
   projectName: { required },
 };
 const v$ = useVuelidate(rules, state);
@@ -121,7 +118,7 @@ const fileURL = (file) => {
 };
 const removeFile = (file: any) => {
   acceptedFilesRef.value = acceptedFilesRef.value.filter((f) => f !== file);
-  state.projectName = ''
+  state.projectName = "";
   URL.revokeObjectURL(imgUrl.value);
 };
 onBeforeUnmount(() => {
@@ -148,7 +145,6 @@ const rendering = ref(false);
 const failedRender = ref(false);
 const router = useRouter();
 
-
 const widthVideoProcessing = ref(10);
 
 const blobToBase64 = (blob) => {
@@ -164,152 +160,142 @@ const blobToBase64 = (blob) => {
 function bytesToMB(bytes) {
   return (bytes / 1024 / 1024).toFixed(4);
 }
-const filebase64 = ref()
-const imageUrl = ref('');
-    const imageSize = ref(null);
-const loadingFetch = ref(true)
+const filebase64 = ref();
+const imageUrl = ref("");
+const imageSize = ref(null);
+const loadingFetch = ref(true);
 
-const {$toast} = useNuxtApp()
-    const fetchImageSize = async () => {
-      try {
-        loadingFetch.value = true
-        const response = await fetch(imageUrl.value, { method: 'HEAD' });
-        const contentLength = response.headers.get('content-length');
-        const name = imageUrl.value.split('/').pop();
-        if (contentLength && state.documentLink) {
-          const sizeInKB = contentLength / 1024;
-          const sizeInMB = sizeInKB / 1024;
-          imageSize.value = { kb: sizeInKB, mb: sizeInMB ,name:name};
-          state.projectName = name;
-          loadingFetch.value = false
-        } else if(state.documentLink && !contentLength){ 
-          imageUrl.value = '';
-      imageSize.value = null; 
+const { $toast } = useNuxtApp();
+const fetchImageSize = async () => {
+  try {
+    loadingFetch.value = true;
+    const response = await fetch(imageUrl.value, { method: "HEAD" });
+    const contentLength = response.headers.get("content-length");
+    const name = imageUrl.value.split("/").pop();
+    if (contentLength && state.documentLink) {
+      const sizeInKB = contentLength / 1024;
+      const sizeInMB = sizeInKB / 1024;
+      imageSize.value = { kb: sizeInKB, mb: sizeInMB, name: name };
+      state.projectName = name;
       loadingFetch.value = false;
-      state.projectName = '';
+    } else if (state.documentLink && !contentLength) {
+      imageUrl.value = "";
+      imageSize.value = null;
+      loadingFetch.value = false;
+      state.projectName = "";
 
-          $toast('Failed to fetch image , Make sure the url is valid', { type: 'error', hideIn: 3000 });
-        }
-      } catch (error) {
-        console.error('Error fetching image size:', error);
-      }
-    };
-    const debouncedFn = useDebounceFn(() => {
-      fetchImageSize()
-}, 1000)
+      $toast("Failed to fetch image , Make sure the url is valid", {
+        type: "error",
+        hideIn: 3000,
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching image size:", error);
+  }
+};
+const debouncedFn = useDebounceFn(() => {
+  fetchImageSize();
+}, 1000);
 watch(
   () => state.documentLink,
   async (newVal, oldVal) => {
     if (newVal) {
       imageUrl.value = state.documentLink;
       await debouncedFn();
-      state.projectName = imageSize.value?.name || ''; 
+      state.projectName = imageSize.value?.name || "";
     } else {
-      imageUrl.value = '';
-      imageSize.value = null;  
+      imageUrl.value = "";
+      imageSize.value = null;
       loadingFetch.value = true;
-      state.projectName = '';
+      state.projectName = "";
     }
   },
   { immediate: true }
 );
 
-    watch(() => acceptedFilesRef.value, async () => {
-  if (acceptedFilesRef.value && acceptedFilesRef.value.length) {
-    state.projectName = acceptedFilesRef.value[0].name.split(".")[0]
+watch(
+  () => acceptedFilesRef.value,
+  async () => {
+    if (acceptedFilesRef.value && acceptedFilesRef.value.length) {
+      state.projectName = acceptedFilesRef.value[0].name.split(".")[0];
 
-    // ;
-  }
-}, { deep: true });
+      // ;
+    }
+  },
+  { deep: true }
+);
 
-
-    const disableifnowordsAvailable = computed(() => {
+const disableifnowordsAvailable = computed(() => {
   const { images } = translateStore.usedCredit;
   const { package: pkg, extre } = translateStore.statsPackage.total.documents;
 
   if (images) {
-    return (
-false
-      // translateStore.usedCredit.documents.docs_words + extre.documents_words === pkg.docs_words||
-      // translateStore.usedCredit.documents.pdf_words + extre.documents_words === pkg.pdf_words
- 
-    );
+    return false;
+    // translateStore.usedCredit.documents.docs_words + extre.documents_words === pkg.docs_words||
+    // translateStore.usedCredit.documents.pdf_words + extre.documents_words === pkg.pdf_words
   } else {
     return false;
   }
 });
-  const moveForward = () => {
-    if (acceptedFilesRef.value.length > 0) {
-      blobToBase64(acceptedFilesRef.value[0]).then((res) => {
-        filebase64.value = res;
-      });
+const moveForward = () => {
+  if (acceptedFilesRef.value.length > 0) {
+    blobToBase64(acceptedFilesRef.value[0]).then((res) => {
+      filebase64.value = res;
+    });
+  }
+
+  const onUploadProgress = (progressEvent) => {
+    if (progressEvent.lengthComputable) {
+      const progress = Math.round(progressEvent.progress * 100);
+      widthVideoProcessing.value = progress;
     }
-
-    const onUploadProgress = (progressEvent) => {
-      if (progressEvent.lengthComputable) {
-        const progress = Math.round(progressEvent.progress * 100);
-        widthVideoProcessing.value = progress;
-      }
-      // console.log('Progress event:', progressEvent);
-    };
-
-    setTimeout(async () => {
-      try {
-       
-            failedRender.value = false;
-            rendering.value = true;
-
-            await translateImage(
-              {
-                bas64: filebase64.value || null,
-                link: state.documentLink || null,
-                progect_name: state.projectName || "test",
-                translate: true,
-                "doucment_type": acceptedFilesRef.value[0].name.split(".").pop() || null,
-
-                original_language: ogLang.value,
-                translate_to: translateTo.value,
-                sign_language: translateStore.signLanguageChecked,
-                sign_original_language: signOGlang.value,
-                thumbnailBase64: filebase64.value ||  state.documentLink,
-              },
-              { onUploadProgress }
-            );
-
-            if (codeStatus.value !== 200) {
-              rendering.value = false;
-
-              $toast(messageData.value, { type: "error", hideIn: 3000 });
-            }
-   
-       
-      } finally {
-        widthVideoProcessing.value = 100;
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        if (user) {
-
-          const data = await getProjects(
-            'Photo Services',
-            user.agency,
-            true
-          );
-
-        }
-
-        translateStore.loadingProjects = false;
-      }
-
-      closeModal(
-        "translate_images"
-      );
-
-      translateStore.loadingProjects = false;
-    }, 500);
+    // console.log('Progress event:', progressEvent);
   };
 
+  setTimeout(async () => {
+    try {
+      failedRender.value = false;
+      rendering.value = true;
 
+      await translateImage(
+        {
+          bas64: filebase64.value || null,
+          link: state.documentLink || null,
+          progect_name: state.projectName || "test",
+          translate: true,
+          doucment_type:
+            acceptedFilesRef.value[0].name.split(".").pop() || null,
 
+          original_language: ogLang.value,
+          translate_to: translateTo.value,
+          sign_language: translateStore.signLanguageChecked,
+          sign_original_language: signOGlang.value,
+          thumbnailBase64: filebase64.value || state.documentLink,
+        },
+        { onUploadProgress }
+      );
+
+      if (codeStatus.value !== 200) {
+        rendering.value = false;
+
+        $toast(messageData.value, { type: "error", hideIn: 3000 });
+      }
+    } finally {
+      widthVideoProcessing.value = 100;
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+        const data = await getProjects("Photo Services", user.agency, true);
+      }
+
+      translateStore.loadingProjects = false;
+    }
+
+    closeModal("translate_images");
+
+    translateStore.loadingProjects = false;
+  }, 500);
+};
 </script>
 
 <template>
@@ -339,7 +325,7 @@ false
     <h1
       class="rtl:text-right px-[15px] ltr:text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px]"
     >
-    {{ $t('Translate Images') }}
+      {{ $t("Translate Images") }}
     </h1>
     <div
       v-if="!rendering && !failedRender"
@@ -361,7 +347,9 @@ false
               :key="file.name"
               class="rounded-[10px] w-full md:w-auto"
             >
-              <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[14px]">
+              <div
+                class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[14px]"
+              >
                 <div class="relative">
                   <div
                     class="h-[91px] w-[60px] absolute inset-y-0 right-0 backdrop-blur-sm rounded-tr-[7px] rounded-br-[7px] bg-opacity-40"
@@ -401,7 +389,7 @@ false
               </button>
             </div>
           </div>
-        
+
           <div
             class="w-full flex flex-col items-center justify-start space-y-[4px]"
             v-if="acceptedFilesRef.length === 0"
@@ -414,7 +402,7 @@ false
                 class="w-[19px] h-[19px]"
               />
               <div class="text-[13px] leading-[30px] font-[600] text-[#3C3F49]">
-                 {{$t('Upload')}}
+                {{ $t("Upload") }}
               </div>
             </button>
 
@@ -423,7 +411,7 @@ false
                 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin"
                 v-if="isDragActive"
               >
-                {{ $t('Drop the files here') }} ...
+                {{ $t("Drop the files here") }} ...
               </h1>
             </div>
             <div>
@@ -431,73 +419,102 @@ false
                 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin"
                 v-if="acceptedFilesRef.length === 0"
               >
-                <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{$t('to upload or drop images')}}
-                
+                <span class="text-tamkin cursor-pointer">{{
+                  $t("Click here")
+                }}</span>
+                {{ $t("to upload or drop images") }}
               </h1>
             </div>
           </div>
         </div>
-        <div v-if="  imageSize && state.documentLink && !loadingFetch" class="w-full h-auto  rounded-[10px] 
-        border-[1px] p-[10px]   border-dashed 
-        border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start
-         justify-center flex-col space-y-[10px]  ">
-          <div class="flex items-center justify-between w-full  ">
+        <div
+          v-if="imageSize && state.documentLink && !loadingFetch"
+          class="w-full h-auto rounded-[10px] border-[1px] p-[10px] border-dashed border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start justify-center flex-col space-y-[10px]"
+        >
+          <div class="flex items-center justify-between w-full">
             <div class="relative flex">
-               <img  :src="imageUrl" 
-               class="lg:w-[119px]  w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]" @click.stop /> 
-            
-              <div class="flex flex-col items-start justify-start space-y-[48px]">
-                <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{imageSize.name}}</div>
-                <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{imageSize.mb.toFixed(4) +' '+ 'MB'}}</div>
-           
+              <img
+                :src="imageUrl"
+                class="lg:w-[119px] w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]"
+                @click.stop
+              />
+
+              <div
+                class="flex flex-col items-start justify-start space-y-[48px]"
+              >
+                <div
+                  class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"
+                >
+                  {{ imageSize.name }}
+                </div>
+                <div
+                  class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"
+                >
+                  {{ imageSize.mb.toFixed(4) + " " + "MB" }}
+                </div>
               </div>
             </div>
-          
-            <div class="w-full  md:w-auto mb-[40px] ">
-              <button class="text-red-500 hover:bg-[#FFF3F2]
-               hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center" 
-               @click.stop="()=>{
-               state.projectName = ''
 
-                v$.documentLink.$model = ''
-               }">
-                <img src="/assets/imgs/icons/bin.svg" alt="">
+            <div class="w-full md:w-auto mb-[40px]">
+              <button
+                class="text-red-500 dark:text-whiteTamkin hover:bg-[#FFF3F2] hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center"
+                @click.stop="
+                  () => {
+                    state.projectName = '';
+
+                    v$.documentLink.$model = '';
+                  }
+                "
+              >
+                <img src="/assets/imgs/icons/bin.svg" alt="" />
               </button>
             </div>
           </div>
-          
         </div>
-        <div v-else-if="!imageSize && state.documentLink && loadingFetch" class="w-full h-auto rounded-[10px] border-[1px] p-[10px] border-dashed 
-    border-[#C8CFEB] dark:border-[#333333] flex items-start justify-center flex-col space-y-[10px] animate-pulse">
-    
-    <div class="flex items-center justify-between w-full">
-      <div class="relative flex">
-        <!-- Placeholder for the video thumbnail -->
-        <div class="bg-gray-300 dark:bg-gray-600 lg:w-[119px] w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]"></div>
-        
-        <div class="flex flex-col items-start justify-start space-y-[10px]">
-          <!-- Placeholder for the title -->
-          <div class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"></div>
-          <!-- Placeholder for the domain -->
-          <div class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"></div>
+        <div
+          v-else-if="!imageSize && state.documentLink && loadingFetch"
+          class="w-full h-auto rounded-[10px] border-[1px] p-[10px] border-dashed border-[#C8CFEB] dark:border-[#333333] flex items-start justify-center flex-col space-y-[10px] animate-pulse"
+        >
+          <div class="flex items-center justify-between w-full">
+            <div class="relative flex">
+              <!-- Placeholder for the video thumbnail -->
+              <div
+                class="bg-gray-300 dark:bg-gray-600 lg:w-[119px] w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]"
+              ></div>
+
+              <div
+                class="flex flex-col items-start justify-start space-y-[10px]"
+              >
+                <!-- Placeholder for the title -->
+                <div
+                  class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"
+                ></div>
+                <!-- Placeholder for the domain -->
+                <div
+                  class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Placeholder for the button -->
+            <div class="w-full md:w-auto mb-[40px]">
+              <div
+                class="bg-gray-300 dark:bg-gray-600 w-[32px] h-[32px] rounded-lg"
+              ></div>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <!-- Placeholder for the button -->
-      <div class="w-full md:w-auto mb-[40px]">
-        <div class="bg-gray-300 dark:bg-gray-600 w-[32px] h-[32px] rounded-lg"></div>
-      </div>
-    </div>
-  </div>
         <div
           v-if="acceptedFilesRef.length === 0"
           class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]"
         >
-          {{ $t('OR') }}
+          {{ $t("OR") }}
         </div>
-     
 
-        <div class="w-full relative mt-[8px]" v-if="acceptedFilesRef.length === 0">
+        <div
+          class="w-full relative mt-[8px]"
+          v-if="acceptedFilesRef.length === 0"
+        >
           <input
             type="text"
             placeholder="characterName"
@@ -505,9 +522,12 @@ false
             class="input_floating_label peer w-full"
             v-model="v$.documentLink.$model"
             :class="{
-              input_error: v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
-              error_text: v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
-              input_success: !v$.documentLink.$error && !v$.documentLink.$invalid,
+              input_error:
+                v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
+              error_text:
+                v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
+              input_success:
+                !v$.documentLink.$error && !v$.documentLink.$invalid,
             }"
           />
           <label
@@ -519,22 +539,24 @@ false
                 : '',
             ]"
           >
-            {{ $t('Image link') }}
+            {{ $t("Image link") }}
           </label>
           <div
             class="w-full lg:w-4/6"
             v-if="v$.documentLink.$error && v$.documentLink.requiredIf.$invalid"
           >
             <p class="error_message">
-              <span v-if="v$.documentLink.$error && v$.documentLink.requiredIf.$invalid">{{
-                $t("Image Link is Required")
-              }}</span>
+              <span
+                v-if="
+                  v$.documentLink.$error && v$.documentLink.requiredIf.$invalid
+                "
+                >{{ $t("Image Link is Required") }}</span
+              >
             </p>
           </div>
         </div>
       </div>
 
-   
       <div class="w-full flex flex-col items-center justify-center !p-0">
         <div
           class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"
@@ -542,7 +564,6 @@ false
           <div
             class="flex flex-col items-start justify-start space-y-[10px] mt-[16px] w-full"
           >
-   
             <div class="w-full relative">
               <input
                 type="projectName"
@@ -551,9 +572,12 @@ false
                 class="input_floating_label peer w-full"
                 v-model="v$.projectName.$model"
                 :class="{
-                  input_error: v$.projectName.$error && v$.projectName.required.$invalid,
-                  error_text: v$.projectName.$error && v$.projectName.required.$invalid,
-                  input_success: !v$.projectName.$error && !v$.projectName.$invalid,
+                  input_error:
+                    v$.projectName.$error && v$.projectName.required.$invalid,
+                  error_text:
+                    v$.projectName.$error && v$.projectName.required.$invalid,
+                  input_success:
+                    !v$.projectName.$error && !v$.projectName.$invalid,
                 }"
               />
               <label
@@ -572,7 +596,11 @@ false
                 v-if="v$.projectName.$error && v$.projectName.required.$invalid"
               >
                 <p class="error_message">
-                  <span v-if="v$.projectName.$error && v$.projectName.required.$invalid">
+                  <span
+                    v-if="
+                      v$.projectName.$error && v$.projectName.required.$invalid
+                    "
+                  >
                     {{ $t("Project name is required") }}
                   </span>
                 </p>
@@ -580,7 +608,9 @@ false
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
+        <div
+          class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]"
+        >
           <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
             {{ $t("Translate") }}
           </div>
@@ -595,7 +625,9 @@ false
               />
               <div
                 class="toggle_parent"
-                :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']"
+                :class="[
+                  translateStore.signLanguageChecked ? 'active' : 'in_active',
+                ]"
               >
                 <div
                   class="toggle_inner"
@@ -620,29 +652,55 @@ false
           class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"
           :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']"
         >
-        <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
-        :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
-         <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+          <div
+            class="flex flex-col items-start justify-start space-y-[10px] w-2/4"
+            :class="[
+              !translateStore.subtitleCheck
+                ? 'blur-[2px] pointer-events-none'
+                : '',
+            ]"
+          >
+            <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
            {{ $t('Original language') }}
          </div> -->
-         <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" 
-         iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="title" idField="id" />
-       </div>
+            <TranslateSelectInput
+              @getCurrentSelectedItem="selectOgLang"
+              :enableSearch="true"
+              iconKey="icon"
+              placeholderinput="Auto-detect Language"
+              :list="languagesArr"
+              nameKey="title"
+              idField="id"
+            />
+          </div>
           <div
             class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap"
           >
             {{ $t("Translate to") }}
           </div>
-          <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
-          :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
-        
-           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" 
-           :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" 
-           :list="languagesArr" nameKey="title" idField="id" />
-         </div>
+          <div
+            class="flex flex-col items-start justify-start space-y-[10px] w-2/4"
+            :class="[
+              !translateStore.subtitleCheck
+                ? 'blur-[2px] pointer-events-none'
+                : '',
+            ]"
+          >
+            <TranslateSelectInput
+              @getCurrentSelectedItem="handleSelectedItemProjectName"
+              :enableSearch="true"
+              iconKey="icon"
+              placeholderinput="Auto-detect Language"
+              :list="languagesArr"
+              nameKey="title"
+              idField="id"
+            />
+          </div>
         </div>
 
-        <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
+        <div
+          class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]"
+        >
           <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
             {{ $t("Sign language") }}
           </div>
@@ -657,7 +715,9 @@ false
               />
               <div
                 class="toggle_parent"
-                :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']"
+                :class="[
+                  translateStore.signLanguageChecked ? 'active' : 'in_active',
+                ]"
               >
                 <div
                   class="toggle_inner"
@@ -710,7 +770,7 @@ false
         {{ widthVideoProcessing + "%" }}
       </div>
       <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-        {{ $t('Photo is processing') }}
+        {{ $t("Photo is processing") }}
       </div>
       <div class="relative pt-1 flex items-center justify-between w-full">
         <div
@@ -722,8 +782,14 @@ false
           ></div>
         </div>
       </div>
-      <div class="text-[14px] text-center leading-[21px] font-[500] text-[#878787]">
-        {{$t('Please wait while we process your request. This may take a few moments.')}}
+      <div
+        class="text-[14px] text-center leading-[21px] font-[500] text-[#878787]"
+      >
+        {{
+          $t(
+            "Please wait while we process your request. This may take a few moments."
+          )
+        }}
       </div>
     </div>
     <div
@@ -731,7 +797,9 @@ false
       style="box-shadow: 0px 4px 24px 8px #51459f14"
       v-if="failedRender && !rendering"
     >
-      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] w-full">
+      <div
+        class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] w-full"
+      >
         <div>
           <img
             src="/assets/imgs/translatevideo/limited.svg"
@@ -740,14 +808,16 @@ false
           />
         </div>
         <div class="text-[20px] leading-[30px] font-[600] text-darkGrey">
-          {{ $t('Process failed') }}
+          {{ $t("Process failed") }}
         </div>
       </div>
       <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-        {{ $t('You do not have enough minutes to complete this process') }}
+        {{ $t("You do not have enough minutes to complete this process") }}
       </div>
       <div>
-        <button class="btn-dashboard hover_tamkin">{{$t('Upgrade Now')}}</button>
+        <button class="btn-dashboard hover_tamkin">
+          {{ $t("Upgrade Now") }}
+        </button>
       </div>
     </div>
   </div>
