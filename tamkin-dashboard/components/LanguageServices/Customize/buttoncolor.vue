@@ -307,9 +307,8 @@ watch(colorcurrentpicker, (newVal) => {
           >
             <input
               type="text"
-              class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+              class="h-[34px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
               v-model="inputcurrentcolor"
-              style="background-color: none !important"
               @input="updatecurrentcolor"
             />
           </div>
@@ -334,10 +333,9 @@ watch(colorcurrentpicker, (newVal) => {
             >
               <input
                 type="text"
-                class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                class="h-[34px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                 v-model="inputGradient"
                 @input="updateGradient"
-                style="background-color: none !important"
               />
             </div>
           </div>
@@ -353,7 +351,7 @@ watch(colorcurrentpicker, (newVal) => {
             >
               <input
                 type="text"
-                class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                class="h-[34px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                 v-model="inputGradient2"
                 @input="updategradient2"
                 style="background: none !important"

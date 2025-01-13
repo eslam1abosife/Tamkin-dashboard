@@ -681,7 +681,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
               :enable-time-picker="false"
               @blur="dateOpen = false"
               @focus="dateOpen = true"
-              class="relative rtl:!font-[Almarai]"
+              class="relative rtl:!font-[Almarai] dark:bg-tamkinDarkPrimary"
               :clearable="false"
               disable-year-select
               month-name-format="long"
@@ -832,10 +832,10 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                 <a
                   :class="[
                     selectedInterval === '7 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('7 Days')"
                   >{{ $t("7 Days") }}</a
@@ -843,10 +843,10 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                 <a
                   :class="[
                     selectedInterval === '14 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('14 Days')"
                   >{{ $t("14 Days") }}</a
@@ -854,31 +854,31 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                 <a
                   :class="[
                     selectedInterval === '1 Month'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('1 Month')"
                   >{{ $t("1 Month") }}</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   :class="[
                     selectedInterval === '2 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
                   @click="selectOption('2 Months')"
                   >{{ $t("2 Months") }}</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   :class="[
                     selectedInterval === '3 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight dark:bg-gray-600'
                       : '',
                   ]"
                   @click="selectOption('3 Months')"
