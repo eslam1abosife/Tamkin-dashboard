@@ -1314,7 +1314,7 @@ watch(
             ? 'top-[80vh]'
             : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ',
         ]"
-        class="lg:absolute w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+        class="lg:absolute w-[260px] dark:bg-p h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div
           class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"

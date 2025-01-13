@@ -891,7 +891,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
         <div class="lg:mr-[-15px] lg:px-[15px]">
           <div
             v-if="statsStore.loadingStats"
-            class="bg-gray-200 animate-pulse w-[160px] h-[32px] rounded-[13px]"
+            class="bg-gray-200 animate-pulse dark:bg-p w-[160px] h-[32px] rounded-[13px]"
           ></div>
           <button
             v-else
@@ -945,7 +945,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
       <!-- Skeleton Loader -->
       <div
         v-if="statsStore.loadingStats"
-        class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+        class="animate-pulse mt-[30px] dark:bg-p bg-gray-300 rounded-[10px] h-[255px] w-full"
       >
         <!-- Title Placeholder -->
       </div>
@@ -1009,7 +1009,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
       </div>
       <div
         v-if="statsStore.loadingStats"
-        class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+        class="animate-pulse dark:bg-p mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
       >
         <!-- Title Placeholder -->
       </div>

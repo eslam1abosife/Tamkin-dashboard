@@ -79,7 +79,8 @@ const openBuyModal = (pck) => {
                     ? addon.package_price_role[0].cost_month
                     : addon.package_price_role[0].cost_yearly
                 }}</span
-              ><span class="text-[16px] font-[500] leading-[15px] text-darkGrey"
+              ><span
+                class="text-[16px] font-[500] leading-[15px] dark:text-zinc-400 text-darkGrey"
                 >/ {{ $t(packagesStore.discountType) }}</span
               >
             </div>

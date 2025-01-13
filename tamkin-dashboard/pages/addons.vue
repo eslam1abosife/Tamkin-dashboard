@@ -236,21 +236,21 @@ const runtimec = useRuntimeConfig();
         "
       />
 
-      <div v-if="customizeStore.loadingData  || navStore.loadingdefaultappobj">
+      <div v-if="customizeStore.loadingData || navStore.loadingdefaultappobj">
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
+          class="animate-pulse space-y-4 card dark:bg-tamkinDarkPrimary bg-white rounded-[10px] mt-[40px] p-4"
         >
           <div
-            class="h-[55px] w-full rounded-md bg-gray-200"
+            class="h-[55px] w-full dark:bg-p rounded-md bg-gray-200"
             v-for="s in 6"
             :key="s"
           ></div>
         </div>
         <div
-          class="animate-pulse space-y-4 mt-2 card bg-white rounded-[10px] mt-[30px] p-4"
+          class="animate-pulse dark:bg-tamkinDarkPrimary space-y-4 mt-2 card bg-white rounded-[10px] mt-[30px] p-4"
         >
           <div
-            class="h-[55px] w-full rounded-md bg-gray-200"
+            class="h-[55px] w-full dark:bg-p rounded-md bg-gray-200"
             v-for="s in 6"
             :key="s"
           ></div>
@@ -258,9 +258,7 @@ const runtimec = useRuntimeConfig();
       </div>
 
       <div v-else>
-        <LanguageServicesNodata
-             v-if="!navStore.defaultappobj"
-        />
+        <LanguageServicesNodata v-if="!navStore.defaultappobj" />
         <div v-else>
           <AddonsAdjustmain v-if="customizeStore.isMainMenuActive" />
           <AddonsProfilecards v-if="customizeStore.isProfilesCardsctive" />

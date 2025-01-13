@@ -605,7 +605,7 @@ const isOwner = computed(() => {
       </div>
       <div
         v-if="getCurrTeamLoading"
-        class="relative flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
+        class="relative dark:bg-p_secondary flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
       >
         <!-- Placeholder for the text and stats -->
         <div
@@ -668,7 +668,7 @@ const isOwner = computed(() => {
       >
         <div
           v-if="!getCurrTeamLoading && !capacityLoader"
-          class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full"
+          class="flex dark:bg-tamkinDarkPrimary items-center justify-between lg:flex-nowrap flex-wrap w-full"
         >
           <div class="p-[16px]">
             <div
