@@ -269,7 +269,7 @@ watch(
         </div>
       </div>
       <nuxt-link
-        class="tamkin_team_card dark:bg-tamkinDarkPrimary dark:border-[1px] dark:border-darkborder"
+        class="tamkin_team_card dark:bg-tamkinDarkPrimary dark:border-[1px]"
         @click="
           () => {
             if (!loadingTeamCard) {
@@ -1298,7 +1298,7 @@ watch(
 
       <div
         v-if="!sideBarOpen"
-        class="cursor-pointer mt-[14px] dark:bg-p"
+        class="cursor-pointer mt-[14px]"
         @click="$router.push({ path: localePath('/contact') })"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
@@ -1314,8 +1314,15 @@ watch(
             ? 'top-[80vh]'
             : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ',
         ]"
-        class="lg:absolute w-[260px] dark:bg-p h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+        class="lg:absolute dark:bg-p overflow-hidden w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
+        <div style="position: absolute" class="left-0 top-0">
+          <img
+            src="/public/assets/pngs/Rectangle 6165.png"
+            alt="Sales Team"
+            class="w-[100%] h-[100%] opacity-50"
+          />
+        </div>
         <div
           class="flex flex-col space-y-[5px] dark:border-p py-[10px] items-center justify-center rounded-lg"
         >
@@ -1328,14 +1335,14 @@ watch(
           </div>
           <div>
             <h2
-              class="text-[13px] font-[600] text-[#0D5C56] dark:text-[#239F8E]"
+              class="text-[13px] font-[600] dark:text-whiteTamkin text-[#0D5C56] dark:text-[#239F8E]"
             >
               {{ $t("Need Help?") }}
             </h2>
           </div>
           <div>
             <h2
-              class="text-[10px] font-[400] text-[#64938f] dark:text-[#75B1A9]"
+              class="text-[10px] font-[400] dark:text-whiteTamkin text-[#64938f] dark:text-[#75B1A9]"
             >
               {{ $t("Contact Our Sales Team") }}
             </h2>

@@ -13,7 +13,7 @@ import {
   useInvoices,
   useInvoicePdf,
 } from "@/composables/useBilling";
-const {t,locale} = useI18n()
+const { t, locale } = useI18n();
 const { getCards } = useGetCards();
 import {
   required,
@@ -23,12 +23,14 @@ import {
   numeric,
   minLength,
 } from "@vuelidate/validators";
-import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+import {
+  useGetAllCountries,
+  useChangeMemberInfo,
+} from "@/composables/useProfile";
 
 const { getCountries, countries } = useGetAllCountries();
 
-
-const { addNewCardToStripe ,response} = useAddNewCard();
+const { addNewCardToStripe, response } = useAddNewCard();
 let state = reactive({
   firstName: "",
   lastName: "",
@@ -50,84 +52,78 @@ const rules = {
 };
 const v$ = useVuelidate(rules, state);
 
-
 const stripeKey = ref(
   "pk_test_51Ph2McGBL82z4GvFlZ9QJb913tLp1w6strqfzYtWl9CYEeEDZ4rkfjo2GY15i0SeqZKIc4BDcSSa5otoMwnvlSId00mAcZrsdy"
 );
 const stripeLoaded = ref(true);
-const cardOptions = ref({ 
+const cardOptions = ref({
   showIcon: true,
-  placeholder: t('Card number'),
+  placeholder: t("Card number"),
 
   style: {
-  base: {
-    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif', 
-    '::placeholder': {
-      color: '#A7A7A7', 
-    fontWeight: '500', 
-
+    base: {
+      fontFamily:
+        locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif",
+      "::placeholder": {
+        color: "#A7A7A7",
+        fontWeight: "500",
+      },
     },
   },
-}
-
-  
 });
-const expiryoptions = ref({ 
+const expiryoptions = ref({
   showIcon: true,
-  placeholder: t('Expiration date'),
+  placeholder: t("Expiration date"),
 
   style: {
-  base: {
-    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
-    '::placeholder': {
-      color: '#A7A7A7', 
-    fontWeight: '500', 
-
+    base: {
+      fontFamily:
+        locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
+      "::placeholder": {
+        color: "#A7A7A7",
+        fontWeight: "500",
+      },
     },
-
   },
-}
-
-  
 });
 const cardCvcOptions = ref({
-  placeholder: t('CVC'),
+  placeholder: t("CVC"),
   style: {
-  base: {
-    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
-    '::placeholder': {
-      color: '#A7A7A7', 
-    fontWeight: '500', 
-
+    base: {
+      fontFamily:
+        locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
+      "::placeholder": {
+        color: "#A7A7A7",
+        fontWeight: "500",
+      },
     },
-
   },
-}
-
-})
+});
 const elementsOptions = ref({
   locale: locale.value,
   fonts: [
     {
-      cssSrc: locale.value === 'ar' ? 'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap' :'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'
-    }
-  ]
-
+      cssSrc:
+        locale.value === "ar"
+          ? "https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap"
+          : "https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+    },
+  ],
 });
-const elms = ref<any>(null); 
-const card = ref<any>(null); 
+const elms = ref<any>(null);
+const card = ref<any>(null);
 const disabledPay = ref(true);
 const cardNumberElement = ref(null);
-const loadingAddCard = ref(false)
+const loadingAddCard = ref(false);
 const cardExpiryElement = ref(null);
 const cardCvcElement = ref(null);
 const router = useRouter();
 const { $toast } = useNuxtApp();
 const cardErrors = ref([]);
-const cardIsEmpty = ref(true); 
-const expiryChange = ref(true)
-const cvvChange = ref(true)
-const loadingFont =ref(true)
+const cardIsEmpty = ref(true);
+const expiryChange = ref(true);
+const cvvChange = ref(true);
+const loadingFont = ref(true);
 const elementsReady = ref(true);
 // Refs Select Element
 const cardNumberInp = ref(null);
@@ -145,20 +141,27 @@ onMounted(async () => {
 
     // Create and mount card elements with error handling
     try {
-      cardNumberElement.value = elms.value.create("cardNumber", cardOptions.value);
+      cardNumberElement.value = elms.value.create(
+        "cardNumber",
+        cardOptions.value
+      );
       cardNumberElement.value.mount(cardNumberInp.value);
 
       // cardNumberElement.value.mount(cardNumberRef.value);
       cvcElement.value = elms.value.create("cardCvc", cardCvcOptions.value);
       cvcElement.value.mount(cardCvc.value);
 
-      expiryElement.value = elms.value.create("cardExpiry", expiryoptions.value);
+      expiryElement.value = elms.value.create(
+        "cardExpiry",
+        expiryoptions.value
+      );
       expiryElement.value.mount(cardExpiry.value);
 
       stripeLoaded.value = true;
     } catch (error) {
       console.error("Error creating or mounting Stripe elements:", error);
-      cardError.value = "There was an error loading the payment form. Please try again.";
+      cardError.value =
+        "There was an error loading the payment form. Please try again.";
     }
 
     // Event listeners for card input changes
@@ -196,36 +199,36 @@ onMounted(async () => {
     await getCountries();
   } catch (error) {
     console.error("Stripe initialization failed:", error);
-    cardError.value = "Failed to initialize the payment system. Please check your connection and try again.";
+    cardError.value =
+      "Failed to initialize the payment system. Please check your connection and try again.";
   }
 });
 
 const handleSelectedItemProjectName = (item: any) => {
   // console.log(item)
-  state.country = item.id
+  state.country = item.id;
 };
 // Stripe Element Ready Event
 const stripeElementReadyEV = () => {
   // Stripe element is ready
   console.log("Stripe element is ready");
-      stripeLoaded.value = true;
-
+  stripeLoaded.value = true;
 };
 // Completed Stripe Event
 const completedStripe = (event: any) => {
   if (event.error) {
-        cardErrors.value = [t(event.error.message)] // Update with new errors
-        console.log(event.error)
-      } else {
-        cardErrors.value = [] // Clear errors if no errors
-      }
+    cardErrors.value = [t(event.error.message)]; // Update with new errors
+    console.log(event.error);
+  } else {
+    cardErrors.value = []; // Clear errors if no errors
+  }
   if (event.complete) {
     cardIsEmpty.value = false;
   } else {
     cardIsEmpty.value = true;
   }
 };
-const expiryErrors = ref([])
+const expiryErrors = ref([]);
 
 /**
  * Handles changes to the expiry date input element.
@@ -234,35 +237,35 @@ const expiryErrors = ref([])
  * @param {{complete: boolean, error: {message: string}}} event - Stripe expiry change event
  */
 
-const profileStore = useProfileStore()
-const cvvErrors = ref([])
+const profileStore = useProfileStore();
+const cvvErrors = ref([]);
 const stripe = ref(null);
-const cardError = ref(null)
+const cardError = ref(null);
 const elements = ref(null);
- const cvcElement = ref(null);
- const expiryElement = ref(null);
-  const cvcError = ref('');
-const expiryError = ref('');
- 
+const cvcElement = ref(null);
+const expiryElement = ref(null);
+const cvcError = ref("");
+const expiryError = ref("");
+
 // Handle Save Card
 const handleSave = async () => {
-  loadingAddCard.value  = true
+  loadingAddCard.value = true;
   // if (!elms.value) return
   const { error, paymentMethod } = await stripe.value.createPaymentMethod({
-    type: 'card',
-    card: cardNumberElement.value, 
+    type: "card",
+    card: cardNumberElement.value,
     billing_details: {
-    name: state.firstName +' '+ state.lastName,         // Customer's name
-    email: profileStore.member.member_email,  // Customer's email
-    // phone: '+123456789',      // Customer's phone number (optional)
-    address: {
-      line1: state.address,   // Street address
-      city: state.city,       // City
-      state: state.state,            // State/Province
-      country: state.country,   
-      postal_code:state.zip       // Country (2-letter code)
+      name: state.firstName + " " + state.lastName, // Customer's name
+      email: profileStore.member.member_email, // Customer's email
+      // phone: '+123456789',      // Customer's phone number (optional)
+      address: {
+        line1: state.address, // Street address
+        city: state.city, // City
+        state: state.state, // State/Province
+        country: state.country,
+        postal_code: state.zip, // Country (2-letter code)
+      },
     },
-  },
   });
 
   if (error) {
@@ -273,44 +276,34 @@ const handleSave = async () => {
   // Send paymentMethodId to your API
   const paymentMethodId = paymentMethod.id;
   await sendPaymentMethodIdToApi(paymentMethodId);
-  if(response.value.data.succeeded === false){
-   loadingAddCard.value  = false
-cardError.value = t('Card is already added or its not valid')
-    }else {
-   
-      if(currentView('add_new_card_billing') === 'Market'){
-      navigateTo('add_new_card_billing','market','cardModal_market')
-
-    } else if(currentView('add_new_card_billing') === 'packages'){
-      navigateTo('add_new_card_billing','packages','cardModal_packages')
-
-    }
-    else if(currentView('add_new_card_billing') === 'addSite'){
-      navigateTo('add_new_card_billing','addSite','cardModal_addsite')
-
-    }
-    else if(currentView('add_new_card_billing') === 'mysite'){
-      navigateTo('add_new_card_billing','mysite','cardModal_mysite')
-
-    }
-    else {
-      closeModal('add_new_card_billing')
+  if (response.value.data.succeeded === false) {
+    loadingAddCard.value = false;
+    cardError.value = t("Card is already added or its not valid");
+  } else {
+    if (currentView("add_new_card_billing") === "Market") {
+      navigateTo("add_new_card_billing", "market", "cardModal_market");
+    } else if (currentView("add_new_card_billing") === "packages") {
+      navigateTo("add_new_card_billing", "packages", "cardModal_packages");
+    } else if (currentView("add_new_card_billing") === "addSite") {
+      navigateTo("add_new_card_billing", "addSite", "cardModal_addsite");
+    } else if (currentView("add_new_card_billing") === "mysite") {
+      navigateTo("add_new_card_billing", "mysite", "cardModal_mysite");
+    } else {
+      closeModal("add_new_card_billing");
     }
 
-      $toast(t("Card added successfully!"));
-      billingStore.loadCards = true
-      await getCards();
-      billingStore.loadCards = false
-
-    }
+    $toast(t("Card added successfully!"));
+    billingStore.loadCards = true;
+    await getCards();
+    billingStore.loadCards = false;
+  }
   // router.push('/success'); // Redirect on success
 };
 
 // Send payment method ID to API
 const sendPaymentMethodIdToApi = async (paymentMethodId: string) => {
   try {
-    await addNewCardToStripe(paymentMethodId,state.is_primary);
- 
+    await addNewCardToStripe(paymentMethodId, state.is_primary);
   } catch (error) {
     // console.error("Failed to send payment method ID:", error);
     $toast(t("Failed to save card"));
@@ -329,14 +322,8 @@ const closeModalCard = () => {
 
 const billingStore = useBillingStore();
 const invoiceStore = useInvoicesStore();
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 
 // Fetch Countries
 
@@ -346,44 +333,41 @@ const addNew = async () => {
 };
 const isButtonDisabled = computed(() => {
   // Temporarily remove card number completion check for debugging
- return cardError.value !== 'valid' || expiryError.value !== 'valid' || cvcError.value !=='valid'
+  return (
+    cardError.value !== "valid" ||
+    expiryError.value !== "valid" ||
+    cvcError.value !== "valid"
+  );
 });
 
-const gotomodalview = ()=>{
-  if(currentView('add_new_card_billing') === 'Market'){
-  return navigateTo('add_new_card_billing', 'market', 'cardModal_market')
-    } else if(currentView('add_new_card_billing') === 'packages'){
-      // navigateTo('add_new_card_billing','packages','cardModal_packages')
-  return navigateTo('add_new_card_billing', 'packages', 'cardModal_packages')
-
-
-    }
-    else if(currentView('add_new_card_billing') === 'addSite'){
-      // navigateTo('add_new_card_billing','addSite','cardModal_addsite')
-  return navigateTo('add_new_card_billing', 'addSite', 'cardModal_addsite')
-
-
-    }
-    else if(currentView('add_new_card_billing') === 'mysite'){
-      // navigateTo('add_new_card_billing','mysite','cardModal_mysite')
-  return navigateTo('add_new_card_billing', 'mysite', 'cardModal_mysite')
-
-
-    }
-}
-const countriesC = computed(()=>{
-  return countries.value.map(m=>{return {title:t(m.name),icon:m.image,id:m.code}})
-})
+const gotomodalview = () => {
+  if (currentView("add_new_card_billing") === "Market") {
+    return navigateTo("add_new_card_billing", "market", "cardModal_market");
+  } else if (currentView("add_new_card_billing") === "packages") {
+    // navigateTo('add_new_card_billing','packages','cardModal_packages')
+    return navigateTo("add_new_card_billing", "packages", "cardModal_packages");
+  } else if (currentView("add_new_card_billing") === "addSite") {
+    // navigateTo('add_new_card_billing','addSite','cardModal_addsite')
+    return navigateTo("add_new_card_billing", "addSite", "cardModal_addsite");
+  } else if (currentView("add_new_card_billing") === "mysite") {
+    // navigateTo('add_new_card_billing','mysite','cardModal_mysite')
+    return navigateTo("add_new_card_billing", "mysite", "cardModal_mysite");
+  }
+};
+const countriesC = computed(() => {
+  return countries.value.map((m) => {
+    return { title: t(m.name), icon: m.image, id: m.code };
+  });
+});
 </script>
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] 
-    lg:p-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
-      class="close_btn_payment !cursor-pointer mr-[10px]  z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      class="close_btn_payment !cursor-pointer mr-[10px] z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalCard"
     >
       <svg
@@ -402,32 +386,38 @@ const countriesC = computed(()=>{
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col lg:items-start justify-center w-full">
-    
         <div class="flex items-center justify-center">
-            <div v-if="currentView('add_new_card_billing') !== 'billing'" @click="gotomodalview" 
-          class="cursor-pointer close_sidebar_btn group flex items-center justify-center  
-           dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180
-       border-linecolor rounded-full w-[30px] h-[30px]" style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
-    ">
-            <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+          <div
+            v-if="currentView('add_new_card_billing') !== 'billing'"
+            @click="gotomodalview"
+            class="cursor-pointer close_sidebar_btn group flex items-center justify-center dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
+            style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
+          >
+            <svg
+              width="9"
+              height="15"
+              viewBox="0 0 9 15"
+              fill="none"
               class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+              />
             </svg>
           </div>
           <h1
-          class="text-[16px] lg:text-[18px] rtl:font-[Almarai]  leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
-          
+            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+          >
             {{ $t("Add New Card") }}
           </h1>
         </div>
-        <div 
+        <div
           class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
-            class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin 
-            mt-[31px]"
+            class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
           >
             {{ $t("Card Info") }}
           </h1>
@@ -436,8 +426,7 @@ const countriesC = computed(()=>{
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col  rtl:space-x-reverse space-x-[20px] lg:space-y-[0]
-               space-y-[25px] mb-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="w-full relative">
@@ -445,12 +434,13 @@ const countriesC = computed(()=>{
                     type="text"
                     placeholder="{{$t('First Name')}}"
                     id="firstName"
-                    class="input_floating_label peer w-full "
+                    class="input_floating_label peer w-full"
                     v-model="v$.firstName.$model"
                     :class="{
                       input_error:
                         v$.firstName.$error && v$.firstName.required.$invalid,
-                      input_success: !v$.firstName.$error && !v$.firstName.$invalid,
+                      input_success:
+                        !v$.firstName.$error && !v$.firstName.$invalid,
                     }"
                   />
                   <label
@@ -470,25 +460,28 @@ const countriesC = computed(()=>{
                   >
                     <p class="error_message">
                       <span
-                        v-if="v$.firstName.$error && v$.firstName.required.$invalid"
+                        v-if="
+                          v$.firstName.$error && v$.firstName.required.$invalid
+                        "
                         >{{ $t("First Name is required") }}</span
                       >
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="w-full ">
+              <div class="w-full">
                 <div class="relative">
                   <input
                     type="text"
                     placeholder=""
                     id="lastName"
-                    class="input_floating_label peer w-full "
+                    class="input_floating_label peer w-full dark:text-whiteTamkin"
                     v-model="v$.lastName.$model"
                     :class="{
                       input_error:
                         v$.lastName.$error && v$.lastName.required.$invalid,
-                      input_success: !v$.lastName.$error && !v$.lastName.$invalid,
+                      input_success:
+                        !v$.lastName.$error && !v$.lastName.$invalid,
                     }"
                   />
                   <label
@@ -508,7 +501,9 @@ const countriesC = computed(()=>{
                   >
                     <p class="error_message">
                       <span
-                        v-if="v$.lastName.$error && v$.lastName.required.$invalid"
+                        v-if="
+                          v$.lastName.$error && v$.lastName.required.$invalid
+                        "
                         >{{ $t("Last Name is required") }}</span
                       >
                     </p>
@@ -516,259 +511,276 @@ const countriesC = computed(()=>{
                 </div>
               </div>
             </div>
-            <div     v-if="stripeLoaded"     class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
-
+            <div
+              v-if="stripeLoaded"
+              class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins] dark:text-whiteTamkin"
             >
-                <div ref="cardNumberInp" class="w-full input_floating_label " :class="{
-                  input_error:
-                  cardError!== 'valid' && cardError,
-                   input_success: cardError=== 'valid'
-                }"></div>
-                <div id="card-errors" class="error_message !bottom-[55px] z-[40]" >{{cardError!== 'valid' && cardError ? cardError : ''}}</div>
-           
-        
-          
-              <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
-        
-                <div class="w-2/4 relative">
-                  <div ref="cardCvc" class="w-full input_floating_label " :class="{
-                    input_error:
-                    cvcError!== 'valid' && cvcError,
-                   input_success: cvcError=== 'valid'
+              <div
+                ref="cardNumberInp"
+                class="w-full input_floating_label dark:text-whiteTamkin"
+                :class="{
+                  input_error: cardError !== 'valid' && cardError,
+                  input_success: cardError === 'valid',
+                }"
+              ></div>
+              <div id="card-errors" class="error_message !bottom-[55px] z-[40]">
+                {{ cardError !== "valid" && cardError ? cardError : "" }}
+              </div>
 
-                  }" ></div>
-                  <div id="cvc-errors" class="error_message ">{{  cvcError!== 'valid' && cvcError ? $t(cvcError):null }}</div>
+              <div
+                class="flex items-center justify-center mt-[14px] w-full space-x-[20px] rtl:space-x-reverse"
+              >
+                <div class="w-2/4 relative">
+                  <div
+                    ref="cardCvc"
+                    class="w-full dark:text-whiteTamkin input_floating_label"
+                    :class="{
+                      input_error: cvcError !== 'valid' && cvcError,
+                      input_success: cvcError === 'valid',
+                    }"
+                  ></div>
+                  <div id="cvc-errors" class="error_message">
+                    {{ cvcError !== "valid" && cvcError ? $t(cvcError) : null }}
+                  </div>
                 </div>
                 <div class="w-2/4 relative">
-                  <div ref="cardExpiry" class="w-full input_floating_label "   :class="{
-                    input_error:
-                    expiryError!== 'valid' && expiryError,
-                    input_success: expiryError=== 'valid'
-                  }"
-    ></div>
-                  <div id="expiry-errors" class="error_message">{{ expiryError!== 'valid' && expiryError ? $t(expiryError) :null }}</div>
+                  <div
+                    ref="cardExpiry"
+                    class="w-full input_floating_label"
+                    :class="{
+                      input_error: expiryError !== 'valid' && expiryError,
+                      input_success: expiryError === 'valid',
+                    }"
+                  ></div>
+                  <div id="expiry-errors" class="error_message">
+                    {{
+                      expiryError !== "valid" && expiryError
+                        ? $t(expiryError)
+                        : null
+                    }}
+                  </div>
                 </div>
               </div>
             </div>
-         
-</div>
-       
-<h1
-class="!text-[16px] !leading-[36px] !font-[600] rtl:mr-[20px] ltr:ml-[20px] !text-darkGrey dark:text-whiteTamkin 
-mt-[31px]"
->
-{{$t('Billing Address')}}
-</h1>
+          </div>
 
+          <h1
+            class="!text-[16px] dark:text-whiteTamkin !leading-[36px] !font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
+          >
+            {{ $t("Billing Address") }}
+          </h1>
 
-         
-<div
-class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
->
-<div
-  class="flex items-start lg:flex-row flex-col justify-center mb-[25px] w-full"
->
-  <div class="w-full relative mx-auto">
-    <input
-      type="text"
-      placeholder="{{$t('Address')}}"
-      id="address"
-      class="input_floating_label peer w-full "
-      v-model="v$.address.$model"
-      :class="{
-        input_error: v$.address.$error && v$.address.required.$invalid,
-        input_success: !v$.address.$error && !v$.address.$invalid,
-      }"
-    />
-    <label
-      for="address"
-      class="floating_label"
-      :class="[
-        v$.address.$error && v$.address.required.$invalid
-          ? '!text-error'
-          : '',
-      ]"
-    >
-      {{ $t("Address") }}*
-    </label>
-    <div
-      class="w-full lg:w-4/6"
-      v-if="v$.address.$error && v$.address.required.$invalid"
-    >
-      <p class="error_message">
-        <span
-          v-if="v$.address.$error && v$.address.required.$invalid"
-          >{{ $t("Address is required") }}</span
-        >
-      </p>
-    </div>
-  </div>
-</div>
-<div
-  class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] 
-   rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
->
-  <div class="w-full">
-    <div class="relative">
-      <input
-        type="text"
-        placeholder="{{$t('City')}}"
-        id="city"
-        class="input_floating_label peer w-full "
-        v-model="v$.city.$model"
-        :class="{
-          input_error: v$.city.$error && v$.city.required.$invalid,
-          input_success: !v$.city.$error && !v$.city.$invalid,
-        }"
-      />
-      <label
-        for="city"
-        class="floating_label"
-        :class="[
-          v$.city.$error && v$.city.required.$invalid
-            ? '!text-error'
-            : '',
-        ]"
-      >
-        {{ $t("City") }}*
-      </label>
-      <div
-        class="w-full lg:w-4/6"
-        v-if="v$.city.$error && v$.city.required.$invalid"
-      >
-        <p class="error_message">
-          <span v-if="v$.city.$error && v$.city.required.$invalid">{{
-            $t("City is required")
-          }}</span>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="w-full ">
-    <div class="relative">
-      <input
-        type="text"
-        placeholder="{{$t('State')}}"
-        id="state"
-        class="input_floating_label peer w-full "
-        v-model="v$.state.$model"
-        :class="{
-          input_error: v$.state.$error && v$.state.required.$invalid,
-          input_success: !v$.state.$error && !v$.state.$invalid,
-        }"
-      />
-      <label
-        for="state"
-        class="floating_label"
-        :class="[
-          v$.state.$error && v$.state.required.$invalid
-            ? '!text-error'
-            : '',
-        ]"
-      >
-        {{ $t("State") }}*
-      </label>
-      <div
-        class="w-full lg:w-4/6"
-        v-if="v$.state.$error && v$.state.required.$invalid"
-      >
-        <p class="error_message">
-          <span v-if="v$.state.$error && v$.state.required.$invalid">{{
-            $t("State is required")
-          }}</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0
-  space-y-[16px]  rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
->
-  <div class="w-full ">
-    <div class="relative">
-      <input
-        type="text"
-        placeholder=""
-        id="zip"
-        class="input_floating_label peer w-full"
-        v-model="v$.zip.$model"
-        :class="{
-          input_error: v$.zip.$error && v$.zip.required.$invalid,
-          input_success: !v$.zip.$error && !v$.zip.$invalid,
-        }"
-      />
-      <label
-        for="email"
-        class="floating_label"
-        :class="[
-          v$.zip.$error && v$.zip.required.$invalid
-            ? '!text-error'
-            : '',
-        ]"
-      >
-        {{ $t("Postal Code") }}*
-      </label>
-      <div
-        class="w-full lg:w-4/6"
-        v-if="v$.zip.$error && v$.zip.required.$invalid"
-      >
-        <p class="error_message">
-          <span v-if="v$.zip.$error && v$.zip.required.$invalid">{{
-            $t("Zip / Postal Code is required")
-          }}</span>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="w-full lg:mt-0 mt-[16px]">
-    <TranslateSelectInput
-
-        @getCurrentSelectedItem="handleSelectedItemProjectName"
-        :enableSearch="true"
-        placeholderinput="Country*"
-        :errorField="v$.country.$error && v$.country.required.$invalid"
-        :list="countriesC"
-        nameKey="title"
-        idField="id"
-        iconKey="icon"
-        :successField="!v$.country.$error && !v$.country.$invalid"
-    />
-
-                  <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
+          <div
+            class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
+          >
+            <div
+              class="flex items-start lg:flex-row flex-col justify-center mb-[25px] w-full"
+            >
+              <div class="w-full relative mx-auto">
+                <input
+                  type="text"
+                  placeholder="{{$t('Address')}}"
+                  id="address"
+                  class="input_floating_label peer w-full dark:text-whiteTamkin"
+                  v-model="v$.address.$model"
+                  :class="{
+                    input_error:
+                      v$.address.$error && v$.address.required.$invalid,
+                    input_success: !v$.address.$error && !v$.address.$invalid,
+                  }"
+                />
+                <label
+                  for="address"
+                  class="floating_label dark:text-whiteTamkin"
+                  :class="[
+                    v$.address.$error && v$.address.required.$invalid
+                      ? '!text-error'
+                      : '',
+                  ]"
+                >
+                  {{ $t("Address") }}*
+                </label>
+                <div
+                  class="w-full lg:w-4/6"
+                  v-if="v$.address.$error && v$.address.required.$invalid"
+                >
+                  <p class="error_message">
+                    <span
+                      v-if="v$.address.$error && v$.address.required.$invalid"
+                      >{{ $t("Address is required") }}</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
+            >
+              <div class="w-full">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="{{$t('City')}}"
+                    id="city"
+                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    v-model="v$.city.$model"
+                    :class="{
+                      input_error: v$.city.$error && v$.city.required.$invalid,
+                      input_success: !v$.city.$error && !v$.city.$invalid,
+                    }"
+                  />
+                  <label
+                    for="city"
+                    class="floating_label dark:text-whiteTamkin"
+                    :class="[
+                      v$.city.$error && v$.city.required.$invalid
+                        ? '!text-error'
+                        : '',
+                    ]"
+                  >
+                    {{ $t("City") }}*
+                  </label>
+                  <div
+                    class="w-full lg:w-4/6"
+                    v-if="v$.city.$error && v$.city.required.$invalid"
+                  >
                     <p class="error_message">
-                      <span v-if="v$.country.$error && v$.country.required.$invalid">{{ $t("Please enter The Country")
-                        }}</span>
-
+                      <span
+                        v-if="v$.city.$error && v$.city.required.$invalid"
+                        >{{ $t("City is required") }}</span
+                      >
                     </p>
                   </div>
                 </div>
+              </div>
+              <div class="w-full">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="{{$t('State')}}"
+                    id="state"
+                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    v-model="v$.state.$model"
+                    :class="{
+                      input_error:
+                        v$.state.$error && v$.state.required.$invalid,
+                      input_success: !v$.state.$error && !v$.state.$invalid,
+                    }"
+                  />
+                  <label
+                    for="state"
+                    class="floating_label dark:text-whiteTamkin"
+                    :class="[
+                      v$.state.$error && v$.state.required.$invalid
+                        ? '!text-error'
+                        : '',
+                    ]"
+                  >
+                    {{ $t("State") }}*
+                  </label>
+                  <div
+                    class="w-full lg:w-4/6"
+                    v-if="v$.state.$error && v$.state.required.$invalid"
+                  >
+                    <p class="error_message">
+                      <span
+                        v-if="v$.state.$error && v$.state.required.$invalid"
+                        >{{ $t("State is required") }}</span
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <div
+              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
+            >
+              <div class="w-full">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="zip"
+                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    v-model="v$.zip.$model"
+                    :class="{
+                      input_error: v$.zip.$error && v$.zip.required.$invalid,
+                      input_success: !v$.zip.$error && !v$.zip.$invalid,
+                    }"
+                  />
+                  <label
+                    for="email"
+                    class="floating_label dark:text-whiteTamkin"
+                    :class="[
+                      v$.zip.$error && v$.zip.required.$invalid
+                        ? '!text-error'
+                        : '',
+                    ]"
+                  >
+                    {{ $t("Postal Code") }}*
+                  </label>
+                  <div
+                    class="w-full lg:w-4/6"
+                    v-if="v$.zip.$error && v$.zip.required.$invalid"
+                  >
+                    <p class="error_message">
+                      <span v-if="v$.zip.$error && v$.zip.required.$invalid">{{
+                        $t("Zip / Postal Code is required")
+                      }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full lg:mt-0 mt-[16px]">
+                <TranslateSelectInput
+                  @getCurrentSelectedItem="handleSelectedItemProjectName"
+                  :enableSearch="true"
+                  placeholderinput="Country*"
+                  :errorField="
+                    v$.country.$error && v$.country.required.$invalid
+                  "
+                  :list="countriesC"
+                  nameKey="title"
+                  idField="id"
+                  iconKey="icon"
+                  :successField="!v$.country.$error && !v$.country.$invalid"
+                />
 
-</div>
-</div>
+                <div
+                  class="w-full lg:w-4/6"
+                  v-if="v$.country.$error && v$.country.required.$invalid"
+                >
+                  <p class="error_message">
+                    <span
+                      v-if="v$.country.$error && v$.country.required.$invalid"
+                      >{{ $t("Please enter The Country") }}</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<div class=" px-[20px]">
-  <label for="remember_me"
-  class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
-  <input  v-model="state.is_primary" type="checkbox" :checked="billingStore.cards?.length === 0"
-    class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
-     text-tamkin ring-0 focus:ring-0 focus:outline-none"
-    id="remember_me" />
-    <div class="text-[14px] font-[400] text-black mt-1 ltr:font-[Poppins] rtl:font-[Almarai]">
-    {{$t('Set as Primary Card')}}
-    </div>
- </label>
-</div>
-
-
-
-
-
-
-
-
+          <div class="px-[20px]">
+            <label
+              for="remember_me"
+              class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"
+            >
+              <input
+                v-model="state.is_primary"
+                type="checkbox"
+                :checked="billingStore.cards?.length === 0"
+                class="border-[1px] cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
+                id="remember_me"
+              />
+              <div
+                class="text-[14px] font-[400] dark:text-whiteTamkin text-black mt-1 ltr:font-[Poppins] rtl:font-[Almarai]"
+              >
+                {{ $t("Set as Primary Card") }}
+              </div>
+            </label>
+          </div>
 
           <div
             class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
@@ -776,11 +788,16 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
             <button class="btn_bordered_dashboard" @click="closeModalCard">
               {{ $t("Cancel") }}
             </button>
-            <button class="btn-dashboard hover_tamkin" @click="addNew" 
-            :disabled="isButtonDisabled || loadingAddCard  || v$.$invalid">
+            <button
+              class="btn-dashboard hover_tamkin"
+              @click="addNew"
+              :disabled="isButtonDisabled || loadingAddCard || v$.$invalid"
+            >
               <div class="flex items-center justify-center">
-                <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
-      
+                <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">
+                  {{ $t("Save") }}
+                </div>
+
                 <svg
                   v-if="loadingAddCard"
                   class="animate-spin h-5 w-5 text-white"
@@ -804,64 +821,63 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
                 </svg>
               </div>
             </button>
-        
           </div>
 
           <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
 
       </div> -->
         </div>
-        <div v-if="!stripeLoaded"
-  class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
-  style="box-shadow: 0px 4px 24px 8px #51459f14"
->
-  <h1
-    class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px] animate-pulse bg-gray-300 w-32 h-6 rounded"
-  ></h1>
+        <div
+          v-if="!stripeLoaded"
+          class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
+          style="box-shadow: 0px 4px 24px 8px #51459f14"
+        >
+          <h1
+            class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px] animate-pulse bg-gray-300 w-32 h-6 rounded"
+          ></h1>
 
-  <div
-    class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
-  >
-    <div
-      class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0]
-      space-y-[25px] mb-[25px] w-full"
-    >
-      <div class="w-full animate-pulse">
-        <div class="w-full h-10 bg-gray-300 rounded"></div>
-        <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+          <div
+            class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
+          >
+            <div
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+            >
+              <div class="w-full animate-pulse">
+                <div class="w-full h-10 bg-gray-300 rounded"></div>
+                <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+              </div>
+
+              <div class="w-full lg:w-[330px] animate-pulse">
+                <div class="w-full h-10 bg-gray-300 rounded"></div>
+                <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+
+            <div
+              class="flex items-center justify-center mt-[14px] space-x-[20px] animate-pulse"
+            >
+              <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
+              <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
+            </div>
+
+            <h1
+              class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[14px] animate-pulse bg-gray-300 w-40 h-6 rounded"
+            ></h1>
+
+            <div class="w-full mt-[21px] animate-pulse">
+              <div class="w-full h-10 bg-gray-300 rounded"></div>
+              <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+            </div>
+
+            <div
+              class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full animate-pulse"
+            >
+              <div class="w-full h-10 bg-gray-300 rounded"></div>
+              <div class="w-full h-10 bg-gray-300 rounded"></div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="w-full lg:w-[330px] animate-pulse">
-        <div class="w-full h-10 bg-gray-300 rounded"></div>
-        <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-center mt-[14px] space-x-[20px] animate-pulse">
-      <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
-      <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
-    </div>
-
-    <h1
-      class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[14px] animate-pulse bg-gray-300 w-40 h-6 rounded"
-    ></h1>
-
-    <div class="w-full mt-[21px] animate-pulse">
-      <div class="w-full h-10 bg-gray-300 rounded"></div>
-      <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
-    </div>
-
-    <div class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full animate-pulse">
-      <div class="w-full h-10 bg-gray-300 rounded"></div>
-      <div class="w-full h-10 bg-gray-300 rounded"></div>
     </div>
   </div>
-</div>
-
-      </div>
-    </div>
-  </div>
-
 </template>
-
-<style></style>

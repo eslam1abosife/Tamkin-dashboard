@@ -218,7 +218,9 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
           v-else-if="char.is_special_offer"
           class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center justify-center"
         >
-          <div class="text-[9px] leading-[20px]">{{ $t("Special Offer") }}</div>
+          <div class="text-[9px] leading-[20px] text-whiteTamkin">
+            {{ $t("Special Offer") }}
+          </div>
         </div>
       </div>
       <div

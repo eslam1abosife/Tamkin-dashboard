@@ -146,7 +146,7 @@ onMounted(async () => {
   playerStore.characters = characters.value;
   let activeChar = playerStore.backendActiveChar;
   playerStore.activeCharacter = activeChar;
-  
+
   // playerStore.changeCharacter(activeChar, true);
   if (
     marketStore.categoriesWithSkinItems &&
@@ -471,7 +471,7 @@ const settingStore = useSettingsStore();
 
         <div
           v-if="loadDefaultApp"
-          class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]"
+          class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px] dark:bg-tamkinDarkPrimary"
         ></div>
         <div
           v-else
