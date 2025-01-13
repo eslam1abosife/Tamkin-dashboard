@@ -538,12 +538,12 @@ const closeModalPackage = () => {
               alt=""
             />
           </div>
-          <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
+          <div class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center">
             {{ $t(addSiteStore.currentPackage.title) }}
           </div>
        
         </div>
-        <div class="font-[400] text-[16px] leading-[30px] text-black text-center ">
+        <div class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center ">
           {{ $t(addSiteStore.currentPackage.type) }}
         </div>
          </div>

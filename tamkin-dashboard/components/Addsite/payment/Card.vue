@@ -3,6 +3,8 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { usePaybyPaypalOrCard } from "@/composables/useAddSite";
 import { useCouponCode } from "@/composables/useMarket";
+import { useGetAppInvites } from "@/composables/useTeam";
+
 const {locale } = useI18n()
 const { payaddsite, messageData ,codeStatus} = usePaybyPaypalOrCard();
 const { ApplyCoupon } = useCouponCode();
@@ -18,6 +20,10 @@ const { fullUrl } = useFullUrl();
 const cardOptions = ref({
   disabled: true,
 });
+
+const {
+  getInviteApps
+} = useGetAppInvites();
 
 const {
   isOpen,
@@ -146,8 +152,9 @@ const continueCheckOut = async () => {
 
   // return navigateTo('cardModal','add-site','crypto')
   if (codeStatus.value === 200 && res !== "A 3-day trial package is configured in the app") {
+    const user = JSON.parse(localStorage.getItem("user"));
+    await getInviteApps({ agency: user.agency });
     urlPayment.value = res
-
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
     // addSiteStore.urls =[]
     // addSiteStore.promo = ""

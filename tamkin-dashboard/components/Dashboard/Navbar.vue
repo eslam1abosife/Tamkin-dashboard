@@ -1316,7 +1316,7 @@ watch(
         ]"
         class="lg:absolute dark:bg-p overflow-hidden w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
-        <div style="position: absolute" class="left-0 top-0">
+        <div class="left-0 top-0 absolute z-[-1] hidden dark:block">
           <img
             src="/public/assets/pngs/Rectangle 6165.png"
             alt="Sales Team"
