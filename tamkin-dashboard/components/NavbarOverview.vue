@@ -75,7 +75,7 @@ watch(
 
     <!-- Links -->
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative  z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/overview')"
     >
       {{ $t("Overview") }}

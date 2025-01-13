@@ -2,7 +2,7 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-const {locale} = useI18n()
+const { locale } = useI18n();
 
 const route = useRoute();
 
@@ -45,7 +45,7 @@ const sortedPlans = computed(() => {
 
   const specificTypePackages = addSiterStore.packages
     .filter((pkg) => pkg.type === desiredType)
-    
+
     .slice(0, 3);
 
   const otherPackages = addSiterStore.packages
@@ -67,18 +67,18 @@ const sortedPlans = computed(() => {
 // };
 const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
-  
+
   let pattern = path.startsWith(`/${locale.value}`) ? path : localePath(path);
 
-  if (!pattern.startsWith('/')) {
-    pattern = '/' + pattern;
+  if (!pattern.startsWith("/")) {
+    pattern = "/" + pattern;
   }
 
-  if (!pattern.includes('*')) {
+  if (!pattern.includes("*")) {
     return currentPath === pattern;
   }
 
-  const regexPattern = '^' + pattern.replace(/\*/g, '.*') + '$';
+  const regexPattern = "^" + pattern.replace(/\*/g, ".*") + "$";
   const regex = new RegExp(regexPattern);
 
   return regex.test(currentPath);
@@ -271,7 +271,7 @@ const isLinkActive = (path) => {
             <div
               v-for="n in 3"
               :key="n"
-              class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
+              class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
             >
               <div
                 class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
@@ -298,8 +298,11 @@ const isLinkActive = (path) => {
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
-                <div class="bg-gray-300 h-[20px] w-[200px] rounded" v-for="n in 6"></div>
-             
+                <div
+                  class="bg-gray-300 h-[20px] w-[200px] rounded"
+                  v-for="n in 6"
+                ></div>
+
                 <div
                   class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>

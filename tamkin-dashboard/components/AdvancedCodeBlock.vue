@@ -12,7 +12,7 @@
     <div class="mt-[18px] w-full  relative">
       <div class="mt-[20px] px-[15px] w-full  relative">
         <div class="animate-pulse bg-gray-200 dark:bg-gray-700 h-[56px] w-full rounded-md"></div>
-        <div class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px] w-2/4 h-[24px] rounded-[5px] bg-gray-200 animate-pulse"
+        <div class="text-left font-[500] dark:bg-p text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px] w-2/4 h-[24px] rounded-[5px] bg-gray-200 animate-pulse"
         
         </div>
       </div>
@@ -97,7 +97,7 @@
   <div class="mt-[36px] px-[15px] w-full min-h-[50px] relative ">
 
 
-<div v-if="loadingBlock" class="w-full h-[56px] rounded-[10px] bg-gray-300 animate-pulse">
+<div v-if="loadingBlock" class="w-full dark:bg-p h-[56px] rounded-[10px] bg-gray-300 animate-pulse">
 
 </div>
 

@@ -4,12 +4,12 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { helpers } from "@vuelidate/validators";
 import Multiselect from "vue-multiselect";
 import { useGetAppInvites } from "@/composables/useTeam";
-import {useGetTrafficByType} from '@/composables/useAddSite'
+import { useGetTrafficByType } from "@/composables/useAddSite";
 
-const {getTrafficType} = useGetTrafficByType()
+const { getTrafficType } = useGetTrafficByType();
 
-const localePath = useLocalePath()
-const route = useRoute()
+const localePath = useLocalePath();
+const route = useRoute();
 
 const isLinkActive = (path) => {
   if (process.client) {
@@ -22,13 +22,19 @@ import {
   useCheckifSiteblocked,
   useGetTraffic,
   useGetPriceByTraffic,
-  useGetPendingPackages
+  useGetPendingPackages,
 } from "@/composables/usePackages";
 import { useGetPackage } from "~/composables/useMySite";
 const { locale } = useI18n();
-const {getPendingPacks} =useGetPendingPackages()
-const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
-const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
+const { getPendingPacks } = useGetPendingPackages();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+const { checkifBlockedSite, messageStatus, codeStatus } =
+  useCheckifSiteblocked();
 const packagesStore = usePackgesStore();
 const { getPriceByTraffic } = useGetPriceByTraffic();
 const loadingPriceTraffic = ref(false);
@@ -36,12 +42,13 @@ function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
 const { getTraffic } = useGetTraffic();
-const pdappsarr = ref([])
-onBeforeMount(async ()=>{
-  const pdapps = await getPendingPacks()
-  pdappsarr.value = pdapps
-})
-const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})$/;
+const pdappsarr = ref([]);
+onBeforeMount(async () => {
+  const pdapps = await getPendingPacks();
+  pdappsarr.value = pdapps;
+});
+const domainRegex =
+  /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})$/;
 const listOfApps = computed(() => {
   const category = getCategory.value;
   const currentTypeTitle = packagesStore.currentType.title;
@@ -53,11 +60,15 @@ const listOfApps = computed(() => {
     // Return apps with non-null domains
     // return validApps.filter((app) => app.app_domain !== null && pdappsarr.value.filter(a=>a.app_name !== app.name).length);
     return validApps.filter(
-    (app) => 
-    app.app_domain !== null && 
-    app.package && app.package.length > 0 &&
-        !pdappsarr.value.some((a) => a.app_name === app.name && a.package_type === app.package[0].type)
-);
+      (app) =>
+        app.app_domain !== null &&
+        app.package &&
+        app.package.length > 0 &&
+        !pdappsarr.value.some(
+          (a) =>
+            a.app_name === app.name && a.package_type === app.package[0].type
+        )
+    );
   }
 
   if (category && category !== 0) {
@@ -69,19 +80,18 @@ const listOfApps = computed(() => {
     // Return apps with non-null domains for non-'Sign language' types
     // return validApps.filter((app) => app.app_domain !== null);
     return apps.value.filter(
-    (app) => 
-        app.app_domain !== null && 
-        app.package && app.package.length > 0 &&
-        !pdappsarr.value.some((t) => t.app_name === app.name && t.package_type === currentTypeTitle)
-
-);
-
+      (app) =>
+        app.app_domain !== null &&
+        app.package &&
+        app.package.length > 0 &&
+        !pdappsarr.value.some(
+          (t) => t.app_name === app.name && t.package_type === currentTypeTitle
+        )
+    );
   }
 
- 
   return [];
 });
-
 
 const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
@@ -98,32 +108,24 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
-  packagesStore.currentPackage.trial_days > 0  ? 0 : packagesStore.currentPackage.package_type !== 'Extra' ? 3 : 1
-   
+  packagesStore.currentPackage.trial_days > 0
+    ? 0
+    : packagesStore.currentPackage.package_type !== "Extra"
+    ? 3
+    : 1
 );
-
-
 
 const selectPackage = (plan: any) => {
   selectedPackage.value = plan;
 };
 
-
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const levelof = ref(packagesStore.traffic_level);
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
-  return url
-    .replace(/^(https?:\/\/)?(www\.)?/, "") 
-    .replace(/\/$/, ""); 
+  return url.replace(/^(https?:\/\/)?(www\.)?/, "").replace(/\/$/, "");
 };
 
 const canAddWebsite = async (website) => {
@@ -131,18 +133,29 @@ const canAddWebsite = async (website) => {
   let isWebsiteInApps = false;
   let isWebsiteInUrls = false;
 
-  if (Array.isArray(packagesStore.urls) && packagesStore.urls.length || Array.isArray(apps.value) && apps.value.length) {
-    isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
+  if (
+    (Array.isArray(packagesStore.urls) && packagesStore.urls.length) ||
+    (Array.isArray(apps.value) && apps.value.length)
+  ) {
+    isWebsiteInApps = apps.value.some(
+      (ap) => ap.app_domain === cleanedWebsiteUrl
+    );
 
-    isWebsiteInUrls = packagesStore.urls.length && packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
+    isWebsiteInUrls =
+      packagesStore.urls.length &&
+      packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
   }
 
-  const res = await checkifBlockedSite(cleanedWebsiteUrl); 
+  const res = await checkifBlockedSite(cleanedWebsiteUrl);
   const isBlocked = res.length > 0;
 
-  return !isWebsiteInApps && codeStatus.value === 200 && !isBlocked && !isWebsiteInUrls;
+  return (
+    !isWebsiteInApps &&
+    codeStatus.value === 200 &&
+    !isBlocked &&
+    !isWebsiteInUrls
+  );
 };
-
 
 const addWebsite = async () => {
   loadingAddWebsite.value = true;
@@ -154,7 +167,7 @@ const addWebsite = async () => {
       const cleanedWebsiteUrl = cleanWebsiteUrl(state.newWebsite);
       loadingByWebsite.value[cleanedWebsiteUrl] = true;
       // Push the new website to the store
-   
+
       packagesStore.urls.push({
         title: cleanedWebsiteUrl,
         url: cleanedWebsiteUrl,
@@ -165,21 +178,18 @@ const addWebsite = async () => {
             ? "Medium"
             : "Large",
       });
-if(packagesStore.currentType.title === 'Accessibility'){
-  
-      // Fetch price traffic for the newly added website
-      const res = await getPriceByTraffic(
-        [cleanedWebsiteUrl], // Pass the new website URL
-        packagesStore.currentPackage.name,
-        webs.value.map((we) => we.name) // Assuming you want to include these for the API call
-      );
+      if (packagesStore.currentType.title === "Accessibility") {
+        // Fetch price traffic for the newly added website
+        const res = await getPriceByTraffic(
+          [cleanedWebsiteUrl], // Pass the new website URL
+          packagesStore.currentPackage.name,
+          webs.value.map((we) => we.name) // Assuming you want to include these for the API call
+        );
 
-      // Update pricebytraffic with the new price information
-      pricebytraffic.value = [...pricebytraffic.value, ...res];
-      loadingByWebsite.value[cleanedWebsiteUrl] = false;
-
-}
-     
+        // Update pricebytraffic with the new price information
+        pricebytraffic.value = [...pricebytraffic.value, ...res];
+        loadingByWebsite.value[cleanedWebsiteUrl] = false;
+      }
     } else {
       websiteExist.value = true;
     }
@@ -187,11 +197,8 @@ if(packagesStore.currentType.title === 'Accessibility'){
     state.newWebsite = "";
     v$.value.$reset();
     loadingAddWebsite.value = false;
-
   }
 };
-
-
 
 // watch(levelof, (ov, nv) => {
 //   // if(levelof.value === 'Up to 100K page views/mo' && ){
@@ -202,7 +209,9 @@ const trafficTooHighApps = ref([]);
 const trafficTooHighUrls = ref([]);
 const removeWebsite = (website: any) => {
   // Remove the website from packagesStore.urls
-  packagesStore.urls = packagesStore.urls.filter((item: any) => item.title !== website);
+  packagesStore.urls = packagesStore.urls.filter(
+    (item: any) => item.title !== website
+  );
 
   // Remove the website from trafficTooHighUrls
   trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
@@ -210,14 +219,18 @@ const removeWebsite = (website: any) => {
   );
 
   // Remove the website from pricebytraffic
-  pricebytraffic.value = pricebytraffic.value.filter((item: any) => item.website !== website);
+  pricebytraffic.value = pricebytraffic.value.filter(
+    (item: any) => item.website !== website
+  );
 };
 
 const removeWebsiteFromSelectedApps = (website: any) => {
   // Remove the website from webs
   webs.value = webs.value.filter((item: any) => item.app_domain !== website);
 
-  pricebytraffic.value = pricebytraffic.value.filter((item: any) => item.website !== website);
+  pricebytraffic.value = pricebytraffic.value.filter(
+    (item: any) => item.website !== website
+  );
 
   // Uncomment if you need to remove from trafficTooHighApps as well
   // trafficTooHighApps.value = trafficTooHighApps.value.filter(
@@ -238,11 +251,11 @@ const calculateEstimatedPrice = computed(() => {
   //   if (levelof.value !== "Over 1M page views/mo") {
   //     // Handle the case for traffic below 1M
   //     return selectedPackage.value === 12
-  //       ? packagesStore.currentPackage.cost_yearly 
+  //       ? packagesStore.currentPackage.cost_yearly
   //       : selectedPackage.value === 3
-  //       ? packagesStore.currentPackage.cost_3_month 
+  //       ? packagesStore.currentPackage.cost_3_month
   //       : selectedPackage.value === 1
-  //       ? packagesStore.currentPackage.cost_month 
+  //       ? packagesStore.currentPackage.cost_month
   //       : packagesStore.currentPackage.trial_days > 0
   //       ? 0
   //       : 0;
@@ -284,21 +297,20 @@ const calculateEstimatedPrice = computed(() => {
   //   }
   // }
 });
-const loadingByWebsite = ref({}); 
+const loadingByWebsite = ref({});
 
 const calculatePrice = (website) => {
-  let currentWebsite ;
+  let currentWebsite;
   if (Array.isArray(packagesStore.urls)) {
-   currentWebsite = packagesStore.urls.find((item) => item.url === website);
-  // rest of your logic
-} else {
-  console.error("packagesStore.urls is not an array:", packagesStore.urls);
-}
+    currentWebsite = packagesStore.urls.find((item) => item.url === website);
+    // rest of your logic
+  } else {
+    console.error("packagesStore.urls is not an array:", packagesStore.urls);
+  }
   const currentApp = webs.value.find((item) => item.app_domain === website);
 
   // Check if either currentWebsite or currentApp exists and pricebytraffic has data
   if ((currentWebsite || currentApp) && pricebytraffic.value.length > 0) {
-    
     const targetDomain = currentWebsite?.url || currentApp?.app_domain; // Safely get the domain
     const priceInfo = pricebytraffic.value.find(
       (priceItem) => priceItem.website === targetDomain
@@ -322,19 +334,19 @@ const calculatePrice = (website) => {
   return 0; // Default return value if no valid website or pricing info is found
 };
 
-
 const calculateTotalPrice = () => {
   if (pricebytraffic.value.length > 0) {
     // Sum all prices in pricebytraffic
     const totalCost = pricebytraffic.value.reduce((sum, priceItem) => {
-      return sum + (
-        selectedPackage.value === 12
+      return (
+        sum +
+        (selectedPackage.value === 12
           ? priceItem.cost_year || 0 // Fallback to 0 if undefined
           : selectedPackage.value === 3
           ? priceItem.cost_3_month || 0 // Fallback to 0 if undefined
           : selectedPackage.value === 1
           ? priceItem.cost_month || 0 // Fallback to 0 if undefined
-          : 0 // Default case
+          : 0) // Default case
       );
     }, 0); // Start summing from 0
 
@@ -344,20 +356,14 @@ const calculateTotalPrice = () => {
   return 0; // Default return if no conditions are met
 };
 
-
-
-
-
 const packageTypeToSend = computed(() => {
-
-
   const isSignLanguage = packagesStore.currentType.title === "Sign language";
   const isAccessibility = packagesStore.currentType.title === "Accessibility";
   const isPackageType = packagesStore.currentPackage.package_type === "Package";
   const isAddonsType = packagesStore.currentPackage.package_type === "Addons";
-// alert(packagesStore.currentType.title)
+  // alert(packagesStore.currentType.title)
   if (isSignLanguage && !isPackageType) {
-    return getCategory.value === 0 ? 'Plugins' : getCategory.value;
+    return getCategory.value === 0 ? "Plugins" : getCategory.value;
   }
 
   if (isSignLanguage && isPackageType && getCategory.value) {
@@ -374,8 +380,14 @@ const packageTypeToSend = computed(() => {
 const appsrosend = computed(() => {
   if (webs.value.length) {
     return webs.value.map((website: any) => website.name);
-  } else if ((packagesStore.currentType.title === 'Sign language' || packagesStore.currentType.name === 'Sign language') && getCategory.value !== 0) {
-    return apps.value.filter(t => t.title === 'Internal Service').map(m => m.name);
+  } else if (
+    (packagesStore.currentType.title === "Sign language" ||
+      packagesStore.currentType.name === "Sign language") &&
+    getCategory.value !== 0
+  ) {
+    return apps.value
+      .filter((t) => t.title === "Internal Service")
+      .map((m) => m.name);
   } else {
     return [];
   }
@@ -394,11 +406,21 @@ const conintuePay = () => {
     apps: appsrosend.value,
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : calculateEstimatedPrice.value.toFixed(0),
-    packageExtraType: packageTypeToSend.value ,
-    packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
+    total:
+      packagesStore.currentType.title === "Accessibility"
+        ? calculateTotalPrice()
+        : calculateEstimatedPrice.value.toFixed(0),
+    packageExtraType: packageTypeToSend.value,
+    packageTrie:
+      packagesStore.currentType.title !== "Sign language"
+        ? packagesStore.traffic_level
+        : null,
   };
-  return navigateTo("add_package_modal_packages", "packages", "payment_methods_packages");
+  return navigateTo(
+    "add_package_modal_packages",
+    "packages",
+    "payment_methods_packages"
+  );
 };
 
 const totalCost = computed(() => {
@@ -407,52 +429,56 @@ const totalCost = computed(() => {
   const price = calculateEstimatedPrice.value || 0;
   if (packagesStore.currentPackage.package_type === "Package") {
     return price * (urlCount + webCount);
-  } 
-  
-  else {
+  } else {
     // alert(packagesStore.currentPackage.package_price_role[0].cost_month )
-    return (
-      packagesStore.currentPackage.package_price_role[0].cost_month 
-    );
+    return packagesStore.currentPackage.package_price_role[0].cost_month;
   }
 });
 
 const getCategory = computed(() => {
   if (
     packagesStore.currentType &&
-    (packagesStore.currentType.title === "Sign language"  || packagesStore.currentType.name === "Sign language" )&&
+    (packagesStore.currentType.title === "Sign language" ||
+      packagesStore.currentType.name === "Sign language") &&
     packagesStore.categories.length
   ) {
     const categoryItem = packagesStore.categories.find(
       (item: any) => item.name === packagesStore.currentPackage.category
     );
 
-    return categoryItem && categoryItem.title === "Plugins" ? 0 : categoryItem?.title || null;
+    return categoryItem && categoryItem.title === "Plugins"
+      ? 0
+      : categoryItem?.title || null;
   }
-  
+
   return null;
 });
 
-
 const geteFilterInfo = async () => {
   if (
-    packagesStore.currentType?.title === "Accessibility" && 
-    (webs.value.length > 0 || Array.isArray(packagesStore.urls) && packagesStore.urls.length > 0)
+    packagesStore.currentType?.title === "Accessibility" &&
+    (webs.value.length > 0 ||
+      (Array.isArray(packagesStore.urls) && packagesStore.urls.length > 0))
   ) {
     try {
       // Ensure packagesStore.urls is an array before mapping
-      const urls = Array.isArray(packagesStore.urls) ? packagesStore.urls.map((we) => we.url) : [];
+      const urls = Array.isArray(packagesStore.urls)
+        ? packagesStore.urls.map((we) => we.url)
+        : [];
       const appDomains = webs.value.map((we) => we.name);
 
       // Call the API with both arrays
-      const res = await getPriceByTraffic(urls, packagesStore.currentPackage.name, appDomains);
-      
+      const res = await getPriceByTraffic(
+        urls,
+        packagesStore.currentPackage.name,
+        appDomains
+      );
+
       // Assign the response to pricebytraffic
       pricebytraffic.value = res;
 
       // Uncomment if needed: Assign the title from the first result to levelof.value
       // levelof.value = res[0]?.title || '';
-
     } catch (error) {
       console.error("Error fetching price by traffic:", error);
     } finally {
@@ -461,9 +487,6 @@ const geteFilterInfo = async () => {
     }
   }
 };
-
-
-
 
 // const getPackageById = (id) => {
 //   const packageg = packagesStore.packages.find(
@@ -511,13 +534,9 @@ const geteFilterInfo = async () => {
 watch(
   () => selectedPackage.value,
   () => {
-
-    if(packagesStore.currentType.title === "Accessibility"){
-  geteFilterInfo();
-  
+    if (packagesStore.currentType.title === "Accessibility") {
+      geteFilterInfo();
     }
-
-
   }
 );
 // watchEffect(() => {
@@ -579,7 +598,7 @@ watch(
 //       trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
 //         (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
 //       );
-   
+
 //   }
 // });
 // Helper function to find the new websites added
@@ -590,57 +609,49 @@ const getNewWebsites = (oldWebs, newWebs) => {
   });
 };
 
-
-
-
-
-
-
 watch(
-  () => webs.value, 
+  () => webs.value,
   async (newWebs, oldWebs) => {
     const newWebsites = getNewWebsites(oldWebs, newWebs); // Get the websites that are newly added
 
     // Iterate over the new websites and make API calls for each
-if(packagesStore.currentType.title === 'Accessibility'){
-  for (let newWeb of newWebsites) {
-      // Set loading state to true for this website
-      loadingByWebsite.value[newWeb.app_domain] = true;
+    if (packagesStore.currentType.title === "Accessibility") {
+      for (let newWeb of newWebsites) {
+        // Set loading state to true for this website
+        loadingByWebsite.value[newWeb.app_domain] = true;
 
-      try {
-        // Make API call for the new website
-        const res = await getPriceByTraffic(
-         [], // The URLs in packagesStore
-          packagesStore.currentPackage.name,      // Current package name
-          [newWeb.name]                           // Single website name for this API call
-        );
+        try {
+          // Make API call for the new website
+          const res = await getPriceByTraffic(
+            [], // The URLs in packagesStore
+            packagesStore.currentPackage.name, // Current package name
+            [newWeb.name] // Single website name for this API call
+          );
 
-        // Update the price for this website in pricebytraffic
-        pricebytraffic.value = [...pricebytraffic.value, ...res];
+          // Update the price for this website in pricebytraffic
+          pricebytraffic.value = [...pricebytraffic.value, ...res];
+        } catch (error) {
+          console.error(
+            `Failed to fetch price for ${newWeb.app_domain}`,
+            error
+          );
+        }
 
-      } catch (error) {
-        console.error(`Failed to fetch price for ${newWeb.app_domain}`, error);
+        // Set loading state to false after API call is done
+        loadingByWebsite.value[newWeb.app_domain] = false;
       }
-
-      // Set loading state to false after API call is done
-      loadingByWebsite.value[newWeb.app_domain] = false;
     }
-}
   },
   { deep: true } // Deep watcher to track nested changes within webs
 );
 
-
-
-
 // onMounted(async () => {
-
 
 // if(packagesStore.currentPackage.type === 'Accessibility'){
 //   const typeg = packagesStore.types.find(t=>t.title === 'Accessibility')
 // packagesStore.currentType = typeg
 // }
-  
+
 //   if (!packagesStore.traffic_level) {
 //     const trafficLevels = packagesStore.getTraffiPrices("Package",'Accessibility');
 //     // alert(trafficLevels[0].name)
@@ -651,31 +662,32 @@ if(packagesStore.currentType.title === 'Accessibility'){
 //   await geteFilterInfo(levelof.value || packagesStore.traffic_level)
 //  }
 
-
- 
 // });
-onMounted(async ()=>{
-//  loadingPriceTraffic.value = true
-// packagesStore.urls = []
-packagesStore.packagePayload = {}
+onMounted(async () => {
+  //  loadingPriceTraffic.value = true
+  // packagesStore.urls = []
+  packagesStore.packagePayload = {};
 
-if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || packagesStore.urls.length)){
-  await geteFilterInfo()
+  if (
+    packagesStore.currentType.title === "Accessibility" &&
+    (webs.value.length || packagesStore.urls.length)
+  ) {
+    await geteFilterInfo();
 
-   await getTrafficType(packagesStore.currentPackage.name)
-  //  levelof.value = packagesStore.levelsTraffic[0]
-}
-const user = JSON.parse(localStorage.getItem('user'))
-await getInviteApps({ agency: user.agency })
+    await getTrafficType(packagesStore.currentPackage.name);
+    //  levelof.value = packagesStore.levelsTraffic[0]
+  }
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getInviteApps({ agency: user.agency });
 
-// if(){
+  // if(){
 
-// }
+  // }
 
-//  loadingPriceTraffic.value = false
+  //  loadingPriceTraffic.value = false
 
-// levelof.value = addSiteStore.currentLevel.name
-})
+  // levelof.value = addSiteStore.currentLevel.name
+});
 /**
  * Function to check if a given website already exists in our database.
  * It cleans the given website domain and then checks if the clean domain exists in the list of apps or urls.
@@ -685,8 +697,11 @@ const checkforexistingwebsite = () => {
   const cleanDomain = cleanWebsiteUrl(state.newWebsite);
 
   if (
-    apps.value.filter((website: any) => website.app_domain === cleanDomain).length > 0 ||
-    packagesStore.urls.length && packagesStore.urls.filter((website: any) => website.url === cleanDomain).length > 0
+    apps.value.filter((website: any) => website.app_domain === cleanDomain)
+      .length > 0 ||
+    (packagesStore.urls.length &&
+      packagesStore.urls.filter((website: any) => website.url === cleanDomain)
+        .length > 0)
   ) {
     websiteExist.value = true;
   } else {
@@ -704,43 +719,42 @@ const checkforexistingwebsite = () => {
 //   }
 // })
 const closeModalPackage = () => {
-  packagesStore.urls = []
-webs.value = [] 
-packagesStore.selectedPaymentMethod  = ''
+  packagesStore.urls = [];
+  webs.value = [];
+  packagesStore.selectedPaymentMethod = "";
   closeModal("add_package_modal_packages");
- 
 };
-const formattedEstimatedPrice = computed(()=> {
-    if (selectedPackage.value !== 0) {
-      return calculateEstimatedPrice.value
-        .toFixed(0)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+const formattedEstimatedPrice = computed(() => {
+  if (selectedPackage.value !== 0) {
+    return calculateEstimatedPrice.value
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  return 0;
+});
+// Computed property for the price when the package type IS 'Accessibility'
+const formattedAccessibilityPrice = (websiteDomain) => {
+  // loadingPricesAccess.value.push(websiteDomain)
+
+  if (
+    packagesStore.currentPackage.trial_days > 0 &&
+    selectedPackage.value === 0
+  ) {
     return 0;
-  })
-  // Computed property for the price when the package type IS 'Accessibility'
-  const formattedAccessibilityPrice = (websiteDomain)=> {
-    // loadingPricesAccess.value.push(websiteDomain)
+  } else {
+    // loadingPricesAccess.value.splice(websiteDomain)
 
-        if (packagesStore.currentPackage.trial_days > 0 && selectedPackage.value === 0) {
-          return 0;
-        } else {
-          // loadingPricesAccess.value.splice(websiteDomain)
-
-           return calculatePrice(websiteDomain)
-            .toFixed(0)
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-        }
-    
-        // 
-    
-  
+    return calculatePrice(websiteDomain)
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  const formattedTotal = computed(() => {
+  //
+};
+
+const formattedTotal = computed(() => {
   const formatNumber = (num) =>
     num
       .toFixed(0)
@@ -762,11 +776,13 @@ const formattedEstimatedPrice = computed(()=> {
   const totalForWebs = packagePrice * webs.value.length;
   const totalForUrls = packagePrice * packagesStore.urls.length;
 
-  if(getCategory.value !== 0 && packagesStore.currentType.title === 'Sign language'){
+  if (
+    getCategory.value !== 0 &&
+    packagesStore.currentType.title === "Sign language"
+  ) {
     return packagePrice * 1;
-  }else {
+  } else {
     return formatNumber(totalForWebs + totalForUrls);
-
   }
 });
 </script>
@@ -775,7 +791,7 @@ const formattedEstimatedPrice = computed(()=> {
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-  <div
+    <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalPackage"
@@ -795,7 +811,9 @@ const formattedEstimatedPrice = computed(()=> {
       </svg>
     </div>
     <div class="w-full h-screen">
-      <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden">
+      <div
+        class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
+      >
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
         >
@@ -806,7 +824,10 @@ const formattedEstimatedPrice = computed(()=> {
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <div
-            v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Package'"
+            v-if="
+              !packagesStore.openedCurrentSite &&
+              packagesStore.currentPackage.package_type === 'Package'
+            "
             class="pt-[24px] flex items-center justify-center rtl:space-x-reverse space-x-[18px] w-full"
           >
             <div>
@@ -816,29 +837,34 @@ const formattedEstimatedPrice = computed(()=> {
                 alt=""
               />
             </div>
-            <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
+            <div
+              class="font-[600] text-[16px] leading-[30px] text-black text-center"
+            >
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
             <div
               class="font-[400] text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
             >
               {{
-                packagesStore.currentType.title + "" + packagesStore.currentType.title !==
+                packagesStore.currentType.title +
+                  "" +
+                  packagesStore.currentType.title !==
                 "Sign language"
                   ? $t(packagesStore.currentType.title + " " + "Package")
                   : ""
               }}
               {{
                 packagesStore.currentType.title === "Sign language"
-                  ? "- " + (getCategory === 0 ? $t('Plugins') : $t(`${getCategory}`))
+                  ? "- " +
+                    (getCategory === 0 ? $t("Plugins") : $t(`${getCategory}`))
                   : ""
               }}
             </div>
           </div>
           <div
             v-if="
-             packagesStore.currentPackage.package_type === 'Addons' ||
-             packagesStore.currentPackage.package_type === 'Extra'
+              packagesStore.currentPackage.package_type === 'Addons' ||
+              packagesStore.currentPackage.package_type === 'Extra'
             "
             class="h-[61px] w-full border-b mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF]"
           >
@@ -855,7 +881,7 @@ const formattedEstimatedPrice = computed(()=> {
 
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if=" packagesStore.currentPackage.package_type === 'Addons'"
+              v-if="packagesStore.currentPackage.package_type === 'Addons'"
             >
               {{ $t(packagesStore.currentType.title) }} -
               <!-- {{ $t(packagesStore.currentPackage.package_type) }}  -->
@@ -867,7 +893,7 @@ const formattedEstimatedPrice = computed(()=> {
             </div>
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if=" packagesStore.currentPackage.package_type === 'Extra'"
+              v-if="packagesStore.currentPackage.package_type === 'Extra'"
             >
               {{ $t(packagesStore.currentPackage.sub_title) }}
             </div>
@@ -875,18 +901,18 @@ const formattedEstimatedPrice = computed(()=> {
           <div
             class="flex items-center justify-center gap-4"
             v-if="
-               packagesStore.currentPackage.package_type === 'Addons' ||
-             packagesStore.currentPackage.package_type === 'Package'
+              packagesStore.currentPackage.package_type === 'Addons' ||
+              packagesStore.currentPackage.package_type === 'Package'
             "
           >
             <div
-              v-if="
-                packagesStore.currentPackage.trial_days > 0
-             
-              "
-                 class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-              :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
+              v-if="packagesStore.currentPackage.trial_days > 0"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 0
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
             >
               <div class="flex items-center justify-center w-full">
                 <div class="order-2 w-3/4 h-full">
@@ -912,7 +938,10 @@ const formattedEstimatedPrice = computed(()=> {
                     :checked="selectedPackage === 0"
                     @click.stop="selectPackage(0)"
                   />
-                  <label for="free_trial" class="flex items-center cursor-pointer">
+                  <label
+                    for="free_trial"
+                    class="flex items-center cursor-pointer"
+                  >
                     <span class="radio-tamkin"></span>
                   </label>
                 </div>
@@ -920,11 +949,15 @@ const formattedEstimatedPrice = computed(()=> {
             </div>
             <div
               v-if="
-                packagesStore.currentWebsite.billing_duration !== 'monthly' && packagesStore.currentPackage.trial_days === 0
+                packagesStore.currentWebsite.billing_duration !== 'monthly' &&
+                packagesStore.currentPackage.trial_days === 0
               "
-              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
-              :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 1
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
             >
               <div class="flex items-center justify-center w-full">
                 <div class="order-2 w-3/4 h-full">
@@ -938,9 +971,11 @@ const formattedEstimatedPrice = computed(()=> {
                         .discount_month !== 0
                     "
                   >
-                    <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                    <span
+                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
                       >{{
-                        packagesStore.currentPackage.package_price_role[0].discount_month
+                        packagesStore.currentPackage.package_price_role[0]
+                          .discount_month
                       }}%
                     </span>
                     <span class="text-[#536174] dark:text-whiteTamkin/80">{{
@@ -965,18 +1000,26 @@ const formattedEstimatedPrice = computed(()=> {
             </div>
             <div
               v-if="
-           ( 
-                packagesStore.openedCurrentSite.billing_duration !== '3-monthly' ) || 
-                packagesStore.currentPackage.trial_days === 0
+                packagesStore.openedCurrentSite.billing_duration !==
+                  '3-monthly' || packagesStore.currentPackage.trial_days === 0
               "
-               class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-              :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 3
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
             >
               <div class="flex items-center justify-center w-full">
                 <div class="order-2 w-3/4 h-full">
                   <div
-                    style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                    style="
+                      background: linear-gradient(
+                        180deg,
+                        #2dada3 0%,
+                        #71dad2 100%
+                      );
+                    "
                     class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                   >
                     <span>{{ $t("Popular") }}</span>
@@ -991,7 +1034,8 @@ const formattedEstimatedPrice = computed(()=> {
                         .discount_3_month !== 0
                     "
                   >
-                    <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                    <span
+                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
                       >{{
                         packagesStore.currentPackage.package_price_role[0]
                           .discount_3_month
@@ -1019,19 +1063,19 @@ const formattedEstimatedPrice = computed(()=> {
             </div>
             <div
               v-if="
-             
                 packagesStore.openedCurrentSite.billing_duration !== 'yearly'
               "
-                     class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               :class="[
-                selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
+                selectedPackage === 12
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
               ]"
             >
               <div class="flex items-center justify-center w-full">
                 <div class="order-2 w-3/4 h-full">
                   <div
-                    class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                    class="absolute text-[13px] dark:text-whiteTamkin bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                   >
                     <span>{{ $t("Best Value") }}</span>
                   </div>
@@ -1045,7 +1089,8 @@ const formattedEstimatedPrice = computed(()=> {
                         .discount_yearly !== 0
                     "
                   >
-                    <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                    <span
+                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
                       >{{
                         packagesStore.currentPackage.package_price_role[0]
                           .discount_yearly
@@ -1096,7 +1141,8 @@ const formattedEstimatedPrice = computed(()=> {
                 class="multiselect__single !font-[500] !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
                 v-if="values.length"
                 v-show="!isOpen"
-                >{{ values.length }} {{ values.length > 1 ? $t("Sites") : $t("Site") }}
+                >{{ values.length }}
+                {{ values.length > 1 ? $t("Sites") : $t("Site") }}
                 {{ $t("Selected") }}</span
               >
 
@@ -1108,35 +1154,32 @@ const formattedEstimatedPrice = computed(()=> {
             </template>
             <template #option="props">
               <div class="option__desc">
-                <span class="option__title">{{
-              
-                   props.option.app_domain
-                }}</span>
+                <span class="option__title">{{ props.option.app_domain }}</span>
               </div>
             </template>
           </multiselect>
 
           <input
-          v-if="getCategory !== 0 && packagesStore.currentType.title === 'Sign language'"
-          :disabled="true"
+            v-if="
+              getCategory !== 0 &&
+              packagesStore.currentType.title === 'Sign language'
+            "
+            :disabled="true"
             type="text"
             placeholder=""
             id="newWebsite"
             class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px] mt-[24px]"
-          :value="$t('Internal Service')"
-           
+            :value="$t('Internal Service')"
           />
-         
+
           <div
-          v-if="
-     
-          ( 
-            packagesStore.currentPackage.package_type !== 'Extra' &&
-            packagesStore.currentPackage.package_type !== 'Addons' &&
-            packagesStore.currentType.title === 'Sign language' &&
-            packagesStore.currentTab.title === 'Plugins') ||
-          (packagesStore.currentType.title === 'Accessibility')
-        "
+            v-if="
+              (packagesStore.currentPackage.package_type !== 'Extra' &&
+                packagesStore.currentPackage.package_type !== 'Addons' &&
+                packagesStore.currentType.title === 'Sign language' &&
+                packagesStore.currentTab.title === 'Plugins') ||
+              packagesStore.currentType.title === 'Accessibility'
+            "
             class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
@@ -1147,7 +1190,7 @@ const formattedEstimatedPrice = computed(()=> {
                 class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
                 v-model="v$.newWebsite.$model"
                 @input="checkforexistingwebsite"
-                 :disabled=" loadingAddWebsite"
+                :disabled="loadingAddWebsite"
                 :class="{
                   input_error:
                     (v$.newWebsite.$error &&
@@ -1160,7 +1203,9 @@ const formattedEstimatedPrice = computed(()=> {
                         v$.newWebsite.isDomain.$invalid)) ||
                     websiteExist,
                   input_success:
-                    !v$.newWebsite.$error && !v$.newWebsite.$invalid && !websiteExist,
+                    !v$.newWebsite.$error &&
+                    !v$.newWebsite.$invalid &&
+                    !websiteExist,
                 }"
               />
               <label
@@ -1187,7 +1232,8 @@ const formattedEstimatedPrice = computed(()=> {
                 <p class="error_message">
                   <span
                     v-if="
-                      (v$.newWebsite.$error && v$.newWebsite.required.$invalid) ||
+                      (v$.newWebsite.$error &&
+                        v$.newWebsite.required.$invalid) ||
                       (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid)
                     "
                     >{{ $t("Website is not valid") }}</span
@@ -1264,7 +1310,9 @@ const formattedEstimatedPrice = computed(()=> {
               class="mt-[24px]"
             /> -->
 
-          <table class="min-w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]">
+          <table
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]"
+          >
             <thead>
               <tr>
                 <th
@@ -1305,8 +1353,9 @@ const formattedEstimatedPrice = computed(()=> {
                       <div>{{ website.title }}</div>
                       <span
                         v-if="
-                          trafficTooHighUrls.some((w) => w.title === website.title) &&
-                          levelof !== 'Over 1M page views/mo'
+                          trafficTooHighUrls.some(
+                            (w) => w.title === website.title
+                          ) && levelof !== 'Over 1M page views/mo'
                         "
                         class="tooltip packages"
                         :data-tamkin="
@@ -1331,7 +1380,10 @@ const formattedEstimatedPrice = computed(()=> {
                       </span>
                     </div>
                   </div>
-                  <div class="cursor-pointer" @click="removeWebsite(website.title)">
+                  <div
+                    class="cursor-pointer"
+                    @click="removeWebsite(website.title)"
+                  >
                     <svg
                       width="18"
                       height="17"
@@ -1351,111 +1403,114 @@ const formattedEstimatedPrice = computed(()=> {
                   class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{
-                    packagesStore.currentPackage.package_type === "Package" && packagesStore.currentPackage.type === 'Accessibility'
-                       ? $t(`${website.traffic}`)
-                       : $t("Not applicable")
-                   }}
-          
-              
+                    packagesStore.currentPackage.package_type === "Package" &&
+                    packagesStore.currentPackage.type === "Accessibility"
+                      ? $t(`${website.traffic}`)
+                      : $t("Not applicable")
+                  }}
                 </td>
 
                 <td
-                v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentPackage.type !== 'Accessibility'"
-                class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-                <div class="flex items-center justify-center">
-                  <div v-if="!loadingPriceTraffic">
-                    {{ formattedEstimatedPrice }}
-                  </div>
-              
-                  <svg
-                    v-if="loadingPriceTraffic"
-                    class="animate-spin h-5 w-5 text-tamkin"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                </div>
-              </td>
-              
-         
-              
-              <td
-              v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentPackage.type === 'Accessibility'"
-              class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-            >
-              <div class="flex items-center justify-center">
-                <div v-if="!loadingByWebsite[website.url]">
-                  ${{ formattedAccessibilityPrice(website.url) }}
-                </div>
-            
-                <svg
-                  v-else
-                  class="animate-spin h-5 w-5 text-tamkin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentPackage.type !== 'Accessibility'
+                  "
+                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </td>
-            <td
-            v-if="packagesStore.currentPackage.package_type === 'Addons'"
-            class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
-          >
-            ${{
-              (() => {
-                const formatNumber = (num) =>
-                  Math.floor(num)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingPriceTraffic">
+                      {{ formattedEstimatedPrice }}
+                    </div>
 
-                const getPackagePrice = () => {
-                  if (selectedPackage === 1) {
-                    return packagesStore.currentPackage.package_price_role[0]
-                      .cost_month;
-                  } else if (selectedPackage === 3) {
-                    return packagesStore.currentPackage.package_price_role[0]
-                      .cost_3_month;
-                  } else {
-                    return packagesStore.currentPackage.package_price_role[0]
-                      .cost_yearly;
-                  }
-                };
+                    <svg
+                      v-if="loadingPriceTraffic"
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                </td>
 
-                const packagePrice = getPackagePrice();
+                <td
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentPackage.type === 'Accessibility'
+                  "
+                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingByWebsite[website.url]">
+                      ${{ formattedAccessibilityPrice(website.url) }}
+                    </div>
 
-                return formatNumber(packagePrice);
-              })()
-            }}
-          </td>
+                    <svg
+                      v-else
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                </td>
+                <td
+                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
+                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  ${{
+                    (() => {
+                      const formatNumber = (num) =>
+                        Math.floor(num)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                      const getPackagePrice = () => {
+                        if (selectedPackage === 1) {
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_month;
+                        } else if (selectedPackage === 3) {
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_3_month;
+                        } else {
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_yearly;
+                        }
+                      };
+
+                      const packagePrice = getPackagePrice();
+
+                      return formatNumber(packagePrice);
+                    })()
+                  }}
+                </td>
               </tr>
               <tr
                 v-for="(website, index) in webs"
@@ -1543,73 +1598,78 @@ const formattedEstimatedPrice = computed(()=> {
                       : $t("Large")
                   }}
                 </td>
-                
+
                 <td
-                v-if="packagesStore.currentPackage.package_type === 'Package' && 
-                packagesStore.currentType.title !== 'Accessibility'"
-                class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-                <div class="flex items-center justify-center">
-                  <div v-if="!loadingPriceTraffic">
-                    ${{ formattedEstimatedPrice }}
-                  </div>
-              
-                  <svg
-                    v-if="loadingPriceTraffic"
-                    class="animate-spin h-5 w-5 text-tamkin"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                </div>
-              </td>
-              <td
-              v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentType.title === 'Accessibility'"
-              class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-            >
-              <div class="flex items-center justify-center">
-                <div v-if="!loadingByWebsite[website.app_domain]">
-                  ${{ formattedAccessibilityPrice(website.app_domain) }}
-                </div>
-            
-                <svg
-                  v-else
-                  class="animate-spin h-5 w-5 text-tamkin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentType.title !== 'Accessibility'
+                  "
+                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </td>
-              
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingPriceTraffic">
+                      ${{ formattedEstimatedPrice }}
+                    </div>
+
+                    <svg
+                      v-if="loadingPriceTraffic"
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                </td>
+                <td
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentType.title === 'Accessibility'
+                  "
+                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingByWebsite[website.app_domain]">
+                      ${{ formattedAccessibilityPrice(website.app_domain) }}
+                    </div>
+
+                    <svg
+                      v-else
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                </td>
+
                 <!-- <td
                 v-if="
              
@@ -1645,14 +1705,14 @@ const formattedEstimatedPrice = computed(()=> {
 
                       const getPackagePrice = () => {
                         if (selectedPackage === 1) {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_month;
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_month;
                         } else if (selectedPackage === 3) {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_3_month;
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_3_month;
                         } else {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_yearly;
+                          return packagesStore.currentPackage
+                            .package_price_role[0].cost_yearly;
                         }
                       };
 
@@ -1684,61 +1744,63 @@ const formattedEstimatedPrice = computed(()=> {
                 </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="packagesStore.currentPackage.package_type === 'Package'
-                   && packagesStore.currentType.title !== 'Accessibility'"
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentType.title !== 'Accessibility'
+                  "
                 >
-                ${{
-                  
-
-                  packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
-  ? "0"
-  : getCategory !== 0 ? calculateEstimatedPrice.toFixed(0) .toString()
-  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") :(
-    (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length)) .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  )
-  .toString()
-  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-                }}
-                
-                
+                  ${{
+                    packagesStore.currentPackage.trial_days > 0 &&
+                    selectedPackage === 0
+                      ? "0"
+                      : getCategory !== 0
+                      ? calculateEstimatedPrice
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : (
+                          calculateEstimatedPrice.toFixed(0) *
+                          (webs.length + packagesStore.urls.length)
+                        )
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
                 </td>
-                
+
                 <td
-                class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                v-if="packagesStore.currentPackage.package_type === 'Package' && 
-                packagesStore.currentType.title === 'Accessibility'"
-              >
-              ${{
-                
-
-                packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
-? "0"
-: 
-    calculateTotalPrice() 
-  
-  .toString()
-  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-              }}
-              
-              
-              </td>
+                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="
+                    packagesStore.currentPackage.package_type === 'Package' &&
+                    packagesStore.currentType.title === 'Accessibility'
+                  "
+                >
+                  ${{
+                    packagesStore.currentPackage.trial_days > 0 &&
+                    selectedPackage === 0
+                      ? "0"
+                      : calculateTotalPrice()
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
+                </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
                   v-if="packagesStore.currentPackage.package_type === 'Addons'"
                 >
-                  ${{
-                    formattedTotal
-                  }}
+                  ${{ formattedTotal }}
                 </td>
                 <td
-                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
+                  v-if="
+                    !packagesStore.openedCurrentSite &&
+                    packagesStore.currentPackage.package_type === 'Extra'
+                  "
                   class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   ${{
-                    packagesStore.currentPackage.package_price_role[0].cost_month
+                    packagesStore.currentPackage.package_price_role[0]
+                      .cost_month
                   }}
                 </td>
               </tr>
@@ -1750,11 +1812,13 @@ const formattedEstimatedPrice = computed(()=> {
               class="btn-dashboard hover_tamkin"
               @click="conintuePay"
               :disabled="
-              (!getCategory && packagesStore.urls.length === 0 && webs.length === 0) ||
-              websiteExist ||
-              (packagesStore.currentType.title === 'Accessibility' && Object.values(loadingByWebsite).includes(true))
-            "
-            
+                (!getCategory &&
+                  packagesStore.urls.length === 0 &&
+                  webs.length === 0) ||
+                websiteExist ||
+                (packagesStore.currentType.title === 'Accessibility' &&
+                  Object.values(loadingByWebsite).includes(true))
+              "
             >
               {{ $t("Continue to Payment") }}
             </button>

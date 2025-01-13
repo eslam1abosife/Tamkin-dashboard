@@ -249,43 +249,55 @@ const options = ref({
     >
       <div class="flex items-center justify-between space-x-[40px]">
         <div
-          class="h-[92px] w-full rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
+          class="h-[92px] w-full rounded-[23px] dark:bg-p dark:text-whiteTamkin bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#71DAD2] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div
+              class="text-[12px] font-[400] dark:text-whiteTamkin text-[#787486] leading-[18px]"
+            >
               Total
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div
+            class="text-[24px] leading-[16px] font-[600] dark:text-whiteTamkin text-darkGrey"
+          >
             1000
           </div>
         </div>
 
         <div
-          class="h-[92px] w-full rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
+          class="h-[92px] w-full rounded-[23px] dark:bg-p bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#FFBA6B] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div
+              class="text-[12px] font-[400] dark:text-whiteTamkin text-[#787486] leading-[18px]"
+            >
               Used
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div
+            class="text-[24px] leading-[16px] font-[600] dark:text-whiteTamkin text-darkGrey"
+          >
             1000
           </div>
         </div>
 
         <div
-          class="h-[92px] w-full rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
+          class="h-[92px] w-full rounded-[23px] dark:bg-p bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#A35EFE] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div
+              class="text-[12px] font-[400] dark:text-whiteTamkin text-[#787486] leading-[18px]"
+            >
               Remaining
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div
+            class="text-[24px] leading-[16px] dark:text-whiteTamkin font-[600] text-darkGrey"
+          >
             1000
           </div>
         </div>
@@ -294,18 +306,20 @@ const options = ref({
       <div class="flex items-center justify-between w-full mt-[66px]">
         <div class="grid grid-cols-12 w-full">
           <div
-            class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
+            class="rounded-[10px] col-span-12 dark:bg-tamkinDarkPrimary lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
           >
             <div
-              class="flex justify-between bg-[#F7FAFD] rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+              class="flex justify-between dark:bg-p bg-[#F7FAFD] rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[14px] leading-[20px] dark:text-whiteTamkin font-[500] text-darkGrey"
                 >
                   Translated content
                 </h2>
-                <h1 class="text-[20px] font-[600] text-black leading-[30px]">
+                <h1
+                  class="text-[20px] font-[600] dark:text-whiteTamkin text-black leading-[30px]"
+                >
                   2254 words
                 </h1>
               </div>
@@ -323,7 +337,7 @@ const options = ref({
             class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
           >
             <div
-              class="flex justify-between bg-[#F7FAFD] rounded-[10px] items-center mb-4 ipad-max:w-full relative h-[108px] px-[15px]"
+              class="flex dark:bg-p justify-between bg-[#F7FAFD] rounded-[10px] items-center mb-4 ipad-max:w-full relative h-[108px] px-[15px]"
             >
               <div class="space-y-[16px]">
                 <h2
@@ -331,7 +345,9 @@ const options = ref({
                 >
                   Untranslated content
                 </h2>
-                <h1 class="text-[20px] font-[600] text-black leading-[30px]">
+                <h1
+                  class="text-[20px] font-[600] dark:text-whiteTamkin text-black leading-[30px]"
+                >
                   2254 words
                 </h1>
               </div>
@@ -351,7 +367,7 @@ const options = ref({
           <div>
             <Circularprogressbar svg-class="w-[250px] h-[250px] mt-[-60px]" />
           </div>
-          <div class="text-[18px] font-[500] text-black">
+          <div class="text-[18px] dark:text-whiteTamkin font-[500] text-black">
             Translation accuracy
           </div>
         </div>

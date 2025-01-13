@@ -92,7 +92,7 @@ const isLinkActive = (path) => {
     </h1>
     <div
       v-else
-      class="h-[20px] bg-gray-200 w-[150px]"
+      class="h-[20px] bg-gray-200 w-[150px] dark:bg-p"
       :class="
         loadApp &&
         (isLinkActive('/sign-language/overview') ||
@@ -111,7 +111,7 @@ const isLinkActive = (path) => {
     >
       {{ sectionSubTitle }}
     </h2>
-    <div v-else class="h-[20px] bg-gray-200 w-[300px]"></div>
+    <div v-else class="h-[20px] bg-gray-200 w-[300px] dark:bg-p"></div>
   </div>
 
   <div
@@ -132,18 +132,20 @@ const isLinkActive = (path) => {
               class="flex items-center justify-center w-[50px] h-[50px] rounded-full"
             >
               <span v-if="settingsStore.appHeader">
-                  <img
-                    v-if="settingsStore.appHeader && settingsStore.appHeader?.favicon"
-                    :src="settingsStore.appHeader.favicon"
-                    alt="Logo"
-                    class="w-[40px] h-[40px] rounded-full"
-                  />
-                  <div
-                    v-else-if="!settingsStore.appHeader?.favicon"
-                    class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-                  >
-                    {{ getAvatarLetters(settingsStore.appHeader?.title) }}
-                  </div>
+                <img
+                  v-if="
+                    settingsStore.appHeader && settingsStore.appHeader?.favicon
+                  "
+                  :src="settingsStore.appHeader.favicon"
+                  alt="Logo"
+                  class="w-[40px] h-[40px] rounded-full"
+                />
+                <div
+                  v-else-if="!settingsStore.appHeader?.favicon"
+                  class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+                >
+                  {{ getAvatarLetters(settingsStore.appHeader?.title) }}
+                </div>
               </span>
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
@@ -157,12 +159,12 @@ const isLinkActive = (path) => {
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
-                <span v-if="settingsStore.appHeader">
-                  {{ $t(settingsStore.appHeader.title) }}
-                </span>
-                <span v-else>
-                  {{ $t('No Site Selected!') }}
-                </span>
+                  <span v-if="settingsStore.appHeader">
+                    {{ $t(settingsStore.appHeader.title) }}
+                  </span>
+                  <span v-else>
+                    {{ $t("No Site Selected!") }}
+                  </span>
                 </h2>
               </div>
               <div v-if="settingsStore.appHeader">
@@ -172,11 +174,7 @@ const isLinkActive = (path) => {
                       ? formatToUrl(settingsStore.appHeader.app_domain)
                       : '#'
                   "
-                  :target="
-                    !settingsStore.appHeader
-                      ? ''
-                      : '_blank'
-                  "
+                  :target="!settingsStore.appHeader ? '' : '_blank'"
                   class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                 >
                   {{ $t("Visit Site") }}

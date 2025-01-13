@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 const collapseStore = useCollapseStore();
 const statsStore = useStatsStore();
-const navStore = useNavbarStore()
-const runtimeob = useRuntimeConfig()
+const navStore = useNavbarStore();
+const runtimeob = useRuntimeConfig();
 </script>
 
 <template>
-
-    <div
-    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
-     px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
@@ -165,11 +162,23 @@ const runtimeob = useRuntimeConfig()
     </div>
 
     <div
-      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto relative "
-      :class="[navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0 ? 'h-[400px]':'']"
+      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto relative"
+      :class="[
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Accessibility'
+        ).length === 0
+          ? 'h-[400px]'
+          : '',
+      ]"
       v-if="!collapseStore.collapses.includes('usage_stats_card')"
     >
-    <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+      <MessagesLockedFeature
+        v-if="
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Accessibility'
+          ).length === 0
+        "
+      />
 
       <table class="min-w-full leading-normal">
         <thead>
@@ -187,19 +196,48 @@ const runtimeob = useRuntimeConfig()
             <th
               class="py-3 border-b-2 border-gray-200 dark:border-[#333333] dark:text-whiteTamkin rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-          {{ $t('Percentage') }}
+              {{ $t("Percentage") }}
             </th>
           </tr>
         </thead>
-        <tbody v-if="statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0">
-          <tr class="h-[56px] bg-gray-200 w-full animate-pulse" v-for="i in 6" :key="i">
-            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
-            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
-            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
+        <tbody
+          v-if="
+            statsStore.loadingStats &&
+            navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Accessibility'
+            ).length > 0
+          "
+        >
+          <tr
+            class="h-[56px] bg-gray-200 w-full animate-pulse dark:bg-tamkinDarkPrimary"
+            v-for="i in 6"
+            :key="i"
+          >
+            <td
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
+            ></td>
+            <td
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
+            ></td>
+            <td
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
+            ></td>
           </tr>
         </tbody>
-        <tbody v-else-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0 && !statsStore.loadingStats ">
-          <tr class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary h-[56px]" v-for="statitem in  statsStore.functionStats.sort((a, b) => a.sort - b.sort)" :key="statitem.name">
+        <tbody
+          v-else-if="
+            navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Accessibility'
+            ).length > 0 && !statsStore.loadingStats
+          "
+        >
+          <tr
+            class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary h-[56px]"
+            v-for="statitem in statsStore.functionStats.sort(
+              (a, b) => a.sort - b.sort
+            )"
+            :key="statitem.name"
+          >
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
@@ -214,7 +252,7 @@ const runtimeob = useRuntimeConfig()
                   <p
                     class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
                   >
-                  {{statitem.label}}
+                    {{ statitem.label }}
                   </p>
                 </div>
               </div>
@@ -223,7 +261,7 @@ const runtimeob = useRuntimeConfig()
               <p
                 class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
               >
-                {{statitem.time_enabled}}
+                {{ statitem.time_enabled }}
               </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
@@ -258,44 +296,21 @@ const runtimeob = useRuntimeConfig()
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                   :style="`stroke-dasharray: ${statitem.percentage.toFixed(0)},100`"
+                    :style="`stroke-dasharray: ${statitem.percentage.toFixed(
+                      0
+                    )},100`"
                   ></circle>
                 </svg>
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                 {{ statitem.percentage.toFixed(0)}}%
+                  {{ statitem.percentage.toFixed(0) }}%
                 </div>
               </div>
             </td>
           </tr>
-
-      
-
-
-
-  
- 
-
-        
-
-       
-
-    
-
-
-    
-   
-
-
-
-
-        
-   
-
         </tbody>
       </table>
     </div>
   </div>
-
 </template>

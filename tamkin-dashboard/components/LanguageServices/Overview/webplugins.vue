@@ -282,7 +282,7 @@ onBeforeMount(async () => {
             {{ $t('Analyze the uses of Web Plugins and the number of times Plugins are used') }}
           </p>
         </div>
-        {{ statsStore.chartsData }}
+        <!-- {{ statsStore.chartsData }} -->
       </div>
       <div v-if="!collapseStore.collapses.includes('webplugins_chart_card')"
         class="container_chart mt-[30px] h-[300px] w-full relative  ">

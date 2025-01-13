@@ -155,6 +155,13 @@ export const usePlayerStore = defineStore("player", {
       if (marketStore.selectedForPreview?.[0]?.allowed_skins_list) {
         marketStore.resetAll();
       }
+      
+      if((skin_item.is_package || skin_item.is_purchased) && !skin_item.is_weared) {
+        marketStore.showSaveFooter = true;
+      } else {
+        marketStore.showSaveFooter = false;
+      }
+
       this.showClothes(skin_item);
 
       // if (this.isClothesChanged) {
@@ -164,11 +171,7 @@ export const usePlayerStore = defineStore("player", {
       //   marketStore.showSaveFooter = false;
       //   // marketStore.resetAll();
       // }
-      if((skin_item.is_package || skin_item.is_purchased) && !skin_item.is_weared) {
-        marketStore.showSaveFooter = true;
-      } else {
-        marketStore.showSaveFooter = false;
-      }
+      
     },
     WearAllisWearedSkins() {
       this.hideAllClothes();
@@ -196,6 +199,9 @@ export const usePlayerStore = defineStore("player", {
       this.userSelectedClothes[this.activeCharacter.name] = {};
     },
     showClothes(skin_item) {
+      console.log(skin_item)
+      const marketStore = useMarketStore();
+
       let category = skin_item.category;
       let outfit_skins = skin_item.outfit_skins_list;
 
@@ -220,6 +226,7 @@ export const usePlayerStore = defineStore("player", {
               1
             );
             this.unwear(skin_item);
+            marketStore.showSaveFooter = true;
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
         } else {
@@ -282,9 +289,7 @@ export const usePlayerStore = defineStore("player", {
         this.currentBackground.isImage = false;
         this.currentBackground.colorOrUrl = "";
       }
-
       this.activeCharacter = character;
-
       setTimeout(async () => {
         await window.changeCharacter(character.name);
         await window.adjustCameraBasedOnCharacter(this.cameraPosition, 290, 600)
@@ -305,7 +310,6 @@ export const usePlayerStore = defineStore("player", {
       await this.changeCharacter(this.characters[0]);
       this.unwearAllSkins();
       this.activeCharacter.allowed_skins_list.forEach(function (skin_item) {
-        console.log(skin_item.is_default);
         skin_item.is_weared = skin_item.is_default;
         if (skin_item.is_weared) {
           $this.addToWearedClothes(skin_item.category, skin_item.name);
@@ -340,7 +344,6 @@ export const usePlayerStore = defineStore("player", {
       }
     },
     unwear(skin_item: any) {
-      console.log(`Unwear: ${skin_item}`)
       if (skin_item.category == "Background") {
         // if (skin_item.background_color) {
           //   window.changeBackgroundColor("");
@@ -527,9 +530,10 @@ export const usePlayerStore = defineStore("player", {
 
 activeCharCurrentlyWearedSkinsCategories: (state) => {
   const activeClothes = {};
-
+  const items = [];
   state.activeCharacter?.allowed_skins_list.forEach((item) => {
     if(item.is_weared) {
+      items.push(item);
       if (activeClothes[item.category]) {
         activeClothes[item.category].push(item.name);
       } else {
@@ -537,6 +541,18 @@ activeCharCurrentlyWearedSkinsCategories: (state) => {
       }
     }
   });
+
+  if(items.length <= 0) {
+    state.activeCharacter?.allowed_skins_list.forEach((item) => {
+      if(item.is_default) {
+        if (activeClothes[item.category]) {
+          activeClothes[item.category].push(item.name);
+        } else {
+          activeClothes[item.category] = [item.name];
+        }
+      }
+    });
+  }
 
   return activeClothes;
 },

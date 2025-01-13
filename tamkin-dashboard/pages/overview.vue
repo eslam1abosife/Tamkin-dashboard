@@ -1,22 +1,16 @@
 <script lang="ts" setup>
-import {useGetOverviewStats  } from "@/composables/useAccessibility"
+import { useGetOverviewStats } from "@/composables/useAccessibility";
 
-const {locale} = useI18n();
-const {getoverviewstats}  = useGetOverviewStats()
-const statsStore = useStatsStore(); 
+const { locale } = useI18n();
+const { getoverviewstats } = useGetOverviewStats();
+const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();
 const navStore = useNavbarStore();
 const collapseStore = useCollapseStore();
 const modalStore = useModalStore();
 const overviewStore = useOverviewStore();
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const showExpired = ref(false);
 
 definePageMeta({
@@ -24,22 +18,25 @@ definePageMeta({
   middleware: ["auth", "permissions"],
   requiredPermission: "accessibility-overview",
 });
-const packagesStore = usePackgesStore()
+const packagesStore = usePackgesStore();
 
+onBeforeMount(async () => {
+  statsStore.loadingStats = true;
 
-onBeforeMount(async ()=>{
-  statsStore.loadingStats = true
+  await getoverviewstats();
+  statsStore.loadingStats = false;
+});
 
-await getoverviewstats()
-statsStore.loadingStats = false
-})
-
-const runtimec = useRuntimeConfig()
+const runtimec = useRuntimeConfig();
 </script>
 
 <template>
   <div class="relative">
-    <NuxtLoadingIndicator :key="Math.random()" style="  background: linear-gradient(to right, #2DADA3, #71DAD2);" :height="6"/>
+    <NuxtLoadingIndicator
+      :key="Math.random()"
+      style="background: linear-gradient(to right, #2dada3, #71dad2)"
+      :height="6"
+    />
 
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
@@ -125,18 +122,16 @@ const runtimec = useRuntimeConfig()
         "
       />
       <!-- {{}} -->
-      <LanguageServicesNodata
-           v-if="!navStore.defaultappobj"
-      />
+      <LanguageServicesNodata v-if="!navStore.defaultappobj" />
       <div v-else-if="settingsStore.loadingdefaultappobj">
         <div
-            class="h-[200px] w-full mt-[44px] rounded-md bg-gray-200"
-            ></div> 
+          class="h-[200px] w-full dark:bg-tamkinDarkPrimary mt-[44px] rounded-md bg-gray-200"
+        ></div>
         <div
-            class="h-[200px] w-full mt-[20px] rounded-md bg-gray-200"
-              v-for="s in 3"
-              :key="s"
-            ></div> 
+          class="h-[200px] w-full mt-[20px] dark:bg-tamkinDarkPrimary rounded-md bg-gray-200"
+          v-for="s in 3"
+          :key="s"
+        ></div>
       </div>
       <div v-else>
         <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
@@ -152,8 +147,14 @@ const runtimec = useRuntimeConfig()
           v-if="overviewStore.showUpgradeState"
         />
         <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
-        <OverviewTamkinTokenBanner v-if="!statsStore.loadingStats && !packagesStore.investorUser" 
-        :class="[!statsStore.loadingStats && !packagesStore.investorUser ? '!mt-[40px]' :'']"/>
+        <OverviewTamkinTokenBanner
+          v-if="!statsStore.loadingStats && !packagesStore.investorUser"
+          :class="[
+            !statsStore.loadingStats && !packagesStore.investorUser
+              ? '!mt-[40px]'
+              : '',
+          ]"
+        />
 
         <OverviewExclusiveInvestorPackage
           v-if="!overviewStore.showUpgradeState"
@@ -161,17 +162,30 @@ const runtimec = useRuntimeConfig()
 
         <OverviewAccessibilityDetails />
 
-        <OverviewLiveTranslation  />
+        <OverviewLiveTranslation />
 
-<div class="h-[384px] w-full bg-gray-200 rounded-[50px] animate-pulse" v-if="statsStore.loadingStats">
-
-</div>
         <div
-          v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length"
+          class="h-[384px] w-full bg-gray-200 rounded-[50px] animate-pulse"
+          v-if="statsStore.loadingStats"
+        ></div>
+        <div
+          v-if="
+            navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Accessibility'
+            ).length
+          "
           class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
           <div class="w-[50px]">
-            <img class="w-[40px] h-[40px] object-cover" :src="runtimec.public.baseImagerUrl+navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').icon" />
+            <img
+              class="w-[40px] h-[40px] object-cover"
+              :src="
+                runtimec.public.baseImagerUrl +
+                navStore.defaultappobj?.package?.find(
+                  (p) => p.type === 'Accessibility'
+                ).icon
+              "
+            />
           </div>
           <div
             class="flex flex-col items-center lg:items-start justify-center w-full"
@@ -179,45 +193,74 @@ const runtimec = useRuntimeConfig()
             <div
               class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
             >
-              <h1>{{navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').title}}</h1>
+              <h1>
+                {{
+                  navStore.defaultappobj?.package?.find(
+                    (p) => p.type === "Accessibility"
+                  ).title
+                }}
+              </h1>
             </div>
             <div
               class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
             >
-            <div
-            v-if="
-              new Date() >
-                new Date(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').to_date)
-              
-            "
-            class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-          >
-            {{ $t(`Expired`) }}
-          </div>
-                <template v-else>
-                  <div class="flex items-center" key="not-expired">
-                    <div
-                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                    >
-                      {{ $t("Package Expires in") }}
-                    </div>
-                    <div
-                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                    >
-                      {{new Date(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').to_date).toDateString()}}
-                    </div>
+              <div
+                v-if="
+                  new Date() >
+                  new Date(
+                    navStore.defaultappobj?.package?.find(
+                      (p) => p.type === 'Accessibility'
+                    ).to_date
+                  )
+                "
+                class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+              >
+                {{ $t(`Expired`) }}
+              </div>
+              <template v-else>
+                <div class="flex items-center" key="not-expired">
+                  <div
+                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                  >
+                    {{ $t("Package Expires in") }}
                   </div>
-                </template>
-              
-              
+                  <div
+                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                  >
+                    {{
+                      new Date(
+                        navStore.defaultappobj?.package?.find(
+                          (p) => p.type === "Accessibility"
+                        ).to_date
+                      ).toDateString()
+                    }}
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
 
-              
-          <div class="relative" v-if="Number(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').difference) < 12" >
+          <div
+            class="relative"
+            v-if="
+              Number(
+                navStore.defaultappobj?.package?.find(
+                  (p) => p.type === 'Accessibility'
+                ).difference
+              ) < 12
+            "
+          >
             <div
-              v-if="!(new Date() >
-                new Date(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').to_date))"
+              v-if="
+                !(
+                  new Date() >
+                  new Date(
+                    navStore.defaultappobj?.package?.find(
+                      (p) => p.type === 'Accessibility'
+                    ).to_date
+                  )
+                )
+              "
               class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform rtl:right-[50%] ltr:left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
             >
               {{ $t("SAVE") }} 12%
@@ -231,10 +274,22 @@ const runtimec = useRuntimeConfig()
               ]"
               @click="modalStore.controlShowUpgradeModal"
             >
-
-            
-              {{ (new Date() >
-                new Date(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').to_date)) ? $t("Renew") : Number(navStore.defaultappobj?.package?.find(p => p.type === 'Accessibility').difference) < 12 ? $t("Switch To Annual") :''  }}
+              {{
+                new Date() >
+                new Date(
+                  navStore.defaultappobj?.package?.find(
+                    (p) => p.type === "Accessibility"
+                  ).to_date
+                )
+                  ? $t("Renew")
+                  : Number(
+                      navStore.defaultappobj?.package?.find(
+                        (p) => p.type === "Accessibility"
+                      ).difference
+                    ) < 12
+                  ? $t("Switch To Annual")
+                  : ""
+              }}
             </button>
           </div>
         </div>

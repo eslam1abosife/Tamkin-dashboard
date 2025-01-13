@@ -514,10 +514,10 @@ const alertFn = () => {
                 <a
                   :class="[
                     selectedInterval === '7 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600  bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('7 Days')"
                   >7 Days</a
@@ -525,10 +525,10 @@ const alertFn = () => {
                 <a
                   :class="[
                     selectedInterval === '14 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('14 Days')"
                   >14 Days</a
@@ -536,31 +536,31 @@ const alertFn = () => {
                 <a
                   :class="[
                     selectedInterval === '1 Month'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('1 Month')"
                   >1 Month</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   :class="[
                     selectedInterval === '2 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight dark:bg-gray-600'
                       : '',
                   ]"
                   @click="selectOption('2 Months')"
                   >2 Months</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                   role="menuitem"
                   :class="[
                     selectedInterval === '3 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight dark:bg-gray-600'
                       : '',
                   ]"
                   @click="selectOption('3 Months')"

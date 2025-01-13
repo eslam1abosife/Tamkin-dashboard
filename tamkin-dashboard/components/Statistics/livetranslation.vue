@@ -292,7 +292,7 @@ function calculatePercentage(total, usage) {
       </div>
       <div
         v-else-if="statsStore.loadingStats"
-        class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
+        class="flex items-center dark:bg-p justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
       ></div>
     </div>
 
