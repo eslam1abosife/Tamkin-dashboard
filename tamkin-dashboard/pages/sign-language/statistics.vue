@@ -71,10 +71,11 @@ const getSelectedTab = (tab: any) => {
   selectTab.value = tab;
 };
 
-onBeforeMount(async () => {
+onMounted(async () => {
   statsStore.loadingStats = true;
   await getStatsSignLanguage();
   statsStore.loadingStats = false;
+  statsStore.loadingStatsIntranlsation = false;
 });
 </script>
 
@@ -197,7 +198,7 @@ onBeforeMount(async () => {
           <LanguageServicesStatsTranslationq />
 
           <LanguageServicesStatsUsage />
-
+<LanguageServicesStatsUsagereport/>
           <!-- <div
             class="shadow-md mt-[30px] -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
           >

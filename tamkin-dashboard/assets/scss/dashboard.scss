@@ -730,7 +730,7 @@ input[type=number] {
 }
 
 .circular-progress .progress-circle {
-    stroke: url(#gradient);
+    stroke: url(#gradient_usage);
     /* Reference to the gradient */
     transition: stroke-dasharray 0.3s;
 }

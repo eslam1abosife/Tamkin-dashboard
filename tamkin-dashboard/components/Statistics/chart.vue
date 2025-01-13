@@ -87,17 +87,20 @@ const colors = ["red", "blue", "yellow", "green"];
 const selectedInterval = ref("");
 const chartDataOpens = ref();
 const options = ref({
-  responsive: false,
+  responsive: true,
   maintainAspectRatio: true,
   plugins: {
     legend: {
       display: false,
     },
   },
+
   scales: {
     x: {
       border: {
-        display: false,
+        color: (c) => {
+          return colorMode.preference === "dark" ? "white" : "#585B5B";
+        },
       },
       grid: {
         display: false,
@@ -110,17 +113,22 @@ const options = ref({
           day: "MMM dd",
         },
       },
+
       ticks: {
-        autoSkip: false,
+        padding:5,
+        autoSkip: true,
+        maxTicksLimit: 9,
         color: (c) => {
-          return colorMode.preference === "dark" ? "white" : "black";
+          return colorMode.preference === "dark" ? "white" : "#616161";
         },
+     
         callback: function (value) {
           const date = new Date(value);
           const options = { month: "short", day: "numeric" };
           return date.toLocaleDateString("en-US", options);
         },
       },
+      offset: false, // Disable offset for ticks
     },
     y: {
       grid: {
@@ -243,10 +251,29 @@ watchEffect(() => {
         {
           label: "Widget Load",
           data: sortedData.map((t) => t.count),
-          borderColor: "rgba(75, 192, 192, 1)",
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      }, 
           backgroundColor: "rgba(75, 192, 192, 0.2)",
-          fill: false,
-          tension: 0.1,
+          pointRadius: 0, // Removes dots from the line chart
+    pointHoverRadius: 0, // Disables the hover effect on points
+    tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };
@@ -270,10 +297,30 @@ watchEffect(() => {
         {
           label: "Widget Opens",
           data: sortedData.map((t) => t.count),
-          borderColor: "rgba(75, 192, 192, 1)",
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      }, 
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: false,
-          tension: 0.1,
+          pointRadius: 0, // Removes dots from the line chart
+    pointHoverRadius: 0, // Disables the hover effect on points
+    tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };

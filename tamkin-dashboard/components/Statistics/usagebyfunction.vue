@@ -171,7 +171,7 @@ const runtimeob = useRuntimeConfig()
     >
     <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
 
-      <table class="min-w-full leading-normal">
+      <table class="min-w-full leading-normal" v-else>
         <thead>
           <tr>
             <th
@@ -191,14 +191,14 @@ const runtimeob = useRuntimeConfig()
             </th>
           </tr>
         </thead>
-        <tbody v-if="statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0">
+        <tbody v-if="statsStore.loadingStats ">
           <tr class="h-[56px] bg-gray-200 w-full animate-pulse" v-for="i in 6" :key="i">
             <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
             <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
             <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
           </tr>
         </tbody>
-        <tbody v-else-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0 && !statsStore.loadingStats ">
+        <tbody v-else-if=" !statsStore.loadingStats ">
           <tr class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary h-[56px]" v-for="statitem in  statsStore.functionStats.sort((a, b) => a.sort - b.sort)" :key="statitem.name">
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div
@@ -231,7 +231,7 @@ const runtimeob = useRuntimeConfig()
                 <svg viewBox="0 0 36 36">
                   <defs>
                     <linearGradient
-                      id="gradient"
+                      id="gradient_usage"
                       x1="0%"
                       y1="0%"
                       x2="100%"
@@ -258,13 +258,13 @@ const runtimeob = useRuntimeConfig()
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                   :style="`stroke-dasharray: ${statitem.percentage.toFixed(0)},100`"
+                   :style="`stroke-dasharray: ${Number(statitem.percentage).toFixed(0)},100`"
                   ></circle>
                 </svg>
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                 {{ statitem.percentage.toFixed(0)}}%
+                 {{ Number(statitem.percentage).toFixed(0)}}%
                 </div>
               </div>
             </td>

@@ -386,11 +386,11 @@ const options = ref({
 
         <div class="flex flex-col items-center justify-start">
          
-          <div class="  mt-[-50px] ipad-max:mx-auto w-1/4 flex justify-center">
+          <div class="  mt-[-20px] ipad-max:mx-auto w-1/4 flex justify-center">
             <CircularProgressBar :initial-percentage="45"
              :total="'2004'"/>
                   </div>
-          <div class="text-[18px] font-[500] text-black">
+          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328]">
             {{ $t('Translation accuracy') }}
           </div>
         </div>

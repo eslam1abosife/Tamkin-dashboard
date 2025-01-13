@@ -193,10 +193,7 @@ const navStore = useNavbarStore();
         </thead>
         <tbody
           v-if="
-            statsStore.loadingStats &&
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length > 0
+            statsStore.loadingStatsIntranlsation
           "
         >
           <tr
@@ -217,11 +214,7 @@ const navStore = useNavbarStore();
         </tbody>
 
         <tbody
-          v-else-if="
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length > 0 && !statsStore.loadingStats
-          "
+          v-else
         >
           <tr
             v-for="functionItem in statsStore.signLangFunctions.sort(
@@ -261,7 +254,7 @@ const navStore = useNavbarStore();
                 <svg viewBox="0 0 36 36">
                   <defs>
                     <linearGradient
-                      id="gradient"
+                      id="gradient_usage"
                       x1="0%"
                       y1="0%"
                       x2="100%"
@@ -288,15 +281,13 @@ const navStore = useNavbarStore();
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${functionItem.percentage.toFixed(
-                      0
-                    )},100`"
+                   :style="`stroke-dasharray: ${Number(functionItem.percentage).toFixed(0)},100`"
                   ></circle>
                 </svg>
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ functionItem.percentage.toFixed(0) }}%
+                  {{ Number(functionItem.percentage).toFixed(0) }}%
                 </div>
               </div>
             </td>
