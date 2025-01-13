@@ -3,7 +3,11 @@ import { useGetStats } from "@/composables/useAccessibility";
 const { getStatsAccessibility } = useGetStats();
 const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Accessibility - Statistics - Tamkin Dashboard"),
+})
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],

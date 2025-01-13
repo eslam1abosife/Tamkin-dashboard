@@ -4,6 +4,11 @@ import { required, email, sameAs } from "@vuelidate/validators";
 
 import { Vue3Lottie } from "vue3-lottie";
 import SuccessAnimation from "/assets/animation/forget_password_success.json";
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Success - Tamkin Dashboard"),
+})
 definePageMeta({
   layout: "auth",
 });

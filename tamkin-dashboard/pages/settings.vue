@@ -7,7 +7,11 @@ import { useGetAccessaility } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Accessibility - Settings - Tamkin Dashboard"),
+})
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const settingsStore = useSettingsStore();
@@ -99,7 +103,6 @@ onBeforeMount(() => {
   ]);
 });
 let pendingNavigation = null;
-const { locale } = useI18n();
 const deleteSite = async () => {
   try {
     const res = await api.post("/mySite/set/AppStatusCancel", {
@@ -121,7 +124,6 @@ const deleteSite = async () => {
   }
 };
 const { $toast } = useNuxtApp();
-const { t } = useI18n();
 const resetAccessiility = async () => {
   try {
     const res = await api.post("/Apps/ResetSettingDefaultApp", {

@@ -4,6 +4,11 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { useRegister, useGoogle, useLogin } from "@/composables/useAuth";
 import { useIncludeWord } from '@/composables/useSharedFunctions';
 import { useRoute } from "vue-router";
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Register - Tamkin Dashboard"),
+})
 const { isIncludeWord } = useIncludeWord();
 const localePath = useLocalePath()
 definePageMeta({

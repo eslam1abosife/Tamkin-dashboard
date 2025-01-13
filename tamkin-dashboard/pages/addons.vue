@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Accessibility - Addons - Tamkin Dashboard"),
+})
 const {
   getInviteApps,
   defaultApp,
@@ -17,7 +21,6 @@ import {
   useRestoreApp,
   useGetPackage,
 } from "@/composables/useMySite";
-const { locale } = useI18n();
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
 const {
   isOpen,

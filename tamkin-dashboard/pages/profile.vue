@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useClipboard } from "@vueuse/core";
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Profile - Tamkin Dashboard"),
+})
 const {
   isOpen,
   currentView,

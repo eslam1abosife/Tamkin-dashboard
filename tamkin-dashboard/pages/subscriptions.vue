@@ -2,7 +2,11 @@
 import { useGetSubscriptions } from "@/composables/usePackages";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 import { useCancelSubscription, useGetTotalAmountPacks ,useGetRenewdetails} from "@/composables/usePackages";
-const { t, locale } = useI18n();
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Subscriptions - Tamkin Dashboard"),
+})
 const { detailsRenew, messageData:rn ,codeStatus:rr} = useGetRenewdetails();
 
 const {

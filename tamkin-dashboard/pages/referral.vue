@@ -8,7 +8,11 @@ import {
   useGetCustomerCount,
 } from "~/composables/useReferral";
 import { useClipboard } from "@vueuse/core";
-const {t} = useI18n()
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Referral - Tamkin Dashboard"),
+})
 const {
   isOpen,
   currentView,

@@ -9,6 +9,7 @@ import {
 } from "@/composables/useMarket";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+const { locale,t } = useI18n();
 
 const { getAvatarLetters } = useGetAvatarLetters();
 const {
@@ -23,7 +24,6 @@ const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
-const { locale } = useI18n();
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 definePageMeta({
@@ -361,7 +361,10 @@ function leaveNotification(el, done) {
  *? add description to skin item and character
  */
 const handleScriptLoad = async () => {};
+useHead({
+  title: t("Market - Tamkin Dashboard"),
 
+})
 //  useHead({
 //   script: [
 //     {

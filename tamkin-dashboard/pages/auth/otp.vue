@@ -5,9 +5,13 @@ import VOtpInput from "vue3-otp-input";
 import { useResendCode, useVerifyCode, useForgetPassword } from '@/composables/useAuth';
 import { useRoute, useRouter } from '#vue-router';
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Otp - Tamkin Dashboard"),
+})
 const localePath = useLocalePath()
 
-const {t} = useI18n()
 const route = useRoute();
 const router = useRouter();
 const { resendCode, loading: resendLoading } = useResendCode();

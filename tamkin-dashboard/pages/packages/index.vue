@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Sign langauge Packages - Tamkin Dashboard"),
+})
 definePageMeta({
   layout: "dashboard",
 });

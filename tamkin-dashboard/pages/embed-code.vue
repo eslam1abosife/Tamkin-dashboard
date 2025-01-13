@@ -6,7 +6,11 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
-const {t} = useI18n()
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Embed Code - Tamkin Dashboard"),
+})
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
 import { useGetAppInvites } from "~/composables/useTeam";

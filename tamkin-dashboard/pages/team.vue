@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onMounted } from "vue";
 import { useModalManager } from "@/composables/useModalManager";
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Team - Tamkin Dashboard"),
+})
 import {
   useGetAllMembers,
   useGetTeamCountMembers,

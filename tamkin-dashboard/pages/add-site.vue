@@ -5,11 +5,15 @@ import Vue3TagsInput from "vue3-tags-input";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
+const { locale,t } = useI18n();
+
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const addSiterStore = useAddSiteStore()
 const {tags,validatedSites,loadingBlock} = storeToRefs(addSiterStore)
-const { locale } = useI18n()
+useHead({
+  title: t("Add Site - Tamkin Dashboard"),
 
+})
 const tag = ref('')
 const cleanWebsiteUrl = (url: string) => {
   // Remove the protocol (http, https) and www if present

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const { locale, t } = useI18n();
+
 import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
@@ -9,7 +11,16 @@ import {
 } from "@/composables/useMySite";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 import { useCancelSubscription } from "@/composables/usePackages";
-const { locale, t } = useI18n();
+definePageMeta({
+
+  layout: "dashboard",
+  middleware: ["auth", "permissions"],
+  requiredPermission: "my-site",
+});
+useHead({
+  title: t("My Site - Tamkin Dashboard"),
+
+})
 const { $toast } = useNuxtApp();
 
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
@@ -71,11 +82,7 @@ watch(
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
 
-definePageMeta({
-  layout: "dashboard",
-  middleware: ["auth", "permissions"],
-  requiredPermission: "my-site",
-});
+
 const state = reactive({
   teamName: "",
 });
@@ -494,6 +501,8 @@ const openInvestor = (app, pack) => {
   };
   openModal("join_to_investor");
 };
+
+
 </script>
 
 <template>

@@ -3,7 +3,11 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useForgetPassword } from '@/composables/useAuth';
 import { useIncludeWord } from '@/composables/useSharedFunctions';
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Reset Password - Tamkin Dashboard"),
+})
 const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
