@@ -75,6 +75,8 @@ const submit = async () => {
   errMsg.value = null;
   try {
     await updateDefaultApp(checked.value);
+    const user = JSON.parse(localStorage.getItem("user"));
+    await getInviteApps({ agency: user.agency });
     emit("onSuccess", "Selected Successfully!");
     closeModal("selectSite");
     getApps();

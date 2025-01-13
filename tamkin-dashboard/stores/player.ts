@@ -226,7 +226,7 @@ export const usePlayerStore = defineStore("player", {
               1
             );
             this.unwear(skin_item);
-            marketStore.showSaveFooter = true;
+            if(skin_item.is_package || skin_item.is_purchased) marketStore.showSaveFooter = true;
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
         } else {
