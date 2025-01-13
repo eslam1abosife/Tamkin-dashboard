@@ -19,57 +19,109 @@ watch(width, (newWidth) => {
   chart13.value.chart.resize(50, 50);
   chart14.value.chart.resize(50, 50);
 });
+// start code
+const statsStore = useStatsStore();
+const navStore = useNavbarStore();
 
+const accuracy = computed(() => {
+  return statsStore.translation_quality.translated_content
+    ? Math.round(
+        (statsStore.translation_quality.translated_content /
+          statsStore.translation_quality.total) *
+          100
+      )
+    : 0;
+});
 const chartData = ref({
-  labels: [
-    "2024-10-01",
-    "2024-10-02",
-    "2024-10-03",
-    "2024-10-04",
-    "2024-10-05",
-    "2024-10-06",
-    "2024-10-07",
-    "2024-10-08",
-    "2024-10-09",
-  ],
-  datasets: [
-    {
-      label: "My Dataset",
-      data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: false,
-      tension: 0.1,
-    },
-  ],
+  labels: [],
+  datasets: []
 });
-
 const chartData2 = ref({
-  labels: [
-    "2024-10-01",
-    "2024-10-02",
-    "2024-10-03",
-    "2024-10-04",
-    "2024-10-05",
-    "2024-10-06",
-    "2024-10-07",
-    "2024-10-08",
-    "2024-10-09",
-  ],
-  datasets: [
-    {
-      label: "My Dataset",
-      data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
-      borderColor: "rgba(218, 16, 11, 1)",
-      backgroundColor: "rgba(218, 16, 11, 1)",
-      fill: false,
-      tension: 0.1,
-    },
-  ],
+  labels: [],
+  datasets: []
 });
 
+
+watchEffect( () => {
+//   translated_chart
+// untranslated_chart
+if (statsStore.translation_quality) {
+  const sortedtranslated = statsStore.translation_quality.translated_chart ?.slice()
+  .sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sorteduntranslated = statsStore.translation_quality.untranslated_chart
+    ?.slice()
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  if (sortedtranslated?.length) {
+    chartData.value = {
+      labels: sortedtranslated.map((t) => t.date),
+      datasets: [
+        {
+          label: "Translated Words",
+          data: sortedtranslated.map((t) => t.count),
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      },           backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.4,
+        },
+      ],
+    };
+  } 
+  
+  if (sorteduntranslated?.length) {
+    chartData2.value = {
+      labels: sorteduntranslated.map((t) => t.date),
+      datasets: [
+        {
+          label: "Untranslated Words",
+          data: sorteduntranslated.map((t) => t.count),
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      },           backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    };
+  }
+}
+
+});
 const options = ref({
-  responsive: true,
+  responsive: false,
   maintainAspectRatio: true,
   elements: {
     point: {
@@ -116,23 +168,11 @@ const options = ref({
   },
 });
 
-// start code
-const statsStore = useStatsStore();
-const navStore = useNavbarStore();
 
-const accuracy = computed(() => {
-  return statsStore.translation_quality.translated_content
-    ? Math.round(
-        (statsStore.translation_quality.translated_content /
-          statsStore.translation_quality.total) *
-          100
-      )
-    : 0;
-});
 </script>
 
 <template>
-  <div
+  <div v-if="!statsStore.loadingStatsIntranlsation"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start">
@@ -284,7 +324,6 @@ const accuracy = computed(() => {
         </div>
       </div>
     </div>
-
     <div
       class="relative w-full mt-[24px] mx-auto dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('translation_q_card')"
@@ -320,14 +359,14 @@ const accuracy = computed(() => {
                   {{ $t("words") }}
                 </h1>
               </div>
-              <!-- <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] left-1/2 right-0 absolute">
                 <Line
                   ref="chart13"
                   :data="chartData"
                   :options="options"
                   class="h-[80px]"
                 />
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="rounded-[10px] w-full">
@@ -351,14 +390,14 @@ const accuracy = computed(() => {
                   {{ $t("words") }}
                 </h1>
               </div>
-              <!-- <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] left-1/2 right-0 absolute">
                 <Line
                   ref="chart14"
                   :data="chartData"
                   :options="options"
                   class="h-[80px]"
                 />
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -369,15 +408,68 @@ const accuracy = computed(() => {
         >
           <CircularProgressBar
             v-if="accuracy"
+            textsize="32px"
             :initialPercentage="accuracy"
-            class="w-full small_circle text-[12px]"
+            class=" small_circle !w-[150px] !h-[150px] text-[12px]"
           />
 
-          <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
+          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin">
             {{ $t("Translation accuracy") }}
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else
+  class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
+>
+  <div class="flex items-center justify-start">
+    <div class="pt-[24px] w-full">
+      <div class="h-[20px] bg-gray-300 dark:bg-gray-700 rounded-md w-2/3 mb-4"></div>
+      <div class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded-md w-full"></div>
+    </div>
+  </div>
+
+  <div
+    class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+  >
+ 
+
+    <div class="flex items-center justify-between w-full mt-[66px]">
+      <div class="grid grid-cols-12 w-full">
+        <div
+          class="rounded-[10px] col-span-12 ]"
+        >
+          <div
+            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+          >
+            <div class="space-y-[16px]">
+              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rounded-[10px] col-span-12 w-full "
+        >
+          <div
+            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+          >
+            <div class="space-y-[16px]">
+              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
+  </div>
+</div>
 </template>
+<style lang="scss" scoped>
+
+</style>
+
+

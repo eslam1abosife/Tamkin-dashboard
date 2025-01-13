@@ -8,6 +8,11 @@ import visaIcon from "/assets/imgs/payment_methods/visa.svg";
 import masterIcon from "/assets/imgs/payment_methods/master.svg";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Orders - Tamkin Dashboard"),
+})
 // const getApps = async () => {
 //   const user = JSON.parse(localStorage.getItem("user"));
 //   await getInviteApps({ agency: user.agency });

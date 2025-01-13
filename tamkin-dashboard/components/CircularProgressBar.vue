@@ -27,12 +27,14 @@
     </svg>
     <div class="content flex flex-col space-y-2">
       <div
-        class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
+         :style="{'font-size': textsize }"
+        class="  leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
       >
         {{ initialPercentage }}%
       </div>
-      <div
-        class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
+      <div v-if="showtotal"
+     
+        class=" leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
       >
         {{ total }}
       </div>
@@ -51,10 +53,19 @@ const props = defineProps({
   total: {
     type: String,
   },
+  showtotal: {
+    type: Boolean,
+  },
+  textsize: {
+    type: String,
+    default: '32px'
+  }
 });
 
 const percentage = ref(props.initialPercentage);
-
+const textsize = computed(() => {
+ return props.textsize
+})
 // Adjusted radius and circumference for a 250x250 circle
 const radius = 105;
 const circumference = 2 * Math.PI * radius;
@@ -106,4 +117,10 @@ watchEffect(
   justify-content: center;
   text-align: center;
 }
+.circular-progress .progress-circle {
+  stroke: url(#gradient) !important;
+  /* Reference to the gradient */
+  transition: stroke-dasharray 0.3s;
+}
+
 </style>

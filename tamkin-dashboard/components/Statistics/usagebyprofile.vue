@@ -182,7 +182,7 @@ const runtimeob = useRuntimeConfig();
         "
       />
 
-      <table class="min-w-full leading-normal">
+      <table class="min-w-full leading-normal" v-else> 
         <thead>
           <tr>
             <th
@@ -204,10 +204,7 @@ const runtimeob = useRuntimeConfig();
         </thead>
         <tbody
           v-if="
-            statsStore.loadingStats &&
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Accessibility'
-            ).length > 0
+            statsStore.loadingStats
           "
         >
           <tr
@@ -228,10 +225,7 @@ const runtimeob = useRuntimeConfig();
         </tbody>
         <tbody
           v-else-if="
-            !statsStore.loadingStats &&
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Accessibility'
-            ).length > 0
+            !statsStore.loadingStats 
           "
         >
           <tr
@@ -299,7 +293,7 @@ const runtimeob = useRuntimeConfig();
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${statitem.percentage.toFixed(
+                    :style="`stroke-dasharray: ${Number(statitem.percentage).toFixed(
                       0
                     )},100`"
                   ></circle>
@@ -307,7 +301,7 @@ const runtimeob = useRuntimeConfig();
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ statitem.percentage.toFixed(0) }}%
+                  {{ Number(statitem.percentage).toFixed(0) }}%
                 </div>
               </div>
             </td>

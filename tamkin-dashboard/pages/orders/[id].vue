@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { useGetOrderInvoiceDetails,usePrintInvoice } from '~/composables/useMarket';
 import { useRuntimeConfig } from '#app'
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Orders - Tamkin Dashboard"),
+})
 const config = useRuntimeConfig()
 const baseImageURL = config.public.baseImagerUrl
 const {

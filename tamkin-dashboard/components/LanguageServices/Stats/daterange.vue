@@ -70,17 +70,20 @@ ChartJS.register(
 );
 
 const options = ref({
-  responsive: false,
+  responsive: true,
   maintainAspectRatio: true,
   plugins: {
     legend: {
       display: false,
     },
   },
+
   scales: {
     x: {
       border: {
-        display: false,
+        color: (c) => {
+          return colorMode.preference === "dark" ? "white" : "#585B5B";
+        },
       },
       grid: {
         display: false,
@@ -93,18 +96,22 @@ const options = ref({
           day: "MMM dd",
         },
       },
+
       ticks: {
+        padding:5,
         autoSkip: true,
-        maxTicksLimit: 10,
+        maxTicksLimit: 9,
         color: (c) => {
-          return colorMode.preference === "dark" ? "white" : "black";
+          return colorMode.preference === "dark" ? "white" : "#616161";
         },
+     
         callback: function (value) {
           const date = new Date(value);
           const options = { month: "short", day: "numeric" };
           return date.toLocaleDateString("en-US", options);
         },
       },
+      offset: false, // Disable offset for ticks
     },
     y: {
       grid: {
@@ -119,6 +126,7 @@ const options = ref({
     },
   },
 });
+
 
 const updateChartOptions = async (isDarkMode: any) => {
   if (isDarkMode === "dark") {
@@ -270,12 +278,31 @@ watchEffect(() => {
       labels: sortedData.map((t: any) => t.date),
       datasets: [
         {
-          label: "Widget Load",
+          label: "Player Load",
           data: sortedData.map((t: any) => t.count),
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      },          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
           fill: false,
-          tension: 0.1,
+          pointRadius: 0, // Removes dots from the line chart
+    pointHoverRadius: 0, // Disables the hover effect on points
+    tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };
@@ -297,12 +324,31 @@ watchEffect(() => {
       labels: sortedData.map((t: any) => t.date),
       datasets: [
         {
-          label: "Widget Opens",
+          label: "Player Opens",
           data: sortedData.map((t: any) => t.count),
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: canvasCtx, chartArea } = chart;
+        if (!chartArea) {
+          // Return a default color until the chart is fully initialized
+          return "#2DADA3";
+        }
+
+        // Create the gradient
+        const gradient = canvasCtx.createLinearGradient(
+          0,
+          chartArea.top,
+          0,
+          chartArea.bottom
+        );
+        gradient.addColorStop(0, "#2DADA3"); // Start color
+        gradient.addColorStop(1, "#71DAD2"); // End color
+        return gradient;
+      },          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
           fill: false,
-          tension: 0.1,
+          pointRadius: 0, // Removes dots from the line chart
+    pointHoverRadius: 0, // Disables the hover effect on points
+    tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };
@@ -895,13 +941,13 @@ const loadscountSummary = computed(
         ></div>
         <div
           v-else
-          class="container_chart mt-[30px] h-[255px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+          class="container_chart mt-[30px] p-[8px] h-[255px] w-full  relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
         >
           <div class="custom-legend">
             <div
               class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]"
             >
-              <h3>{{ $t("Widget Loads") }}</h3>
+              <h3>{{ $t("Player Loads") }}</h3>
               <p class="font-[400]" v-if="dateF || selectedInterval">
                 {{ $t(`${loadscountSummary}`) }}
               </p>
@@ -957,13 +1003,13 @@ const loadscountSummary = computed(
 
         <div
           v-else
-          class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+          class="container_chart mt-[30px] p-[8px] w-full h-[255px]  relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
         >
           <div class="custom-legend">
             <div
               class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin"
             >
-              <h3>{{ $t("Widget Opens") }}</h3>
+              <h3>{{ $t("Player Opens") }}</h3>
               <p class="font-[400]" v-if="dateF || selectedInterval">
                 {{ $t(`${loadscountSummary}`) }}
               </p>
@@ -997,6 +1043,7 @@ const loadscountSummary = computed(
             :data="chartDataOpens"
             :options="options"
             :style="myStyles"
+            class="w-full !mx-auto text-center"
             :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
           />
           <div v-else class="flex items-center justify-center h-full w-full">

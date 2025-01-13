@@ -11,7 +11,12 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
 import { useFullUrl } from "@/composables/useSharedFunctions";
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Billing - Tamkin Dashboard"),
+
+})
 
 const billingStore = useBillingStore();
 const invoicesStore = useInvoicesStore();

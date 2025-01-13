@@ -6,6 +6,11 @@ import { useGetCurrentTeam } from "~/composables/useTeam";
 import { useRouter } from "#vue-router";
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Login - Tamkin Dashboard"),
+})
 const localePath = useLocalePath()
 const userStore = useUserStore()
 const { isIncludeWord } = useIncludeWord();

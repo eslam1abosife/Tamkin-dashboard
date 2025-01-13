@@ -2,7 +2,11 @@
 import { useGetSubscriptions } from "@/composables/usePackages";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 import { useCancelSubscription, useGetTotalAmountPacks ,useGetRenewdetails} from "@/composables/usePackages";
-const { t, locale } = useI18n();
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("Subscriptions - Tamkin Dashboard"),
+})
 const { detailsRenew, messageData:rn ,codeStatus:rr} = useGetRenewdetails();
 
 const {
@@ -692,7 +696,7 @@ const openInvestor = (app,pack)=>{
                         </button>
 
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending'  || sb.type === 'Investors'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click.stop="getPackageAndOpenPaymenModal(sub, sb)"
                         >
@@ -766,7 +770,7 @@ const openInvestor = (app,pack)=>{
                           </div>
                         </button>
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'  || sb.status === 'Expired' || sb.status === 'expire'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click="
                             () => {

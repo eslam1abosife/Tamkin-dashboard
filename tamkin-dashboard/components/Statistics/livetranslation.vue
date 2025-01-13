@@ -202,14 +202,17 @@ function calculatePercentage(total, usage) {
       </div>
 
       <!-- start code collabse -->
-
+      <MessagesLockedFeature
+      v-if="
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Accessibility'
+        ).length === 0
+      "
+    />
       <div
         v-if="
           !collapseStore.collapses.includes('live_translation_stats_card') &&
-          !statsStore.loadingStats &&
-          navStore.defaultappobj?.package?.filter(
-            (p) => p.type === 'Accessibility'
-          ).length > 0
+          !statsStore.loadingStats 
         "
         class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] custom-border bg-tamkin-main-bg dark:bg-p"
       >
@@ -290,12 +293,12 @@ function calculatePercentage(total, usage) {
           </div>
         </div>
       </div>
-      <div
-        v-else-if="statsStore.loadingStats"
-        class="flex items-center dark:bg-p justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
-      ></div>
+ 
     </div>
-
+    <div
+    v-if="statsStore.loadingStats"
+    class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
+  ></div>
     <div
       class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
       v-if="statsStore.loadingStats"
@@ -378,27 +381,21 @@ function calculatePercentage(total, usage) {
         </tbody>
       </table>
     </div>
-
+ 
     <div
       class="relative w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
       v-if="
         !collapseStore.collapses.includes('live_translation_stats_card') &&
-        !statsStore.loadingStats
+        !statsStore.loadingStats 
       "
     >
-      <MessagesLockedFeature
-        v-if="
-          navStore.defaultappobj?.package?.filter(
-            (p) => p.type === 'Accessibility'
-          ).length === 0
-        "
-      />
+     
       <h1
         class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin"
       >
         {{ $t("Translated languages") }}
       </h1>
-
+    
       <table class="min-w-full leading-normal">
         <thead>
           <tr>

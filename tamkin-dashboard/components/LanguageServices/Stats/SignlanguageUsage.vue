@@ -38,14 +38,14 @@ const formattedTotal = computed(() => {
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t("Sign Language") }}
+          {{ $t("Translation") }}
         </h1>
         <p
-          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[15px] w-2/4"
         >
           {{
             $t(
-              "Usage stats by function show how each feature is used in a system or app."
+              "translation converts speech or text from one language to another instantly, facilitating real-time communication."
             )
           }}
         </p>
@@ -182,10 +182,91 @@ const formattedTotal = computed(() => {
         </div>
       </div>
     </div>
+    <div
+    class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
+    v-if="statsStore.loadingStatsIntranlsation"
+  >
+    <div
+      class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
+    ></div>
+
+    <table class="min-w-full leading-normal">
+      <thead>
+        <tr>
+          <th
+            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+          ></th>
+          <th
+            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+          ></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="h-[56px]" v-for="i in 5" :key="i">
+          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+            >
+              <div
+                class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"
+              ></div>
+              <div
+                class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"
+              ></div>
+            </div>
+          </td>
+          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+            <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+              ></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div
-      class="relative w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
-      v-if="!collapseStore.collapses.includes('translation_stats_card')"
+      class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
+    ></div>
+
+    <table class="min-w-full leading-normal">
+      <thead>
+        <tr>
+          <th
+            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+          ></th>
+          <th
+            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+          ></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="h-[56px]" v-for="i in 5" :key="i">
+          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+            <div class="flex items-start flex-col justify-center">
+              <div
+                class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"
+              ></div>
+              <div
+                class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"
+              ></div>
+            </div>
+          </td>
+          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+            <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+              ></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <div
+      class="relative w-full lg:mt-[-90px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
+      v-if="!collapseStore.collapses.includes('translation_stats_card') && !statsStore.loadingStatsIntranlsation"
     >
       <MessagesLockedFeature
         v-if="
@@ -195,7 +276,8 @@ const formattedTotal = computed(() => {
         "
       />
       <div
-        class="flex items-center justify-start ml-auto mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
+        class="flex items-center justify-start ml-auto mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full
+         ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
       >
         <div
           class="circular-progress big bg-white dark:bg-transparent rounded-full rtl:mr-[10px] ltr:ml-[10px]"
@@ -364,7 +446,7 @@ const formattedTotal = computed(() => {
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ lang.percentage }}%
+                  {{ Number(lang.percentage).toFixed(0) }}%
                 </div>
               </div>
             </td>
@@ -451,7 +533,7 @@ const formattedTotal = computed(() => {
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${page.percentage.toFixed(
+                    :style="`stroke-dasharray: ${Number(page.percentage).toFixed(
                       0
                     )},100`"
                   ></circle>
@@ -459,7 +541,7 @@ const formattedTotal = computed(() => {
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ page.percentage.toFixed(0) }}%
+                  {{ Number(page.percentage).toFixed(0) }}%
                 </div>
               </div>
             </td>

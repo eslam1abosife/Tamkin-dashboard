@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import { useGetJoinPage } from '~/composables/usePackages';
+const { locale,t } = useI18n();
+
+useHead({
+  title: t("How to join - Tamkin Dashboard"),
+})
 const localePath = useLocalePath()
 const { getjoinPageData } = useGetJoinPage();
 const {

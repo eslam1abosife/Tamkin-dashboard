@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { useGetOverviewStats } from "@/composables/useAccessibility";
+const { locale,t } = useI18n();
 
-const { locale } = useI18n();
+useHead({
+  title: t("Accessibility - Overview - Tamkin Dashboard"),
+})
 const { getoverviewstats } = useGetOverviewStats();
 const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();

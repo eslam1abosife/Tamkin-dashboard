@@ -6,7 +6,11 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useGetAccessaility } from "@/composables/useAccessibility";
+const { locale,t } = useI18n();
 
+useHead({
+  title: t("Accessibility - Customize - Tamkin Dashboard"),
+})
 const { getAccessability } = useGetAccessaility();
 
 const langStore = useLangSwitch();

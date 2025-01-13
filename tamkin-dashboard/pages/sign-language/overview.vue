@@ -5,6 +5,8 @@ import { useCollapseStore } from "@/stores/collapse.js";
 import { useOverviewStore } from "@/stores/overview";
 const { locale } = useI18n();
 const navStore = useNavbarStore();
+const statsStore = useStatsStore();
+
 
 const {
   isOpen,
@@ -149,7 +151,7 @@ const runtimec = useRuntimeConfig();
       @select-tabs="getSelectedTab"
     /> -->
     <LanguageServicesNodata v-if="!settingsStore.defaultappobj" />
-    <div v-else-if="settingsStore.loadingdefaultappobj">
+    <div v-else-if="settingsStore.loadingdefaultappobj ">
       <div
         class="h-[200px] w-full mt-[44px] rounded-md bg-gray-200 dark:bg-tamkinDarkPrimary"
       ></div>
@@ -170,17 +172,17 @@ const runtimec = useRuntimeConfig();
           class="!mt-[30px]"
         />
 
-        <KeepAlive>
-          <LanguageServicesOverviewWebplugins />
-        </KeepAlive>
-        <!-- v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'" -->
+    <KeepAlive>
+      <LanguageServicesOverviewWebplugins
+v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'"
+    />
+
+    </KeepAlive>
+    <!--  -->
 
         <LanguageServicesOverviewTranslationaccuracy
-          v-if="
-            navStore.defaultappobj?.package?.find(
-              (p) => p.type === 'Sign language'
-            ).status === 'Act2ive'
-          "
+        v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'"
+
         />
 
         <OverviewExclusiveInvestorPackage />

@@ -5,11 +5,14 @@ import {
   useGetMembers,
   useSummaryDetailedCode,
 } from "@/composables/useEmbedCode";
+const { locale,t } = useI18n();
 
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
 
-const { locale } = useI18n();
 
+useHead({
+  title: t("Investors Packages - Tamkin Dashboard"),
+})
 definePageMeta({
   layout: "dashboard",
 });
