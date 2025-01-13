@@ -140,7 +140,7 @@ const openBuyModal = (pck, contact) => {
   <div class="w-full relative" v-if="compareg">
     <div
       v-if="!showAllFeatures"
-      class="bg-gradient-to-t absolute inset-auto h-full w-full z-[40]"
+      class="bg-gradient-to-t dark:from-[#384558]/40 dark:via-[#384558]/30 absolute inset-auto h-full w-full z-[40]"
       :class="[
         currentPage === 'sign'
           ? 'from-[#EEF5FF] via-[#EEF5FF]/30 '

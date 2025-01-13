@@ -53,10 +53,9 @@ watch(
   async () => {
     if (route.path.includes("accessibility")) {
       const trafficLevels = packagesStore.getTraffiPrices("Package");
-if(!packagesStore.traffic_level){
-  packagesStore.setTrafficLevel(trafficLevels[0].name);
-
-}
+      if (!packagesStore.traffic_level) {
+        packagesStore.setTrafficLevel(trafficLevels[0].name);
+      }
     }
 
     //
@@ -144,7 +143,10 @@ onUpdated(async () => {
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
     </transition>
     <PackagesNavbar v-if="!packagesStore.loadingData" />
-    <div class="w-full h-[200px] bg-gray-300 animate-pulse" v-else></div>
+    <div
+      class="w-full h-[200px] dark:bg-tamkinDarkPrimary bg-gray-300 animate-pulse"
+      v-else
+    ></div>
 
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
@@ -198,7 +200,7 @@ onUpdated(async () => {
       <!-- Grid of Skeleton Cards -->
       <div class="grid grid-cols-3 gap-4 mx-auto mt-[32px] w-full">
         <div
-          class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
+          class="flex flex-col items-center dark:bg-tamkinDarkPrimary justify-start p-6 bg-white rounded-lg animate-pulse"
         >
           <!-- Icon Skeleton -->
           <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
@@ -222,7 +224,7 @@ onUpdated(async () => {
 
         <!-- Repeat Skeleton Card -->
         <div
-          class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
+          class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-start p-6 bg-white rounded-lg animate-pulse"
         >
           <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
           <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
@@ -239,7 +241,7 @@ onUpdated(async () => {
 
         <!-- Repeat Skeleton Card -->
         <div
-          class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
+          class="flex dark:bg-tamkinDarkPrimary flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
         >
           <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
           <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>

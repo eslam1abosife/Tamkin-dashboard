@@ -195,7 +195,7 @@ const toastMsg = ref(null);
 watch(eventCounter, async () => {
   toastAppear.value = false;
   toastMsg.value = null;
-  
+
   if (lastEventCall.value === "deleteApp") {
     const { deleteApp } = useDeleteApp();
 
@@ -209,7 +209,7 @@ watch(eventCounter, async () => {
         (app) => app.title === currAppName.value.title
       );
 
-      let nextApp = null;  // Set the next app to null (empty)
+      let nextApp = null; // Set the next app to null (empty)
 
       // Log the current index and app list
       console.log("Current Index:", currentIndex);
@@ -218,7 +218,7 @@ watch(eventCounter, async () => {
       // Check if the app being deleted is the last one in the list
       if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
         // No need to find a specific app, just set it to null
-        nextApp = '';
+        nextApp = "";
       } else {
         // Otherwise, set the next app in the list as nextApp
         nextApp = appList.value[currentIndex + 1];
@@ -226,14 +226,14 @@ watch(eventCounter, async () => {
 
       // Log next app and update the default app if valid
       console.log("Next App Before Updating Default:", nextApp);
-      
+
       // If nextApp is valid, set it as default. Otherwise, set it to null (empty).
       if (nextApp) {
         console.log("Calling updateDefaultApp with:", nextApp.name);
         await updateDefaultApp(nextApp.name);
       } else {
         console.log("No valid next app found. Setting default to empty.");
-        await updateDefaultApp('');  // Set the default app to empty
+        await updateDefaultApp(""); // Set the default app to empty
       }
     }
 
@@ -252,7 +252,7 @@ watch(eventCounter, async () => {
     currentTab.value = "saved";
     toastMsg.value = "restored successfully!";
   }
-  
+
   // Reset current page and show the toast
   currentPage.value = 1;
   toastAppear.value = true;
@@ -260,10 +260,6 @@ watch(eventCounter, async () => {
   // Refresh app list
   getApps();
 });
-
-
-
-
 
 const deletedAppListLength = computed(() => {
   return apps.value.filter((ele) => ele.status === "deleted").length;
@@ -648,31 +644,25 @@ const openInvestor = (app, pack) => {
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
               <div
-                v-if="
-                  !mysiteStore.loadingApps &&
-                  !defaultApp?.favicon 
-                "
+                v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
                 class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
               >
-              <!-- <span v-if="!apps.length"> -->
-              <span>
-                <img
-                src="/assets/imgs/icons/mysite_select.svg"
-                class="w-[40px] h-[40px]"
-              
-              />
-              </span>
-               <!-- <span v-else>
+                <!-- <span v-if="!apps.length"> -->
+                <span>
+                  <img
+                    src="/assets/imgs/icons/mysite_select.svg"
+                    class="w-[40px] h-[40px]"
+                  />
+                </span>
+                <!-- <span v-else>
                 {{
                   defaultApp&&  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
                </span> -->
-                
               </div>
               <div
                 v-if="
-                  !mysiteStore.loadingApps &&
-                  defaultApp&&  defaultApp?.favicon 
+                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
                 "
               >
                 <img
@@ -686,31 +676,27 @@ const openInvestor = (app, pack) => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                  <span v-if="defaultApp && defaultApp?.app_domain">
-                    {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
-                  </span>
-                  <span v-else>
-                    {{ $t('No Site Selected!') }}
-                  </span>
+                    <span v-if="defaultApp && defaultApp?.app_domain">
+                      {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
+                    </span>
+                    <span v-else>
+                      {{ $t("No Site Selected!") }}
+                    </span>
                   </h2>
                 </div>
                 <div>
                   <a
                     :href="
-                       defaultApp
-                        ? formatToUrl(defaultApp.app_domain)
-                        : '#'
+                      defaultApp ? formatToUrl(defaultApp.app_domain) : '#'
                     "
-                    :target="
-                      defaultApp ? '_blank' : ''
-                    "
+                    :target="defaultApp ? '_blank' : ''"
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                     :class="[
-                        !defaultApp
-                          ? '!text-darkGrey/40 cursor-not-allowed'
-                          : '!text-tamkinStart',
-                      ]"
-                    >
+                      !defaultApp
+                        ? '!text-darkGrey/40 cursor-not-allowed'
+                        : '!text-tamkinStart',
+                    ]"
+                  >
                     {{ $t("Visit Site") }}
                     <svg
                       data-slot="icon"
@@ -737,7 +723,7 @@ const openInvestor = (app, pack) => {
                 </div>
               </div>
             </div>
-           
+
             <div>
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
@@ -753,13 +739,13 @@ const openInvestor = (app, pack) => {
 
       <div
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
-        class="relative h-[129px] w-full bg-white rounded-[10px] flex items-center justify-start"
+        class="relative h-[129px] w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex items-center justify-start"
       >
         <div
           class="flex flex-col space-y-[4px] items-start justify-center p-[16px]"
         >
           <div
-            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px] to-white flex items-center justify-start space-x-6"
+            class="h-[30px] dark:bg-p w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px] to-white flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("My Sites") }}
@@ -771,7 +757,7 @@ const openInvestor = (app, pack) => {
           </div>
 
           <div
-            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#A3F0EA] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] dark:bg-p rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#A3F0EA] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Active") }}
@@ -790,7 +776,7 @@ const openInvestor = (app, pack) => {
             </div>
           </div>
           <div
-            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
+            class="h-[30px] dark:bg-p w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Not installed") }}
@@ -859,7 +845,7 @@ const openInvestor = (app, pack) => {
 
       <div
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
-        class="relative h-[129px] w-full bg-white rounded-[10px] flex items-center justify-start animate-pulse"
+        class="relative dark:bg-tamkinDarkPrimary h-[129px] w-full bg-white rounded-[10px] flex items-center justify-start animate-pulse"
       >
         <div
           class="flex flex-col space-y-[4px] items-start justify-center p-[16px]"
@@ -940,8 +926,11 @@ const openInvestor = (app, pack) => {
                     >
                       {{ $t("My Sites") }} (
                       {{
-                        apps.filter((ap) => ap.title !== "Internal Service" && ap.status !== "deleted")
-                          .length
+                        apps.filter(
+                          (ap) =>
+                            ap.title !== "Internal Service" &&
+                            ap.status !== "deleted"
+                        ).length
                       }}
                       )
                     </div>
@@ -1171,7 +1160,7 @@ const openInvestor = (app, pack) => {
                   >
                     <tr
                       :id="app.name"
-                      class="h-[50px]"
+                      class="h-[50px] dark:bg-tamkinDarkPrimary dark:border-darkborder"
                       :class="[
                         app.package &&
                         app.package[0] &&
@@ -1284,7 +1273,7 @@ const openInvestor = (app, pack) => {
                           <div
                             v-if="
                               app.package[0] &&
-                             app.package[0].status === 'Expired' &&
+                              app.package[0].status === 'Expired' &&
                               app.package[0].type !== 'Investors'
                             "
                             class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
@@ -1596,9 +1585,8 @@ const openInvestor = (app, pack) => {
                           >
                             <div
                               v-if="
-                           
-                              pack.status === 'Expired' &&
-                              pack.type !== 'Investors'
+                                pack.status === 'Expired' &&
+                                pack.type !== 'Investors'
                               "
                               class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                             >
@@ -1723,7 +1711,9 @@ const openInvestor = (app, pack) => {
                             <button
                               :disabled="pack.status === 'Pending' || pack.status === 'Expired'"
                               class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
-                              @click.stop="openDeleteMember(mysiteStore.selectedApp)"
+                              @click.stop="
+                                openDeleteMember(mysiteStore.selectedApp)
+                              "
                             >
                               <!-- her eman-->
                               <svg

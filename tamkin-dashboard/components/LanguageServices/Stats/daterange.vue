@@ -834,10 +834,10 @@ const loadscountSummary = computed(
                   <a
                     :class="[
                       selectedInterval === '7 Days'
-                        ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                        ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600  bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                     role="menuitem"
                     @click="selectOption('7 Days')"
                     >{{ $t("7 Days") }}</a
@@ -845,10 +845,10 @@ const loadscountSummary = computed(
                   <a
                     :class="[
                       selectedInterval === '14 Days'
-                        ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                        ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                     role="menuitem"
                     @click="selectOption('14 Days')"
                     >{{ $t("14 Days") }}</a
@@ -856,16 +856,16 @@ const loadscountSummary = computed(
                   <a
                     :class="[
                       selectedInterval === '1 Month'
-                        ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                        ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                     role="menuitem"
                     @click="selectOption('1 Month')"
                     >{{ $t("1 Month") }}</a
                   >
                   <a
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                     role="menuitem"
                     :class="[
                       selectedInterval === '2 Months'
@@ -876,11 +876,11 @@ const loadscountSummary = computed(
                     >{{ $t("2 Months") }}</a
                   >
                   <a
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
                     role="menuitem"
                     :class="[
                       selectedInterval === '3 Months'
-                        ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
+                        ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                         : '',
                     ]"
                     @click="selectOption('3 Months')"
@@ -893,7 +893,7 @@ const loadscountSummary = computed(
           <div class="lg:mr-[-15px] lg:px-[15px]">
             <div
               v-if="statsStore.loadingStats"
-              class="bg-gray-200 animate-pulse w-[160px] h-[32px] rounded-[13px]"
+              class="bg-gray-200 dark:bg-p animate-pulse w-[160px] h-[32px] rounded-[13px]"
             ></div>
             <button
               v-else
@@ -937,7 +937,7 @@ const loadscountSummary = computed(
       >
         <div
           v-if="statsStore.loadingStats"
-          class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+          class="animate-pulse mt-[30px] dark:bg-p bg-gray-300 rounded-[10px] h-[255px] w-full"
         ></div>
         <div
           v-else
@@ -998,7 +998,7 @@ const loadscountSummary = computed(
 
         <div
           v-if="statsStore.loadingStats"
-          class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+          class="animate-pulse mt-[30px] dark:bg-p bg-gray-300 rounded-[10px] h-[255px] w-full"
         ></div>
 
         <div

@@ -326,6 +326,7 @@ watchEffect(() => {
           <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
           </p>
         </div>
+        <!-- {{ statsStore.chartsData }} -->
       </div>
       <div v-if="!collapseStore.collapses.includes('webplugins_chart_card')"
         class="container_chart mt-[30px] h-[300px] w-full relative  ">

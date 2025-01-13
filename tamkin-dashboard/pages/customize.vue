@@ -309,19 +309,19 @@ watch(colorcurrentpicker, (newVal) => {
 
       <div v-if="customizeStore.loadingData || navStore.loadingdefaultappobj">
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
+          class="animate-pulse space-y-4 card dark:bg-tamkinDarkPrimary bg-white rounded-[10px] mt-[40px] p-4"
         >
           <div
-            class="h-[55px] w-full rounded-md bg-gray-200"
+            class="h-[55px] w-full rounded-md bg-gray-200 dark:bg-p"
             v-for="s in 6"
             :key="s"
           ></div>
         </div>
         <div
-          class="animate-pulse space-y-4 mt-2 card bg-white rounded-[10px] mt-[30px] p-4"
+          class="animate-pulse space-y-4 mt-2 card bg-white rounded-[10px] mt-[30px] p-4 dark:bg-tamkinDarkPrimary"
         >
           <div
-            class="h-[55px] w-full rounded-md bg-gray-200"
+            class="h-[55px] w-full rounded-md bg-gray-200 dark:bg-p"
             v-for="s in 6"
             :key="s"
           ></div>
@@ -584,7 +584,7 @@ watch(colorcurrentpicker, (newVal) => {
                       class="h-[24px] w-[24px] rounded-[5px]"
                     ></div>
                     <div
-                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B]"
+                      class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                     >
                       {{ $t("Gradient") }}
                     </div>
@@ -609,7 +609,7 @@ watch(colorcurrentpicker, (newVal) => {
                   >
                     <input
                       type="text"
-                      class="h-[34px] focus:ring-0 border-tamkin dark:bg-tamkinDarkPrimary border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                      class="h-[34px] focus:ring-0 border-tamkin dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                       v-model="inputcurrentcolor"
                       @input="updatecurrentcolor"
                     />
@@ -635,10 +635,9 @@ watch(colorcurrentpicker, (newVal) => {
                     >
                       <input
                         type="text"
-                        class="h-[34px] dark:bg-p border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        class="h-[34px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient"
                         @input="updateGradient"
-                        style="background: black"
                       />
                     </div>
                   </div>
@@ -654,9 +653,10 @@ watch(colorcurrentpicker, (newVal) => {
                     >
                       <input
                         type="text"
-                        class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        class="h-[34px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient2"
                         @input="updategradient2"
+                        style="background-color: none !important"
                       />
                     </div>
                   </div>

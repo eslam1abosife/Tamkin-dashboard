@@ -518,22 +518,22 @@ const isOwner = computed(() => {
       >
         <!-- Avatar Skeleton -->
         <div
-          class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"
+          class="w-[65px] h-[65px] dark:bg-p bg-gray-300 rounded-full animate-pulse"
         ></div>
 
         <!-- Details Skeleton -->
         <div class="flex flex-col justify-center w-4/6">
           <div
-            class="h-[19px] w-3/4 bg-gray-300 rounded-full mb-[8px] animate-pulse"
+            class="h-[19px] w-3/4 dark:bg-p bg-gray-300 rounded-full mb-[8px] animate-pulse"
           ></div>
           <div
-            class="h-[19px] w-2/4 bg-gray-300 rounded-full animate-pulse"
+            class="h-[19px] w-2/4 dark:bg-p bg-gray-300 rounded-full animate-pulse"
           ></div>
         </div>
 
         <!-- Edit Button Skeleton -->
         <div
-          class="w-[100px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+          class="w-[100px] h-[30px] dark:bg-p bg-gray-300 rounded-full animate-pulse"
         ></div>
       </div>
       <div
@@ -605,7 +605,7 @@ const isOwner = computed(() => {
       </div>
       <div
         v-if="getCurrTeamLoading"
-        class="relative flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
+        class="relative dark:bg-p_secondary flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
       >
         <!-- Placeholder for the text and stats -->
         <div
@@ -613,12 +613,16 @@ const isOwner = computed(() => {
         >
           <!-- Placeholder for the total members row -->
           <div class="flex rtl:space-x-reverse space-x-[8px]">
-            <div class="w-[16px] h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-[16px] h-[21px] dark:bg-p bg-gray-300 rounded"></div>
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]"
             >
-              <div class="w-[100px] h-[16px] bg-gray-300 rounded"></div>
-              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+              <div
+                class="w-[100px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
+              <div
+                class="w-[30px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
             </div>
           </div>
 
@@ -626,12 +630,18 @@ const isOwner = computed(() => {
           <div
             class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]"
           >
-            <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+            <div
+              class="w-[10px] h-[10px] dark:bg-p bg-gray-300 rounded-full"
+            ></div>
             <div
               class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]"
             >
-              <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
-              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+              <div
+                class="w-[50px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
+              <div
+                class="w-[30px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
             </div>
           </div>
 
@@ -639,12 +649,18 @@ const isOwner = computed(() => {
           <div
             class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]"
           >
-            <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+            <div
+              class="w-[10px] h-[10px] dark:bg-p bg-gray-300 rounded-full"
+            ></div>
             <div
               class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]"
             >
-              <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
-              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+              <div
+                class="w-[50px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
+              <div
+                class="w-[30px] h-[16px] dark:bg-p bg-gray-300 rounded"
+              ></div>
             </div>
           </div>
         </div>
@@ -652,7 +668,7 @@ const isOwner = computed(() => {
         <!-- Placeholder for the image -->
         <div class="pl-[20px]">
           <div
-            class="w-[203px] h-[70px] bg-gray-300 rounded animate-pulse"
+            class="w-[203px] h-[70px] dark:bg-p bg-gray-300 rounded animate-pulse"
           ></div>
         </div>
       </div>
@@ -668,7 +684,7 @@ const isOwner = computed(() => {
       >
         <div
           v-if="!getCurrTeamLoading && !capacityLoader"
-          class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full"
+          class="flex dark:bg-tamkinDarkPrimary items-center justify-between lg:flex-nowrap flex-wrap w-full"
         >
           <div class="p-[16px]">
             <div
@@ -732,7 +748,9 @@ const isOwner = computed(() => {
               class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
               style="line-height: 30px"
             >
-              <div class="w-[150px] h-[24px] bg-gray-200 rounded"></div>
+              <div
+                class="w-[150px] h-[24px] bg-gray-200 rounded dark:bg-p"
+              ></div>
             </div>
           </div>
 
@@ -741,23 +759,23 @@ const isOwner = computed(() => {
           >
             <div class="py-[17px] search_input relative">
               <div
-                class="w-full h-[40px] bg-gray-200 rounded animate-pulse flex items-center pl-[40px]"
+                class="w-full h-[40px] dark:bg-p bg-gray-200 rounded animate-pulse flex items-center pl-[40px]"
               >
                 <div
-                  class="w-[24px] h-[24px] bg-gray-200 rounded-full absolute left-[10px]"
+                  class="w-[24px] h-[24px] dark:bg-tamkinDarkPrimary bg-gray-200 rounded-full absolute left-[10px]"
                 ></div>
               </div>
               <div
                 class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
               >
                 <div
-                  class="w-[24px] h-[24px] bg-gray-200 animate-pulse rounded-full"
+                  class="w-[24px] h-[24px] bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse rounded-full"
                 ></div>
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
               <div
-                class="w-[120px] bg-gray-200 rounded animate-pulse h-[40px]"
+                class="w-[120px] bg-gray-200 dark:bg-p rounded animate-pulse h-[40px]"
               ></div>
             </div>
           </div>
@@ -1051,28 +1069,28 @@ const isOwner = computed(() => {
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
                 >
                   <div
-                    class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[100px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[200px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[150px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
                   class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-3/4 h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
                   ></div>
                 </th>
               </tr>
@@ -1088,10 +1106,10 @@ const isOwner = computed(() => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                     <div
-                      class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+                      class="w-[30px] h-[30px] dark:bg-p bg-gray-300 rounded-full animate-pulse"
                     ></div>
                     <div
-                      class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                      class="w-[150px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                     ></div>
                   </div>
                 </td>
@@ -1099,21 +1117,21 @@ const isOwner = computed(() => {
                   class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[200px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[150px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    class="w-[90px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </td>
               </tr>

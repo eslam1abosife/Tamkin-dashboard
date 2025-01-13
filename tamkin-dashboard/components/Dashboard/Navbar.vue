@@ -269,7 +269,7 @@ watch(
         </div>
       </div>
       <nuxt-link
-        class="tamkin_team_card"
+        class="tamkin_team_card dark:bg-tamkinDarkPrimary dark:border-[1px] dark:border-darkborder"
         @click="
           () => {
             if (!loadingTeamCard) {
@@ -281,7 +281,7 @@ watch(
           !sideBarOpen ? 'border-none bg-transparent hidden' : '',
           isLinkActive('/team') ? 'bg-tamkinLight' : '',
           loadingTeamCard
-            ? '!bg-gray-50 !cursor-not-allowed !border-[1px] !border-gray-200'
+            ? 'bg-gray-50 cursor-not-allowed dark:bg-tamkinDarkPrimary dark:border-[1px] dark:border-darkborder border-[1px] border-gray-200'
             : '',
         ]"
       >
@@ -296,7 +296,7 @@ watch(
           <!-- Skeleton Loader -->
           <div
             v-if="loadingTeamCard"
-            class="h-[35px] w-[35px] bg-gray-300 animate-pulse rounded-full"
+            class="h-[35px] dark:bg-p w-[35px] bg-gray-300 animate-pulse rounded-full"
           ></div>
 
           <!-- Placeholder Avatar -->
@@ -319,7 +319,7 @@ watch(
             :class="[!sideBarOpen ? 'hidden' : 'block']"
           >
             <div
-              class="h-[14px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse"
+              class="h-[14px] w-3/4 dark:bg-p rounded-[5px] bg-gray-200 animate-pulse"
               v-if="loadingTeamCard"
             ></div>
             <h2 class="font-[400] text-[14px]" style="line-height: 20px" v-else>
@@ -327,7 +327,7 @@ watch(
             </h2>
 
             <div
-              class="h-[14px] mt-[8px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse"
+              class="h-[14px] mt-[8px] dark:bg-p w-3/4 rounded-[5px] bg-gray-200 animate-pulse"
               v-if="loadingTeamCard"
             ></div>
             <h3 class="font-[400] text-[12px]" style="line-height: 20px" v-else>
@@ -336,7 +336,7 @@ watch(
           </div>
 
           <div
-            class="h-[14px] w-[12px] rounded-[5px] bg-gray-200 animate-pulse order-3"
+            class="h-[14px] w-[12px] dark:bg-p rounded-[5px] bg-gray-200 animate-pulse order-3"
             v-if="loadingTeamCard"
           ></div>
           <div
@@ -1298,7 +1298,7 @@ watch(
 
       <div
         v-if="!sideBarOpen"
-        class="cursor-pointer mt-[14px]"
+        class="cursor-pointer mt-[14px] dark:bg-p"
         @click="$router.push({ path: localePath('/contact') })"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
@@ -1314,10 +1314,10 @@ watch(
             ? 'top-[80vh]'
             : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ',
         ]"
-        class="lg:absolute w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+        class="lg:absolute w-[260px] dark:bg-p h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div
-          class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
+          class="flex flex-col space-y-[5px] dark:border-p py-[10px] items-center justify-center rounded-lg"
         >
           <div>
             <img

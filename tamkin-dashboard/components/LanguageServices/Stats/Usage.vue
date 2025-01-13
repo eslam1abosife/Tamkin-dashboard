@@ -197,18 +197,18 @@ const navStore = useNavbarStore();
           "
         >
           <tr
-            class="h-[56px] bg-gray-200 w-full animate-pulse"
+            class="h-[56px] bg-gray-200 w-full animate-pulse dark:bg-p"
             v-for="i in 6"
             :key="i"
           >
             <td
-              class="border-b border-gray-300 text-sm dark:border-[#333333]"
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
             ></td>
             <td
-              class="border-b border-gray-300 text-sm dark:border-[#333333]"
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
             ></td>
             <td
-              class="border-b border-gray-300 text-sm dark:border-[#333333]"
+              class="border-b border-gray-300 text-sm dark:border-[#333333] dark:bg-p"
             ></td>
           </tr>
         </tbody>

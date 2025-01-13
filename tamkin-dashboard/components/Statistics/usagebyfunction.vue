@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 const collapseStore = useCollapseStore();
 const statsStore = useStatsStore();
-const navStore = useNavbarStore()
-const runtimeob = useRuntimeConfig()
+const navStore = useNavbarStore();
+const runtimeob = useRuntimeConfig();
 </script>
 
 <template>
-
-    <div
-    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
-     px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
@@ -165,11 +162,23 @@ const runtimeob = useRuntimeConfig()
     </div>
 
     <div
-      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto relative "
-      :class="[navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0 ? 'h-[400px]':'']"
+      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto relative"
+      :class="[
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Accessibility'
+        ).length === 0
+          ? 'h-[400px]'
+          : '',
+      ]"
       v-if="!collapseStore.collapses.includes('usage_stats_card')"
     >
-    <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+      <MessagesLockedFeature
+        v-if="
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Accessibility'
+          ).length === 0
+        "
+      />
 
       <table class="min-w-full leading-normal" v-else>
         <thead>
@@ -187,7 +196,7 @@ const runtimeob = useRuntimeConfig()
             <th
               class="py-3 border-b-2 border-gray-200 dark:border-[#333333] dark:text-whiteTamkin rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-          {{ $t('Percentage') }}
+              {{ $t("Percentage") }}
             </th>
           </tr>
         </thead>
@@ -214,7 +223,7 @@ const runtimeob = useRuntimeConfig()
                   <p
                     class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
                   >
-                  {{statitem.label}}
+                    {{ statitem.label }}
                   </p>
                 </div>
               </div>
@@ -223,7 +232,7 @@ const runtimeob = useRuntimeConfig()
               <p
                 class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
               >
-                {{statitem.time_enabled}}
+                {{ statitem.time_enabled }}
               </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
@@ -269,33 +278,8 @@ const runtimeob = useRuntimeConfig()
               </div>
             </td>
           </tr>
-
-      
-
-
-
-  
- 
-
-        
-
-       
-
-    
-
-
-    
-   
-
-
-
-
-        
-   
-
         </tbody>
       </table>
     </div>
   </div>
-
 </template>
