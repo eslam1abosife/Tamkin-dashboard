@@ -317,6 +317,7 @@ export const usePlayerStore = defineStore("player", {
         }
       });
       await this.saveCharacterOptions(AppName, true);
+      this.loadingChanges = false;
       this.toast(
         useNuxtApp().$i18n.t("Default Mode Has Been Restored Successfully"),
         { hideIn: 3000, type: "success" }
