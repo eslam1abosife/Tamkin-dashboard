@@ -363,7 +363,7 @@ onBeforeUnmount(() => {
                         <div>****{{ savedCard.last4 }}</div>
                       </div>
                       <div
-                        class="text-darkGrey text-[13px] font-[400] leading-[10px]"
+                        class="text-darkGrey dark:text-white text-[13px] font-[400] leading-[10px]"
                       >
                         {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
                         {{ savedCard.expyear }}

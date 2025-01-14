@@ -209,7 +209,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <div
                 v-if="!defaultApp"
@@ -296,7 +296,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <div
                 v-if="!defaultApp"
