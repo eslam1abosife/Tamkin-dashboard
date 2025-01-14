@@ -70,9 +70,9 @@ module.exports = {
         tamkingErrorInput: "#EF7267",
         lightMenuBarColor: "#F2F2F2",
         linecolor: "#C5C5C5",
-        darkTamkin: "#384558",
+        darkTamkin: "#2D333D",
         darkSecondary: "#303E56",
-        tamkinDarkPrimary: "#323E50",
+        tamkinDarkPrimary: "#383F4A",
         darkborder:'#8F8F8F'
       },
       backgroundSize: {

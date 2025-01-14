@@ -415,7 +415,7 @@ const openInvestor = (app,pack)=>{
     <div
       v-if="subs.filter((t) => t.subscripitions.length > 0).length > 0 && !loadingSubs"
       style="box-shadow: 0px 4px 12px 0px #00000014"
-      class="bg-white rounded-[10px] w-full h-full px-[16px] py-[28px]"
+      class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full h-full px-[16px] py-[28px]"
     >
       <div
         class="flex items-center justify-between w-full space-x-[24px] rtl:space-x-reverse"
@@ -445,36 +445,36 @@ const openInvestor = (app,pack)=>{
         <div class="flex items-center rtl:space-x-reverse space-x-[8px] justify-center">
           <div
             @click="changePeriod(0)"
-            :class="[filterBYTime === 0 ? 'bg-tamkinLight' : '']"
-            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] leading-[19.5px]"
+            :class="[filterBYTime === 0 ? 'bg-tamkinLight dark:!text-black' : '']"
+            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("All") }}
           </div>
           <div
             @click="changePeriod(1)"
-            :class="[filterBYTime === 1 ? 'bg-tamkinLight' : '']"
-            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] leading-[19.5px]"
+            :class="[filterBYTime === 1 ? 'bg-tamkinLight dark:!text-black' : '']"
+            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Monthly") }}
           </div>
           <div
             @click="changePeriod(3)"
-            :class="[filterBYTime === 3 ? 'bg-tamkinLight' : '']"
-            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] leading-[19.5px]"
+            :class="[filterBYTime === 3 ? 'bg-tamkinLight dark:!text-black' : '']"
+            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("3 Months") }}
           </div>
           <div
             @click="changePeriod(12)"
-            :class="[filterBYTime === 12 ? 'bg-tamkinLight' : '']"
-            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] leading-[19.5px]"
+            :class="[filterBYTime === 12 ? 'bg-tamkinLight dark:!text-black' : '']"
+            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Yearly") }}
           </div>
           <div
             @click="filtertype('Investors')"
-            :class="[filterByType === 'Investors' ? 'bg-tamkinLight' : '']"
-            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] leading-[19.5px]"
+            :class="[filterByType === 'Investors' ? 'bg-tamkinLight dark:!text-black' : '']"
+            class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Investor") }}
           </div>
@@ -506,48 +506,48 @@ const openInvestor = (app,pack)=>{
                 />
               </div>
             </div>
-            <div class="text-darkGrey font-[600] text-[15px]">
+            <div class="text-darkGrey dark:text-whiteTamkin/80 font-[600] text-[15px]">
               {{ sub.app_domain ? sub.app_domain : $t(`${sub.title}`) }}
             </div>
           </div>
           <div class="relative rounded-xl mt-[19px]">
             <div class="">
-              <table class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF]">
+              <table class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey">
                 <thead>
                   <tr>
                     <th
-                      class="w-1/4 border-b text-[13px] font-[500] leading-[19px] text-black p-3 rtl:pr-4 ltr:pl-4 dark:text-slate-200 rtl:text-right ltr:text-left"
+                      class="w-1/4 border-b text-[13px] font-[500] leading-[19px] text-black p-3 rtl:pr-4 ltr:pl-4 dark:text-white rtl:text-right ltr:text-left border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Products") }}
                     </th>
                     <th
-                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] text-black p-3 dark:text-slate-200 rtl:text-right ltr:text-left"
+                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] text-black p-3 dark:text-white rtl:text-right ltr:text-left border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Status") }}
                     </th>
                     <th
-                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] text-black p-3 dark:text-slate-200 rtl:text-right ltr:text-left"
+                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] text-black p-3 dark:text-white rtl:text-right ltr:text-left border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Start Billing") }}
                     </th>
                     <th
-                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] whitespace-nowrap text-black p-3 dark:text-slate-200 rtl:text-right ltr:text-left"
+                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] whitespace-nowrap text-black p-3 dark:text-white rtl:text-right ltr:text-left border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Next Billing") }}
                     </th>
                     <th
-                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] whitespace-nowrap text-black m p-3 dark:text-slate-200 rtl:text-right ltr:text-left"
+                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] whitespace-nowrap text-black m p-3 dark:text-white rtl:text-right ltr:text-left border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Payment Method") }}
                     </th>
                     <th
-                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] rtl:pl-[32px] ltr:pr-[32px] text-black p-3 dark:text-slate-200 text-center"
+                      class="w-1/6 border-b text-[13px] font-[500] leading-[19px] rtl:pl-[32px] ltr:pr-[32px] text-black p-3 dark:text-white text-center border-[#D9D9D9] dark:border-darkborder"
                     >
                       {{ $t("Action") }}
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-[#F5F9FF] dark:bg-slate-800">
+                <tbody class="bg-[#F5F9FF] dark:bg-darkGrey">
                   
                   <tr
                   v-for="sb in sub.subscripitions.filter((f) => {
@@ -565,7 +565,7 @@ const openInvestor = (app,pack)=>{
                   >
 
                     <td
-                      class="w-2/6 border-b border-[#D9D9D9] text-[14px] leading-[21px] font-[600] p-3 text-black"
+                      class="w-2/6 text-[14px] leading-[21px] font-[600] p-3 border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       <div class="flex items-center space-x-2 rtl:space-x-reverse">
                         <img
@@ -589,12 +589,12 @@ const openInvestor = (app,pack)=>{
                           ? 'text-orange-400'
                           : 'text-red-600'
                       "
-                      class="capitalize w-1/6 border-b border-[#D9D9D9] text-[14px] leading-[21px] font-[600] dark:border-slate-700 p-3 dark:"
+                      class="capitalize w-1/6 text-[14px] leading-[21px] font-[600] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       {{ $t(`${sb.status[0].toUpperCase() + sb.status.slice(1)}`) }}
                     </td>
                     <td
-                      class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       {{new Date(sb.from_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
                         year: 'numeric',
@@ -603,7 +603,7 @@ const openInvestor = (app,pack)=>{
                       })}}
                     </td>
                     <td
-                      class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       {{
                         sb.package_type !== "Extra" && sb.type !== 'Investors'
@@ -617,7 +617,7 @@ const openInvestor = (app,pack)=>{
                     </td>
                     
                     <td
-                      class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       <div class="!w-[140px] truncate">{{$t(sb.mode_of_payment)}} 
                         {{ 
@@ -634,7 +634,7 @@ const openInvestor = (app,pack)=>{
                       </div>
                     </td>
                     <td
-                      class="border-b border-[#D9D9D9] dark:border-slate-700 text-[14px] leading-[21px] font-[500] text-black"
+                      class="text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       <div
                         class="flex items-center justify-center rtl:space-x-reverse space-x-[8px] rtl:pl-[12px] ltr:pr-[12px]"
