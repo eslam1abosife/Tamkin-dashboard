@@ -11,12 +11,12 @@ const getPlatformIconUrl = (type: string) => {
   const platform = socialPlatforms.value.find(
     (handler: any) => handler.name === type
   );
-  return platform ? `https://tamkin.app/${platform.icon}` : '';
+  return platform ? `https://tamkin.app/${platform.icon}` : "";
 };
 
 // Reactive state
 const state = reactive({
-  handlerscompany: [] as Array<{ name: string; icon: string; handler: string }>
+  handlerscompany: [] as Array<{ name: string; icon: string; handler: string }>,
 });
 
 // Vuelidate rules
@@ -35,18 +35,18 @@ const v$ = useVuelidate(rules, state);
 watch(
   () => profileStore.company.social_accounts,
   (newAccounts) => {
-    state.handlerscompany = newAccounts.map(account => ({
+    state.handlerscompany = newAccounts.map((account) => ({
       name: account.social_platform,
       icon: getPlatformIconUrl(account.social_platform),
-      handler: account.link
+      handler: account.link,
     }));
   },
   { immediate: true }
 );
 
-const props = defineProps(['currentTab']);
+const props = defineProps(["currentTab"]);
 const emit = defineEmits(["cancelupdate"]);
-const currentMode = inject('currentMode');
+const currentMode = inject("currentMode");
 
 // Methods
 const cancelUpdate = () => {
@@ -56,26 +56,26 @@ const cancelUpdate = () => {
 const updateSocial = (event: object, handler: any) => {
   // Handle update logic here
   // For example, update profileStore or make an API call
-
   // v$.value.$validate()
 };
 
 const normalizeUrl = (url: string) => {
   try {
     const { hostname } = new URL(url);
-    return hostname.replace(/^www\./, '').toLowerCase();
+    return hostname.replace(/^www\./, "").toLowerCase();
   } catch (error) {
     // Handle invalid URLs gracefully
-    return '';
+    return "";
   }
 };
-
 
 onMounted(async () => {
   await getSocialPlatforms();
 });
 
-const regex = ref(/^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:?#[@!$&'()*+,;=]*)?$/);
+const regex = ref(
+  /^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:?#[@!$&'()*+,;=]*)?$/
+);
 const isValidUrl = (url: string): boolean => {
   try {
     new URL(url);
@@ -94,36 +94,79 @@ const openLink = (link: string) => {
     window.open(link, "_blank");
   }
 };
-
-
 </script>
 
 <template>
-  <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
+  <div
+    class="bg-white/60 dark:bg-p shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+  >
     <div class="flex items-center justify-between w-full">
-      <div class="text-[16px] leading-[24px] font-[600]">{{$t('Portfolio')}}</div>
+      <div class="text-[16px] dark:text-whiteTamkin leading-[24px] font-[600]">
+        {{ $t("Portfolio") }}
+      </div>
       <div
         class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px] ipad-max:flex-wrap"
-        v-if="currentMode === 'normal' ||  !profileStore.isOwner"
+        v-if="currentMode === 'normal' || !profileStore.isOwner"
       >
-      <button 
-      :disabled="!isValidUrl(platform.link)"
-      v-for="(platform, index) in (profileStore.company.social_accounts.length > 0 ? profileStore.company.social_accounts : profileStore.social_platforms)"
-      :key="index"
-      @click="openLink(platform.link)"
-      class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
-    >
-      <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />
-    </button>
+        <button
+          :disabled="!isValidUrl(platform.link)"
+          v-for="(platform, index) in profileStore.company.social_accounts
+            .length > 0
+            ? profileStore.company.social_accounts
+            : profileStore.social_platforms"
+          :key="index"
+          @click="openLink(platform.link)"
+          class="bg-[#F6F6F6] dark:bg-p w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+        >
+          <img
+            :src="
+              getPlatformIconUrl(
+                profileStore.company.social_accounts.length > 0
+                  ? platform.social_platform
+                  : platform.title === 'LinkedIn'
+                  ? platform.title.toLowerCase()
+                  : platform.title
+              )
+            "
+            class="w-[25px] h-[25px]"
+            alt=""
+          />
+        </button>
       </div>
     </div>
 
-    <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing' && profileStore.isOwner">
-      <div class="w-full" v-if="profileStore.company && profileStore.company.social_accounts.length === 0">
-        <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full my-[10px]" 
-          v-for="(handler, index) in profileStore.social_platforms" :key="index">
-          <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
-            <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? handler.social_platform : (handler.title === 'LinkedIn' ? handler.title.toLowerCase() :handler.title))" class="w-[25px] h-[25px]" alt="" />
+    <div
+      class="flex flex-col items-start justify-start w-full"
+      v-if="currentMode === 'editing' && profileStore.isOwner"
+    >
+      <div
+        class="w-full"
+        v-if="
+          profileStore.company &&
+          profileStore.company.social_accounts.length === 0
+        "
+      >
+        <div
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full my-[10px]"
+          v-for="(handler, index) in profileStore.social_platforms"
+          :key="index"
+        >
+          <div
+            class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+          >
+            <img
+              :src="
+                getPlatformIconUrl(
+                  profileStore.company.social_accounts.length > 0
+                    ? handler.social_platform
+                    : handler.title === 'LinkedIn'
+                    ? handler.title.toLowerCase()
+                    : handler.title
+                )
+              "
+              class="w-[25px] h-[25px]"
+              alt=""
+            />
           </div>
           <div class="w-full relative">
             <input
@@ -133,8 +176,12 @@ const openLink = (link: string) => {
               placeholder=""
               class="input_floating_label peer w-full"
               :class="{
-                input_error: v$.handlerscompany?.$each?.[index]?.name?.$error && v$.handlerscompany?.$each?.[index]?.name?.required.$invalid,
-                input_success: !v$.handlerscompany?.$each?.[index]?.name?.$error && !v$.handlerscompany?.$each?.[index]?.name?.$invalid,
+                input_error:
+                  v$.handlerscompany?.$each?.[index]?.name?.$error &&
+                  v$.handlerscompany?.$each?.[index]?.name?.required.$invalid,
+                input_success:
+                  !v$.handlerscompany?.$each?.[index]?.name?.$error &&
+                  !v$.handlerscompany?.$each?.[index]?.name?.$invalid,
               }"
               @input="updateSocial($event, handler)"
             />
@@ -142,14 +189,20 @@ const openLink = (link: string) => {
               :for="`handler-${index}`"
               class="floating_label"
               :class="[
-                v$.handlerscompany?.$each?.[index]?.name?.$error && v$.handlerscompany?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
+                v$.handlerscompany?.$each?.[index]?.name?.$error &&
+                v$.handlerscompany?.$each?.[index]?.name?.required.$invalid
+                  ? '!text-error'
+                  : '',
               ]"
             >
-              {{$t(`${handler.title}*`)}}
+              {{ $t(`${handler.title}*`) }}
             </label>
             <div
               class="w-full lg:w-4/6"
-              v-if="v$.handlerscompany?.$each?.[index]?.name?.$error && v$.handlerscompany?.$each?.[index]?.name?.required.$invalid"
+              v-if="
+                v$.handlerscompany?.$each?.[index]?.name?.$error &&
+                v$.handlerscompany?.$each?.[index]?.name?.required.$invalid
+              "
             >
               <p class="error_message">
                 <span>
@@ -161,10 +214,19 @@ const openLink = (link: string) => {
         </div>
       </div>
       <div v-else class="w-full">
-        <div class="flex items-center justify-start space-x-[16px] my-[10px] w-full" 
-          v-for="(handler, index) in profileStore.company.social_accounts" :key="index">
-          <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
-            <img :src="getPlatformIconUrl(handler.social_platform)" class="w-[25px] h-[25px]" alt="" />
+        <div
+          class="flex items-center justify-start space-x-[16px] my-[10px] w-full"
+          v-for="(handler, index) in profileStore.company.social_accounts"
+          :key="index"
+        >
+          <div
+            class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+          >
+            <img
+              :src="getPlatformIconUrl(handler.social_platform)"
+              class="w-[25px] h-[25px]"
+              alt=""
+            />
           </div>
           <div class="w-full relative">
             <input
@@ -174,8 +236,12 @@ const openLink = (link: string) => {
               placeholder=""
               class="input_floating_label peer w-full"
               :class="{
-                input_error: v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid,
-                input_success: !v$.handlers?.$each?.[index]?.name?.$error && !v$.handlers?.$each?.[index]?.name?.$invalid,
+                input_error:
+                  v$.handlers?.$each?.[index]?.name?.$error &&
+                  v$.handlers?.$each?.[index]?.name?.required.$invalid,
+                input_success:
+                  !v$.handlers?.$each?.[index]?.name?.$error &&
+                  !v$.handlers?.$each?.[index]?.name?.$invalid,
               }"
               @input="updateSocial($event, handler)"
             />
@@ -183,14 +249,20 @@ const openLink = (link: string) => {
               :for="`handler-${index}`"
               class="floating_label"
               :class="[
-                v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
+                v$.handlers?.$each?.[index]?.name?.$error &&
+                v$.handlers?.$each?.[index]?.name?.required.$invalid
+                  ? '!text-error'
+                  : '',
               ]"
             >
-              {{$t(`${handler.social_platform}*`)}}
+              {{ $t(`${handler.social_platform}*`) }}
             </label>
             <div
               class="w-full lg:w-4/6"
-              v-if="v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid"
+              v-if="
+                v$.handlers?.$each?.[index]?.name?.$error &&
+                v$.handlers?.$each?.[index]?.name?.required.$invalid
+              "
             >
               <p class="error_message">
                 <span>
@@ -204,5 +276,3 @@ const openLink = (link: string) => {
     </div>
   </div>
 </template>
-
-
