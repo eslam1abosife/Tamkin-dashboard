@@ -3,6 +3,7 @@ import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 
 const {
   getInviteApps,
@@ -11,6 +12,8 @@ const {
   loadDefaultApp,
   loading: getSitesLoading,
 } = useGetAppInvites();
+
+const { loadingChars } = useGetCategoriesWithSkinItems();
 
 const { fullUrl } = useFullUrl();
 
@@ -25,7 +28,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
   >
     <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div
-      v-if="currentCategoryWithSkinItems.skin_items_list.length > 0"
+      v-if="currentCategoryWithSkinItems.skin_items_list.length > 0 && !loadingChars"
       class="market_card_char order-1 cursor-pointer"
       @click="playerStore.wearClothes(skin_item)"
       :role="marketStore.owned(skin_item) ? 'button' : ''"
@@ -352,6 +355,35 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
       </div>
     </div>
 
+    <div
+      v-if="loadingChars"
+      v-for="i in 5"
+      :key="i"
+      class="market_card_char animate-pulse order-1 cursor-pointer"
+    >
+      <div
+        class="w-full bg-gray-300 dark:bg-[#3a4a60] flex items-center justify-center rounded-[10px] relative"
+      >
+        <div class="h-[120px] flex items-end justify-center"></div>
+      </div>
+      <div
+        class="flex flex-col justify-center w-full items-evenly space-y-[10px] p-1"
+      >
+        <div
+          class="h-[14px] w-[60%] bg-gray-300 dark:bg-gray-700 rounded mt-2"
+        ></div>
+        <div class="flex flex-col !mt-[30px] space-y-[5px]">
+          <div class="flex items-center justify-between w-full mt-[24px]">
+            <div
+              class="bg-gray-300 dark:bg-gray-700 h-[20px] w-[35%] rounded"
+            ></div>
+            <div
+              class="w-[35px] h-[35px] bg-gray-300 dark:bg-gray-700 rounded-lg"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- <div v-else class="w-full">
       <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
           No data found!

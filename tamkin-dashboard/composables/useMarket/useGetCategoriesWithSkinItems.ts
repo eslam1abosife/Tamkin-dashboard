@@ -27,7 +27,7 @@ const marketStore = useMarketStore()
 
     
     const getFullDataFormated = async () => {
-        
+        loadingChars.value = true;
         try {
             const { data } = await api.post('/Market/GetFullDataFormated', {"AppName": "default"});
             if(!data.succeeded) throw(data.message);
@@ -35,9 +35,9 @@ const marketStore = useMarketStore()
             marketStore.categoriesWithSkinItems  = data.data.categories
 
             characters.value = data.data.charachters;
-            loadingChars.value = false
+            loadingChars.value = false;
         } catch (error) {
-            loadingChars.value = false
+            loadingChars.value = false;
 
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }

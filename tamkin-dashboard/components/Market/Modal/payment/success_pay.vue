@@ -11,11 +11,9 @@ import {
 const { getCartItems } = useCart();
 const {
   getFullDataFormated,
-  categoriesWithSkinItems,
   characters,
-  loading: getInstallationLoading,
 } = useGetCategoriesWithSkinItems();
-
+const playerStore = usePlayerStore();
 
 const setDefaultQuery = async (tryagain) => {
  if(tryagain){
@@ -39,8 +37,8 @@ return navigateTo('successPayment_market', 'market', 'paymentMethods_market')
    
   closeModal('successPayment_market')
   await getFullDataFormated();
-
-await getCartItems();
+  await getCartItems();
+  playerStore.characters = characters.value;
  }
 }
 

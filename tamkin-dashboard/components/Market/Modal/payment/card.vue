@@ -5,14 +5,9 @@ import { useCart, useGetCategoriesWithSkinItems } from "@/composables/useMarket"
 import { useCouponCode } from "@/composables/useMarket";
 const {locale } = useI18n()
 
-const {
-  getFullDataFormated,
-  characters,
-} = useGetCategoriesWithSkinItems();
-const { createOrder, messageData ,codeStatus, getCartItems} = useCart();
+const { createOrder, messageData ,codeStatus} = useCart();
 const { ApplyCoupon } = useCouponCode();
 
-const playerStore = usePlayerStore();
 const billingStore = useBillingStore();
 const marketStore = useMarketStore();
 import {
@@ -152,9 +147,6 @@ const continueCheckOut = async () => {
   const res = await createOrder('Card', currentCard.value,locale.value);
   // return navigateTo('cardModal','add-site','crypto')
   if (codeStatus.value === 200) {
-    await getFullDataFormated();
-    getCartItems();
-    playerStore.characters = characters.value;
     urlPayment.value = res
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
 

@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
-import { useCart } from "@/composables/useMarket";
+import { useCart,useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 const {locale } = useI18n()
 
 const { createOrder, cartItems,messageData,codeStatus } = useCart();
 const marketStore = useMarketStore();
-
 const {
   isOpen,
   currentView,
