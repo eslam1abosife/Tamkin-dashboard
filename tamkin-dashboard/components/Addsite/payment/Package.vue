@@ -902,7 +902,7 @@ const closeModalPackage = () => {
                 >
                   <div class="w-[150px] flex items-center h-[40px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] 
+                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B]  dark:text-white
                       font-[500] whitespace-nowrap"
                     >
                       <div>{{ website.title }}</div>

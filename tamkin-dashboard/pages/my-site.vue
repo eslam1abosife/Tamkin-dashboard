@@ -1164,7 +1164,7 @@ const openInvestor = (app, pack) => {
                   </tr>
                 </thead>
                 <tbody
-                  class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
+                  class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder"
                 >
                   <template
                     v-for="(app, index) in paginatedFilteredAppList"
@@ -1181,7 +1181,7 @@ const openInvestor = (app, pack) => {
                           app.package[0].type !== 'Investors') ||
                           (app.package[0].type === 'Investors' &&
                             app.package[0].status === 'not_installed'))
-                          ? 'bg-[#FAEBEB]'
+                          ? '!bg-[#FAEBEB] dark:!bg-[#bb8181]'
                           : '',
 
                         mysiteStore.selectedApp &&

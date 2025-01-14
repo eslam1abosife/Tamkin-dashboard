@@ -416,7 +416,7 @@ function leaveCart(el, done) {
                   <div>****{{ savedCard.last4 }}</div>
                 </div>
                 <div
-                  class="text-darkGrey text-[13px] font-[400] leading-[10px]"
+                  class="text-darkGrey dark:text-whiteTamkin/80 text-[13px] font-[400] leading-[10px]"
                 >
                   {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
                   {{ savedCard.expyear }}
@@ -467,13 +467,13 @@ function leaveCart(el, done) {
       </h1>
 
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white">
-          <tbody class="text-gray-700">
+        <table class="min-w-full bg-white dark:bg-tamkinDarkPrimary">
+          <tbody class="text-gray-700 dark:text-white">
             <!-- Loop through invoices -->
             <tr
               v-for="invoice in computedInvoices"
               :key="invoice.name"
-              class="border-t border-b border-gray-200"
+              class="border-t border-b border-gray-200 dark:border-darkborder"
             >
               <td
                 class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px]"
@@ -517,7 +517,7 @@ function leaveCart(el, done) {
                   </svg>
                 </div>
                 <div
-                  class="text-[13px] font-[500] leading-[20px] text-darkGrey"
+                  class="text-[13px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin"
                 >
                   {{ new Date(invoice.creation).toLocaleDateString() }}
                 </div>
@@ -525,12 +525,12 @@ function leaveCart(el, done) {
 
               <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
                 <div
-                  class="text-[14px] leading-[19px] text-darkGrey font-[500]"
+                  class="text-[14px] leading-[19px] text-darkGrey dark:text-white font-[500]"
                 >
                   {{ $t(`${invoice.payment_type}`) }}
                 </div>
                 <div
-                  class="text-[13px] leading-[19px] text-darkGrey font-[500]"
+                  class="text-[13px] leading-[19px] text-darkGrey dark:text-white font-[500]"
                 >
                   {{ $t(`${invoice.payment_card}`) }}
                 </div>
@@ -538,7 +538,7 @@ function leaveCart(el, done) {
 
               <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
                 <div
-                  class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
+                  class="text-darkGrey dark:text-white text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >
                   {{
                     invoice.payment_type === "Crypto"
@@ -550,7 +550,7 @@ function leaveCart(el, done) {
                   }}
                 </div>
                 <div
-                  class="text-darkGrey text-[13px] leading-[19px] font-[500]"
+                  class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[19px] font-[500]"
                 >
                   {{ $t(`${invoice.order_type}`) }}
                   {{
