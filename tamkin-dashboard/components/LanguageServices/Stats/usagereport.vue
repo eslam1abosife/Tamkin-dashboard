@@ -23,13 +23,7 @@ const accuracy = computed(() => {
   <div v-if="!statsStore.loadingStatsIntranlsation "
     class="my-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-  <MessagesLockedFeature
-  v-if="
-    navStore.defaultappobj?.package?.filter(
-      (p) => p.type === 'Sign language'
-    ).length === 0
-  "
-/>
+
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
         <h1
@@ -177,9 +171,19 @@ const accuracy = computed(() => {
     </div>
 
     <div
-      class="w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+      class="relative w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('balance_card')"
+      :class="[ navStore.defaultappobj?.package?.filter(
+        (p) => p.type === 'Sign language'
+      ).length === 0 ? 'h-[300px]':'']"
     >
+    <MessagesLockedFeature
+    v-if="
+      navStore.defaultappobj?.package?.filter(
+        (p) => p.type === 'Sign language'
+      ).length === 0
+    "
+  />
       <div class="flex items-center justify-between w-full">
         <div >
           <CircularProgressBar

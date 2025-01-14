@@ -224,9 +224,9 @@ v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').sta
             >
               <h1>
                 {{
-                  navStore.defaultappobj?.package?.find(
-                    (p) => p.type === "Sign language"
-                  ).title
+              $t(    navStore.defaultappobj?.package?.find(
+                (p) => p.type === "Sign language"
+              ).title)
                 }}
               </h1>
             </div>
@@ -247,22 +247,29 @@ v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').sta
                 {{ $t(`Expired`) }}
               </div>
               <template v-else>
-                <div class="flex items-center" key="not-expired">
+                <div class="flex items-center justify-center space-x-[8px] rtl:space-x-reverse" key="not-expired">
                   <div
-                    class="text-[13px] leading-[24px] font-[400] w-[200px] dark:text-whiteTamkin"
+                    class="text-[13px] leading-[24px] font-[400]  dark:text-whiteTamkin"
                   >
-                    {{ $t("Package Expires in") }}
+                    {{ $t("Expires on") }}
                   </div>
                   <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[auto] dark:text-whiteTamkin"
+                    class="flex items-center justify-center custom-border-tamkin padding-override-1
+                     h-[23px] p-[12px] text-[13px] leading-[24px] font-[500]  dark:text-whiteTamkin"
                   >
-                    {{
-                      new Date(
+                  
+                     
+
+                      {{ new Date(
                         navStore.defaultappobj?.package?.find(
                           (p) => p.type === "Sign language"
                         ).to_date
-                      ).toDateString()
-                    }}
+                      ).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                        year: 'numeric',
+                        month: 'long', 
+                        day: 'numeric',
+                      })}}
+                
                   </div>
                 </div>
               </template>

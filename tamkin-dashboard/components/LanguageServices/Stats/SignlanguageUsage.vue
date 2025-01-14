@@ -41,7 +41,7 @@ const formattedTotal = computed(() => {
           {{ $t("Translation") }}
         </h1>
         <p
-          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[15px] w-2/4"
+          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[15px] w-3/4"
         >
           {{
             $t(
@@ -267,6 +267,9 @@ const formattedTotal = computed(() => {
     <div
       class="relative w-full lg:mt-[-90px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
       v-if="!collapseStore.collapses.includes('translation_stats_card') && !statsStore.loadingStatsIntranlsation"
+      :class="[ navStore.defaultappobj?.package?.filter(
+        (p) => p.type === 'Sign language'
+      ).length === 0 ? 'h-[500px]':'']"
     >
       <MessagesLockedFeature
         v-if="
@@ -274,8 +277,12 @@ const formattedTotal = computed(() => {
             (p) => p.type === 'Sign language'
           ).length === 0
         "
+        class="mt-[100px]"
       />
-      <div
+      <div  
+      :class="[ navStore.defaultappobj?.package?.filter(
+        (p) => p.type === 'Sign language'
+      ).length > 0 ? 'visible':'invisible']"
         class="flex items-center justify-start ml-auto mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full
          ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
       >

@@ -10,7 +10,7 @@ const {
 } = useGetAppInvites();
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
+const loadingsubmtion = ref(false)
 const { $toast } = useNuxtApp();
 const { getAvatarLetters } = useGetAvatarLetters();
 const getApps = async () => {
@@ -73,16 +73,19 @@ const errMsg = ref(false);
 
 const submit = async () => {
   errMsg.value = null;
+  loadingsubmtion.value = true
   try {
     await updateDefaultApp(checked.value);
     const user = JSON.parse(localStorage.getItem("user"));
-    await getInviteApps({ agency: user.agency });
+    // await getInviteApps({ agency: user.agency });
     emit("onSuccess", "Selected Successfully!");
     closeModal("selectSite");
     getApps();
     $toast(t("Default Site Updated Successfully!"), { hideIn: 3000 });
   } catch (err) {
     errMsg.value = err;
+    loadingsubmtion.value = false
+
   }
 };
 </script>
@@ -304,18 +307,18 @@ const submit = async () => {
           {{ $t("Cancel") }}
         </button>
         <button
-          :class="!checked || submitLoading"
-          :disabled="!checked || submitLoading"
+          :class="!checked || loadingsubmtion"
+          :disabled="!checked || loadingsubmtion"
           @click="submit"
           class="btn-dashboard hover_tamkin text-center w-1/6"
         >
           <div class="flex items-center justify-center">
-            <div :class="submitLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
+            <div :class="loadingsubmtion ? 'rtl:ml-2 ltr:mr-2' : ''">
               {{ $t("Save") }}
             </div>
 
             <svg
-              v-if="submitLoading"
+              v-if="loadingsubmtion"
               class="animate-spin h-5 w-5 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

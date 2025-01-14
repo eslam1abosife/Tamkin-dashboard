@@ -1,15 +1,17 @@
 <template>
-    <div class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow">
-            <div class="flex items-center justify-center h-screen">
-                <div class="w-8 h-8 border-4 border-tamkin border-t-transparent border-solid rounded-full animate-spin"></div>
-            </div>
-      </div>
+    <div v-for="i in 8" :key="i"
+    class="scroll-item animate-pulse !bg-gray-300 cursor-pointer flex items-center justify-center rtl:space-x-reverse space-x-[10px] rounded-t-xl flex-grow"
+  ></div>
 </template>
 
 <script setup lang="ts">
 
 </script>
 
-<style scoped>
-
+<style >
+.scroll-item {
+    flex: 0 0 150px; /* Fixed width for each item */
+    @apply h-[45px];
+  }
+  
 </style>

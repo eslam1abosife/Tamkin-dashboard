@@ -56,7 +56,7 @@ const selectApp = (app: any) => {
 <template>
   <div
     v-if="isOpen('transferstep1')"
-    class="fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[85vh]"
+    class="fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-auto"
     style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
   >
     <div

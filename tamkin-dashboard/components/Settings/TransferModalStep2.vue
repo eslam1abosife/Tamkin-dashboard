@@ -21,7 +21,7 @@ const isshowError = ref(false);
 const showErrorMess = ref("");
 const confirmTransfer = async () => {
   showSuccess.value = true;
-  isshowError.value = true;
+  // isshowError.value = true;
   loadingTransfer.value = true;
   try {
     const res = await api.post("/Apps/TransferLicense", {
@@ -32,10 +32,10 @@ const confirmTransfer = async () => {
       SuccessStep2Transfer.value = true;
       console.log("res", res.data);
 
-      if (res.data?.statusCode == 200) {
+      if (res.data?.statusCode === 200) {
         showSuccess.value = true;
       }
-      if (res.data?.statusCode == 400) {
+      if (res.data?.statusCode === 400) {
         isshowError.value = true;
         showErrorMess.value = res.data?.message;
       }
@@ -66,7 +66,7 @@ const manageSites = () => {
 <template>
   <div
     v-if="isOpen('transferstep2')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[80vh]"
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[auto]"
     style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
   >
     <div

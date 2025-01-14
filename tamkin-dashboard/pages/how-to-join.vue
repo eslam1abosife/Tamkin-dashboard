@@ -35,21 +35,14 @@ onMounted(() => {
 });
 const currentFaq = ref()
 
-// Transition hooks
-const beforeEnter = (el) => {
-  el.style.height = '0';
+const extractAndTranslate = (htmlString) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  const paragraphs = Array.from(doc.querySelectorAll("p"));
+  return paragraphs.map((p) => t(p.textContent.trim())); 
 };
 
-const enter = (el) => {
-  el.offsetHeight; // trigger reflow
-  el.style.transition = 'height 0.3s ease';
-  el.style.height = `${el.scrollHeight}px`;
-};
-
-const leave = (el) => {
-  el.style.transition = 'height 0.3s ease';
-  el.style.height = '0';
-};
+// const translatedList = ref();
 </script>
 
 <template>
@@ -173,7 +166,11 @@ const leave = (el) => {
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <div class="custom-list-styles" v-html="data.page_cards_items[1].description"></div>
+           
+            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[1].description) " :key="index">
+              {{ item }}
+            </li>
+            
           </ul>
           </div>
         </div>
@@ -195,7 +192,9 @@ const leave = (el) => {
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <div class="custom-list-styles" v-html="data.page_cards_items[2].description"></div>
+            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[2].description) " :key="index">
+              {{ item }}
+            </li>
 
             </ul>
           </div>
@@ -217,7 +216,9 @@ const leave = (el) => {
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <div class="custom-list-styles" v-html="data.page_cards_items[3].description"></div>
+            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[3].description) " :key="index">
+              {{ item }}
+            </li>
 
             </ul>
           </div>

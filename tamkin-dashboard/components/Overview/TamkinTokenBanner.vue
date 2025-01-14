@@ -13,7 +13,7 @@ const localePath = useLocalePath();
     from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[6px] w-full"
      >
     <h1 class="text-[18px] leading-[30px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
-      {{ $t(`Buy Tamkin Token – TSLT and Join in our Investor Program`) }}
+      {{ $t(`Buy Tamkin Token - TSLT and Join in our Investor Program`) }}
     </h1>
     <div class="relative mb-6 w-full">
       <div class="absolute rtl:left-0 ltr:right-0 top-10 lg:block hidden">

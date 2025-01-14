@@ -20,11 +20,11 @@
 //         });
 
 //         // Log before adding the event listener
-//         console.log("Registering chatwoot:ready event listener");
+//         // console.log("Registering chatwoot:ready event listener");
 
 //         window.addEventListener("chatwoot:ready", function () {
-//           console.log("Chatwoot is ready!");
-//           alert("Chatwoot is ready!");
+//         //   console.log("Chatwoot is ready!");
+//         //   alert("Chatwoot is ready!");
 
 //           // Further customizations
 //           window.$chatwoot.setLocale("en");

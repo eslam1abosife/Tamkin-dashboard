@@ -163,6 +163,7 @@ const navStore = useNavbarStore();
     <div
       class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('usage_stats_card')"
+
     >
       <MessagesLockedFeature
         v-if="
@@ -170,8 +171,9 @@ const navStore = useNavbarStore();
             (p) => p.type === 'Sign language'
           ).length === 0
         "
+        class=""
       />
-      <table class="min-w-full leading-normal">
+      <table class="min-w-full leading-normal " >
         <thead>
           <tr>
             <th

@@ -68,17 +68,20 @@ const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
-  if (!pattern.includes("*")) {
-    return currentPath === pattern;
+  // Handle wildcard patterns
+  if (pattern.includes("*")) {
+    // Convert wildcard pattern to a regex (escaping special characters except *)
+    const regexPattern = pattern
+      .replace(/[.+^${}()|[\]\\]/g, "\\$&") // Escape special regex characters
+      .replace(/\\\*/g, ".*"); // Convert wildcard (*) to regex (.*)
+
+    const regex = new RegExp(`^${regexPattern}$`);
+    return regex.test(currentPath);
   }
 
-  // Convert wildcard pattern to regex
-  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
-
-  return regex.test(currentPath);
+  // Exact match for paths without wildcards
+  return currentPath === pattern;
 };
-
 const { resetModal } = storeToRefs(marketStore);
 const { $toast } = useNuxtApp();
 const {
@@ -873,6 +876,22 @@ const DiscardAndMove = () => {
 };
 
 const loadf = ref(true);
+const   isAnyLinkActive = computed(()=> {
+    const activeLinks = [
+      '/addons',
+      '/statistics',
+      '/overview',
+      '/customize',
+      '/settings',
+      '/sign-language/overview',  
+      '/sign-language/statistics',
+      '/sign-language/customize',
+      '/sign-language/addons',
+      '/sign-language/settings',
+      
+    ];
+    return activeLinks.some(link => isLinkActive(link));
+  })
 </script>
 
 <template>
@@ -1127,15 +1146,8 @@ const loadf = ref(true);
             <div
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
               class="absolute left-0 right-0 w-full h-[200px] z-[40] dark:bg-gradient-to-t top-0 dark:bg-tamkinDarkPrimary kjer dark:border-darkborder dark:text-whiteTamkin"
-              v-if="
-                (isLinkActive('/addons') ||
-                  isLinkActive('/statistics') ||
-                  isLinkActive('/overview') ||
-                  isLinkActive('/customize') ||
-                  isLinkActive('/settings') ||
-                  isLinkActive('/sign-language/*')) &&
-                !error
-              "
+              v-if="isAnyLinkActive && !error"
+
             ></div>
 
             <div class="relative px-[15px]">

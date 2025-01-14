@@ -84,6 +84,7 @@ const isLinkActive = (path) => {
 
 <template>
   <div class="space-y-[10px] relative !z-[50]">
+
     <h1
       v-if="!loadApp"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
