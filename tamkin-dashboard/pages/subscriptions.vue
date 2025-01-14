@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { useGetSubscriptions } from "@/composables/usePackages";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-import { useCancelSubscription, useGetTotalAmountPacks ,useGetRenewdetails} from "@/composables/usePackages";
-const { locale,t } = useI18n();
+import {
+  useCancelSubscription,
+  useGetTotalAmountPacks,
+  useGetRenewdetails,
+} from "@/composables/usePackages";
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Subscriptions - Tamkin Dashboard"),
-})
-const { detailsRenew, messageData:rn ,codeStatus:rr} = useGetRenewdetails();
+});
+const { detailsRenew, messageData: rn, codeStatus: rr } = useGetRenewdetails();
 
 const {
   cancelPackage,
@@ -17,7 +21,11 @@ const {
 const { getTotalAmountPackages } = useGetTotalAmountPacks();
 const { $toast } = useNuxtApp();
 const { getAvatarLetters } = useGetAvatarLetters();
-import { useDeleteApp, useRestoreApp, useGetPackage } from "@/composables/useMySite";
+import {
+  useDeleteApp,
+  useRestoreApp,
+  useGetPackage,
+} from "@/composables/useMySite";
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
 const { getSubs } = useGetSubscriptions();
 const loadingSubs = ref(false);
@@ -30,9 +38,7 @@ definePageMeta({
 });
 const route = useRoute();
 const subs = ref([]);
-onBeforeMount(()=>{
-
-})
+onBeforeMount(() => {});
 const isPageRefreshed = ref(false);
 
 onMounted(async () => {
@@ -40,11 +46,10 @@ onMounted(async () => {
 
   loadingSubs.value = true;
   const res = await getSubs();
-  const renewdetails  = await detailsRenew()
- subsStore.totalRenews = renewdetails
+  const renewdetails = await detailsRenew();
+  subsStore.totalRenews = renewdetails;
   subs.value = res;
   loadingSubs.value = false;
-
 });
 
 const {
@@ -76,7 +81,7 @@ const filterBYTime = ref(0);
 const filterByType = ref(0);
 const changePeriod = (p) => {
   filterBYTime.value = p;
-  if (p || p ===0) {
+  if (p || p === 0) {
     filterByType.value = "";
   }
 };
@@ -100,26 +105,24 @@ const filteredSubs = computed(() => {
       ); // Ensure app_domain is not null or undefined
   }
   return subs.value
-  .filter((sub) => sub.subscripitions.length > 0)
-  .filter((sub) => {
-  // Filter the subscriptions that match the filters
-  const filteredSubscriptions = sub.subscripitions.filter((f) => {
+    .filter((sub) => sub.subscripitions.length > 0)
+    .filter((sub) => {
+      // Filter the subscriptions that match the filters
+      const filteredSubscriptions = sub.subscripitions.filter((f) => {
+        const timeMatch = filterBYTime.value
+          ? Number(f.month_difference) === filterBYTime.value
+          : true;
 
-const timeMatch = filterBYTime.value ? Number(f.month_difference) === filterBYTime.value : true;
+        const typeMatch = filterByType.value
+          ? f.type && f.type === filterByType.value
+          : true;
 
-const typeMatch = filterByType.value ? (f.type && f.type === filterByType.value) : true;
+        return timeMatch && typeMatch;
+      });
 
-return timeMatch && typeMatch;
-})
-
-
-  // Only return subs where there are matching subscriptions
-  return filteredSubscriptions.length > 0;
-});
-
-
-
-
+      // Only return subs where there are matching subscriptions
+      return filteredSubscriptions.length > 0;
+    });
 });
 
 const currentInvoice = ref("");
@@ -129,7 +132,9 @@ const cancelSubscriptionInternal = async () => {
   await cancelPackage(currentInvoice.value, currentApp.value);
   if (subCodeStatus.value === 200) {
     closeModal("cancel_subscription_subs");
-    $toast(t("Your subscription has been successfully cancelled."), { hideIn: 3000 });
+    $toast(t("Your subscription has been successfully cancelled."), {
+      hideIn: 3000,
+    });
     loadingSubs.value = true;
     const res = await getSubs();
     loadingSubs.value = false;
@@ -140,26 +145,26 @@ const cancelSubscriptionInternal = async () => {
     closeModal("cancel_subscription_subs");
   }
 };
-const router= useRouter()
+const router = useRouter();
 
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
     if (route.query.locale === "ar") {
       await router.push({
-        path: '/ar/subscriptions',
+        path: "/ar/subscriptions",
         query: { paid: route.query.paid, locale: "ar" },
       });
 
       openModal("success_pay_mysite", "mysite");
-    if(isOpen('success_pay_mysite')){
-      // await router.replace({ query: {} });
-    }
+      if (isOpen("success_pay_mysite")) {
+        // await router.replace({ query: {} });
+      }
     } else {
       openModal("success_pay_mysite", "mysite");
       // await router.replace({ query: {} });
-      if(isOpen('success_pay_mysite')){
-      // await router.replace({ query: {} });
-    }
+      if (isOpen("success_pay_mysite")) {
+        // await router.replace({ query: {} });
+      }
     }
   }
 };
@@ -181,11 +186,12 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     package_price_role: packagemodal.price_roles,
     billing_duration:
       pack.month_difference > 0
-        ? Number(pack.month_difference) === 3 && pack.remarks !== 'Free Trial'
+        ? Number(pack.month_difference) === 3 && pack.remarks !== "Free Trial"
           ? "3 months"
-          : Number(pack.month_difference) === 12&& pack.remarks !== 'Free Trial'
+          : Number(pack.month_difference) === 12 &&
+            pack.remarks !== "Free Trial"
           ? "yearly"
-          : Number(pack.month_difference) === 1&& pack.remarks !== 'Free Trial'
+          : Number(pack.month_difference) === 1 && pack.remarks !== "Free Trial"
           ? "monthly"
           : "none"
         : "none",
@@ -236,7 +242,6 @@ const refreshData = async () => {
   subs.value = res;
 
   loadingSubs.value = false;
-
 };
 const subsStore = useSubsStore();
 const openRenewall = async () => {
@@ -244,77 +249,131 @@ const openRenewall = async () => {
   subsStore.selectedCrypto = "";
   subsStore.packagePayload = {
     total: subsStore.totalRenews.reduce((sum, item) => {
-  return sum + (item.amount || 0); 
-}, 0)
+      return sum + (item.amount || 0);
+    }, 0),
   };
   return navigateTo(null, "subs", "payment_methods_subs");
 };
-const openInvestor = (app,pack)=>{
+const openInvestor = (app, pack) => {
   mysiteStore.currentWebsite = {
     ...app,
-    package :pack
-  }
-  openModal('join_to_investor') 
-}
+    package: pack,
+  };
+  openModal("join_to_investor");
+};
 </script>
 
 <template>
   <div class="w-full mx-auto">
-    <PackagesPaymentModalsJoinInvestorStep1 @update-data="refreshData" v-if="isOpen('join_to_investor')" />
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <PackagesPaymentModalsJoinInvestorStep1
+      @update-data="refreshData"
+      v-if="isOpen('join_to_investor')"
+    />
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <SubsRenewPaymentMethods />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <SubsRenewCard v-if="isOpen('cardModal_subs')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <SubsRenewCryptoStep1 v-if="isOpen('crypto_subs_step1')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <SubsRenewCryptoStep2 v-if="isOpen('crypto_subs_step2')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <SubsRenewPaypal v-if="isOpen('paypal_subs')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySiteUpgrade
         :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
         v-if="isOpen('upgrade_mysite_package')"
       />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentPaymentmethods />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentSuccess
         @updateData="refreshData"
         v-if="isOpen('success_pay_mysite')"
       />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoSuccess  v-if="isOpen('success_pay_mysite')"/>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess v-if="isOpen('success_pay_mysite')" />
     </transition>
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoSuccess @updateData="refreshData"  v-if="isOpen('crypto_mysite_success')" />
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess
+        @updateData="refreshData"
+        v-if="isOpen('crypto_mysite_success')"
+      />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentPaypal />
     </transition>
     <ModalsConfirm
@@ -346,30 +405,52 @@ const openInvestor = (app,pack)=>{
     </div>
 
     <div
-      v-if="!loadingSubs && subs.filter((t) => t.subscripitions.length > 0).length > 0"
+      v-if="
+        !loadingSubs &&
+        subs.filter((t) => t.subscripitions.length > 0).length > 0
+      "
       style="box-shadow: 0px 4px 12px 0px #00000014"
       class="w-full h-[125px] rounded-[10px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#C0CAFF]/[79%] to-white/[79%] px-[16px] my-[30px] relative flex items-center justify-between"
     >
       <div class="absolute left-[40%] z-10">
-        <img src="/imgs/subscription_hero.png" class="w-[233px] h-[121px]" alt="" />
+        <img
+          src="/imgs/subscription_hero.png"
+          class="w-[233px] h-[121px]"
+          alt=""
+        />
       </div>
       <div class="absolute left-[0%]">
-        <img src="/imgs/subscription_hero.png" class="w-[150px] h-[80px]" alt="" />
+        <img
+          src="/imgs/subscription_hero.png"
+          class="w-[150px] h-[80px]"
+          alt=""
+        />
       </div>
       <div class="absolute bottom-[60px] right-[0%]">
-        <img src="/imgs/subscription_hero.png" class="w-[156px] h-[59px]" alt="" />
+        <img
+          src="/imgs/subscription_hero.png"
+          class="w-[156px] h-[59px]"
+          alt=""
+        />
       </div>
       <div class="flex flex-col items-start justify-start static z-[40]">
         <div class="text-[18px] leading-[27px] font-[600] text-[#3D3D3D]">
           ${{
             subsStore.totalRenews.reduce((sum, item) => {
-              return sum + (item.amount || 0); 
-            }, 0) ? subsStore.totalRenews.reduce((sum, item) => {
-              return sum + (item.amount || 0); 
-            }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0
+              return sum + (item.amount || 0);
+            }, 0)
+              ? subsStore.totalRenews
+                  .reduce((sum, item) => {
+                    return sum + (item.amount || 0);
+                  }, 0)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : 0
           }}
         </div>
-        <div class="text-[13px] font-[500] leading-[19px] text-darkGrey mt-[6px]">
+        <div
+          class="text-[13px] font-[500] leading-[19px] text-darkGrey mt-[6px]"
+        >
           {{ $t("Total value of renewals") }}
         </div>
       </div>
@@ -384,36 +465,43 @@ const openInvestor = (app,pack)=>{
 
     <div
       v-else-if="loadingSubs"
-      class="w-full h-[125px] bg-gray-300 animate-pulse my-[30px] rounded-[10px]"
+      class="w-full h-[125px] dark:bg-tamkinDarkPrimary bg-gray-300 animate-pulse my-[30px] rounded-[10px]"
     ></div>
 
     <div
       class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
-      v-if="subs.filter((t) => t.subscripitions.length > 0).length === 0 && !loadingSubs"
+      v-if="
+        subs.filter((t) => t.subscripitions.length > 0).length === 0 &&
+        !loadingSubs
+      "
     >
-
       <div class="flex flex-col items-center justify-center space-y-[10px]">
         <img src="/imgs/no_subs.png" class="w-[71px] h-[71px]" alt="" />
         <div
           class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center"
         >
-          {{ $t(`You don't have any subscriptions in this list at the moment`) }}
+          {{
+            $t(`You don't have any subscriptions in this list at the moment`)
+          }}
         </div>
 
         <button
           @click="$router.push(localePath('/packages'))"
           class="btn-dashboard hover_tamkin w-[158px]"
         >
-          {{ $t('Subscribe Now') }}
+          {{ $t("Subscribe Now") }}
         </button>
       </div>
     </div>
     <div
       v-else-if="loadingSubs"
-      class="bg-gray-300 rounded-[10px] h-[273px] w-full animate-pulse"
+      class="bg-gray-300 dark:bg-tamkinDarkPrimary rounded-[10px] h-[273px] w-full animate-pulse"
     ></div>
     <div
-      v-if="subs.filter((t) => t.subscripitions.length > 0).length > 0 && !loadingSubs"
+      v-if="
+        subs.filter((t) => t.subscripitions.length > 0).length > 0 &&
+        !loadingSubs
+      "
       style="box-shadow: 0px 4px 12px 0px #00000014"
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full h-full px-[16px] py-[28px]"
     >
@@ -442,38 +530,52 @@ const openInvestor = (app,pack)=>{
             </div>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-[8px] justify-center">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-[8px] justify-center"
+        >
           <div
             @click="changePeriod(0)"
-            :class="[filterBYTime === 0 ? 'bg-tamkinLight dark:!text-black' : '']"
+            :class="[
+              filterBYTime === 0 ? 'bg-tamkinLight dark:!text-black' : '',
+            ]"
             class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("All") }}
           </div>
           <div
             @click="changePeriod(1)"
-            :class="[filterBYTime === 1 ? 'bg-tamkinLight dark:!text-black' : '']"
+            :class="[
+              filterBYTime === 1 ? 'bg-tamkinLight dark:!text-black' : '',
+            ]"
             class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Monthly") }}
           </div>
           <div
             @click="changePeriod(3)"
-            :class="[filterBYTime === 3 ? 'bg-tamkinLight dark:!text-black' : '']"
+            :class="[
+              filterBYTime === 3 ? 'bg-tamkinLight dark:!text-black' : '',
+            ]"
             class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("3 Months") }}
           </div>
           <div
             @click="changePeriod(12)"
-            :class="[filterBYTime === 12 ? 'bg-tamkinLight dark:!text-black' : '']"
+            :class="[
+              filterBYTime === 12 ? 'bg-tamkinLight dark:!text-black' : '',
+            ]"
             class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Yearly") }}
           </div>
           <div
             @click="filtertype('Investors')"
-            :class="[filterByType === 'Investors' ? 'bg-tamkinLight dark:!text-black' : '']"
+            :class="[
+              filterByType === 'Investors'
+                ? 'bg-tamkinLight dark:!text-black'
+                : '',
+            ]"
             class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Investor") }}
@@ -506,13 +608,17 @@ const openInvestor = (app,pack)=>{
                 />
               </div>
             </div>
-            <div class="text-darkGrey dark:text-whiteTamkin/80 font-[600] text-[15px]">
+            <div
+              class="text-darkGrey dark:text-whiteTamkin/80 font-[600] text-[15px]"
+            >
               {{ sub.app_domain ? sub.app_domain : $t(`${sub.title}`) }}
             </div>
           </div>
           <div class="relative rounded-xl mt-[19px]">
             <div class="">
-              <table class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey">
+              <table
+                class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey"
+              >
                 <thead>
                   <tr>
                     <th
@@ -548,35 +654,53 @@ const openInvestor = (app,pack)=>{
                   </tr>
                 </thead>
                 <tbody class="bg-[#F5F9FF] dark:bg-darkGrey">
-                  
                   <tr
-                  v-for="sb in sub.subscripitions.filter((f) => {
+                    v-for="sb in sub.subscripitions.filter((f) => {
+                      // Time filter: checks if filterBYTime.value exists and matches the month_difference value
+                      const timeMatch = filterBYTime
+                        ? Number(f.month_difference) === filterBYTime
+                        : true;
 
-                    // Time filter: checks if filterBYTime.value exists and matches the month_difference value
-                    const timeMatch = filterBYTime ? Number(f.month_difference) === filterBYTime : true;
-                
-                    // Type filter: Ensures that type is not empty and matches filterByType.value
-                    const typeMatch = filterByType ? (f.type && f.type === filterByType) : (f.type ? true : false);
-                
-                    // Return only subscriptions where both filters match
-                    return timeMatch && typeMatch;
-                })"
+                      // Type filter: Ensures that type is not empty and matches filterByType.value
+                      const typeMatch = filterByType
+                        ? f.type && f.type === filterByType
+                        : f.type
+                        ? true
+                        : false;
+
+                      // Return only subscriptions where both filters match
+                      return timeMatch && typeMatch;
+                    })"
                     :key="sb.name"
                   >
-
                     <td
                       class="w-2/6 text-[14px] leading-[21px] font-[600] p-3 border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
-                      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                      <div
+                        class="flex items-center space-x-2 rtl:space-x-reverse"
+                      >
                         <img
-                          :src="configrun.public.baseImagerUrl + sb.package_icon"
+                          :src="
+                            configrun.public.baseImagerUrl + sb.package_icon
+                          "
                           class="w-[20px] h-[20px] object-cover rounded-full overflow-hidden"
                           alt="Image"
                         />
                         <span class="whitespace-nowrap">
-                          {{$t(sb.package_title.split(' ').filter(t => t !== 'Buy').join(' '))
-                        }} <span v-if="sub.title === 'Internal Service'">- {{$t(`${sb.extreatype}`)}}</span>
-                          <span class="font-[400]"> - {{ $t(`${sb.type}`) }}</span></span
+                          {{
+                            $t(
+                              sb.package_title
+                                .split(" ")
+                                .filter((t) => t !== "Buy")
+                                .join(" ")
+                            )
+                          }}
+                          <span v-if="sub.title === 'Internal Service'"
+                            >- {{ $t(`${sb.extreatype}`) }}</span
+                          >
+                          <span class="font-[400]">
+                            - {{ $t(`${sb.type}`) }}</span
+                          ></span
                         >
                       </div>
                     </td>
@@ -591,45 +715,55 @@ const openInvestor = (app,pack)=>{
                       "
                       class="capitalize w-1/6 text-[14px] leading-[21px] font-[600] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
-                      {{ $t(`${sb.status[0].toUpperCase() + sb.status.slice(1)}`) }}
-                    </td>
-                    <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
-                    >
-                      {{new Date(sb.from_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                        year: 'numeric',
-                        month: 'long', 
-                        day: 'numeric',
-                      })}}
+                      {{
+                        $t(`${sb.status[0].toUpperCase() + sb.status.slice(1)}`)
+                      }}
                     </td>
                     <td
                       class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       {{
-                        sb.package_type !== "Extra" && sb.type !== 'Investors'
-                          ? new Date(sb.to_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                            year: 'numeric',
-                            month: 'long', 
-                            day: 'numeric',
-                          })
-                          : "-"
+                        new Date(sb.from_date).toLocaleDateString(
+                          locale === "ar" ? "ar-EG" : "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
                       }}
                     </td>
-                    
                     <td
                       class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
-                      <div class="!w-[140px] truncate">{{$t(sb.mode_of_payment)}} 
-                        {{ 
-                          sb.remarks !== 'Free Trial' && sb.type !== 'Investors'
-                            ? ' - '+ $t(`${sb.remarks}`) 
-                            :  $t(
-                              sb.remarks
-                                .toLowerCase()
-                                .replace(/[^a-zA-Z0-9]+/g, ' ') // Replace non-alphanumeric characters with spaces
-                                .replace(/\b\w/g, (chr) => chr.toUpperCase()) // Capitalize the first letter of each word
+                      {{
+                        sb.package_type !== "Extra" && sb.type !== "Investors"
+                          ? new Date(sb.to_date).toLocaleDateString(
+                              locale === "ar" ? "ar-EG" : "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
                             )
-                            
+                          : "-"
+                      }}
+                    </td>
+
+                    <td
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                    >
+                      <div class="!w-[140px] truncate">
+                        {{ $t(sb.mode_of_payment) }}
+                        {{
+                          sb.remarks !== "Free Trial" && sb.type !== "Investors"
+                            ? " - " + $t(`${sb.remarks}`)
+                            : $t(
+                                sb.remarks
+                                  .toLowerCase()
+                                  .replace(/[^a-zA-Z0-9]+/g, " ") // Replace non-alphanumeric characters with spaces
+                                  .replace(/\b\w/g, (chr) => chr.toUpperCase()) // Capitalize the first letter of each word
+                              )
                         }}
                       </div>
                     </td>
@@ -641,16 +775,24 @@ const openInvestor = (app,pack)=>{
                       >
                         <button
                           :disabled="
-                            sb.package_type === 'Addons' || sb.package_type === 'Extra' || (sb.status === 'Pending' && sb.type !== 'Investors')
+                            sb.package_type === 'Addons' ||
+                            sb.package_type === 'Extra' ||
+                            (sb.status === 'Pending' && sb.type !== 'Investors')
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
-                          @click.stop="sb.type === 'Investors' ?openInvestor(sub,sb): upgradeModalPackage(sub, sb)"
+                          @click.stop="
+                            sb.type === 'Investors'
+                              ? openInvestor(sub, sb)
+                              : upgradeModalPackage(sub, sb)
+                          "
                         >
                           <svg
                             v-if="
-                             loadingUpgrade.find(
-                              (entry) => entry.pack === sb.package_name && entry.app === sub.name
-                            )
+                              loadingUpgrade.find(
+                                (entry) =>
+                                  entry.pack === sb.package_name &&
+                                  entry.app === sub.name
+                              )
                             "
                             class="animate-spin h-5 w-5 text-tamkin"
                             xmlns="http://www.w3.org/2000/svg"
@@ -680,7 +822,12 @@ const openInvestor = (app,pack)=>{
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width="18" height="18" rx="9" fill="#61BDAD" />
+                            <rect
+                              width="18"
+                              height="18"
+                              rx="9"
+                              fill="#61BDAD"
+                            />
                             <path
                               d="M9 3L3 7.08517V9.9068L9 5.82163L15 9.9068V7.08517L9 3ZM9 6.39661L5.07792 9.10035V11.4953L9 8.79152L12.9221 11.4953V9.10035L9 6.39661ZM9 9.36764L6.74026 10.9254V12.7187L9 11.1801L11.2597 12.7187V10.9254L9 9.36764ZM9 11.7539L6.74026 13.2925V15L9 13.4614L11.2597 15V13.2925L9 11.7539Z"
                               fill="white"
@@ -696,14 +843,20 @@ const openInvestor = (app,pack)=>{
                         </button>
 
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending'  || sb.type === 'Investors'"
+                          :disabled="
+                            sb.package_type === 'Extra' ||
+                            sb.status === 'Pending' ||
+                            sb.type === 'Investors'
+                          "
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click.stop="getPackageAndOpenPaymenModal(sub, sb)"
                         >
                           <svg
                             v-if="
                               loadingBlock.find(
-                                (entry) => entry.pack === sb.package_name && entry.app === sub.name
+                                (entry) =>
+                                  entry.pack === sb.package_name &&
+                                  entry.app === sub.name
                               )
                             "
                             class="animate-spin h-5 w-5 text-tamkin"
@@ -770,7 +923,13 @@ const openInvestor = (app,pack)=>{
                           </div>
                         </button>
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'  || sb.status === 'Expired' || sb.status === 'expire'"
+                          :disabled="
+                            sb.package_type === 'Extra' ||
+                            sb.status === 'Pending' ||
+                            sb.type === 'Investors' ||
+                            sb.status === 'Expired' ||
+                            sb.status === 'expire'
+                          "
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click="
                             () => {
@@ -865,7 +1024,9 @@ const openInvestor = (app,pack)=>{
                   <th
                     class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                   >
-                    <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                    <div
+                      class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"
+                    ></div>
                   </th>
                 </tr>
               </thead>
@@ -917,7 +1078,9 @@ const openInvestor = (app,pack)=>{
 
       ​
 
-      <Noresult v-if="filteredSubs.length === 0 && subs.length && !loadingSubs" />
+      <Noresult
+        v-if="filteredSubs.length === 0 && subs.length && !loadingSubs"
+      />
     </div>
   </div>
 </template>

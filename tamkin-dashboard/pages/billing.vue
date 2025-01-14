@@ -11,12 +11,11 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
 import { useFullUrl } from "@/composables/useSharedFunctions";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Billing - Tamkin Dashboard"),
-
-})
+});
 
 const billingStore = useBillingStore();
 const invoicesStore = useInvoicesStore();
@@ -31,8 +30,6 @@ const { fullUrl } = useFullUrl();
 const cryptostore = useCryptoStore();
 
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
-
-
   const rate = rates[selectedCrypto];
   if (rate) {
     return (usdTotal / rate).toFixed(2);
@@ -50,30 +47,24 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 // };
 onMounted(async () => {
   billingStore.loadCards = true;
-  globalLoad.value = true
+  globalLoad.value = true;
   await getCards();
   billingStore.loadCards = false;
 
-
-
   await getInvoices();
   // await fetchRates()
-globalLoad.value = false
+  globalLoad.value = false;
 });
 const dateF = ref();
 const langStore = useLangSwitch();
 
 const dateOpen = ref(false);
 
-
-
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "payments-invoices",
 });
-
-
 
 const {
   isOpen,
@@ -87,13 +78,7 @@ const {
   setData,
 } = useModalManager();
 
-
 const loadingInvoiceId = ref(null);
-
-
-
-
-
 
 const openCard = (card: any) => {
   billingStore.card = card;
@@ -115,7 +100,6 @@ const handelDeleteCard = async (card: any) => {
 
   billingStore.loadCards = false;
 };
-
 
 function printAndDownloadPDF(base64String, fileName = "document.pdf") {
   // Convert Base64 to binary data
@@ -157,18 +141,18 @@ const GetBase64AndPrint = async (id) => {
   printAndDownloadPDF(invoicesStore.pdfLink);
   loadingInvoiceId.value = null;
 };
-const loadingAddnewCard = ref(false)
+const loadingAddnewCard = ref(false);
 const openAddNewCardModal = () => {
-  loadingAddnewCard.value = true
+  loadingAddnewCard.value = true;
   // if (process.client) {
   //   if (window.$chatwoot) {
   //     window.$chatwoot.toggleBubbleVisibility("hide");
   //   }
-  setTimeout(()=>{
+  setTimeout(() => {
     openModal("add_new_card_billing", "billing");
 
-loadingAddnewCard.value = false
-  },500)
+    loadingAddnewCard.value = false;
+  }, 500);
 
   // }
 };
@@ -187,8 +171,6 @@ const increaseInvoices = () => {
 const computedInvoices = computed(() => {
   return invoicesStore.invoices.slice(0, invoicescount.value);
 });
-
-
 
 function beforeEnterCart(el) {
   const isRTL = document.documentElement.dir === "rtl";
@@ -214,15 +196,16 @@ function leaveCart(el, done) {
     done();
   }, 500);
 }
-
-
-
 </script>
 
 <template>
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
-    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+    <transition
+      @before-enter="beforeEnterCart"
+      @enter="enterCart"
+      @leave="leaveCart"
+    >
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
     </transition>
     <ModalsConfirm
@@ -254,67 +237,80 @@ function leaveCart(el, done) {
 
     <div
       v-if="billingStore.cards?.length === 0 && !billingStore.loadCards"
-      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
-      <div class="text-[18px] font-[500] text-black">{{ $t("Payment Methods") }}</div>
+      <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
+        {{ $t("Payment Methods") }}
+      </div>
 
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
+      <div
+        class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
+      >
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
-        <div class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center">
+        <div
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center"
+        >
           {{ $t(`You haven't added any cards yet`) }}
         </div>
         <button
-          @click="openAddNewCardModal" :disabled="loadingAddnewCard"
+          @click="openAddNewCardModal"
+          :disabled="loadingAddnewCard"
           class="btn-dashboard hover_tamkin w-auto rtl:space-x-reverse space-x-[10px]"
         >
-          <div
-            class="!text-[14px] !leading-[21px] !font-[600]"
-          
-          >
-          <div class="flex items-center justify-center">
-            <div :class="loadingAddnewCard ? 'rtl:ml-2 ltr:mr-2' : ''">       {{ $t("Add New Card") }}</div>
-  
-            <svg
-              v-if="loadingAddnewCard"
-              class="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-          </div>
-     
+          <div class="!text-[14px] !leading-[21px] !font-[600]">
+            <div class="flex items-center justify-center">
+              <div :class="loadingAddnewCard ? 'rtl:ml-2 ltr:mr-2' : ''">
+                {{ $t("Add New Card") }}
+              </div>
+
+              <svg
+                v-if="loadingAddnewCard"
+                class="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
           </div>
         </button>
       </div>
     </div>
     <div
       v-if="billingStore.loadCards"
-      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
       <div class="flex items-center justify-between w-full">
-        <div class="w-[160px] h-[27px] bg-gray-200 animate-pulse rounded-[10px]"></div>
-        <div class="bg-gray-200 animate-pulse w-[159px] h-[40px] rounded-[10px]"></div>
+        <div
+          class="w-[160px] h-[27px] bg-gray-200 animate-pulse rounded-[10px] dark:bg-p"
+        ></div>
+        <div
+          class="bg-gray-200 animate-pulse w-[159px] h-[40px] rounded-[10px] dark:bg-p"
+        ></div>
       </div>
 
       <!-- Example for loading state if there are cards -->
       <div class="mt-[24px] space-y-[10px]">
-        <div class="bg-gray-200 animate-pulse w-full h-[60px] rounded"></div>
+        <div
+          class="bg-gray-200 animate-pulse w-full dark:bg-p h-[60px] rounded"
+        ></div>
         <!-- Placeholder for a card -->
-        <div class="bg-gray-200 animate-pulse w-full h-[60px] rounded"></div>
+        <div
+          class="bg-gray-200 animate-pulse w-full dark:bg-p h-[60px] rounded"
+        ></div>
         <!-- Placeholder for another card -->
         <!-- Add more placeholders as needed -->
       </div>
@@ -322,10 +318,12 @@ function leaveCart(el, done) {
 
     <div
       v-if="billingStore.cards?.length && !billingStore.loadCards"
-      class="bg-white w-full h-full min-h-[250px] mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white dark:bg-tamkinDarkPrimary w-full h-full min-h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">
-        <div class="text-[18px] font-[500] text-black">{{ $t("Payment Methods") }}</div>
+        <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
+          {{ $t("Payment Methods") }}
+        </div>
         <button
           class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0 rtl:space-x-reverse w-[159px]"
           @click="openAddNewCardModal"
@@ -391,9 +389,10 @@ function leaveCart(el, done) {
           :key="savedCard.id"
         >
           <div
-            :class="[savedCard.isprimary ? 'custom-border-tamkin' : 'border-[1px] ']"
-            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between 
-            rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+            :class="[
+              savedCard.isprimary ? 'custom-border-tamkin' : 'border-[1px] ',
+            ]"
+            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
           >
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -416,8 +415,11 @@ function leaveCart(el, done) {
                   <div class="w-36 truncate">{{ savedCard.holdername }}</div>
                   <div>****{{ savedCard.last4 }}</div>
                 </div>
-                <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
-                  {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} / {{ savedCard.expyear }}
+                <div
+                  class="text-darkGrey text-[13px] font-[400] leading-[10px]"
+                >
+                  {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
+                  {{ savedCard.expyear }}
                 </div>
               </div>
             </div>
@@ -427,9 +429,7 @@ function leaveCart(el, done) {
             >
               <button
                 @click="openCard(savedCard)"
-        
                 class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg flex items-center justify-center group"
-           
               >
                 <svg
                   width="18"
@@ -458,7 +458,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="invoicesStore.invoices?.length !== 0 && !globalLoad"
-      class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] mb-[24px] "
+      class="bg-white w-full mt-[24px] dark:bg-tamkinDarkPrimary rounded-[10px] p-[32px] mb-[24px]"
     >
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]"
@@ -475,7 +475,7 @@ function leaveCart(el, done) {
               :key="invoice.name"
               class="border-t border-b border-gray-200"
             >
-              <td 
+              <td
                 class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px]"
               >
                 <!-- Spinner icon -->
@@ -516,32 +516,48 @@ function leaveCart(el, done) {
                     ></path>
                   </svg>
                 </div>
-                <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
+                <div
+                  class="text-[13px] font-[500] leading-[20px] text-darkGrey"
+                >
                   {{ new Date(invoice.creation).toLocaleDateString() }}
                 </div>
               </td>
 
               <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
-                <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">
+                <div
+                  class="text-[14px] leading-[19px] text-darkGrey font-[500]"
+                >
                   {{ $t(`${invoice.payment_type}`) }}
                 </div>
-                <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">
+                <div
+                  class="text-[13px] leading-[19px] text-darkGrey font-[500]"
+                >
                   {{ $t(`${invoice.payment_card}`) }}
                 </div>
               </td>
-              
+
               <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
                 <div
                   class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >
-                {{ 
-               invoice.payment_type === 'Crypto' ? invoice.amount:
-               ('$'+ invoice.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") )
-               
-                }}
+                  {{
+                    invoice.payment_type === "Crypto"
+                      ? invoice.amount
+                      : "$" +
+                        invoice.cost
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
                 </div>
-                <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">
-                  {{ $t(`${invoice.order_type}`)}} {{ invoice.order_type !== 'Market' ? '-' +$t(`${invoice.order_item}`) :''  }}
+                <div
+                  class="text-darkGrey text-[13px] leading-[19px] font-[500]"
+                >
+                  {{ $t(`${invoice.order_type}`) }}
+                  {{
+                    invoice.order_type !== "Market"
+                      ? "-" + $t(`${invoice.order_item}`)
+                      : ""
+                  }}
                 </div>
               </td>
             </tr>
@@ -555,7 +571,7 @@ function leaveCart(el, done) {
         @click="increaseInvoices"
         v-if="invoicescount != invoicesStore.invoices.length"
       >
-        <div class="flex items-center justify-center w-full ">
+        <div class="flex items-center justify-center w-full">
           <div :class="loadingMoreInvoies ? 'rtl:ml-2 ltr:mr-2' : ''">
             {{ $t("Show All Invoices") }}
           </div>
@@ -585,30 +601,49 @@ function leaveCart(el, done) {
       </button>
     </div>
 
-    <div v-if="globalLoad" class="bg-white w-full h-[250px] mt-[24px] rounded-[10px] p-[32px]">
-      <div class="w-full h-[32px] bg-gray-200 animate-pulse pb-[16px]"></div>
+    <div
+      v-if="globalLoad"
+      class="bg-white dark:bg-tamkinDarkPrimary w-full h-[250px] mt-[24px] rounded-[10px] p-[32px]"
+    >
+      <div
+        class="w-full h-[32px] dark:bg-p bg-gray-200 animate-pulse pb-[16px]"
+      ></div>
 
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white">
+        <table class="min-w-full dark:bg-p bg-white">
           <tbody class="text-gray-700">
             <!-- Placeholder for invoices -->
-            <tr class="border-t border-b border-gray-200">
+            <tr
+              class="border-t border-b dark:border-darkborder border-gray-200"
+            >
               <td class="py-4 space-y-[10px]">
-                <div class="bg-gray-200 animate-pulse w-[200px] h-[20px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[200px] h-[20px] rounded"
+                ></div>
                 <!-- Placeholder for download link -->
-                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[150px] h-[16px] rounded"
+                ></div>
                 <!-- Placeholder for date -->
               </td>
               <td class="py-4 space-y-[10px] text-left">
-                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[150px] h-[16px] rounded"
+                ></div>
                 <!-- Placeholder for payment type -->
-                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[150px] h-[16px] rounded"
+                ></div>
                 <!-- Placeholder for card -->
               </td>
               <td class="py-4 space-y-[10px] text-right">
-                <div class="bg-gray-200 animate-pulse w-[100px] h-[20px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[100px] h-[20px] rounded"
+                ></div>
                 <!-- Placeholder for cost -->
-                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div>
+                <div
+                  class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[150px] h-[16px] rounded"
+                ></div>
                 <!-- Placeholder for order type -->
               </td>
             </tr>
@@ -618,20 +653,26 @@ function leaveCart(el, done) {
       </div>
 
       <div
-        class="bg-gray-200 animate-pulse ml-auto h-[40px] w-[190px] mt-[16px] rounded-[10px]"
+        class="bg-gray-200 dark:bg-p animate-pulse ml-auto h-[40px] w-[190px] mt-[16px] rounded-[10px]"
       ></div>
       <!-- Placeholder for button text -->
     </div>
 
     <div
       v-if="invoicesStore.invoices?.length === 0 && !globalLoad"
-      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
-      <div class="text-[18px] font-[500] text-black">{{ $t("Invoices History") }}</div>
+      <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
+        {{ $t("Invoices History") }}
+      </div>
 
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
+      <div
+        class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
+      >
         <img src="/imgs/no_billing.png" class="w-[42px] h-[42px]" alt="" />
-        <div class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center">
+        <div
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center dark:text-whiteTamkin"
+        >
           {{ $t("There are currently no invoices to show") }}
         </div>
       </div>
