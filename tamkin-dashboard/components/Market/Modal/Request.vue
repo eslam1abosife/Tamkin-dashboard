@@ -376,7 +376,7 @@ watchEffect(() => {
           <textarea
             id="description"
             placeholder="description"
-            class="input_floating_label_text_area peer w-full"
+            class="input_floating_label_text_area peer w-full dark:text-whiteTamkin"
             v-model="v$.Description.$model"
             :class="{
               input_error:

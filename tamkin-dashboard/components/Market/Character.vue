@@ -304,8 +304,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
                   ? 'bg-opacity-40 !cursor-not-allowed '
                   : '',
               ]"
-              class="disabled:bg-gray-200 dark:bg-p_secondary dark:border-darkborder hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
-            >
+class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"            >
               <div
                 v-if="!defaultApp"
                 class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
@@ -381,7 +380,7 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+                  class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <svg
                 :class="[

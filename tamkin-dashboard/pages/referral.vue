@@ -8,25 +8,17 @@ import {
   useGetCustomerCount,
 } from "~/composables/useReferral";
 import { useClipboard } from "@vueuse/core";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Referral - Tamkin Dashboard"),
-})
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+});
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-requiredPermission: 'referral',
-
-
+  middleware: ["auth", "permissions"],
+  requiredPermission: "referral",
 });
 const { getReferralLink } = useGetReferralLink();
 const { getAllReferrals } = useGetAllReferrals();
@@ -66,13 +58,13 @@ const getStatusStyle = (method: number) => {
       return "bg-tamkin";
     case "Cancelled":
       return "bg-red-600";
-      case "Rejected":
+    case "Rejected":
       return "bg-red-600";
     case "Completed":
       return "bg-tamkin";
     case "Transfered":
       return "bg-tamkin";
-      case "Submitted":
+    case "Submitted":
       return "bg-green-400";
   }
 };
@@ -86,7 +78,7 @@ const setStatuses = (status: string) => {
       return "Rejected"; // Replace Cancelled with Rejected
     case "Transfered":
       return "Successful"; // Replace Transfered with Successful
-      case "Confirmed":
+    case "Confirmed":
       return "Confirmed"; // Replace Submitted with Confirmed
     default:
       return ""; // Default case if status doesn't match any
@@ -109,13 +101,13 @@ const alertFn = () => {
   }
 };
 // const withdrawStore = useWithdrawStore()
-const  renderPaymentMethod = (reward)=>{
- return  reward.payment_type === "bank_account"
-                      ? reward.account_number
-                      : reward.payment_type === "crypto"
-                      ? reward.crypto_address
-                      : reward.email_address
-}
+const renderPaymentMethod = (reward) => {
+  return reward.payment_type === "bank_account"
+    ? reward.account_number
+    : reward.payment_type === "crypto"
+    ? reward.crypto_address
+    : reward.email_address;
+};
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -131,7 +123,9 @@ const format = (date) => {
 };
 const disabledIfPendingRecords = computed(() => {
   // Check if there is any record with a status of "Pending"
-  const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
+  const hasPendingRecords = withdrawStore.rewards.some(
+    (item) => item.status === "Pending"
+  );
 
   // Check if currentAmount is zero or less
   const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
@@ -160,10 +154,10 @@ onMounted(async () => {
 
     if (process.client) {
       const user = JSON.parse(localStorage.getItem("user"));
-      
+
       const [resultLink, referrals] = await Promise.all([
-        getReferralLink(), 
-        getAllReferrals()
+        getReferralLink(),
+        getAllReferrals(),
       ]);
 
       source.value = resultLink.data;
@@ -174,7 +168,6 @@ onMounted(async () => {
     loadingBlock.value = false; // Ensure the loading block is disabled no matter what
   }
 });
-
 
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId);
@@ -218,12 +211,13 @@ const filteredReferrals = computed(() => {
 });
 
 const isInputDisabled = computed(
-  () => Number(withdrawStore.currentAmount) < Number(withdrawStore.limitofWithdraw)
+  () =>
+    Number(withdrawStore.currentAmount) < Number(withdrawStore.limitofWithdraw)
 );
 const copyLink = () => {
   copy(source.value);
 
-  $toast(t('Copied to clipboard'), { hideIn: 3000 });
+  $toast(t("Copied to clipboard"), { hideIn: 3000 });
 };
 
 const filteredWithdraw = computed(() => {
@@ -269,55 +263,77 @@ const isCurrentRateEmpty = computed(() => {
         <div
           class="bg-gradient-to-r from-[#2EBEB3] via-[#7082FF] to-[#F86CD9] text-transparent bg-clip-text"
         >
-          {{ $t('Refer a Client, Earn Rewards') }}
+          {{ $t("Refer a Client, Earn Rewards") }}
         </div>
-        <div class="!font-[500]">
-          {{ $t('Share your referral link and get a commission on all purchases made by customers you refer') }}
+        <div class="!font-[500] dark:text-whiteTamkin">
+          {{
+            $t(
+              "Share your referral link and get a commission on all purchases made by customers you refer"
+            )
+          }}
         </div>
       </div>
 
       <div
         style="box-shadow: 1px 1px 9.8px 0px #6a99d724"
-        class="bg-white w-full flex flex-col items-center justify-center my-[16px] py-[32px] rounded-[10px]"
+        class="bg-white dark:bg-tamkinDarkPrimary dark:text-whiteTamkin w-full flex flex-col items-center justify-center my-[16px] py-[32px] rounded-[10px]"
       >
-        <div class="text-black text-[18px] font-[500] leading-[28px]">{{$t('How It Works')}}</div>
+        <div
+          class="text-black text-[18px] font-[500] leading-[28px] dark:text-whiteTamkin"
+        >
+          {{ $t("How It Works") }}
+        </div>
 
         <div class="flex items-center justify-between w-full mt-[36px]">
           <div class="flex flex-col items-center justify-center w-full">
             <div>
-              <img src="/imgs/step_1_referral.png" class="w-[56px] h-[49px]" alt="" />
+              <img
+                src="/imgs/step_1_referral.png"
+                class="w-[56px] h-[49px]"
+                alt=""
+              />
             </div>
             <div
-              class="text-[12px] font-[500] leading-[16px] text-black text-center mt-[10px]"
+              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] text-black text-center mt-[10px]"
             >
-              {{$t('Share Your Link')}}<br />
-              {{ $t('Send your unique referral link to Clients') }}
+              {{ $t("Share Your Link") }}<br />
+              {{ $t("Send your unique referral link to Clients") }}
             </div>
           </div>
 
           <div class="flex flex-col items-center justify-center w-full">
             <div>
-              <img src="/imgs/step_2_referral.png" class="w-[56px] h-[49px]" alt="" />
+              <img
+                src="/imgs/step_2_referral.png"
+                class="w-[56px] h-[49px]"
+                alt=""
+              />
             </div>
             <div
-              class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
+              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
             >
-              {{$t('Client signed, purchased')}}
+              {{ $t("Client signed, purchased") }}
               <br />
-              {{$t('Your client signed up with your link and made a purchase')}}
+              {{
+                $t("Your client signed up with your link and made a purchase")
+              }}
             </div>
           </div>
 
           <div class="flex flex-col items-center justify-center w-full">
             <div>
-              <img src="/imgs/step_3_referral.png" class="w-[56px] h-[49px]" alt="" />
+              <img
+                src="/imgs/step_3_referral.png"
+                class="w-[56px] h-[49px]"
+                alt=""
+              />
             </div>
             <div
               id="refer_clients"
-              class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
+              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
             >
-              {{$t('Earn Rewards')}}<br />
-             {{$t('Receive rewards from every purchase he completes')}}
+              {{ $t("Earn Rewards") }}<br />
+              {{ $t("Receive rewards from every purchase he completes") }}
             </div>
           </div>
         </div>
@@ -326,20 +342,28 @@ const isCurrentRateEmpty = computed(() => {
 
     <div class="flex items-center justify-center flex-col">
       <div
-        class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px] rounded-[10px]"
+        class="bg-white dark:bg-tamkinDarkPrimary w-full grid grid-cols-12 gap-4 my-[16px] p-[32px] rounded-[10px]"
       >
         <div
-          class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px]"
+          class="h-[247px] dark:bg-p col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px]"
         >
-          <div class="flex items-center justify-between w-full p-[16px] relative">
-            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-              {{ $t('Balance') }}
+          <div
+            class="flex items-center justify-between w-full p-[16px] relative"
+          >
+            <div
+              class="text-[20px] dark:text-whiteTamkin font-[600] leading-[20px] text-[#021328]"
+            >
+              {{ $t("Balance") }}
             </div>
 
             <div
               class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] rtl:left-[16px] ltr:right-[16px]"
             >
-              <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="" />
+              <img
+                src="/imgs/balance_img.png"
+                class="w-[140px] h-[120px]"
+                alt=""
+              />
             </div>
           </div>
 
@@ -348,84 +372,128 @@ const isCurrentRateEmpty = computed(() => {
             v-if="loadingBlock"
             class="animate-pulse flex flex-col items-center justify-center space-y-[10px]"
           >
-            <div class="h-[20px] bg-gray-200 w-[60%] rounded"></div>
-            <div class="h-[11px] bg-gray-200 w-[30%] rounded"></div>
-            <div class="h-[34px] w-[170px] bg-gray-200 rounded"></div>
-            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
-            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
+            <div
+              class="h-[20px] dark:bg-tamkinDarkPrimary bg-gray-200 w-[60%] rounded"
+            ></div>
+            <div
+              class="h-[11px] dark:bg-tamkinDarkPrimary bg-gray-200 w-[30%] rounded"
+            ></div>
+            <div
+              class="h-[34px] dark:bg-tamkinDarkPrimary w-[170px] bg-gray-200 rounded"
+            ></div>
+            <p
+              class="h-[10px] dark:bg-tamkinDarkPrimary bg-gray-200 w-3/4 rounded"
+            ></p>
+            <p
+              class="h-[10px] dark:bg-tamkinDarkPrimary bg-gray-200 w-3/4 rounded"
+            ></p>
           </div>
 
           <!-- Actual content -->
-          <div v-else class="flex flex-col items-center justify-center space-y-[10px]">
-            <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
+          <div
+            v-else
+            class="flex flex-col items-center justify-center space-y-[10px]"
+          >
+            <div
+              class="text-[18px] font-[600] leading-[20px] dark:text-whiteTamkin text-[#021328]"
+            >
               $ {{ withdrawStore.currentAmount }}
             </div>
             <div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
-              {{ $t('available') }}
+              {{ $t("available") }}
             </div>
             <button
-            :disabled="isInputDisabled || disabledIfPendingRecords" 
+              :disabled="isInputDisabled || disabledIfPendingRecords"
               class="btn-dashboard hover_tamkin w-[170px]"
-             
-              @click="()=>{
-                if(isInputDisabled || disabledIfPendingRecords){
-return
-                }else {
-                  openModal('withdraw_paymentmethods', 'referral')
+              @click="
+                () => {
+                  if (isInputDisabled || disabledIfPendingRecords) {
+                    return;
+                  } else {
+                    openModal('withdraw_paymentmethods', 'referral');
+                  }
                 }
-              }"
+              "
             >
-            <!-- -->
-              {{$t('Withdraw')}}
+              <!-- -->
+              {{ $t("Withdraw") }}
             </button>
 
             <p
-              class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] w-3/4 text-center mx-auto"
+              class="text-[10px] dark:text-whiteTamkin ipad-max:text-[9px] font-[400] text-[#585B5B] w-3/4 text-center mx-auto"
             >
-              {{$t('Please ensure that the amount meets the minimum requirement of')}}
-              <span class="!font-[600]">${{ withdrawStore.limitofWithdraw }}</span>
+              {{
+                $t(
+                  "Please ensure that the amount meets the minimum requirement of"
+                )
+              }}
+              <span class="!font-[600]"
+                >${{ withdrawStore.limitofWithdraw }}</span
+              >
             </p>
             <p
-              class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto"
+              class="text-[10px] dark:text-whiteTamkin ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto"
             >
-              {{ $t('* Transaction fees are not included in our coverage.') }}
+              {{ $t("* Transaction fees are not included in our coverage.") }}
             </p>
           </div>
         </div>
 
         <div
-          class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative z-[10] p-[24px]"
+          class="h-[247px] dark:bg-p col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative z-[10] p-[24px]"
         >
           <!-- Loading placeholder -->
           <div
             v-if="loadingBlock"
             class="animate-pulse flex flex-col space-y-[22px] w-full"
           >
-            <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
-            <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
-            <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
-            <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
+            <div
+              class="h-[20px] bg-gray-200 dark:bg-tamkinDarkPrimary w-[30%] rounded"
+            ></div>
+            <div
+              class="h-[19px] bg-gray-200 dark:bg-tamkinDarkPrimary w-[80%] rounded"
+            ></div>
+            <div
+              class="h-[54px] bg-gray-200 dark:bg-tamkinDarkPrimary w-full rounded-[10px]"
+            ></div>
+            <div
+              class="h-[21px] bg-gray-200 dark:bg-tamkinDarkPrimary w-[40%] mt-[20px] rounded"
+            ></div>
           </div>
           <!-- Actual content -->
-          <div v-else class="flex flex-col space-y-[22px] w-full relative z-[20]">
-            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-              {{$t('Refer Clients')}}
+          <div
+            v-else
+            class="flex flex-col space-y-[22px] w-full relative z-[20]"
+          >
+            <div
+              class="text-[20px] font-[600] leading-[20px] text-[#021328] dark:text-whiteTamkin"
+            >
+              {{ $t("Refer Clients") }}
             </div>
-            <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
-             {{$t('Refer new clients and earn')}}
+            <div
+              class="text-[14px] dark:text-whiteTamkin font-[400] leading-[19px] text-[#021328]"
+            >
+              {{ $t("Refer new clients and earn") }}
               <span class="!font-[700]">
                 {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span
               >
-             {{$t('for each successful referral who completes the registration process and purchase')}}
+              {{
+                $t(
+                  "for each successful referral who completes the registration process and purchase"
+                )
+              }}
             </div>
             <div
-              class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px]
-               flex items-center justify-between px-[10px] rtl:flex-row-reverse"
+              class="mt-[12px] border-[1px] dark:bg-tamkinDarkPrimary bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px] rtl:flex-row-reverse"
             >
-              <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
-               {{$t('Referral Link')}}
+              <div
+                class="text-[14px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
+              >
+                {{ $t("Referral Link") }}
               </div>
-              <div class="flex items-center justify-end   space-x-[12px] rtl:flex-row-reverse">
+              <div
+                class="flex items-center justify-end space-x-[12px] rtl:flex-row-reverse"
+              >
                 <div
                   class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
                 >
@@ -438,8 +506,11 @@ return
                 />
               </div>
             </div>
-            <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
-              <span class="!font-[600]">{{ withdrawStore.refsCount }}</span> {{$t('users have signed up using your referral link')}}
+            <div
+              class="mt-[20px] dark:text-whiteTamkin text-[12px] font-[400] leading-[21px]"
+            >
+              <span class="!font-[600]">{{ withdrawStore.refsCount }}</span>
+              {{ $t("users have signed up using your referral link") }}
             </div>
           </div>
 
@@ -451,31 +522,37 @@ return
       </div>
 
       <div
-        class="bg-white w-full flex flex-col items-start justify-center my-[16px] p-[32px] rounded-[10px]"
+        class="bg-white dark:bg-tamkinDarkPrimary w-full flex flex-col items-start justify-center my-[16px] p-[32px] rounded-[10px]"
       >
-        <div class="flex items-center justify-between ipad-max:space-x-[24px] w-full">
+        <div
+          class="flex items-center justify-between ipad-max:space-x-[24px] w-full"
+        >
           <div
-            class="p-[10px] ipad-max:w-full w-1/4 h-[42px] bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
+            class="p-[10px] ipad-max:w-full w-1/4 h-[42px] dark:bg-p bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
           >
             <div
               @click="changeTab('rewards')"
-              :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
+              :class="[
+                currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]',
+              ]"
               class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
             >
-              {{ $t('Withdraw') }}
+              {{ $t("Withdraw") }}
             </div>
             <div
               @click="changeTab('refs')"
-              :class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
+              :class="[
+                currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]',
+              ]"
               class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
             >
-              {{ $t('Referrals') }}
+              {{ $t("Referrals") }}
             </div>
           </div>
 
           <div class="w-full ipad-max:w-full lg:w-1/4">
             <VueDatePicker
-            direction="ltr"
+              direction="ltr"
               :enable-time-picker="false"
               @blur="dateOpen = false"
               @open="dateOpen = !dateOpen"
@@ -505,7 +582,7 @@ return
                     "
                     class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                   >
-                    <div>{{$t('Clear')}}</div>
+                    <div>{{ $t("Clear") }}</div>
                   </button>
                   <button
                     @click="selectDate"
@@ -527,7 +604,7 @@ return
                         />
                       </svg>
                     </div>
-                    <div>{{$t('Done')}}</div>
+                    <div>{{ $t("Done") }}</div>
                   </button>
                 </div>
               </template>
@@ -535,10 +612,7 @@ return
                 <svg
                   class="rtl:mr-auto ltr:ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
                   :class="[
-              
-                        
-                  dateOpen   ? 'rotate-90  '
-                      : 'rotate-0 rtl:rotate-180 ',
+                    dateOpen ? 'rotate-90  ' : 'rotate-0 rtl:rotate-180 ',
                   ]"
                   width="11"
                   height="16"
@@ -560,52 +634,65 @@ return
 
         <div
           class="overflow-x-auto w-full mt-[16px]"
-          v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards"
+          v-if="
+            currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards
+          "
         >
-          <table class="min-w-full bg-white border-b table-fixed border-gray-200">
-            <thead class="bg-gray-50">
+          <table
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200"
+          >
+            <thead class="bg-gray-50 dark:bg-p">
               <tr>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                 {{ $t('Transaction ID') }}
+                  {{ $t("Transaction ID") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  {{$t('Date')}}
+                  {{ $t("Date") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  {{ $t('Amount') }}
+                  {{ $t("Amount") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4  px-4"
+                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  {{$t('Withdrawal Method')}}
+                  {{ $t("Withdrawal Method") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-2/4 m px-4"
+                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-2/4 m px-4"
                 >
-                  {{$t('Status')}}
+                  {{ $t("Status") }}
                 </th>
               </tr>
             </thead>
             <tbody class="text-gray-700" v-if="filteredWithdraw.length > 0">
-              <tr class="border-t border-gray-200" v-for="reward in filteredWithdraw">
-                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
+              <tr
+                class="border-t border-gray-200"
+                v-for="reward in filteredWithdraw"
+              >
+                <td
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                >
                   {{ reward.name }}
                 </td>
-                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
+                <td
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                >
                   {{ formatDateOfReward(reward.modified) }}
                 </td>
-                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
+                <td
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                >
                   {{
                     reward.amount +
                     " " +
                     (reward.payment_type === "bank_account"
-                      ? 'USD'
+                      ? "USD"
                       : reward.payment_type === "crypto"
                       ? reward.symbols
                       : reward.payment_type === "paypal"
@@ -613,30 +700,35 @@ return
                       : "")
                   }}
                 </td>
-                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black" 
+                <td
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
                 >
-               <div :class="[reward.payment_type === 'crypto' ? '!w-52 truncate':'']">
-               {{  renderPaymentMethod(reward) }}
-               </div>
+                  <div
+                    :class="[
+                      reward.payment_type === 'crypto' ? '!w-52 truncate' : '',
+                    ]"
+                  >
+                    {{ renderPaymentMethod(reward) }}
+                  </div>
                 </td>
                 <td
-                  class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black "
+                  class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
                 >
                   <span
                     class="h-2 w-2 rounded-full"
                     :class="getStatusStyle(reward.status)"
                   ></span>
                   <span
-                    class="text-[14px] leading-[19px] text-[#021328] font-[600] whitespace-nowrap capitalize"
+                    class="text-[14px] leading-[19px] dark:text-whiteTamkin text-[#021328] font-[600] whitespace-nowrap capitalize"
                     >{{ $t(setStatuses(reward.status)) }}
-                  
-                    </span
-                  >
+                  </span>
                 </td>
               </tr>
             </tbody>
 
-            <tbody v-else-if="dateF.length > 0 && filteredWithdraw.length === 0">
+            <tbody
+              v-else-if="dateF.length > 0 && filteredWithdraw.length === 0"
+            >
               <tr>
                 <td colspan="5" class="py-6 text-center">
                   <div class="flex justify-center items-center">
@@ -655,60 +747,84 @@ return
           class="overflow-x-auto w-full mt-[16px]"
           v-if="currentTab === 'refs' && !loadingBlock"
         >
-          <table class="min-w-full bg-white border-b table-fixed border-gray-200">
-            <thead class="bg-gray-50">
+          <table
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200"
+          >
+            <thead class="bg-gray-50 dark:bg-p">
               <tr>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
-                  {{ $t('Referral Name') }}
+                  {{ $t("Referral Name") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
-                  {{ $t('Date') }}
+                  {{ $t("Date") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
-                  {{$t('Rewards Earned')}}
+                  {{ $t("Rewards Earned") }}
                 </th>
 
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4"
                 >
-                  {{$t('Status')}}
+                  {{ $t("Status") }}
                 </th>
               </tr>
             </thead>
             <tbody class="text-gray-700" v-if="filteredReferrals.length > 0">
-              <template v-for="referral in filteredReferrals" :key="referral.name">
+              <template
+                v-for="referral in filteredReferrals"
+                :key="referral.name"
+              >
                 <tr class="border-t border-gray-200">
-                  <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
+                  <td
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  >
                     {{ referral.customer_name }}
                   </td>
-                  <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
+                  <td
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  >
                     {{ formatDateOfReward(referral.modified) }}
                   </td>
-                  <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
-                    {{ referral.total_commission }} {{referral.currency ? referral.currency :'USD'}}
+                  <td
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  >
+                    {{ referral.total_commission }}
+                    {{ referral.currency ? referral.currency : "USD" }}
                   </td>
                   <td
-                    class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black"
+                    class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] dark:text-whiteTamkin leading-[19px] text-black"
                   >
                     <span
                       class="h-2 w-2 rounded-full"
-                      :class="getStatusStyle(referral.status.charAt(0).toUpperCase() + referral.status.slice(1))"
+                      :class="
+                        getStatusStyle(
+                          referral.status.charAt(0).toUpperCase() +
+                            referral.status.slice(1)
+                        )
+                      "
                     ></span>
                     <span
-                      class="text-[14px] leading-[19px] text-[#021328] font-[600]  whitespace-nowrap "
-                      >{{ $t(referral.status.charAt(0).toUpperCase() + referral.status.slice(1)) }}</span
+                      class="text-[14px] leading-[19px] dark:text-whiteTamkin text-[#021328] font-[600] whitespace-nowrap"
+                      >{{
+                        $t(
+                          referral.status.charAt(0).toUpperCase() +
+                            referral.status.slice(1)
+                        )
+                      }}</span
                     >
                   </td>
                 </tr>
               </template>
             </tbody>
-            <tbody v-else-if="filteredReferrals.length === 0 && dateF.length > 0">
+            <tbody
+              v-else-if="filteredReferrals.length === 0 && dateF.length > 0"
+            >
               <tr>
                 <td colspan="5" class="py-6 text-center">
                   <div class="flex justify-center items-center">
@@ -737,11 +853,11 @@ return
             <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="" />
           </div>
 
-          <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
-            {{$t('Currently, there are no withdrawals available')}}
+          <div
+            class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]"
+          >
+            {{ $t("Currently, there are no withdrawals available") }}
           </div>
-
-       
         </div>
         <!-- NO REWARDS AVAILABLE-->
 
@@ -759,30 +875,32 @@ return
             <img src="/imgs/no_refs.png" class="w-[42px] h-[42px]" alt="" />
           </div>
 
-          <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
-            {{$t('Currently, there are no rewards available')}}
+          <div
+            class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]"
+          >
+            {{ $t("Currently, there are no rewards available") }}
           </div>
-
-      
         </div>
 
         <!-- no Referrals available-->
         <div class="w-full mt-[16px]" v-if="loadingBlock">
-          <div class="bg-white border-b table-fixed border-gray-200">
-            <div class="h-[40px] flex items-center px-4 bg-gray-50 animate-pulse">
-              <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
-              <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
-              <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
-              <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
+          <div class="bg-white border-b table-fixed border-gray-200 dark:bg-p">
+            <div
+              class="h-[40px] flex items-center px-4 bg-gray-50 dark:bg-p animate-pulse"
+            >
+              <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
+              <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded mx-2"></div>
+              <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
+              <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded mx-2"></div>
             </div>
             <div v-for="i in 5" :key="i" class="border-t border-gray-200">
               <div
-                class="h-[60px] flex items-center px-4 rtl:space-x-reverse space-x-4 bg-gray-50 animate-pulse"
+                class="h-[60px] flex items-center dark:bg-tamkinDarkPrimary px-4 rtl:space-x-reverse space-x-4 bg-gray-50 animate-pulse"
               >
-                <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
-                <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
-                <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
-                <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+                <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
+                <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
+                <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
+                <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
               </div>
             </div>
           </div>
@@ -794,11 +912,10 @@ return
 
 <style>
 .dp__menu {
-
   @apply rtl:!inset-x-auto;
 }
 
-.dp__arrow_bottom{
+.dp__arrow_bottom {
   @apply rtl:-rotate-45 rtl:bottom-[-6px];
 }
 .dp__pointer::placeholder {

@@ -183,7 +183,7 @@ const runtimeconfig = useRuntimeConfig();
     />
     <ProfileEditcompanypicture />
     <div
-      class="h-[190px] dark:bg-p bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
+      class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
     >
       <div class="absolute inset-y-auto rtl:left-0 ltr:right-0 top-[29px]">
         <img src="/imgs/profile_hero.png" class="h-[144px]" alt="" />
@@ -432,7 +432,7 @@ const runtimeconfig = useRuntimeConfig();
               >
                 <div
                   v-if="!profileStore.loadingProfile"
-                  class="h-full dark:bg-p bg-[#71DAD2] rounded-[9px] shadow-custom-light"
+                  class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light dark:shadow-tamkinDarkPrimary"
                   :style="`width: ${score}%;`"
                 ></div>
                 <div
