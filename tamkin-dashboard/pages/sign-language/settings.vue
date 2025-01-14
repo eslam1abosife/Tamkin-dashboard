@@ -106,7 +106,7 @@ onBeforeMount(() => {
 const deleteSite = async () => {
   try {
     const res = await api.post("/mySite/set/AppStatusCancel", {
-      name: settingsStore.defaultapp,
+      name: settingsStore.defaultapp.name,
     });
     $toast(t("Deleted Successfully"), {
       hideIn: 3000,
@@ -382,23 +382,19 @@ const getSettingsValue = (name: any) => {
   </transition> 
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
-      :title="$t('Reset All Sign Language Settings')"
-      :sub-title="
-        $t(
-          'Are you sure you want to reset all sign language settings to their default values? This action cannot be undone and will overwrite any customized settings'
-        )
-      "
+      :title="'Reset All Sign language Settings'"
+      :sub-title="'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'"
       confirm-btn-type="confirm"
       @control-confirm="resetAccessiility"
       @control-cancel="closeModal('resetModal')"
     />
     <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
-      :title="$t('Delete your site')"
+      :title="'Delete your site'"
       :sub-title="
-        $t(
+     
           'Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features'
-        )
+     
       "
       confirm-btn-type="delete"
       @control-delete="deleteSite"
@@ -660,7 +656,7 @@ const getSettingsValue = (name: any) => {
                       <div
                         class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                       >
-                        <span>{{ item.label }}</span>
+                        <span>{{ $t(item.label)}}</span>
                       </div>
                     </div>
                     <div class="ml-auto">
@@ -939,7 +935,7 @@ const getSettingsValue = (name: any) => {
                 <div
                   class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text"
                 >
-                  {{ `${$t("Reset All Sign Language Settings")}` }}
+                  {{ $t("Reset All Sign language Settings") }}
                 </div>
               </button>
             </div>
@@ -1141,7 +1137,7 @@ const getSettingsValue = (name: any) => {
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
               >
                 <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
+                  class="flex items-center justify-start space-x-[13px] rtl:space-x-reverse w-full"
                 >
                   <div class="flex flex-col items-start justify-center w-full">
                     <div
@@ -1168,7 +1164,8 @@ const getSettingsValue = (name: any) => {
                   </div>
                   <div class="ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px]
+                       lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
                       {{ $t("Transfer License") }}
@@ -1207,7 +1204,7 @@ const getSettingsValue = (name: any) => {
                   </div>
                   <div class="ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                       @click="openModal('deleteModal', 'settings')"
                     >
                       {{ $t("Delete Site") }}

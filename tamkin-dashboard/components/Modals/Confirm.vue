@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
-
+const {t} = useI18n()
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 
@@ -66,6 +66,9 @@ const controlSaveSite = () => {
   saveAllLoading.value = true;
   emit("controlsaveAllSites");
 };
+
+const translatedTitle = computed(() => t(props.title));
+const translatedSubTitle = computed(() => t(props.subTitle));
 </script>
 
 <template>
@@ -97,13 +100,14 @@ const controlSaveSite = () => {
     <h1
       class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      {{ $t(title) }}
+      {{ translatedTitle }}
     </h1>
 
     <h2
       class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]"
     >
-      {{ $t(subTitle) }}
+      {{ 
+        translatedSubTitle }}
     </h2>
 
     <div

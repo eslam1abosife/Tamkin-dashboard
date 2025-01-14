@@ -140,8 +140,9 @@ const continueCheckOut = async () => {
     res !== "A 3-day trial package is configured in the app"
   ) {
     const user = JSON.parse(localStorage.getItem("user"));
-    await getInviteApps({ agency: user.agency });
-    urlPayment.value = res;
+    // await getInviteApps({ agency: user.agency });
+    // alert(res)
+    urlPayment.value = res
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
     // addSiteStore.urls =[]
     // addSiteStore.promo = ""

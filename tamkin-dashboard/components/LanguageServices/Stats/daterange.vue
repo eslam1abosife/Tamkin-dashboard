@@ -896,7 +896,9 @@ const loadscountSummary = computed(
               class="bg-gray-200 dark:bg-p animate-pulse w-[160px] h-[32px] rounded-[13px]"
             ></div>
             <button
-              v-else
+              v-else-if="!statsStore.loadingStats &&  navStore.defaultappobj?.package?.filter(
+                (p) => p.type === 'Sign language'
+              ).length > 0"
               @click="downloadCSV"
               :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
               class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px]"
@@ -933,7 +935,7 @@ const loadscountSummary = computed(
         </div>
       </div>
       <div
-        class="flex items-center justify-start lg:space-x-[48px] lg:flex-nowrap flex-wrap"
+        class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap"
       >
         <div
           v-if="statsStore.loadingStats"

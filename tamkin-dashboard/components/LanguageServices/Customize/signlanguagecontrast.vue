@@ -260,7 +260,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
               </span>
             </div>
           </div>
-          <div class="ml-auto">
+          <div class="rtl:mr-auto ltr:ml-auto">
             <label for="constrast" class="toggle_wrap">
               <input
                 type="checkbox"
@@ -351,7 +351,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
             }
           "
         >
-          <div class="text-[14px]">Light</div>
+          <div class="text-[14px]">{{$t('Light')}}</div>
         </div>
         <div
           v-if="
@@ -377,7 +377,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
               : 'border-[1px] border-[#D9D9D9]',
           ]"
         >
-          <div class="text-[14px]">Dark</div>
+          <div class="text-[14px]">{{$t('Dark')}}</div>
         </div>
       </div>
     </div>

@@ -294,7 +294,7 @@ const closeDropdown = () => {
                   </div>
                 </div>
                 {{
-                  selectedLang ? selectedLang.title : $t("Auto detect Language")
+                  selectedLang ? $t(selectedLang.title) : $t("Auto detect Language")
                 }}
               </div>
 
@@ -451,12 +451,12 @@ const closeDropdown = () => {
                           'deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget'
                         )
                       "
-                      src="/assets/imgs/addons/active_toggle.svg"
+                      src="/assets/imgs/translatevideo/sign_active.svg"
                       class="w-[28px] h-[28px]"
                     />
                     <img
                       v-else
-                      src="/assets/imgs/addons/toggle.svg"
+                      src="/assets/imgs/translatevideo/sign_inactive.svg"
                       class="w-[28px] h-[28px]"
                     />
                   </div>
