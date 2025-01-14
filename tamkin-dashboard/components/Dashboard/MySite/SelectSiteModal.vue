@@ -176,17 +176,17 @@ const submit = async () => {
               >
                 <!-- Circle Skeleton for Image -->
                 <div
-                  class="w-[40px] h-[40px] bg-gray-200 dark:bg-light rounded-full"
+                  class="w-[40px] h-[40px] bg-gray-200 dark:bg-p rounded-full"
                 ></div>
                 <!-- Rectangle Skeleton for Text -->
                 <div
-                  class="w-[150px] h-[21px] bg-gray-200 dark:bg-light rounded-md"
+                  class="w-[150px] h-[21px] dark:bg-p bg-gray-200 rounded-md"
                 ></div>
               </td>
               <td class="py-4 animate-pulse">
                 <!-- Square Skeleton for Checkbox -->
                 <div
-                  class="w-[18px] h-[18px] bg-gray-200 dark:bg-light rounded rtl:mr-auto ltr:ml-auto"
+                  class="w-[18px] h-[18px] bg-gray-200 dark:bg-p rounded rtl:mr-auto ltr:ml-auto"
                 ></div>
               </td>
             </tr>
