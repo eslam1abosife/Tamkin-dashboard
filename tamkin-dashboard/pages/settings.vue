@@ -262,7 +262,7 @@ const componentKey = ref(0);
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
-    <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+    <SettingsTransferModalStep2 :type="'Accessibility'" :show-modal="isOpen('transferstep2')" />
 
     <div class="w-full h-full relative">
       <HeaderAccess

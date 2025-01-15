@@ -12,6 +12,7 @@ const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const props = defineProps({
   showModal: Boolean,
+  type: String,
 });
 
 const SuccessStep2Transfer = ref(false);
@@ -27,6 +28,7 @@ const confirmTransfer = async () => {
     const res = await api.post("/Apps/TransferLicense", {
       fromApp: settingsStore.defaultappobj.name,
       toApp: settingsStore.selectedApp.name,
+      type: props.type,
     });
     if (res) {
       SuccessStep2Transfer.value = true;
