@@ -1085,7 +1085,7 @@ const isAnyLinkActive = computed(() => {
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
+            class="sticky hidden md:flex top-0 z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
           >
             <div
               class="flex items-center justify-between lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
@@ -1122,12 +1122,54 @@ const isAnyLinkActive = computed(() => {
                   <Darkmode />
                   <NotificationBell />
                 </div>
-                <!-- {{ userName }} -->
                 <Userprofilemenu />
               </div>
             </div>
           </nav>
+          <nav
+            style="box-shadow: 0px 4px 24px 8px #51459f14"
+            class="sticky flex md:hidden top-0 z-[998] items-center p-2 justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[100px]"
+          >
+            <div class="w-[100%] mb-3">
+              <div
+                class="flex items-center justify-between lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
+              >
+                <div
+                  class="flex items-center justify-between lg:hidden"
+                  @click="toggleSidebarMobile"
+                  style="transform: translateZ(0)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6 dark:fill-whiteTamkin dark:text-whiteTamkin"
+                  >
+                    <path
+                      class="dark:fill-whiteTamkin"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                    />
+                  </svg>
+                </div>
+                <Searchbar />
+              </div>
+              <div class="flex items-center justify-between gap-5 w-full">
+                <div
+                  class="flex items-center justify-between gap-2 md:gap-5 rtl:space-x-reverse"
+                >
+                  <Langswitcher />
 
+                  <Darkmode />
+                  <NotificationBell />
+                </div>
+
+                <Userprofilemenu />
+              </div>
+            </div>
+          </nav>
           <div
             class="relative"
             :class="
