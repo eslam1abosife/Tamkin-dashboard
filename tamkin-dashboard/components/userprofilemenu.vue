@@ -124,7 +124,7 @@ onMounted(async () => {
 <template>
   <div
     style="border-radius: 8px"
-    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[140px] sm:w-[180px] md:w-[190px] lg:w-[210px] xl:w-[220px] rtl:!ml-[40px] ltr:!mr-[40px] flex mr-5 items-center justify-center relative"
+    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[50%] rtl:!ml-[40px] flex items-center justify-center relative"
     @click.stop.prevent="openLangSwitchMenu"
     v-on-click-outside="closeMenu"
   >
