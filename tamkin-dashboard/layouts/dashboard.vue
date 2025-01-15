@@ -1034,7 +1034,7 @@ const isAnyLinkActive = computed(() => {
       />
 
       <div
-        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
+        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] lg:z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '

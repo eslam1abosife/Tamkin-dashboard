@@ -63,7 +63,7 @@ import "vue-loading-overlay/dist/css/index.css";
 
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
-    <div class="mx-auto min-h-screen dark:bg-darkSecondary relative">
+    <div class="mx-auto min-h-screen dark:bg-darkTamkin relative">
       .
       <div class="vl-parent">
         <loading
@@ -106,7 +106,7 @@ import "vue-loading-overlay/dist/css/index.css";
       </div>
       <div class="grid grid-cols-12 lg:gap-[20px]">
         <div
-          class="dark:bg-p lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 rtl:left-0 ltr:right-0 z-50 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd rtl:order-2 order-2"
+          class="dark:[background:#383f4a;] lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 rtl:left-0 ltr:right-0 z-50 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd rtl:order-2 order-2"
         >
           <Vue3Lottie
             :animationData="shapeDown"
@@ -158,9 +158,9 @@ import "vue-loading-overlay/dist/css/index.css";
           </div>
         </div>
         <div
-          class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] dark:bg-darkSecondary 3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative"
+          class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] dark:bg-darkTamkin 3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative"
         >
-          <NuxtPage class="dark:bg-darkSecondary" />
+          <NuxtPage class="dark:bg-darkTamkin" />
         </div>
 
         <div
