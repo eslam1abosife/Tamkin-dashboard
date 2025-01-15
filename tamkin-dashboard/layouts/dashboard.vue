@@ -1128,9 +1128,9 @@ const isAnyLinkActive = computed(() => {
           </nav>
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="sticky flex md:hidden top-0 z-[998] items-center p-2 justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[100px]"
+            class="sticky flex md:hidden top-0 z-[998] items-center p-2 justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[120px]"
           >
-            <div class="w-[100%] mb-3">
+            <div class="w-[100%] mt-3">
               <div
                 class="flex items-center justify-between lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
               >
@@ -1154,7 +1154,7 @@ const isAnyLinkActive = computed(() => {
                     />
                   </svg>
                 </div>
-                <Searchbar />
+                <Userprofilemenu />
               </div>
               <div class="flex items-center justify-between gap-5 w-full">
                 <div
@@ -1165,8 +1165,7 @@ const isAnyLinkActive = computed(() => {
                   <Darkmode />
                   <NotificationBell />
                 </div>
-
-                <Userprofilemenu />
+                <Searchbar />
               </div>
             </div>
           </nav>

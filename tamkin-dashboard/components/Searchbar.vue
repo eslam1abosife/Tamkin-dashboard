@@ -147,7 +147,7 @@ const mysiteStore = useMySiteStore();
 </script>
 <template>
   <div
-    class="py-[17px] w-[50%] search_input rtl:!mr-[40px] ltr:!ml-[40px] relative"
+    class="py-[17px] w-[100%] search_input rtl:!mr-[40px] ltr:!ml-[40px] relative"
   >
     <input
       type="text"

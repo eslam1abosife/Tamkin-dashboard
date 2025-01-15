@@ -124,7 +124,7 @@ onMounted(async () => {
 <template>
   <div
     style="border-radius: 8px"
-    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[50%] rtl:!ml-[40px] flex items-center justify-center relative"
+    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[35%] rtl:!ml-[40px] flex items-center justify-center relative"
     @click.stop.prevent="openLangSwitchMenu"
     v-on-click-outside="closeMenu"
   >
@@ -153,7 +153,7 @@ onMounted(async () => {
     <div
       v-else
       style="border-radius: 8px"
-      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[30px] sm:h-[30px] md:h-[35px] lg:h-[40px] xl:h-[40px] p-[10px]"
+      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[40px] mt-1 p-[10px]"
     >
       <div class="flex items-center justify-start w-full space-x-[14px]">
         <div class="w-2/4">
@@ -197,7 +197,7 @@ onMounted(async () => {
     <div
       v-show="isMenuOpen"
       style="box-shadow: 1px 1px 7.6px 0px #00000040"
-      class="p-[10px] w-full absolute dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin top-[60px] right-[-0.5px] bg-white rounded-[10px] h-auto w-full rounded-b-[10px] flex flex-col items-start justify-start"
+      class="p-[10px] w-full absolute z-10 dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin top-[60px] right-[-0.5px] bg-white rounded-[10px] h-auto w-full rounded-b-[10px] flex flex-col items-start justify-start"
     >
       <nuxt-link
         :to="localePath('/profile')"
