@@ -124,7 +124,7 @@ onMounted(async () => {
 <template>
   <div
     style="border-radius: 8px"
-    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[220px] rtl:!ml-[40px] ltr:!mr-[40px] flex items-center justify-center relative"
+    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[140px] sm:w-[180px] md:w-[190px] lg:w-[210px] xl:w-[220px] rtl:!ml-[40px] ltr:!mr-[40px] flex mr-5 items-center justify-center relative"
     @click.stop.prevent="openLangSwitchMenu"
     v-on-click-outside="closeMenu"
   >
@@ -153,7 +153,7 @@ onMounted(async () => {
     <div
       v-else
       style="border-radius: 8px"
-      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]"
+      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[30px] sm:h-[30px] md:h-[35px] lg:h-[40px] xl:h-[40px] p-[10px]"
     >
       <div class="flex items-center justify-start w-full space-x-[14px]">
         <div class="w-2/4">
@@ -161,7 +161,7 @@ onMounted(async () => {
         </div>
         <div class="flex flex-col items-start justify-center w-full !mx-0">
           <h2
-            class="font-[400] ipad-max:text-[10px] truncate w-24 text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
+            class="font-[400] sm:text-[9px] md:text-[9px] lg:text-[10px] xl:text-[10px] truncate w-24 text-[8px] dark:text-white whitespace-nowrap leading-[14.4px]"
           >
             {{
               profileStore.member.first_name +
