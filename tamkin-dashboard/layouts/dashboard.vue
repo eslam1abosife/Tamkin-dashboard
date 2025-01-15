@@ -323,12 +323,12 @@ const updateNewValues = () => {
       JSON.stringify(settingsStore.checkboxes)
     );
   }
-}; 
-const {$langloader}  = useNuxtApp();
+};
+const { $langloader } = useNuxtApp();
 // const isLanguageLoading = nuxtApp.$langloader;
-const languageLoadernew = ref($langloader)
+const languageLoadernew = ref($langloader);
 watch($langloader, (newValue) => {
-  console.log('Language loading state:', newValue); // Ensure this logs changes
+  console.log("Language loading state:", newValue); // Ensure this logs changes
 });
 const openModals = computed(() => {
   return (
@@ -876,22 +876,21 @@ const DiscardAndMove = () => {
 };
 
 const loadf = ref(true);
-const   isAnyLinkActive = computed(()=> {
-    const activeLinks = [
-      '/addons',
-      '/statistics',
-      '/overview',
-      '/customize',
-      '/settings',
-      '/sign-language/overview',  
-      '/sign-language/statistics',
-      '/sign-language/customize',
-      '/sign-language/addons',
-      '/sign-language/settings',
-      
-    ];
-    return activeLinks.some(link => isLinkActive(link));
-  })
+const isAnyLinkActive = computed(() => {
+  const activeLinks = [
+    "/addons",
+    "/statistics",
+    "/overview",
+    "/customize",
+    "/settings",
+    "/sign-language/overview",
+    "/sign-language/statistics",
+    "/sign-language/customize",
+    "/sign-language/addons",
+    "/sign-language/settings",
+  ];
+  return activeLinks.some((link) => isLinkActive(link));
+});
 </script>
 
 <template>
@@ -913,8 +912,7 @@ const   isAnyLinkActive = computed(()=> {
       class="relative dark:bg-p bg_dashboard min-h-screen w-full"
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
-
-    <div class="vl-parent">
+      <div class="vl-parent">
         <Loading
           v-model:active="languageLoadernew"
           :can-cancel="false"
@@ -1034,7 +1032,7 @@ const   isAnyLinkActive = computed(()=> {
         @control-confirm="closeModal('resetModal')"
         @control-cancel="closeModal('resetModal')"
       />
-   
+
       <div
         class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
@@ -1090,7 +1088,7 @@ const   isAnyLinkActive = computed(()=> {
             class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
           >
             <div
-              class="flex items-center lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
+              class="flex items-center justify-between lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
             >
               <div
                 class="flex items-center justify-between lg:hidden"
@@ -1099,13 +1097,13 @@ const   isAnyLinkActive = computed(()=> {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="size-6"
+                  class="size-6 dark:fill-whiteTamkin dark:text-whiteTamkin"
                 >
                   <path
+                    class="dark:fill-whiteTamkin"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
@@ -1115,11 +1113,9 @@ const   isAnyLinkActive = computed(()=> {
 
               <Searchbar />
 
-              <div
-                class="flex items-center justify-end rtl:space-x-reverse lg:space-x-[20px] w-full"
-              >
+              <div class="flex items-center justify-end gap-5 w-full">
                 <div
-                  class="flex items-center justify-start rtl:space-x-reverse space-x-[20px]"
+                  class="flex items-center justify-between gap-2 md:gap-5 rtl:space-x-reverse"
                 >
                   <Langswitcher />
 
@@ -1147,7 +1143,6 @@ const   isAnyLinkActive = computed(()=> {
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
               class="absolute left-0 right-0 w-full h-[200px] z-[40] dark:bg-gradient-to-t top-0 dark:bg-tamkinDarkPrimary kjer dark:border-darkborder dark:text-whiteTamkin"
               v-if="isAnyLinkActive && !error"
-
             ></div>
 
             <div class="relative px-[15px]">

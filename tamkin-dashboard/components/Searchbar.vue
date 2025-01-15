@@ -147,11 +147,11 @@ const mysiteStore = useMySiteStore();
 </script>
 <template>
   <div
-    class="py-[17px] search_input w-full rtl:!mr-[40px] ltr:!ml-[40px] relative"
+    class="py-[17px] w-[50%] search_input rtl:!mr-[40px] ltr:!ml-[40px] relative"
   >
     <input
       type="text"
-      class="input_dashboard_search w-full"
+      class="input_dashboard_search w-full h-[30px] lg:h-[40px] text-[10px]"
       @input="loadingSearch = true"
       v-model="search"
       :placeholder="`${$t('Search in Sites')} ...`"

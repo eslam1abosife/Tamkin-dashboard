@@ -21,7 +21,7 @@ const closeoutside = () => {
 
 <template>
   <div
-    class="bg-[#EFF1F6] h-[40px] w-[40px] rounded-full dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin flex items-center justify-center relative cursor-pointer"
+    class="bg-[#EFF1F6] h-[30px] w-[30px] sm:h-[30px] sm:w-[30px] md:h-[35px] md:w-[35px] lg:h-[40px] lg:w-[40px] xl:h-[40px] xl:w-[40px] rounded-full dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin flex items-center justify-center relative cursor-pointer"
     :class="[isMenuOpen ? 'border-[1px] border-tamkin' : '']"
     @click.prevent="openLangSwitchMenu()"
     v-on-click-outside="
