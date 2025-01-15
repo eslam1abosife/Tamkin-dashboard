@@ -462,7 +462,7 @@ function leaveCart(el, done) {
           <div class="flex items-center border-b justify-between pb-4">
             <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div
-                class="rounded-lg bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border"
+                class="rounded-lg bg-[#F8F8F8] dark:bg-darkTamkin w-[97px] h-[101px] flex items-center justify-center border"
               >
                 <img
                   :src="

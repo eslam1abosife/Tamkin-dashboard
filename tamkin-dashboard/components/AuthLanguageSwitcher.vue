@@ -23,7 +23,7 @@ const closeoutside = () => {
 
 <template>
   <div
-    class="bg-white h-[34px] w-[110px] rounded-[10px] shadow-md -shadow-y-[1px] flex items-center justify-center relative cursor-pointer" 
+    class="bg-white dark:bg-darkTamkin h-[34px] w-[110px] rounded-[10px] shadow-md -shadow-y-[1px] flex items-center justify-center relative cursor-pointer" 
     :class="[isMenuOpen ? 'border-[1px] border-tamkin':'']"  @click.prevent="openLangSwitchMenu()"
 
     v-on-click-outside="()=>{
@@ -35,10 +35,10 @@ const closeoutside = () => {
 
 
 <div class="flex items-center justify-between rtl:space-x-reverse space-x-[32px]">
-    <div v-if="locale ==='ar'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
+    <div v-if="locale ==='ar'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B] dark:text-whiteTamkin/80">
       English
     </div>
-   <div v-if="locale ==='en'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
+   <div v-if="locale ==='en'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B] dark:text-whiteTamkin/80">
       Arabic
     </div>
 
@@ -49,7 +49,7 @@ const closeoutside = () => {
 </div>
 
 
-<div v-if="isMenuOpen" class=" absolute bottom-[40px] inset-x-auto drop-shadow-md bg-white rounded-[10px] h-auto w-full flex flex-col items-start justify-start p-[8px]">
+<div v-if="isMenuOpen" class=" absolute bottom-[40px] inset-x-auto drop-shadow-md bg-white dark:bg-darkTamkin dark:text-whiteTamkin rounded-[10px] h-auto w-full flex flex-col items-start justify-start p-[8px]">
   <NuxtLink class="flex items-center justify-center gap-2" v-for="locale in availableLocales" :key="locale.code" 
   :to="switchLocalePath(locale.code)">
  

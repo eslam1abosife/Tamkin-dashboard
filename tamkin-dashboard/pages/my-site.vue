@@ -697,7 +697,7 @@ const openInvestor = (app, pack) => {
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                     :class="[
                       !defaultApp
-                        ? '!text-darkGrey/40 cursor-not-allowed'
+                        ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                         : '!text-tamkinStart',
                     ]"
                   >
@@ -709,7 +709,7 @@ const openInvestor = (app, pack) => {
                       stroke-width="1.5"
                       :class="[
                         !defaultApp
-                          ? '!text-darkGrey/40 cursor-not-allowed'
+                          ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                           : '!text-tamkinStart',
                       ]"
                       stroke="currentColor"

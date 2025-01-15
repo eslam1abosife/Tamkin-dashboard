@@ -401,7 +401,7 @@ const getSettingsValue = (name: any) => {
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
-    <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+    <SettingsTransferModalStep2 :type="'Sign language'" :show-modal="isOpen('transferstep2')" />
 
     <LanguageServicesNavbar />
     <transition name="slide-up">

@@ -34,8 +34,8 @@ const navStore = useNavbarStore()
       <div class="h-[18px] bg-gray-200 rounded dark:bg-gray-600 w-full"></div>
     </div>
     <div class="ml-auto flex space-x-2">
-      <div class="h-[30px] w-[80px] bg-gray-300 rounded-full dark:bg-gray-700"></div>
-      <div class="h-[20px] w-[20px] bg-gray-300 rounded-full dark:bg-gray-700"></div>
+      <div class="h-[30px] w-[80px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"></div>
+      <div class="h-[20px] w-[20px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"></div>
     </div>
   </div>
 

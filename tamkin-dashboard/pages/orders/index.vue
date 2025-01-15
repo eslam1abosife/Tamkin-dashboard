@@ -446,11 +446,11 @@ const setPageSize = (size: number) => {
 
     <div
       v-if="orders?.length == 0 && !loadingBlock"
-      class="bg-white w-full h-[250px] mt-[32px] flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]"
+      class="bg-white dark:bg-tamkinDarkPrimary w-full h-[250px] mt-[32px] flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]"
     >
       <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="" />
       <div
-        class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center"
+        class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white w-1/4 text-center"
       >
         {{ $t("There are no orders at the moment") }}
       </div>

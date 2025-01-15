@@ -103,7 +103,7 @@ const uniqueValues = (items) => {
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
         <!-- Icon Skeleton -->
-        <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
+        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
         <!-- Title Skeleton -->
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <!-- Subtitle Skeleton -->
@@ -126,7 +126,7 @@ const uniqueValues = (items) => {
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
+        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
@@ -143,7 +143,7 @@ const uniqueValues = (items) => {
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 rounded-full mb-4"></div>
+        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>

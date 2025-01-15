@@ -139,14 +139,14 @@ onMounted(async () => {
         <div class="flex items-center justify-start w-full space-x-[14px]">
           <div class="w-2/4">
             <div
-              class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] bg-gray-300 rounded-full"
+              class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-full"
             ></div>
           </div>
           <div class="flex flex-col items-start justify-center w-full !mx-0">
-            <div class="h-[10px] bg-gray-300 rounded-full w-24"></div>
-            <div class="h-[12px] bg-gray-300 rounded-full mt-1 w-16"></div>
+            <div class="h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full w-24"></div>
+            <div class="h-[12px] bg-gray-300 dark:bg-gray-600 rounded-full mt-1 w-16"></div>
           </div>
-          <div class="w-[16px] h-[16px] bg-gray-300 rounded-full"></div>
+          <div class="w-[16px] h-[16px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
         </div>
       </div>
     </div>

@@ -34,8 +34,10 @@ body{
 }
 
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px white inset !important;
-    /* Change 'white' to your desired background color */
+    @apply [-webkit-box-shadow:0_0_0_1000px_white_inset] dark:[-webkit-box-shadow:0_0_0_1000px_#bbc2cd_inset];
+}
+input:-webkit-autofill:focus {
+    @apply [-webkit-box-shadow:0_0_0_1000px_white_inset] dark:[-webkit-box-shadow:0_0_0_1000px_#bbc2cd_inset];
 }
 
 .is-complete {

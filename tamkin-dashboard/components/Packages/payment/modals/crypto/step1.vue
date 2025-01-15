@@ -616,13 +616,13 @@ const finalAmount = computed(() => {
               <div class="w-full h-[100px] cursor-pointer bg-gray-200 animate-pulse rounded-[10px] border-lightGrey">
                 <div class="flex items-center justify-between p-[16px]">
                   <div class="flex items-center rtl:space-x-reverse space-x-[13px]">
-                    <div class="w-[25px] h-[25px] bg-gray-300 rounded-full"></div>
+                    <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                     <div class="flex flex-col justify-center space-y-[-4px]">
                       <div class="w-[150px] h-[18px] bg-gray-300 rounded mb-[12px]"></div>
                       <div class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"></div>
                     </div>
                   </div>
-                  <div class="w-[22px] h-[22px] bg-gray-300 rounded-full border border-tamkin"></div>
+                  <div class="w-[22px] h-[22px] bg-gray-300 dark:bg-gray-600 rounded-full border border-tamkin"></div>
                 </div>
               </div>
             </div>
@@ -640,7 +640,7 @@ const finalAmount = computed(() => {
                    border-light border-[#C8CFEB] shadow w-full py-[16px]">
                     <ul>
                       <li class="flex items-center hover:bg-gray-300 py-[6px] px-[10px] cursor-pointer">
-                        <div class="w-[25px] h-[25px] bg-gray-300 rounded-full"></div>
+                        <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                         <div class="w-[150px] h-[14px] bg-gray-300 rounded ml-[10px]"></div>
                         <div class="ml-auto w-[100px] h-[14px] bg-gray-300 rounded"></div>
                       </li>
