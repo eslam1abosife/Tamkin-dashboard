@@ -124,7 +124,7 @@ onMounted(async () => {
 <template>
   <div
     style="border-radius: 8px"
-    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[50%] rtl:!ml-[40px] flex items-center justify-center relative"
+    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[200px] rtl:!ml-[40px] flex items-center justify-center relative"
     @click.stop.prevent="openLangSwitchMenu"
     v-on-click-outside="closeMenu"
   >
@@ -153,13 +153,13 @@ onMounted(async () => {
     <div
       v-else
       style="border-radius: 8px"
-      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[30px] sm:h-[30px] md:h-[35px] lg:h-[40px] xl:h-[40px] p-[10px]"
+      class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between w-full bg-[#EFF1F6] rounded-[10px] h-[40px] mt-1 p-[10px]"
     >
-      <div class="flex items-center justify-start w-full space-x-[14px]">
-        <div class="w-2/4">
+      <div class="flex items-center justify-between w-full">
+        <div>
           <UserAvatar :member="profileStore.member" />
         </div>
-        <div class="flex flex-col items-start justify-center w-full !mx-0">
+        <div class="flex flex-col items-start justify-center !mx-0">
           <h2
             class="font-[400] sm:text-[9px] md:text-[9px] lg:text-[10px] xl:text-[10px] truncate w-24 text-[8px] dark:text-white whitespace-nowrap leading-[14.4px]"
           >
@@ -175,29 +175,29 @@ onMounted(async () => {
             {{ $t(profileStore.getRole()) }}
           </p>
         </div>
-      </div>
-      <div>
-        <svg
-          :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
-          width="6"
-          height="9"
-          viewBox="0 0 6 9"
-          class="dark:fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
+        <div class="ml-0">
+          <svg
+            :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
+            width="6"
+            height="9"
+            viewBox="0 0 6 9"
             class="dark:fill-white"
-            d="M6.00075 4.50016L1.75775 8.74316L0.34375 7.32816L3.17275 4.50016L0.34375 1.67216L1.75775 0.257164L6.00075 4.50016Z"
-            fill="#23262F"
-          />
-        </svg>
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="dark:fill-white"
+              d="M6.00075 4.50016L1.75775 8.74316L0.34375 7.32816L3.17275 4.50016L0.34375 1.67216L1.75775 0.257164L6.00075 4.50016Z"
+              fill="#23262F"
+            />
+          </svg>
+        </div>
       </div>
     </div>
 
     <div
       v-show="isMenuOpen"
       style="box-shadow: 1px 1px 7.6px 0px #00000040"
-      class="p-[10px] w-full absolute dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin top-[60px] right-[-0.5px] bg-white rounded-[10px] h-auto w-full rounded-b-[10px] flex flex-col items-start justify-start"
+      class="p-[10px] w-full absolute z-10 dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin top-[60px] right-[-0.5px] bg-white rounded-[10px] h-auto w-full rounded-b-[10px] flex flex-col items-start justify-start"
     >
       <nuxt-link
         :to="localePath('/profile')"

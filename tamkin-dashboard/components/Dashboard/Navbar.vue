@@ -268,6 +268,9 @@ watch(
           <span> {{ getAvatarLetters(currTeam?.team_name || "") }} </span>
         </div>
       </div>
+      <div class="w-[100%]" style="margin-bottom: -15px">
+        <Searchbar class="block md:hidden" />
+      </div>
       <nuxt-link
         class="tamkin_team_card dark:bg-tamkinDarkPrimary dark:border-[1px]"
         @click="

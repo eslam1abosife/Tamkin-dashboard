@@ -19,12 +19,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <img
-    v-if="member.user_image"
-    :src="`https://tamkin.app/${member.user_image}`"
-    class="h-[30px] w-[30px] sm:h-[30px] sm:w-[30px] md:h-[35px] md:w-[35px] lg:h-[40px] lg:w-[40px] xl:h-[40px] xl:w-[40px] rounded-full"
-    alt=""
-  />
+  <div v-if="member.user_image" class="h-[35px] w-[35px] mr-2 rounded-full">
+    <img
+      :src="`https://tamkin.app/${member.user_image}`"
+      class="h-[100%] w-[100%] rounded-full"
+      alt=""
+    />
+  </div>
 
   <div
     v-else-if="member.first_name && member.last_name"

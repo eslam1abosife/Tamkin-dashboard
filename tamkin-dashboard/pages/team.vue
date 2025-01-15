@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onMounted } from "vue";
 import { useModalManager } from "@/composables/useModalManager";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Team - Tamkin Dashboard"),
-})
+});
 import {
   useGetAllMembers,
   useGetTeamCountMembers,
@@ -547,7 +547,7 @@ const isOwner = computed(() => {
       >
         <div class="flex flex-col items-start justify-start">
           <div
-            class="text-[#021328] dark:text-whiteTamkin/90 text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
+            class="text-[#021328] dark:text-whiteTamkin/90 text-[10px] md:text-[14px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
           >
             <div>
               <img
@@ -558,12 +558,12 @@ const isOwner = computed(() => {
             </div>
             <div class="flex items-center justify-between w-full">
               <div
-                class="flex-grow ipad-max:text-[12px] lg:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                class="flex-grow ipad-max:text-[12px] text-[9px] sm:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Total Member") }}
               </div>
               <div
-                class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right"
+                class="ipad-max:ml-[10px] ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right"
               >
                 {{ teamMembers.length }}
               </div>
@@ -575,12 +575,12 @@ const isOwner = computed(() => {
                 class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
               ></div>
               <div
-                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                class="rtl:mr-[12px] text-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Active") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+            <div class="ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right">
               {{ teamMembers.filter((ele) => ele.is_active).length }}
             </div>
           </div>
@@ -588,12 +588,12 @@ const isOwner = computed(() => {
             <div class="flex items-center">
               <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
               <div
-                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                class="rtl:mr-[12px] text-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Pending") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+            <div class="ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right">
               {{ teamMembers.filter((ele) => !ele.is_active).length }}
             </div>
           </div>
