@@ -10,6 +10,7 @@ const { locale } = useI18n();
 
 const { createOrder, messageData, codeStatus } = useCart();
 const { ApplyCoupon } = useCouponCode();
+const colorMode = useColorMode()
 
 const billingStore = useBillingStore();
 const marketStore = useMarketStore();
@@ -143,7 +144,9 @@ const continueCheckOut = async () => {
   const res = await createOrder("Card", currentCard.value, locale.value);
   // return navigateTo('cardModal','add-site','crypto')
   if (codeStatus.value === 200) {
-    urlPayment.value = res;
+    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    
+    urlPayment.value = resTheme;
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
   } else {
     $toast(messageData.value, { hideIn: 3000, type: "error" });

@@ -7,6 +7,9 @@ const { locale } = useI18n();
 const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 const { detailsRenew, messageData: rn, codeStatus: rr } = useGetRenewdetails();
 
+const colorMode = useColorMode()
+
+
 const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
 const subsStore = useSubsStore();
@@ -138,7 +141,9 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    urlPayment.value = res;
+    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    
+    urlPayment.value = resTheme;
 
     // subsStore.removeMultipleFromCart(subsStore.cartItems);
     subsStore.urls = [];

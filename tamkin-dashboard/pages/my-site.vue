@@ -626,7 +626,7 @@ const openInvestor = (app, pack) => {
 
     <div
       v-if="!mysiteStore.loadingApps"
-      class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]"
+      class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse lg:space-x-[24px]"
     >
       <div
         class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
@@ -749,7 +749,7 @@ const openInvestor = (app, pack) => {
           class="flex flex-col space-y-[4px] items-start justify-center p-[16px]"
         >
           <div
-            class="h-[30px] dark:bg-p w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px] to-white flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px] to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("My Sites") }}
@@ -761,7 +761,7 @@ const openInvestor = (app, pack) => {
           </div>
 
           <div
-            class="h-[30px] w-[300px] dark:bg-p rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#A3F0EA] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r dark:from-[#2b3f3d] from-[#A3F0EA] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Active") }}
@@ -780,7 +780,7 @@ const openInvestor = (app, pack) => {
             </div>
           </div>
           <div
-            class="h-[30px] dark:bg-p w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] px-[10px] py-[4.5px] relative to-white flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#977474] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Not installed") }}
@@ -801,16 +801,21 @@ const openInvestor = (app, pack) => {
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
           <img
-            src="/imgs/mysite.svg"
+            src="imgs/mysite_dark.png"
             alt=""
-            class="h-full w-[210px] rtl:scale-x-[-1]"
+            class="h-full w-[210px] rtl:scale-x-[-1] hidden dark:block"
+          />
+          <img
+            src="imgs/mysite.svg"
+            alt=""
+            class="h-full w-[210px] rtl:scale-x-[-1] dark:hidden"
           />
         </div>
       </div>
     </div>
     <div
       v-if="mysiteStore.loadingApps"
-      class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]"
+      class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse lg:space-x-[24px]"
     >
       <!-- Placeholder Container -->
       <div

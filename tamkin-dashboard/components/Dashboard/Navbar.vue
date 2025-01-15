@@ -221,7 +221,7 @@ watch(
 
 <template>
   <div
-    class="flex-col dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6 h-screen z-[140] transition-all duration-75 ease-in-out transform-gpu bg-white border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey"
+    class="flex-col dark:bg-tamkinDarkPrimary dark:border-[#3333337a] dark:text-whiteTamkin items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6 h-screen z-[140] transition-all duration-75 ease-in-out transform-gpu bg-white border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey"
     :class="[
       sideBarOpen ? ' w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',
       mobileSidebar ? 'block' : 'hidden',

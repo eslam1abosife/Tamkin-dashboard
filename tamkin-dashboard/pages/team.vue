@@ -323,7 +323,7 @@ const isOwner = computed(() => {
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start rtl:space-x-reverse space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start rtl:space-x-reverse lg:space-x-[16px]"
     >
       <div
         v-if="!getCurrTeamLoading"
@@ -518,7 +518,7 @@ const isOwner = computed(() => {
       <!-- Skeleton Loader -->
       <div
         v-if="getCurrTeamLoading"
-        class="flex items-center justify-between flex-row space-x-reverse px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+        class="flex items-center justify-between flex-row space-x-reverse px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-none overflow-hidden"
       >
         <!-- Avatar Skeleton -->
         <div
@@ -558,7 +558,7 @@ const isOwner = computed(() => {
             </div>
             <div class="flex items-center justify-between w-full">
               <div
-                class="flex-grow ipad-max:text-[12px] text-[9px] sm:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                class="flex-grow ipad-max:text-[12px] text-[9px] sm:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap text-nowrap"
               >
                 {{ $t("Total Member") }}
               </div>
@@ -575,7 +575,8 @@ const isOwner = computed(() => {
                 class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
               ></div>
               <div
-                class="rtl:mr-[12px] text-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+
               >
                 {{ $t("Active") }}
               </div>
@@ -588,7 +589,8 @@ const isOwner = computed(() => {
             <div class="flex items-center">
               <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
               <div
-                class="rtl:mr-[12px] text-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+
               >
                 {{ $t("Pending") }}
               </div>
@@ -602,14 +604,14 @@ const isOwner = computed(() => {
         <div class="-mt-[45px]">
           <img
             src="/imgs/total_members_hero.png"
-            class="w-[203px] h-[151px]"
+            class="md:w-[203px] md:h-[151px] w-[170px] h-[145px]"
             alt=""
           />
         </div>
       </div>
       <div
         v-if="getCurrTeamLoading"
-        class="relative dark:bg-p_secondary flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
+        class="relative dark:bg-tamkinDarkPrimary flex items-start p-[16px] justify-between w-full h-[108px] dark:bg-none bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
       >
         <!-- Placeholder for the text and stats -->
         <div

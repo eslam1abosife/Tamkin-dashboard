@@ -31,6 +31,7 @@ const {
   navigateTo,
   setData,
 } = useModalManager();
+const colorMode = useColorMode()
 
 const currentCard = ref("");
 const loading = ref(false);
@@ -146,7 +147,9 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    urlPayment.value = res;
+    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    
+    urlPayment.value = resTheme;
 
     // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
     packagesStore.urls = [];

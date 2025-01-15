@@ -951,11 +951,11 @@ const isAnyLinkActive = computed(() => {
           </template>
         </Loading>
       </div>
-      <!-- <div
+      <div
         v-if="openModals"
         @click="closeSideBarOnMobileOverlay"
         class="absolute z-[9999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
-      ></div> -->
+      ></div>
       <div
         v-if="marketStore.firstItemNotificationShown"
         class="absolute z-[9999] bg-black bg-opacity-30 h-full w-full overflow-hidden"
@@ -1034,7 +1034,7 @@ const isAnyLinkActive = computed(() => {
       />
 
       <div
-        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] lg:z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
+        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] lg:z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-[#3333337a] w-full"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
@@ -1088,7 +1088,7 @@ const isAnyLinkActive = computed(() => {
             class="sticky flex top-0 z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
           >
             <div
-              class="flex p-4 items-center justify-between lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
+            class="flex items-center space-x-[10px] rtl:space-x-reverse w-full px-[20px] ipad-max:px-[20px] lg:px-[40px]"
             >
               <div
                 class="flex items-center justify-between lg:hidden"

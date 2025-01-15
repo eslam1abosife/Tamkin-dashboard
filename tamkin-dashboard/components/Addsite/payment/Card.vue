@@ -30,6 +30,8 @@ const {
   setData,
 } = useModalManager();
 
+const colorMode = useColorMode()
+
 const currentCard = ref("");
 const loading = ref(false);
 const isPromoFilled = ref(false);
@@ -142,7 +144,9 @@ const continueCheckOut = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     // await getInviteApps({ agency: user.agency });
     // alert(res)
-    urlPayment.value = res
+    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    
+    urlPayment.value = resTheme;
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
     // addSiteStore.urls =[]
     // addSiteStore.promo = ""

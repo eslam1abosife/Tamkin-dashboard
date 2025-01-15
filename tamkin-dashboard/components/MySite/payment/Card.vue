@@ -15,6 +15,7 @@ const { fullUrl } = useFullUrl();
 const cardOptions = ref({
   disabled: true,
 });
+const colorMode = useColorMode()
 
 const {
   isOpen,
@@ -133,7 +134,9 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    urlPayment.value = res;
+    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    
+    urlPayment.value = resTheme;
 
     // mysiteStore.removeMultipleFromCart(mysiteStore.cartItems);
     mysiteStore.urls = [];
