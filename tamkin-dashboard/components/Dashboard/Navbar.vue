@@ -268,6 +268,9 @@ watch(
           <span> {{ getAvatarLetters(currTeam?.team_name || "") }} </span>
         </div>
       </div>
+      <div class="w-[100%]" style="margin-bottom: -15px">
+        <Searchbar class="block md:hidden" />
+      </div>
       <nuxt-link
         class="tamkin_team_card dark:bg-tamkinDarkPrimary dark:border-[1px]"
         @click="
@@ -1314,7 +1317,7 @@ watch(
             ? 'top-[80vh]'
             : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ',
         ]"
-        class="lg:absolute dark:bg-p overflow-hidden w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+        class="lg:absolute relative dark:bg-p overflow-hidden w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div class="left-0 top-0 absolute z-[-1] hidden dark:block">
           <img

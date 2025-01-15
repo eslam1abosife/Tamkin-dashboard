@@ -146,9 +146,7 @@ const clearInput = () => {
 const mysiteStore = useMySiteStore();
 </script>
 <template>
-  <div
-    class="py-[17px] w-[100%] search_input rtl:!mr-[40px] ltr:!ml-[40px] relative"
-  >
+  <div class="py-[17px] w-[100%] search_input relative">
     <input
       type="text"
       class="input_dashboard_search w-full h-[30px] lg:h-[40px] text-[10px]"
@@ -159,7 +157,7 @@ const mysiteStore = useMySiteStore();
     <div
       class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
     >
-      <img src="/assets/imgs/icons/search.svg" />
+      <img class="rtl:!mr-[190px]" src="/assets/imgs/icons/search.svg" />
     </div>
     <div
       v-if="isSearchfilled"
@@ -171,7 +169,7 @@ const mysiteStore = useMySiteStore();
 
     <div
       v-if="isSearchfilled"
-      class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin w-full max-h-[400px] h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex flex-col items-start justify-start p-4"
+      class="bg-white z-50 dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin w-full max-h-[400px] h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex flex-col items-start justify-start p-4"
     >
       <div v-if="!loadingSearch && searchData.length" class="w-full">
         <div

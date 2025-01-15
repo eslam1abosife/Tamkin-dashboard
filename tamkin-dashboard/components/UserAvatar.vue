@@ -19,7 +19,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-if="member.user_image" class="h-[40px] w-[40px] mr-2 rounded-full">
+  <div v-if="member.user_image" class="h-[35px] w-[35px] mr-2 rounded-full">
     <img
       :src="`https://tamkin.app/${member.user_image}`"
       class="h-[100%] w-[100%] rounded-full"

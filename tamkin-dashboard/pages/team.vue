@@ -558,7 +558,7 @@ const isOwner = computed(() => {
             </div>
             <div class="flex items-center justify-between w-full">
               <div
-                class="flex-grow ipad-max:text-[12px] text-[12px] lg:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+                class="flex-grow ipad-max:text-[12px] text-[9px] sm:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Total Member") }}
               </div>
