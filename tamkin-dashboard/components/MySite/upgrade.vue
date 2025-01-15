@@ -112,7 +112,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             <a
               :class="[
                 mySiteStore.currentWebsite?.title === 'Internal Service'
-                  ? '!text-darkGrey/40 cursor-not-allowed'
+                  ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                   : '',
               ]"
               :href="
@@ -132,7 +132,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
                 stroke-width="1.5"
                 :class="[
                   mySiteStore.currentWebsite?.title === 'Internal Service'
-                    ? '!text-darkGrey/40 cursor-not-allowed'
+                    ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                     : '!text-tamkinStart',
                 ]"
                 stroke="currentColor"

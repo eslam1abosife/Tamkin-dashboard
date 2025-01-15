@@ -953,7 +953,7 @@ const isOwner = computed(() => {
                         "
                         width="22"
                         height="20"
-                        class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
+                        class="text-[#8C8C8C] dark:text-white cursor-pointer group-disabled:cursor-not-allowed"
                         :class="
                           member.is_active ||
                           !profileStore.isOwner ||
@@ -993,7 +993,7 @@ const isOwner = computed(() => {
                         height="20"
                         viewBox="0 0 16 20"
                         fill="none"
-                        class="text-[#8C8C8C] group-disabled:cursor-not-allowed"
+                        class="text-[#8C8C8C]  dark:text-white group-disabled:cursor-not-allowed"
                         :class="
                           profileStore.isOwner
                             ? `cursor-pointer hover:text-[#2DADA3]`
@@ -1033,7 +1033,7 @@ const isOwner = computed(() => {
                         height="20"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        class="text-[#8C8C8C] group-disabled:cursor-not-allowed"
+                        class="text-[#8C8C8C]  dark:text-white group-disabled:cursor-not-allowed"
                         :class="
                           profileStore.isOwner && !isOwner(member)
                             ? `cursor-pointer  hover:text-[#E80902]`

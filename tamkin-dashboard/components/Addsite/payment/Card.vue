@@ -470,17 +470,17 @@ onBeforeUnmount(() => {
                 class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]"
               >
                 <div
-                  class="cursor-pointer w-[40px] h-[40px] bg-gray-300 rounded-md"
+                  class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
-                <div class="h-[24px] w-[150px] bg-gray-300 rounded-md"></div>
+                <div class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
               </div>
 
               <!-- Right section for showing more payment options -->
               <div
                 class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
               >
-                <div class="h-[24px] w-[180px] bg-gray-300 rounded-md"></div>
-                <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+                <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+                <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
               </div>
             </div>
 

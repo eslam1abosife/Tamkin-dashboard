@@ -1041,10 +1041,10 @@ const openInvestor = (app, pack) => {
                       class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                     >
                       <div
-                        class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+                        class="w-[30px] h-[30px] bg-gray-300 dark:bg-gray-600 rounded-full animate-pulse"
                       ></div>
                       <div
-                        class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                        class="w-[150px] h-[20px] bg-gray-300 dark:bg-gray-600 rounded animate-pulse"
                       ></div>
                     </div>
                   </td>

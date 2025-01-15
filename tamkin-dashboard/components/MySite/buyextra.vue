@@ -129,7 +129,7 @@ return   navigateTo('buy_extra__service', "internalMediaservices", "buy_extra__s
             <a
               :class="[
                 mySiteStore.currentWebsite?.title === 'Internal Service'
-                  ? '!text-darkGrey/40 cursor-not-allowed'
+                  ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                   : '',
               ]"
               :href="
@@ -149,7 +149,7 @@ return   navigateTo('buy_extra__service', "internalMediaservices", "buy_extra__s
                 stroke-width="1.5"
                 :class="[
                   mySiteStore.currentWebsite?.title === 'Internal Service'
-                    ? '!text-darkGrey/40 cursor-not-allowed'
+                    ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
                     : '!text-tamkinStart',
                 ]"
                 stroke="currentColor"
