@@ -1170,19 +1170,27 @@ const openInvestor = (app, pack) => {
                     v-for="(app, index) in paginatedFilteredAppList"
                     :key="index"
                   >
+                  
                     <tr
                       :id="app.name"
                       class="h-[50px] dark:bg-tamkinDarkPrimary dark:border-darkborder"
                       :class="[
                         app.package &&
                         app.package[0] &&
-                        ((app.package[0].status === 'not_installed' &&
-                          new Date() < new Date(app.package[0].endpackage) &&
-                          app.package[0].type !== 'Investors') ||
-                          (app.package[0].type === 'Investors' &&
-                            app.package[0].status === 'not_installed'))
+                        (
+                          (
+                            app.package[0].status === 'not_installed' &&
+                           
+                            app.package[0].type !== 'Investors'
+                          ) ||
+                          (
+                            app.package[0].type === 'Investors' &&
+                            app.package[0].status === 'not_installed'
+                          )
+                        )
                           ? '!bg-[#FAEBEB] dark:!bg-[#977474]'
                           : '',
+                        
 
                         mysiteStore.selectedApp &&
                         mysiteStore.selectedApp.name === app.name

@@ -194,11 +194,22 @@ onMounted(async () => {
       />
       <div v-else>
         <div v-if="selectTab === 'webplugins'">
+       <div class="flex flex-col items-center justify-center mt-[44px] space-y-[30px] "
+        v-if="statsStore.loadingStatsIntranlsation || statsStore.loadingStats">
+
+        <div class="bg-gray-300 w-full h-[462px] animate-pulse rounded-[10px]" v-for="i in 4">
+
+        </div>
+       </div>
+         <div v-else-if="!statsStore.loadingStatsIntranlsation && !statsStore.loadingStats" class="w-full h-full">
           <LanguageServicesStatsDaterange />
+
+
           <LanguageServicesStatsTranslationq />
 
           <LanguageServicesStatsUsage />
 <LanguageServicesStatsUsagereport/>
+         </div>
           <!-- <div
             class="shadow-md mt-[30px] -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
           >
@@ -260,7 +271,7 @@ onMounted(async () => {
 
           <!-- <LanguageServicesStatsUsagereport /> -->
 
-          <LanguageServicesStatsSignlanguageUsage />
+          <LanguageServicesStatsSignlanguageUsage v-if="!statsStore.loadingStatsIntranlsation && !statsStore.loadingStats"/>
         </div>
 
         <div v-if="selectTab === 'Media'">

@@ -174,15 +174,21 @@ const runtimec = useRuntimeConfig();
 
     <KeepAlive>
       <LanguageServicesOverviewWebplugins
-v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'"
+      v-if="navStore.defaultappobj 
+      && navStore.defaultappobj.package 
+      && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
+      && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status === 'Active'"
     />
 
     </KeepAlive>
     <!--  -->
 
         <LanguageServicesOverviewTranslationaccuracy
-        v-if="navStore.defaultappobj?.package?.find(p => p.type === 'Sign language').status === 'Active'"
-
+        v-if="navStore.defaultappobj 
+        && navStore.defaultappobj.package 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status === 'Active'"
+  
         />
 
         <OverviewExclusiveInvestorPackage />

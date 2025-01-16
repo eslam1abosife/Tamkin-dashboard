@@ -708,410 +708,415 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
       </div>
     </div>
 
+  <div class="w-full relative">
+    <MessagesLockedFeature
+    v-if="
+      navStore.defaultappobj?.package?.filter(
+        (p) => p.type === 'Accessibility'
+      ).length === 0
+    "
+    class="w-full"
+  />
     <div
-      v-if="
-        !collapseStore.collapses.includes('select_date_range_card') &&
-        navStore.defaultappobj?.package?.filter(
-          (p) => p.type === 'Accessibility'
-        ).length > 0
-      "
-      class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full"
+    v-if="
+      !collapseStore.collapses.includes('select_date_range_card')
+    "
+    class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full"
+  >
+  
+    <div
+      class="flex items-center justify-between lg:space-y-0 space-y-4 lg:flex-nowrap flex-wrap w-full"
     >
       <div
-        class="flex items-center justify-between lg:space-y-0 space-y-4 lg:flex-nowrap flex-wrap w-full"
+        class="flex items-center justify-start lg:flex-nowrap flex-wrap rtl:space-x-reverse lg:space-y-0 space-y-4 lg:space-x-[24px] w-full"
       >
-        <div
-          class="flex items-center justify-start lg:flex-nowrap flex-wrap rtl:space-x-reverse lg:space-y-0 space-y-4 lg:space-x-[24px] w-full"
-        >
-          <div class="w-full ipad-max:w-full lg:w-1/4 rtl:!font-[Almarai]">
-            <VueDatePicker
-              :enable-time-picker="false"
-              @blur="dateOpen = false"
-              @focus="dateOpen = true"
-              class="relative rtl:!font-[Almarai] dark:bg-tamkinDarkPrimary"
-              :clearable="false"
-              disable-year-select
-              month-name-format="long"
-              :input-class-name="
-                dateOpen && dateF
-                  ? 'bg_interval_open tamkin '
-                  : 'tamkin_date_input rtl:!font-[Almarai]'
-              "
-              :dark="colorMode.preference === 'dark'"
-              :placeholder="$t('Select Period')"
-              v-model="dateF"
-              :format="format"
-              :locale="locale"
-              :format-locale="locale === 'ar' ? ar : ''"
-              format="E"
-              :position="langStore.direction === 'rtl' ? 'right' : 'left'"
-              :auto-position="false"
-              range
-              :max-date="new Date()"
-              @update:model-value="handleDate"
-            >
-              <template #action-row="{ closePicker, selectDate }">
-                <div
-                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
-                >
-                  <button
-                    @click="
-                      () => {
-                        closePicker();
-                        dateF = '';
-                      }
-                    "
-                    :disabled="!dateF"
-                    class="btn_bordered_dashboard rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
-                  >
-                    <div>{{ $t("Clear") }}</div>
-                  </button>
-                  <button
-                    @click="closePicker"
-                    class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center"
-                  >
-                    <div>{{ $t("Cancel") }}</div>
-                  </button>
-                  <button
-                    @click="selectDate"
-                    class="btn-dashboard hover_tamkin rtl:!font-[Almarai] flex items-center h-[19px] w-2/6 justify-center group"
-                  >
-                    <div>
-                      <svg
-                        class="group-hover:fill-tamkin"
-                        width="13"
-                        height="14"
-                        viewBox="0 0 13 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
-         3.97657L5.15274 8.92575Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </div>
-                    <div>{{ $t("Done") }}</div>
-                  </button>
-                </div>
-              </template>
-              <template #input-icon>
-                <svg
-                  class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
-                  :class="[
-                    dateOpen && dateF
-                      ? 'rotate-90 !text-white '
-                      : dateOpen && !dateF
-                      ? 'rotate-90'
-                      : 'rotate-0 rtl:rotate-180',
-                  ]"
-                  width="11"
-                  height="16"
-                  viewBox="0 0 11 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
-                 8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
-                 1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </template>
-            </VueDatePicker>
-          </div>
-          <div
-            class="relative ltr:text-left rtl:text-right w-full lg:w-1/4 ipad-max:w-full"
+        <div class="w-full ipad-max:w-full lg:w-1/4 rtl:!font-[Almarai]">
+          <VueDatePicker
+            :enable-time-picker="false"
+            @blur="dateOpen = false"
+            @focus="dateOpen = true"
+            class="relative rtl:!font-[Almarai] dark:bg-tamkinDarkPrimary"
+            :clearable="false"
+            disable-year-select
+            month-name-format="long"
+            :input-class-name="
+              dateOpen && dateF
+                ? 'bg_interval_open tamkin '
+                : 'tamkin_date_input rtl:!font-[Almarai]'
+            "
+            :dark="colorMode.preference === 'dark'"
+            :placeholder="$t('Select Period')"
+            v-model="dateF"
+            :format="format"
+            :locale="locale"
+            :format-locale="locale === 'ar' ? ar : ''"
+            format="E"
+            :position="langStore.direction === 'rtl' ? 'right' : 'left'"
+            :auto-position="false"
+            range
+            :max-date="new Date()"
+            @update:model-value="handleDate"
           >
-            <div>
-              <button
-                @click.prevent="toggleDropdown"
-                v-on-click-outside="
-                  () => {
-                    isOpen = false;
-                  }
-                "
-                type="button"
-                class="tamkin_date_input flex items-center justify-evenly text-darkGrey dark:text-whiteTamkin w-full"
-                id="options-menu"
-                :class="[isOpen ? 'bg_interval_open' : '']"
-                aria-haspopup="true"
-                aria-expanded="true"
+            <template #action-row="{ closePicker, selectDate }">
+              <div
+                class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
               >
-                {{
-                  selectedInterval ? selectedInterval : $t("Interval Period")
-                }}
-
-                <svg
-                  class="rtl:mr-auto rtl:ml-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
-                  :class="[
-                    isOpen
-                      ? 'rotate-90 !text-white '
-                      : 'rotate-0 rtl:rotate-180',
-                  ]"
-                  @click.stop="toggleDropdown"
-                  width="11"
-                  height="16"
-                  viewBox="0 0 11 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  @click="
+                    () => {
+                      closePicker();
+                      dateF = '';
+                    }
+                  "
+                  :disabled="!dateF"
+                  class="btn_bordered_dashboard rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
                 >
-                  <path
-                    d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
+                  <div>{{ $t("Clear") }}</div>
+                </button>
+                <button
+                  @click="closePicker"
+                  class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center"
+                >
+                  <div>{{ $t("Cancel") }}</div>
+                </button>
+                <button
+                  @click="selectDate"
+                  class="btn-dashboard hover_tamkin rtl:!font-[Almarai] flex items-center h-[19px] w-2/6 justify-center group"
+                >
+                  <div>
+                    <svg
+                      class="group-hover:fill-tamkin"
+                      width="13"
+                      height="14"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
+       3.97657L5.15274 8.92575Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                  <div>{{ $t("Done") }}</div>
+                </button>
+              </div>
+            </template>
+            <template #input-icon>
+              <svg
+                class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
+                :class="[
+                  dateOpen && dateF
+                    ? 'rotate-90 !text-white '
+                    : dateOpen && !dateF
+                    ? 'rotate-90'
+                    : 'rotate-0 rtl:rotate-180',
+                ]"
+                width="11"
+                height="16"
+                viewBox="0 0 11 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
                8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
                1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div
-              v-if="isOpen"
-              class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-full z-[100] rounded-md shadow-lg bg-white dark:bg-tamkinDarkPrimary ring-1 ring-black ring-opacity-5 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu"
+                  fill="currentColor"
+                />
+              </svg>
+            </template>
+          </VueDatePicker>
+        </div>
+        <div
+          class="relative ltr:text-left rtl:text-right w-full lg:w-1/4 ipad-max:w-full"
+        >
+          <div>
+            <button
+              @click.prevent="toggleDropdown"
+              v-on-click-outside="
+                () => {
+                  isOpen = false;
+                }
+              "
+              type="button"
+              class="tamkin_date_input flex items-center justify-evenly text-darkGrey dark:text-whiteTamkin w-full"
+              id="options-menu"
+              :class="[isOpen ? 'bg_interval_open' : '']"
+              aria-haspopup="true"
+              aria-expanded="true"
             >
-              <div class="py-1" role="none">
-                <a
-                  :class="[
-                    selectedInterval === '7 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
-                      : '',
-                  ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
-                  role="menuitem"
-                  @click="selectOption('7 Days')"
-                  >{{ $t("7 Days") }}</a
-                >
-                <a
-                  :class="[
-                    selectedInterval === '14 Days'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
-                      : '',
-                  ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
-                  role="menuitem"
-                  @click="selectOption('14 Days')"
-                  >{{ $t("14 Days") }}</a
-                >
-                <a
-                  :class="[
-                    selectedInterval === '1 Month'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
-                      : '',
-                  ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
-                  role="menuitem"
-                  @click="selectOption('1 Month')"
-                  >{{ $t("1 Month") }}</a
-                >
-                <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
-                  role="menuitem"
-                  :class="[
-                    selectedInterval === '2 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
-                      : '',
-                  ]"
-                  @click="selectOption('2 Months')"
-                  >{{ $t("2 Months") }}</a
-                >
-                <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
-                  role="menuitem"
-                  :class="[
-                    selectedInterval === '3 Months'
-                      ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight dark:bg-gray-600'
-                      : '',
-                  ]"
-                  @click="selectOption('3 Months')"
-                  >{{ $t("3 Months") }}</a
-                >
-              </div>
+              {{
+                selectedInterval ? selectedInterval : $t("Interval Period")
+              }}
+
+              <svg
+                class="rtl:mr-auto rtl:ml-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
+                :class="[
+                  isOpen
+                    ? 'rotate-90 !text-white '
+                    : 'rotate-0 rtl:rotate-180',
+                ]"
+                @click.stop="toggleDropdown"
+                width="11"
+                height="16"
+                viewBox="0 0 11 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
+             8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
+             1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            v-if="isOpen"
+            class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-full z-[100] rounded-md shadow-lg bg-white dark:bg-tamkinDarkPrimary ring-1 ring-black ring-opacity-5 focus:outline-none"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            <div class="py-1" role="none">
+              <a
+                :class="[
+                  selectedInterval === '7 Days'
+                    ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
+                    : '',
+                ]"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
+                role="menuitem"
+                @click="selectOption('7 Days')"
+                >{{ $t("7 Days") }}</a
+              >
+              <a
+                :class="[
+                  selectedInterval === '14 Days'
+                    ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
+                    : '',
+                ]"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
+                role="menuitem"
+                @click="selectOption('14 Days')"
+                >{{ $t("14 Days") }}</a
+              >
+              <a
+                :class="[
+                  selectedInterval === '1 Month'
+                    ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
+                    : '',
+                ]"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
+                role="menuitem"
+                @click="selectOption('1 Month')"
+                >{{ $t("1 Month") }}</a
+              >
+              <a
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
+                role="menuitem"
+                :class="[
+                  selectedInterval === '2 Months'
+                    ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
+                    : '',
+                ]"
+                @click="selectOption('2 Months')"
+                >{{ $t("2 Months") }}</a
+              >
+              <a
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
+                role="menuitem"
+                :class="[
+                  selectedInterval === '3 Months'
+                    ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight dark:bg-gray-600'
+                    : '',
+                ]"
+                @click="selectOption('3 Months')"
+                >{{ $t("3 Months") }}</a
+              >
             </div>
           </div>
         </div>
-        <div class="lg:mr-[-15px] lg:px-[15px]">
-          <div
-            v-if="statsStore.loadingStats"
-            class="bg-gray-200 animate-pulse dark:bg-p w-[160px] h-[32px] rounded-[13px]"
-          ></div>
-          <button
-            v-else
-            @click="downloadCSV"
-            :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
-            class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px]"
-          >
-            <div class="flex items-center justify-center">
-              <div :class="loadingDownload ? 'rtl:ml-2 ltr:mr-2' : ''">
-                <div>{{ $t("Download CSV") }}</div>
-              </div>
-
-              <svg
-                v-if="loadingDownload"
-                class="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+      </div>
+      <div class="lg:mr-[-15px] lg:px-[15px]">
+        <div
+          v-if="statsStore.loadingStats"
+          class="bg-gray-200 animate-pulse dark:bg-p w-[160px] h-[32px] rounded-[13px]"
+        ></div>
+        <button
+          v-else-if=" 
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Accessibility'
+          ).length > 0"
+          @click="downloadCSV"
+          :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
+          class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px]"
+        >
+          <div class="flex items-center justify-center">
+            <div :class="loadingDownload ? 'rtl:ml-2 ltr:mr-2' : ''">
+              <div>{{ $t("Download CSV") }}</div>
             </div>
-          </button>
+
+            <svg
+              v-if="loadingDownload"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap relative"
+    v-if="!collapseStore.collapses.includes('select_date_range_card')"
+  >
+  
+
+    <!-- Skeleton Loader -->
+    <div
+      v-if="statsStore.loadingStats"
+      class="animate-pulse mt-[30px] dark:bg-p bg-gray-300 rounded-[10px] h-[255px] w-full"
+    >
+      <!-- Title Placeholder -->
+    </div>
+
+    <div
+      v-else
+      class="container_chart mt-[30px] h-[255px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+    >
+      <div class="custom-legend">
+        <div
+          class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]"
+        >
+          <h3>{{ $t("Widget Loads") }}</h3>
+          <p class="font-[400]" v-if="dateF || selectedInterval">
+            {{ $t(`${loadscountSummary}`) }}
+          </p>
         </div>
+        <div
+          v-if="chartDataload"
+          class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
+        >
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+            :class="{
+              positive: percentageChange.loadscountPercentageChange >= 0,
+              negative: percentageChange.loadscountPercentageChange < 0,
+            }"
+          >
+            <img
+              :src="
+                percentageChange.loadscountPercentageChange < 0
+                  ? '/assets/imgs/overview/down.svg'
+                  : '/assets/imgs/overview/up.svg'
+              "
+              :class="[
+                percentageChange.loadscountPercentageChange >= 0
+                  ? 'rotate-0'
+                  : 'rotate-90',
+              ]"
+              class="w-[19px] h-[19px]"
+            />
+            <div>+{{ percentageChange.loadscountPercentageChange }}%</div>
+          </div>
+        </div>
+      </div>
+
+      <Line
+        v-if="chartDataload"
+        ref="chart12"
+        :data="chartDataload"
+        :options="options"
+        :style="myStyles"
+        :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
+      />
+
+      <div v-else class="flex items-center justify-center h-full w-full">
+        <h1 class="text-center dark:text-whiteTamkin">
+          {{ $t("No data available yet") }}
+        </h1>
       </div>
     </div>
     <div
-      class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap relative"
-      v-if="!collapseStore.collapses.includes('select_date_range_card')"
+      v-if="statsStore.loadingStats"
+      class="animate-pulse dark:bg-p mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
     >
-      <MessagesLockedFeature
-        v-if="
-          navStore.defaultappobj?.package?.filter(
-            (p) => p.type === 'Accessibility'
-          ).length === 0
-        "
+      <!-- Title Placeholder -->
+    </div>
+    <div
+      v-else
+      class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+    >
+      <div class="custom-legend">
+        <div
+          class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin"
+        >
+          <h3>{{ $t("Widget Opens") }}</h3>
+          <p class="font-[400]" v-if="dateF || selectedInterval">
+            {{ $t(`${loadscountSummary}`) }}
+          </p>
+        </div>
+        <div
+          v-if="chartDataOpens"
+          class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
+        >
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+            :class="{
+              positive: percentageChange.opencountPercentageChange >= 0,
+              negative: percentageChange.opencountPercentageChange < 0,
+            }"
+          >
+            <img
+              :src="
+                percentageChange.opencountPercentageChange < 0
+                  ? '/assets/imgs/overview/down.svg'
+                  : '/assets/imgs/overview/up.svg'
+              "
+              class="w-[19px] h-[19px]"
+            />
+            <div>{{ percentageChange.opencountPercentageChange }}%</div>
+          </div>
+        </div>
+      </div>
+      <Line
+        v-if="chartDataOpens"
+        ref="chart2"
+        :data="chartDataOpens"
+        :options="options"
+        :style="myStyles"
+        :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
       />
 
-      <!-- Skeleton Loader -->
-      <div
-        v-if="statsStore.loadingStats"
-        class="animate-pulse mt-[30px] dark:bg-p bg-gray-300 rounded-[10px] h-[255px] w-full"
-      >
-        <!-- Title Placeholder -->
-      </div>
-
-      <div
-        v-else
-        class="container_chart mt-[30px] h-[255px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
-      >
-        <div class="custom-legend">
-          <div
-            class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]"
-          >
-            <h3>{{ $t("Widget Loads") }}</h3>
-            <p class="font-[400]" v-if="dateF || selectedInterval">
-              {{ $t(`${loadscountSummary}`) }}
-            </p>
-          </div>
-          <div
-            v-if="chartDataload"
-            class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
-          >
-            <div
-              class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-              :class="{
-                positive: percentageChange.loadscountPercentageChange >= 0,
-                negative: percentageChange.loadscountPercentageChange < 0,
-              }"
-            >
-              <img
-                :src="
-                  percentageChange.loadscountPercentageChange < 0
-                    ? '/assets/imgs/overview/down.svg'
-                    : '/assets/imgs/overview/up.svg'
-                "
-                :class="[
-                  percentageChange.loadscountPercentageChange >= 0
-                    ? 'rotate-0'
-                    : 'rotate-90',
-                ]"
-                class="w-[19px] h-[19px]"
-              />
-              <div>+{{ percentageChange.loadscountPercentageChange }}%</div>
-            </div>
-          </div>
-        </div>
-
-        <Line
-          v-if="chartDataload"
-          ref="chart12"
-          :data="chartDataload"
-          :options="options"
-          :style="myStyles"
-          :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
-        />
-
-        <div v-else class="flex items-center justify-center h-full w-full">
-          <h1 class="text-center dark:text-whiteTamkin">
-            {{ $t("No data available yet") }}
-          </h1>
-        </div>
-      </div>
-      <div
-        v-if="statsStore.loadingStats"
-        class="animate-pulse dark:bg-p mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
-      >
-        <!-- Title Placeholder -->
-      </div>
-      <div
-        v-else
-        class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
-      >
-        <div class="custom-legend">
-          <div
-            class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin"
-          >
-            <h3>{{ $t("Widget Opens") }}</h3>
-            <p class="font-[400]" v-if="dateF || selectedInterval">
-              {{ $t(`${loadscountSummary}`) }}
-            </p>
-          </div>
-          <div
-            v-if="chartDataOpens"
-            class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
-          >
-            <div
-              class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-              :class="{
-                positive: percentageChange.opencountPercentageChange >= 0,
-                negative: percentageChange.opencountPercentageChange < 0,
-              }"
-            >
-              <img
-                :src="
-                  percentageChange.opencountPercentageChange < 0
-                    ? '/assets/imgs/overview/down.svg'
-                    : '/assets/imgs/overview/up.svg'
-                "
-                class="w-[19px] h-[19px]"
-              />
-              <div>{{ percentageChange.opencountPercentageChange }}%</div>
-            </div>
-          </div>
-        </div>
-        <Line
-          v-if="chartDataOpens"
-          ref="chart2"
-          :data="chartDataOpens"
-          :options="options"
-          :style="myStyles"
-          :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
-        />
-
-        <div v-else class="flex items-center justify-center h-full w-full">
-          <h1 class="text-center dark:text-whiteTamkin">
-            No data available yet
-          </h1>
-        </div>
+      <div v-else class="flex items-center justify-center h-full w-full">
+        <h1 class="text-center dark:text-whiteTamkin">
+          {{ $t('No data available yet') }}
+        </h1>
       </div>
     </div>
+  </div>
+  </div>
   </div>
 </template>
 

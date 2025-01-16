@@ -34,7 +34,7 @@ const filteredPackages = computed(() => {
       const priceRole = pkg.package_price_role.find(
         (item) => item.title === packagesStore.views_level
       );
-console.log('yea man')
+// console.log('yea man')
       return {
         ...pkg,
         cost_before_month: priceRole.cost_before_month,

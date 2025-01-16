@@ -46,20 +46,30 @@ const getNavLinkIndex = (path) => {
 // Watch route changes and update slider position
 watchEffect(() => {
   currentRoute.value = route.path;
-  moveSlider(currentRoute.value);
-});
-
-// Initialize slider position on mount
-onMounted(() => {
-  moveSlider(currentRoute.value);
-});
-
-watch(
-  () => width.value,
-  () => {
+  nextTick(() => {
+    // Ensure layout is fully rendered before moving the slider
     moveSlider(currentRoute.value);
-  }
-);
+  });
+});
+
+onMounted(() => {
+  slider.value.style.transition = "none"; // Disable transition on mount
+  setTimeout(() => {
+
+  nextTick(() => {
+  moveSlider(currentRoute.value);
+
+    slider.value.style.transition = "transform 0.1s ease-in-out, width 0.1s ease-in-out"; // Enable transition after layout
+  });
+}, 0); // Add a slight delay to ensure the layout is fully calculated
+
+
+});
+
+watch([() => route.path, () => width.value], () => {
+  moveSlider(currentRoute.value);
+});
+
 </script>
 
 <template>
@@ -114,11 +124,6 @@ watch(
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
 */
-
-.router-link-active.router-link-exact-active {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-   border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
-}
 
 a {
   @apply !text-[13px] font-[500] text-center;

@@ -3,110 +3,91 @@ import { ref, onMounted, nextTick, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useWindowSize } from "@vueuse/core";
 import { useNavbarStore } from "@/stores/navbar";
-
+const { width } = useWindowSize();
 const navStore = useNavbarStore();
-
-const { width, height } = useWindowSize();
-
 const route = useRoute();
 const currentRoute = ref(route.path);
 const navContainer = ref(null);
 const slider = ref(null);
-const sliderVisible = ref(false);
+
 const localePath = useLocalePath();
-const isLinkActive = (path) => {
-  const currentPath = localePath(route.path);
-  const pattern = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
-  if (!pattern.includes("*")) {
-    return currentPath === pattern;
-  }
+// Function to move slider to the active link
+const moveSlider = async (path) => {
+  await nextTick();
 
-  // Convert wildcard pattern to regex
-  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+  const newActiveIndex = getNavLinkIndex(path);
 
-  return regex.test(currentPath);
-};
-
-// const moveSlider = async (path, animate = true) => {
-//   await nextTick();
-//   const newActiveIndex = getNavLinkIndex(path);
-
-//   if (newActiveIndex !== -1 && navContainer.value && process.client) {
-//     const navLinks = navContainer.value.querySelectorAll("a");
-
-//     // Remove active_subNavb class from all nav links
-//     navLinks.forEach((link) => {
-//       link.classList.remove("active_subNavb");
-//     });
-
-//     const targetLink = navLinks[newActiveIndex];
-//     const sliderWidth = targetLink.offsetWidth;
-//     const sliderLeft = targetLink.offsetLeft;
-
-//     if (slider.value) {
-//       if (animate) {
-//         slider.value.classList.add("slider-transition");
-//       } else {
-//         slider.value.classList.remove("slider-transition");
-//       }
-
-//       slider.value.style.width = `${sliderWidth}px`;
-//       slider.value.style.transform = `translateX(${sliderLeft}px)`;
-
-//       sliderVisible.value = true;
-//     }
-
-//     // Add active_subNavb class to the new active link
-//     // targetLink.classList.add('active_subNavb');
-//   }
-// };
-
-const getNavLinkIndex = (path) => {
-  if (process.client) {
+  if (newActiveIndex !== -1 && navContainer.value) {
     const navLinks = navContainer.value.querySelectorAll("a");
-    return Array.from(navLinks).findIndex(
-      (link) => link.getAttribute("href") === localePath(path)
-    );
+    const targetLink = navLinks[newActiveIndex];
+
+    if (targetLink && slider.value) {
+      const sliderWidth = targetLink.offsetWidth;
+      const sliderLeft = targetLink.offsetLeft;
+
+      // Update slider dimensions and position
+      slider.value.style.width = `${sliderWidth}px`;
+      slider.value.style.transform = `translateX(${sliderLeft}px)`;
+    }
   }
 };
 
-// // Watch for route changes to update the current route and move the slider
-// watchEffect(() => {
-//   currentRoute.value = route.path;
-//   moveSlider(currentRoute.value, false);
-// });
+// Get the index of the active link
+const getNavLinkIndex = (path) => {
+  const navLinks = navContainer.value?.querySelectorAll("a");
+  return navLinks
+    ? Array.from(navLinks).findIndex(
+        (link) => link.getAttribute("href") === localePath(path)
+      )
+    : -1;
+};
 
-// Watch for window size changes and sidebar state changes to adjust the slider position
-// watchEffect(() => {
-//   if (navStore.sideBarOpen !== undefined) {
-//     moveSlider(currentRoute.value, false);
-//   }
-// });
+// Watch route changes and update slider position
+watchEffect(() => {
+  currentRoute.value = route.path;
+  nextTick(() => {
+    // Ensure layout is fully rendered before moving the slider
+    moveSlider(currentRoute.value);
+  });
+});
 
-// onMounted(() => {
-//   moveSlider(currentRoute.value, false);
-// });
+onMounted(() => {
+  slider.value.style.transition = "none"; // Disable transition on mount
+  setTimeout(() => {
+
+  nextTick(() => {
+  moveSlider(currentRoute.value);
+
+    slider.value.style.transition = "transform 0.1s ease-in-out, width 0.1s ease-in-out"; // Enable transition after layout
+  });
+}, 0); // Add a slight delay to ensure the layout is fully calculated
+
+
+});
+
+watch([() => route.path, () => width.value], () => {
+  moveSlider(currentRoute.value);
+});
+
 </script>
 
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px] dark:text-whiteTamkin"
+    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
   >
-    <transition name="slider-transition">
-      <div
-        v-show="sliderVisible"
-        ref="slider"
-        class="absolute top-[6px] left-0 active_subNavb__div"
-      ></div>
-    </transition>
+    <!-- Slider -->
+    <div
+      ref="slider"
+      class="absolute border-[1px] border-black top-[6px] left-0 bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar w-0 h-[31px] rounded-[22px] transition-all ease-in-out"
+    ></div>
+
+    <!-- Links -->
     <nuxt-link
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/overview')"
     >
-
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
@@ -128,7 +109,7 @@ const getNavLinkIndex = (path) => {
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin mr-[5px]"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/settings')"
     >
       {{ $t("Settings") }}
@@ -137,21 +118,12 @@ const getNavLinkIndex = (path) => {
 </template>
 
 <style scoped>
-.active_subNavb {
+/*
+.router-link-active.router-link-exact-active {
   @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
-
-.active_subNavb__div {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar dark:border-0 transition-all ease-out 
-  w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px]  dark:!bg-darkSecondary
-  border-[1px] border-black flex items-center justify-center text-darkGrey dark:!text-white  !text-[13px] font-[500] text-center;
-}
-
-.router-link-active.router-link-exact-active {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-   border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
-}
+*/
 
 a {
   @apply !text-[13px] font-[500] text-center;
@@ -160,18 +132,13 @@ a {
   @apply text-[#A7A7A7] text-[13px] w-full lg:w-[96px] h-[31px] bg-transparent rounded-[22px] border-[1px]
    border-transparent flex items-center justify-center leading-[22.5px] font-[600] text-center cursor-pointer;
 }
-
-.slider-transition-enter-active,
-.slider-transition-leave-active {
-  transition: transform 0.3s ease-out, width 0.3s ease-out;
-}
-.slider-transition-enter,
-.slider-transition-leave-to {
-  transform: translateX(0);
-  width: 0;
+/* Slider Transition */
+.slider {
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-.slider-transition {
-  transition: transform 0.3s ease-out, width 0.3s ease-out;
+/* Add hover effect */
+a:hover {
+  text-decoration: none;
 }
 </style>
