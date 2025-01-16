@@ -563,7 +563,7 @@ const isOwner = computed(() => {
                 {{ $t("Total Member") }}
               </div>
               <div
-                class="ipad-max:ml-[10px] ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right"
+                class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right"
               >
                 {{ teamMembers.length }}
               </div>
@@ -581,7 +581,7 @@ const isOwner = computed(() => {
                 {{ $t("Active") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right">
+            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
               {{ teamMembers.filter((ele) => ele.is_active).length }}
             </div>
           </div>
@@ -595,7 +595,7 @@ const isOwner = computed(() => {
                 {{ $t("Pending") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] text-[12px] rtl:mr-[50px] text-right">
+            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
               {{ teamMembers.filter((ele) => !ele.is_active).length }}
             </div>
           </div>
