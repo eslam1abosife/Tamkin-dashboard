@@ -918,7 +918,7 @@ const openInvestor = (app, pack) => {
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div
-                class="flex items-start justify-start lg:justify-between flex-row"
+                class="flex items-start justify-start lg:justify-between flex-row gap-4 md:gap-0"
               >
                 <div
                   class="flex items-start rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
@@ -933,7 +933,7 @@ const openInvestor = (app, pack) => {
                           ? 'border-b-[3px] border-tamkin  font-[600] '
                           : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
+                      class="text-[14px] px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
                       {{ $t("My Sites") }} (
@@ -957,7 +957,7 @@ const openInvestor = (app, pack) => {
                           ? 'border-b-[3px] border-tamkin  font-[600]'
                           : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
+                      class="text-[14px] px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
                       {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
@@ -1024,7 +1024,7 @@ const openInvestor = (app, pack) => {
                     >
                       <input
                         type="text"
-                        class="input_dashboard_search w-full !h-[40px]"
+                        class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset]"
                         v-model="search"
                         :placeholder="`${$t('Search')} ...`"
                       />
