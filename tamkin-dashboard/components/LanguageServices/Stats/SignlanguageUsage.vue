@@ -265,7 +265,7 @@ const formattedTotal = computed(() => {
     </table>
   </div>
     <div
-      class="relative w-full lg:mt-[-90px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
+      class="relative w-full lg:mt-[-70px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
       v-if="!collapseStore.collapses.includes('translation_stats_card') && !statsStore.loadingStatsIntranlsation"
       :class="[ navStore.defaultappobj?.package?.filter(
         (p) => p.type === 'Sign language'
@@ -283,24 +283,20 @@ const formattedTotal = computed(() => {
       :class="[ navStore.defaultappobj?.package?.filter(
         (p) => p.type === 'Sign language'
       ).length > 0 ? 'visible':'invisible']"
-        class="flex items-center justify-start ml-auto mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full
+        class="flex items-center justify-start rtl:mr-auto ltr:ml-auto ltr:mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full
          ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
       >
         <div
           class="circular-progress big bg-white dark:bg-transparent rounded-full rtl:mr-[10px] ltr:ml-[10px]"
         >
-          <svg viewBox="0 0 36 36" class=" " width="60" height="60">
+          <svg viewBox="0 0 36 36"  width="60" height="60">
             <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop
-                  offset="0%"
-                  style="stop-color: #bb67ff; stop-opacity: 1"
-                />
-                <stop
-                  offset="100%"
-                  style="stop-color: #ff5a7b; stop-opacity: 1"
-                />
+              <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#E494C4" stop-opacity="0.2" />
+                <stop offset="50%" stop-color="#D389D6" stop-opacity="0.7" />
+                <stop offset="100%" stop-color="#CBB5EA" stop-opacity="0.7" />
               </linearGradient>
+              
             </defs>
             <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
             <circle
@@ -308,9 +304,13 @@ const formattedTotal = computed(() => {
               cx="18"
               cy="18"
               r="15.91549431"
+                opacity="0.7"
               :style="`stroke-dasharray: ${usagePercentage.toFixed(0)},100`"
             ></circle>
           </svg>
+
+       
+
           <div
             class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
           >

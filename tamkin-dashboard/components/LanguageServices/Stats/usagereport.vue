@@ -200,7 +200,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-between space-x-[6px]">
+            <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
               <span
                 style="
                   background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
@@ -219,7 +219,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center space-x-[6px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -235,7 +235,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center space-x-[6px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -284,7 +284,7 @@ const accuracy = computed(() => {
           class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
         >
           <!-- Icon and Text Placeholder -->
-          <div class="flex items-center justify-between space-x-[6px]">
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
             <span
               class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
             ></span>
@@ -299,7 +299,7 @@ const accuracy = computed(() => {
         <div
           class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
         >
-          <div class="flex items-center justify-between space-x-[6px]">
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
             <span
               class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
             ></span>
@@ -314,7 +314,7 @@ const accuracy = computed(() => {
         <div
           class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
         >
-          <div class="flex items-center justify-between space-x-[6px]">
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
             <span
               class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
             ></span>

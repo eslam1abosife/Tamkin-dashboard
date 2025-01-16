@@ -86,7 +86,7 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
-
+const loadingplayerdata = ref(true)
 onBeforeMount(() => {
   [
     "deaf-setting-general-settings-player-enabled-on-this-site",
@@ -102,6 +102,7 @@ onBeforeMount(() => {
   ]);
 
   getPlayerData();
+  loadingplayerdata.value = false
 });
 const deleteSite = async () => {
   try {
@@ -898,7 +899,7 @@ const getSettingsValue = (name: any) => {
                 "
               />
               <button
-                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
+                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group mb-[4px]"
                 @click="openModal('resetModal', 'settings')"
               >
                 <div>

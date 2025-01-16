@@ -5,6 +5,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { Line } from "vue-chartjs";
 import { Chart as ChartJS, registerables } from "chart.js";
 import shadowPlugin from "@/chartjs/plugins/shadowPlugin.js"; // Adjust the path if necessary
+const {t} = useI18n()
 const statsStore = useStatsStore()
 const collapseStore = useCollapseStore();
 const { width, height } = useWindowSize();
@@ -116,13 +117,12 @@ const options = ref({
   },
 });
 watchEffect(() => {
-if(statsStore.overviewStats && statsStore.overviewStats?.details?.function?.chart?.length > 0){
   chartData.value = {
-      labels: statsStore.overviewStats.details.function.chart.map(t => t.date),
+      labels: statsStore.overviewStats.details && statsStore.overviewStats.details.function.chart.length > 0 ? statsStore.overviewStats.details.function.chart.map(t => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
       datasets: [
         {
-          label: "Profiles]",
-          data: statsStore.overviewStats.details.function.chart.map(t => t.count),
+          label: "Profiles",
+          data: statsStore.overviewStats.details && statsStore.overviewStats.details.function.chart.length > 0 ? statsStore.overviewStats.details.function.chart.map(t => t.count) : [1, 1, 1, 1, 1, 1, 1, 1, 1],
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: false,
@@ -130,14 +130,13 @@ if(statsStore.overviewStats && statsStore.overviewStats?.details?.function?.char
         },
       ],
     };
-}
-if(statsStore.overviewStats && statsStore.overviewStats?.details?.profile?.chart?.length > 0){
+// if(statsStore.overviewStats && statsStore.overviewStats?.details?.profile?.chart?.length > 0){
   chartData2.value = {
-      labels: statsStore.overviewStats.details.profile.chart.map(t => t.date),
+      labels: statsStore.overviewStats && statsStore.overviewStats?.details?.profile?.chart?.length > 0 ? statsStore.overviewStats.details.profile.chart.map(t => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
       datasets: [
         {
-          label: "Profile",
-          data: statsStore.overviewStats.details.profile.chart.map(t => t.count),
+          label: t("Profile"),
+          data: statsStore.overviewStats && statsStore.overviewStats?.details?.profile?.chart?.length > 0  ? statsStore.overviewStats.details.profile.chart.map(t => t.count) : [1, 1, 1, 1, 1, 1, 1, 1, 1],
           borderColor: "rgba(218, 16, 11, 1)",
       backgroundColor: "rgba(218, 16, 11, 1)",
           fill: false,
@@ -145,7 +144,7 @@ if(statsStore.overviewStats && statsStore.overviewStats?.details?.profile?.chart
         },
       ],
     };
-}
+// }
 })
 
 // const percentageChange = computed(() => {
@@ -401,8 +400,8 @@ function generateColorPalette() {
               <div class="text_mini">
                 {{
                   !collapseStore.collapses.includes("access_details_card")
-                    ? "Minisize"
-                    : "Maxsize"
+                    ? $t("Minisize")
+                    : $t("Maxsize")
                 }}
               </div>
             </div>
@@ -481,7 +480,7 @@ function generateColorPalette() {
                 <span
                  :class="[statsStore.overviewStats.details.function.percentage > 0 ? 'text-tamkin' : 'text-[#DA100B]']" class=" !text-[14px] !leading-[20px] !font-[700]"
                 >
-                 {{statsStore.overviewStats.details?.function?.percentage}}%
+                 {{statsStore.overviewStats.details?.function?.percentage ? statsStore.overviewStats.details?.function?.percentage : 0}}%
                 </span>
                 {{ $t("vs last 30 days") }}
               </p>
@@ -504,6 +503,8 @@ function generateColorPalette() {
           >
             {{ $t("Function") }}
           </div>
+         <template v-if="statsStore.overviewStats.used.function && statsStore.overviewStats.used.function.length > 0">
+
           <div :key="fnt.name" v-for="fnt in statsStore.overviewStats.used.function" class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img
@@ -530,6 +531,13 @@ function generateColorPalette() {
               >
             </div>
           </div>
+         </template>
+
+         <div v-else class="flex items-center justify-center h-full w-full">
+          <h1 class="text-center dark:text-whiteTamkin">
+            {{ $t('No data available yet') }}
+          </h1>
+        </div>
 
      
         </div>
@@ -596,6 +604,7 @@ function generateColorPalette() {
           >
             {{ $t("Profile") }}
           </div>
+         <template v-if="statsStore.overviewStats?.used?.profile && statsStore.overviewStats?.used?.profile?.length > 0">
           <div :key="fnt.name" v-for="fnt in statsStore.overviewStats?.used?.profile" class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img
@@ -621,6 +630,13 @@ function generateColorPalette() {
                 >{{ fnt.percentage.toFixed(0)}}%</span
               >
             </div>
+          </div>
+         </template>
+
+          <div v-else class="flex items-center justify-center h-full w-full">
+            <h1 class="text-center dark:text-whiteTamkin">
+              {{ $t('No data available yet') }}
+            </h1>
           </div>
         </div>
       </div>

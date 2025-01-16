@@ -882,7 +882,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                       ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                   role="menuitem"
                   @click="selectOption('7 Days')"
                   >{{ $t("7 Days") }}</a
@@ -893,7 +893,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                       ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                   role="menuitem"
                   @click="selectOption('14 Days')"
                   >{{ $t("14 Days") }}</a
@@ -904,13 +904,13 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                       ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                       : '',
                   ]"
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                   role="menuitem"
                   @click="selectOption('1 Month')"
                   >{{ $t("1 Month") }}</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                   role="menuitem"
                   :class="[
                     selectedInterval === '2 Months'
@@ -921,7 +921,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                   >{{ $t("2 Months") }}</a
                 >
                 <a
-                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                   role="menuitem"
                   :class="[
                     selectedInterval === '3 Months'
@@ -1107,7 +1107,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
 
         <div v-else class="flex items-center justify-center h-full w-full">
           <h1 class="text-center dark:text-whiteTamkin">
-            No data available yet
+            {{ $t('No data available yet') }}
           </h1>
         </div>
       </div>

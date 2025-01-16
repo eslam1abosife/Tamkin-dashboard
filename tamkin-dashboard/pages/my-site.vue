@@ -801,12 +801,12 @@ const openInvestor = (app, pack) => {
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
           <img
-            src="imgs/mysite_dark.png"
+            src="/imgs/mysite_dark.png"
             alt=""
             class="h-full w-[210px] rtl:scale-x-[-1] hidden dark:block"
           />
           <img
-            src="imgs/mysite.svg"
+            src="/imgs/mysite.svg"
             alt=""
             class="h-full w-[210px] rtl:scale-x-[-1] dark:hidden"
           />

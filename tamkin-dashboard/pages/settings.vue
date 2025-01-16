@@ -739,7 +739,7 @@ const componentKey = ref(0);
                 "
               />
               <button
-                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
+                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group mb-[24px]"
                 @click="openModal('resetModal', 'settings')"
               >
                 <div>

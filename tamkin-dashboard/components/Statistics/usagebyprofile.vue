@@ -293,6 +293,8 @@ const runtimeob = useRuntimeConfig();
                     cx="18"
                     cy="18"
                     r="15.91549431"
+                    opacity="0.7"
+
                     :style="`stroke-dasharray: ${Number(statitem.percentage).toFixed(
                       0
                     )},100`"

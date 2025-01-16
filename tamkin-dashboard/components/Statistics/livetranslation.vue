@@ -237,11 +237,13 @@ function calculatePercentage(total, usage) {
               class="progress-circle"
               cx="18"
               cy="18"
+              opacity="0.7" 
+
               r="15.91549431"
               :style="`stroke-dasharray: ${calculatePercentage(
                 statsStore.liveTranslationStats.header.totla,
                 statsStore.liveTranslationStats.header.usage
-              )},100`"
+              ) !== 'NaN' ? calculatePercentage(statsStore.liveTranslationStats.header.totla, statsStore.liveTranslationStats.header.usage) :0},100`"
             ></circle>
           </svg>
           <div
@@ -253,7 +255,11 @@ function calculatePercentage(total, usage) {
                   calculatePercentage(
                     statsStore.liveTranslationStats.header.totla,
                     statsStore.liveTranslationStats.header.usage
-                  )
+                  ) !== "NaN"
+                    ? calculatePercentage(
+                      statsStore.liveTranslationStats.header.totla,
+                      statsStore.liveTranslationStats.header.usage
+                  ) : 0
                 }}%
               </div>
               <div>
@@ -478,9 +484,12 @@ function calculatePercentage(total, usage) {
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${lang.usage.toFixed(0)},100`"
+                    opacity="0.7"
+
+                    :style="`stroke-dasharray: ${lang.usage !== 'NaN' ? lang.usage.toFixed(0) : 0},100`"
                   ></circle>
                 </svg>
+                
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
