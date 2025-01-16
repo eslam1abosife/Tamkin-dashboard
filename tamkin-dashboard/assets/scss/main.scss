@@ -211,3 +211,7 @@ input:-webkit-autofill:focus {
 .slide-left-leave-to {
   transform: translateX(-100%);
 }
+
+.vl-overlay .vl-background {
+  @apply dark:![background:#2d333d]
+}

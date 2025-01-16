@@ -1181,7 +1181,7 @@ const openInvestor = (app, pack) => {
                           app.package[0].type !== 'Investors') ||
                           (app.package[0].type === 'Investors' &&
                             app.package[0].status === 'not_installed'))
-                          ? '!bg-[#FAEBEB] dark:!bg-[#bb8181]'
+                          ? '!bg-[#FAEBEB] dark:!bg-[#977474]'
                           : '',
 
                         mysiteStore.selectedApp &&
