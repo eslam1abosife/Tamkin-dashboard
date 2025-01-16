@@ -325,7 +325,7 @@ function leaveCart(el, done) {
           {{ $t("Payment Methods") }}
         </div>
         <button
-          class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0 rtl:space-x-reverse w-[159px]"
+          class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0 rtl:space-x-reverse md:w-[159px] w-[130px]"
           @click="openAddNewCardModal"
         >
           <svg
@@ -374,7 +374,7 @@ function leaveCart(el, done) {
             </defs>
           </svg>
 
-          <div class="!text-[14px] !leading-[21px] !font-[600]">
+          <div class="!text-[12px] md:text-[14px] !leading-[21px] !font-[600]">
             {{ $t("Add New Card") }}
           </div>
         </button>
@@ -392,40 +392,44 @@ function leaveCart(el, done) {
             :class="[
               savedCard.isprimary ? 'custom-border-tamkin' : 'border-[1px] ',
             ]"
-            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
           >
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
+              class="flex w-[80%] items-center justify-start rtl:space-x-reverse space-x-[13px]"
             >
-              <div>
-                <img :src="fullUrl(savedCard.logo)" class="w-[44px] h-[44px]" />
+              <div class="w-[44px] h-[44px]">
+                <img :src="fullUrl(savedCard.logo)" class="w-[100%] h-[100%]" />
               </div>
-              <div class="flex flex-col items-start justify-start relative">
-                <div
-                  class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
-                  v-if="savedCard.isprimary"
-                >
-                  <div class="text-[10px] font-[500] text-white">
-                    {{ $t("Default") }}
+              <div class="flex w-full items-start justify-between relative">
+                <div class="flex w-[100%] flex-col">
+                  <div
+                    class="text-[12px] md:text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
+                  >
+                    <div class="w-[100%] truncate">
+                      {{ savedCard.holdername }}
+                    </div>
+                    <div
+                      class="w-20 h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                      v-if="savedCard.isprimary"
+                    >
+                      <div class="text-[10px] font-[500] text-white">
+                        {{ $t("Default") }}
+                      </div>
+                    </div>
+                    <div>****{{ savedCard.last4 }}</div>
                   </div>
-                </div>
-                <div
-                  class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
-                >
-                  <div class="w-36 truncate">{{ savedCard.holdername }}</div>
-                  <div>****{{ savedCard.last4 }}</div>
-                </div>
-                <div
-                  class="text-darkGrey dark:text-whiteTamkin/80 text-[13px] font-[400] leading-[10px]"
-                >
-                  {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
-                  {{ savedCard.expyear }}
+                  <div
+                    class="text-darkGrey dark:text-whiteTamkin/80 text-[13px] font-[400] leading-[10px]"
+                  >
+                    {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
+                    {{ savedCard.expyear }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div
-              class="flex items-center justify-center rtl:space-x-reverse space-x-[12px] px-[15px]"
+              class="flex items-center w-[20%] justify-end rtl:space-x-reverse space-x-[12px] px-[15px]"
             >
               <button
                 @click="openCard(savedCard)"
@@ -517,7 +521,7 @@ function leaveCart(el, done) {
                   </svg>
                 </div>
                 <div
-                  class="text-[13px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin"
+                  class="text-[13px] font-[500] leading-[20px] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ new Date(invoice.creation).toLocaleDateString() }}
                 </div>
