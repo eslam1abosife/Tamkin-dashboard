@@ -605,7 +605,7 @@ const closeModalPackage = () => {
                       .discount_month !== 0
                   "
                 >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                     >{{
                       addSiteStore.currentPackage.package_price_role[0].discount_month
                     }}%
@@ -658,7 +658,7 @@ const closeModalPackage = () => {
                       .discount_3_month !== 0
                   "
                 >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                     >{{
                       addSiteStore.currentPackage.package_price_role[0]
                         .discount_3_month
@@ -710,7 +710,7 @@ const closeModalPackage = () => {
                       .discount_yearly !== 0
                   "
                 >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                     >{{
                       addSiteStore.currentPackage.package_price_role[0]
                         .discount_yearly

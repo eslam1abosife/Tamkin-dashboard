@@ -172,7 +172,7 @@ const discountAmount = computed(() => {
                   v-model="subsStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    subsStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+                    subsStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
                     subsStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
@@ -184,8 +184,8 @@ const discountAmount = computed(() => {
                   v-if="subsStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
-                  <div class="text-[15px] font-[500] text-darkGrey">
-                    <span class="text-[#021328] font-[700]">{{ subsStore.currentDiscount }}%</span>
+                  <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <span class="text-[#021328] font-[700] dark:text-white">{{ subsStore.currentDiscount }}%</span>
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />

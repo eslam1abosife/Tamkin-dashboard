@@ -64,7 +64,7 @@ const {
       {{ $t(title) }}
     </h1>
   
-    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey ">
+    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-white">
 
       {{ $t(subTitle) }}
     </h2>

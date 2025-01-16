@@ -972,7 +972,7 @@ const formattedTotal = computed(() => {
                     "
                   >
                     <span
-                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                       >{{
                         packagesStore.currentPackage.package_price_role[0]
                           .discount_month
@@ -1035,7 +1035,7 @@ const formattedTotal = computed(() => {
                     "
                   >
                     <span
-                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                       >{{
                         packagesStore.currentPackage.package_price_role[0]
                           .discount_3_month
@@ -1090,7 +1090,7 @@ const formattedTotal = computed(() => {
                     "
                   >
                     <span
-                      class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
                       >{{
                         packagesStore.currentPackage.package_price_role[0]
                           .discount_yearly

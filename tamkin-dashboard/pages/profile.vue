@@ -428,7 +428,7 @@ const runtimeconfig = useRuntimeConfig();
 
             <div class="flex items-center w-full mt-[7px]">
               <div
-                class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] rounded-[9px]"
+                class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] dark:bg-p rounded-[9px]"
               >
                 <div
                   v-if="!profileStore.loadingProfile"
