@@ -506,7 +506,7 @@ const openInvestor = (app, pack) => {
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full h-full px-[16px] py-[28px]"
     >
       <div
-        class="flex items-center justify-between w-full space-x-[24px] rtl:space-x-reverse"
+        class="flex items-center justify-between w-full space-x-[24px] rtl:space-x-reverse overflow-y-auto"
       >
         <div class="w-full">
           <div class="py-[17px] search_input">
@@ -615,7 +615,7 @@ const openInvestor = (app, pack) => {
             </div>
           </div>
           <div class="relative rounded-xl mt-[19px]">
-            <div class="">
+            <div class="overflow-y-auto">
               <table
                 class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey"
               >
