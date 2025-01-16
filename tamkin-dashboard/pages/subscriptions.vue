@@ -934,7 +934,7 @@ const openInvestor = (app, pack) => {
                           @click="
                             () => {
                               currentApp = sub.name;
-                              currentInvoice = sb.invoice_name;
+                              currentInvoice = sb.package_name;
                               openModal('cancel_subscription_subs');
                             }
                           "

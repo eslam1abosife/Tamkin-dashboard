@@ -800,7 +800,7 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
-          <img
+          <!-- <img
             src="imgs/mysite_dark.png"
             alt=""
             class="h-full w-[210px] rtl:scale-x-[-1] hidden dark:block"
@@ -809,7 +809,7 @@ const openInvestor = (app, pack) => {
             src="imgs/mysite.svg"
             alt=""
             class="h-full w-[210px] rtl:scale-x-[-1] dark:hidden"
-          />
+          /> -->
         </div>
       </div>
     </div>
@@ -2209,7 +2209,7 @@ const openInvestor = (app, pack) => {
                           "
                           @click.stop="
                             () => {
-                              mysiteStore.currentInvoice = pk.invoice_name;
+                              mysiteStore.currentInvoice = pk.package_name;
                               mysiteStore.currentWebsite = apps.find(
                                 (a) => a.title === 'Internal Service'
                               );

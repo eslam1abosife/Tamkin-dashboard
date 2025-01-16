@@ -11,7 +11,7 @@ const messageStatus = ref('')
     const cancelPackage = async (id,app) => {
         try {
             const res = await api.post('/Billing/CancelSubscription',{
-            "invoice_name":id,
+            "package_name":id,
     "app_name":app
             });
             codeStatus.value = res.data.statusCode
