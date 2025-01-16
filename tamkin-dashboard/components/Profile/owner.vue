@@ -16,9 +16,9 @@ const memberFullName = computed(() => {
 </script>
 <template>
   <div
-    class="bg-white/60 rounded-[10px] dark:bg-tamkinDarkPrimary backdrop-blur-md shadow-sm flex flex-col items-start justify-center p-[15px] space-y-[15px] w-full h-[140px] lg:mt-[-60px]"
+    class="bg-white/60 relative rounded-[10px] w-[100%] dark:bg-tamkinDarkPrimary backdrop-blur-md shadow-sm flex flex-col items-start justify-center space-y-[15px] h-[140px] lg:mt-[-60px]"
   >
-    <div class="flex items-start justify-start w-full">
+    <div class="flex relative items-start justify-between w-full">
       <div class="flex items-center justify-start gap-4 w-full">
         <div class="relative">
           <!-- Placeholder Loader -->
@@ -27,13 +27,15 @@ const memberFullName = computed(() => {
             class="h-[60px] w-[60px] lg:h-[80px] dark:bg-p lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-gray-300 animate-pulse"
           ></div>
 
-          <img
-            v-if="
-              !profileStore.loadingProfile && profileStore.member.user_image
-            "
-            :src="`https://tamkin.app/${profileStore.member.user_image}`"
-            class="h-[60px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full"
-          />
+          <div>
+            <img
+              v-if="
+                !profileStore.loadingProfile && profileStore.member.user_image
+              "
+              :src="`https://tamkin.app/${profileStore.member.user_image}`"
+              class="h-[60px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full"
+            />
+          </div>
 
           <!-- Avatar Letters as Fallback -->
           <div
@@ -43,7 +45,7 @@ const memberFullName = computed(() => {
                 profileStore.member.last_name) &&
               !profileStore.loadingProfile
             "
-            class="avatar_img h-[60px] ipad-max:text-[24px] lg:text-[32px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+            class="avatar_img h-[60px] ipad-max:text-[24px] lg:text-[32px] w-[60%] lg:h-[80px] lg:w-[60%] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
           >
             <span>
               {{
@@ -112,7 +114,7 @@ const memberFullName = computed(() => {
       <!-- Active Badge -->
       <div class="absolute rtl:left-[15px] ltr:right-[15px]">
         <div
-          class="w-[46px] h-[20px] lg:w-[59px] lg:h-[27px] ipad-max:w-[46px] ipad-max:h-[20px] shadow-inner rounded-[23px] text-white bg-tamkin flex items-center justify-center"
+          class="w-[46px] h-[20px] lg:w-[60px] lg:h-[27px] ipad-max:w-[60px] ipad-max:h-[20px] shadow-inner rounded-[23px] text-white bg-tamkin flex items-center justify-center"
           v-if="!profileStore.loadingProfile"
         >
           <div
