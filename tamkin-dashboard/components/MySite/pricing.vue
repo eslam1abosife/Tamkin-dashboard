@@ -71,7 +71,9 @@ function convertUsdToCrypto(usdTotal, rates) {
   <div
     class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-center w-full mt-[42px] pb-[24px] px-[14px]"
   >
-    <div class="grid grid-cols-3 gap-[10px] w-full">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[10px] w-full"
+    >
       <div
         v-for="pak in packagesStore
           .getPackagesByTypeTitle(

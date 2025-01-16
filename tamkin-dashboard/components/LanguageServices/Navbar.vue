@@ -93,7 +93,7 @@ const getNavLinkIndex = (path) => {
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px] dark:text-whiteTamkin"
+    class="shadow-sm absolute z-[80] gap-[20px] overflow-y-auto top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px] dark:text-whiteTamkin"
   >
     <transition name="slider-transition">
       <div
@@ -106,7 +106,6 @@ const getNavLinkIndex = (path) => {
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/overview')"
     >
-
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
@@ -149,7 +148,7 @@ const getNavLinkIndex = (path) => {
 }
 
 .router-link-active.router-link-exact-active {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-[100px] lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
    border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
 

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useGetOverviewStats } from "@/composables/useAccessibility";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Accessibility - Overview - Tamkin Dashboard"),
-})
+});
 const { getoverviewstats } = useGetOverviewStats();
 const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();
@@ -221,25 +221,32 @@ const runtimec = useRuntimeConfig();
                 {{ $t(`Expired`) }}
               </div>
               <template v-else>
-                <div class="flex items-center justify-center space-x-[8px] rtl:space-x-reverse" key="not-expired">
+                <div
+                  class="flex items-center justify-center space-x-[8px] rtl:space-x-reverse"
+                  key="not-expired"
+                >
                   <div
                     class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
                   >
                     {{ $t("Expires on") }}
                   </div>
                   <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    class="flex items-center text-[12px] justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
                   >
-                  {{ new Date(
-                    navStore.defaultappobj?.package?.find(
-                      (p) => p.type === "Accessibility"
-                    ).to_date
-                  ).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                    year: 'numeric',
-                    month: 'long', 
-                    day: 'numeric',
-                  })}}
-                
+                    {{
+                      new Date(
+                        navStore.defaultappobj?.package?.find(
+                          (p) => p.type === "Accessibility"
+                        ).to_date
+                      ).toLocaleDateString(
+                        locale === "ar" ? "ar-EG" : "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )
+                    }}
                   </div>
                 </div>
               </template>

@@ -303,83 +303,79 @@ const getSettingsValue = (name: any) => {
 <template>
   <div class="relative h-full w-full">
     <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteNopackagebuy
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_no_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteUpgrade
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_mysite_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <!-- Modal for adding a package -->
-    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaymentmethods />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentSuccess
-      v-if="isOpen('success_pay_mysite')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <ProfileBillingModalsAddnewCard
-      v-if="isOpen('add_new_card_billing')"
-    />
-  </transition>
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
 
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-  </transition>
- <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoSuccess />
-  </transition> 
-   <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaypal />
-  </transition> 
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
       :title="'Reset All Sign language Settings'"
@@ -391,17 +387,16 @@ const getSettingsValue = (name: any) => {
     <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
       :title="'Delete your site'"
-      :sub-title="
-     
-          'Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features'
-     
-      "
+      :sub-title="'Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features'"
       confirm-btn-type="delete"
       @control-delete="deleteSite"
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
-    <SettingsTransferModalStep2 :type="'Sign language'" :show-modal="isOpen('transferstep2')" />
+    <SettingsTransferModalStep2
+      :type="'Sign language'"
+      :show-modal="isOpen('transferstep2')"
+    />
 
     <LanguageServicesNavbar />
     <transition name="slide-up">
@@ -433,13 +428,15 @@ const getSettingsValue = (name: any) => {
         "
       />
 
-      <div v-if="customizeStore.loadingData || settingsStore.loadingdefaultappobj">
+      <div
+        v-if="customizeStore.loadingData || settingsStore.loadingdefaultappobj"
+      >
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] p-4"
+          class="animate-pulse space-y-4 card dark:bg-tamkinDarkPrimary bg-white rounded-[10px] p-4"
           :class="!settingsStore.defaultappobj ? 'mt-[42px]' : 'mt-[42px]'"
         >
           <div
-            class="h-[55px] w-full rounded-md bg-gray-200"
+            class="h-[55px] w-full rounded-md dark:bg-p bg-gray-200"
             v-for="s in 6"
             :key="s"
           ></div>
@@ -447,9 +444,7 @@ const getSettingsValue = (name: any) => {
       </div>
 
       <div v-else>
-        <LanguageServicesNodata
-               v-if="!settingsStore.defaultappobj"
-        />
+        <LanguageServicesNodata v-if="!settingsStore.defaultappobj" />
         <div v-else>
           <div
             v-if="settingsStore.settingsItems.active == 1"
@@ -656,7 +651,7 @@ const getSettingsValue = (name: any) => {
                       <div
                         class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                       >
-                        <span>{{ $t(item.label)}}</span>
+                        <span>{{ $t(item.label) }}</span>
                       </div>
                     </div>
                     <div class="ml-auto">
@@ -1164,8 +1159,7 @@ const getSettingsValue = (name: any) => {
                   </div>
                   <div class="ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px]
-                       lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
                       {{ $t("Transfer License") }}

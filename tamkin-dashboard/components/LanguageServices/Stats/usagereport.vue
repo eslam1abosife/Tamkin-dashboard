@@ -2,7 +2,7 @@
 import { vOnClickOutside } from "@vueuse/components";
 
 const collapseStore = useCollapseStore();
-const navStore =  useNavbarStore();
+const navStore = useNavbarStore();
 const props = defineProps({
   typeOfBalance: String,
 });
@@ -19,22 +19,25 @@ const accuracy = computed(() => {
 </script>
 
 <template>
-
-  <div v-if="!statsStore.loadingStatsIntranlsation "
+  <div
+    v-if="!statsStore.loadingStatsIntranlsation"
     class="my-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t('Usage reports') }}
+          {{ $t("Usage reports") }}
         </h1>
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
+          {{
+            $t(
+              "Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding"
+            )
+          }}
         </p>
       </div>
       <div
@@ -173,28 +176,31 @@ const accuracy = computed(() => {
     <div
       class="relative w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('balance_card')"
-      :class="[ navStore.defaultappobj?.package?.filter(
-        (p) => p.type === 'Sign language'
-      ).length === 0 ? 'h-[300px]':'']"
+      :class="[
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Sign language'
+        ).length === 0
+          ? 'h-[300px]'
+          : '',
+      ]"
     >
-    <MessagesLockedFeature
-    v-if="
-      navStore.defaultappobj?.package?.filter(
-        (p) => p.type === 'Sign language'
-      ).length === 0
-    "
-  />
+      <MessagesLockedFeature
+        v-if="
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Sign language'
+          ).length === 0
+        "
+      />
       <div class="flex items-center justify-between w-full">
-        <div >
+        <div>
           <CircularProgressBar
-          :initialPercentage="accuracy"
-          :total="statsStore.translation_quality.total"
-          :show-total="false"
-          textsize="16px"
-          class=" small_circle !w-[90px] !h-[90px] !text-[12px]"
-        /> 
-      
-      </div>
+            :initialPercentage="accuracy"
+            :total="statsStore.translation_quality.total"
+            :show-total="false"
+            textsize="16px"
+            class="small_circle !w-[90px] !h-[90px] !text-[12px]"
+          />
+        </div>
 
         <div class="flex items-start w-full justify-evenly pt-[16px]">
           <div
@@ -207,13 +213,14 @@ const accuracy = computed(() => {
                 "
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
-                >{{ $t('Your total words') }}
+              <span
+                class="text-gray-500 md:text-[14px] text-[12px] dark:text-whiteTamkin"
+                >{{ $t("Your total words") }}
               </span>
             </div>
             <span
-              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
-              >{{statsStore.sign_languageStats.total}}</span
+              class="block md:text-[14px] text-[12px] font-semibold dark:text-whiteTamkin/90"
+              >{{ statsStore.sign_languageStats.total }}</span
             >
           </div>
           <div
@@ -223,13 +230,14 @@ const accuracy = computed(() => {
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
-                >{{ $t('Used') }}
+              <span
+                class="text-gray-500 md:text-[14px] text-[12px] dark:text-whiteTamkin"
+                >{{ $t("Used") }}
               </span>
             </div>
             <span
-              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
-              >{{statsStore.sign_languageStats.used}}</span
+              class="block md:text-[14px] text-[12px] font-semibold dark:text-whiteTamkin/90"
+              >{{ statsStore.sign_languageStats.used }}</span
             >
           </div>
           <div
@@ -239,110 +247,115 @@ const accuracy = computed(() => {
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
-                >{{$t('Remaining')}}</span
+              <span
+                class="text-gray-500 md:text-[14px] text-[12px] dark:text-whiteTamkin"
+                >{{ $t("Remaining") }}</span
               >
             </div>
             <span
-              class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
-              >{{statsStore.sign_languageStats.total - statsStore.sign_languageStats.used}}</span
+              class="block font-semibold md:text-[14px] text-[12px] dark:text-whiteTamkin/90"
+              >{{
+                statsStore.sign_languageStats.total -
+                statsStore.sign_languageStats.used
+              }}</span
             >
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else-if="statsStore.loadingStatsIntranlsation"
-  class="my-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md relative animate-pulse"
->
-  <!-- Header Section -->
-  <div class="flex items-center justify-start">
-    <div class="pt-[24px] w-full">
-      <!-- Title Placeholder -->
-      <div class="h-[18px] bg-gray-300 dark:bg-gray-700 rounded w-[150px] mb-[10px]"></div>
-      <!-- Description Placeholder -->
-      <div class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded w-[250px]"></div>
-    </div>
-    <!-- Menu Button Placeholder -->
-    
-  </div>
-
-  <!-- Content Section -->
   <div
-    class="w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg"
+    v-else-if="statsStore.loadingStatsIntranlsation"
+    class="my-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md relative animate-pulse"
   >
-    <div class="flex items-center justify-between w-full">
-      <!-- Circular Progress Placeholder -->
-      <div>
-        <div class="w-[90px] h-[90px] rounded-full bg-gray-300 dark:bg-gray-700"></div>
+    <!-- Header Section -->
+    <div class="flex items-center justify-start">
+      <div class="pt-[24px] w-full">
+        <!-- Title Placeholder -->
+        <div
+          class="h-[18px] bg-gray-300 dark:bg-gray-700 rounded w-[150px] mb-[10px]"
+        ></div>
+        <!-- Description Placeholder -->
+        <div
+          class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded w-[250px]"
+        ></div>
       </div>
+      <!-- Menu Button Placeholder -->
+    </div>
 
-      <!-- Stats Placeholder -->
-      <div class="flex items-start w-full justify-evenly pt-[16px]">
-        <!-- Placeholder for Each Stat -->
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <!-- Icon and Text Placeholder -->
-          <div class="flex items-center justify-between space-x-[6px]">
-            <span
-              class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
-            ></span>
-            <span
-              class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
-            ></span>
-          </div>
-          <span
-            class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
-          ></span>
+    <!-- Content Section -->
+    <div
+      class="w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg"
+    >
+      <div class="flex items-center justify-between w-full">
+        <!-- Circular Progress Placeholder -->
+        <div>
+          <div
+            class="w-[90px] h-[90px] rounded-full bg-gray-300 dark:bg-gray-700"
+          ></div>
         </div>
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between space-x-[6px]">
+
+        <!-- Stats Placeholder -->
+        <div class="flex items-start w-full justify-evenly pt-[16px]">
+          <!-- Placeholder for Each Stat -->
+          <div
+            class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+          >
+            <!-- Icon and Text Placeholder -->
+            <div class="flex items-center justify-between space-x-[6px]">
+              <span
+                class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
+              ></span>
+              <span
+                class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
+              ></span>
+            </div>
             <span
-              class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
-            ></span>
-            <span
-              class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
-            ></span>
-          </div>
-          <span
-            class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
-          ></span>
-        </div>
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between space-x-[6px]">
-            <span
-              class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
-            ></span>
-            <span
-              class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
+              class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
             ></span>
           </div>
-          <span
-            class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
-          ></span>
+          <div
+            class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+          >
+            <div class="flex items-center justify-between space-x-[6px]">
+              <span
+                class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
+              ></span>
+              <span
+                class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
+              ></span>
+            </div>
+            <span
+              class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
+            ></span>
+          </div>
+          <div
+            class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+          >
+            <div class="flex items-center justify-between space-x-[6px]">
+              <span
+                class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
+              ></span>
+              <span
+                class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
+              ></span>
+            </div>
+            <span
+              class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
+            ></span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
 </template>
 
-<style lang="scss" >
-  .per_text {
-    font-size: 16px !important; // Add the important rule manually
-  }
+<style lang="scss">
+.per_text {
+  font-size: 16px !important; // Add the important rule manually
+}
 
-  .content {
-    @apply inset-auto;
-  }
+.content {
+  @apply inset-auto;
+}
 </style>
-
-
-
