@@ -376,12 +376,18 @@ const formattedTotal = computed(() => {
         <thead>
           <tr>
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("languages") }}
             </th>
 
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Usage") }}
@@ -462,6 +468,9 @@ const formattedTotal = computed(() => {
       </table>
 
       <h1
+      :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
         class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin"
       >
         {{ $t("Pages Translated") }}
@@ -471,12 +480,18 @@ const formattedTotal = computed(() => {
         <thead>
           <tr>
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Page") }}
             </th>
 
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Usage") }}
@@ -487,6 +502,7 @@ const formattedTotal = computed(() => {
           v-if="statsStore.pagesTranslated && statsStore.pagesTranslated.length"
         >
           <tr
+
             class="bg-white h-[56px] dark:bg-tamkinDarkPrimary"
             v-for="(page, i) in statsStore.pagesTranslated"
             :key="i"

@@ -21,13 +21,9 @@ function calculatePercentage(total, usage) {
 
 <template>
   <div
-    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] pt-[48px] mb-[40px] relative shadow-md -shadow-y-[1px] px-[15px]"
-    :class="[
-      navStore.defaultappobj?.package?.filter((p) => p.type === 'Accessibility')
-        .length === 0
-        ? 'h-[400px]'
-        : '',
-    ]"
+    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] pt-[48px] mb-[40px]
+     relative shadow-md -shadow-y-[1px] px-[15px]"
+
   >
     <div class="flex flex-col items-start justify-start w-full">
       <div>

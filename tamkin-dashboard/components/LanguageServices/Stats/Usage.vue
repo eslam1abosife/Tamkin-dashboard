@@ -171,22 +171,31 @@ const navStore = useNavbarStore();
             (p) => p.type === 'Sign language'
           ).length === 0
         "
-        class=""
+     
       />
       <table class="min-w-full leading-normal " >
         <thead>
           <tr>
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:text-left rtl:text-right text-[10px] lg:text-[14px] font-[400] leading-[18px] text-black w-2/4"
             >
               {{ $t("Function") }}
             </th>
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
               {{ $t("Time Enabled") }}
             </th>
             <th
+            :class="   navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Sign language'
+            ).length === 0 ? 'opacity-10' : ' '" 
               class="py-3 border-b-2 border-gray-200 dark:border-[#333333] dark:text-whiteTamkin rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
               {{ $t("Percentage") }}
@@ -199,7 +208,10 @@ const navStore = useNavbarStore();
           "
         >
           <tr
-            class="h-[56px] bg-gray-200 w-full animate-pulse dark:bg-p"
+          :class="   navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Sign language'
+          ).length === 0 ? 'bg-white' : ' bg-gray-200'" 
+            class="h-[56px] w-full animate-pulse dark:bg-p"
             v-for="i in 6"
             :key="i"
           >
@@ -231,6 +243,9 @@ const navStore = useNavbarStore();
               >
                 <div>
                   <img
+                  :class="   navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Sign language'
+          ).length === 0 ? 'opacity-10' : ' '" 
                     :src="`https://tamkin.app/${functionItem.icon}`"
                     class="w-[20px] h-[20px] lg:w-[25px] lg:h-[25px]"
                   />
@@ -282,14 +297,17 @@ const navStore = useNavbarStore();
                     class="progress-circle"
                     cx="18"
                     cy="18"
+                    opacity="0.7"
                     r="15.91549431"
-                   :style="`stroke-dasharray: ${Number(functionItem.percentage).toFixed(0)},100`"
+                   :style="`stroke-dasharray: ${isNaN(Number(functionItem.percentage)) ? 0 : Number(functionItem.percentage).toFixed(0)
+                   },100`"
                   ></circle>
                 </svg>
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ Number(functionItem.percentage).toFixed(0) }}%
+                  {{ isNaN(Number(functionItem.percentage)) ? 0 : Number(functionItem.percentage).toFixed(0)
+                  }}%
                 </div>
               </div>
             </td>
