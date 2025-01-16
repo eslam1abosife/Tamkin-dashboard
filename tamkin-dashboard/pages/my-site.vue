@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const { locale, t } = useI18n();
-
+const navbarStore = useNavbarStore();
 import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
@@ -780,7 +780,7 @@ const openInvestor = (app, pack) => {
             </div>
           </div>
           <div
-            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#977474] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] dark:from-[#977474] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Not installed") }}
@@ -801,14 +801,9 @@ const openInvestor = (app, pack) => {
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
           <img
-            src="/imgs/mysite_dark.png"
+            :src="`/imgs/${navbarStore.isDark ? 'mysite_dark.png' : 'mysite.svg'}`"
             alt=""
-            class="h-full w-[210px] rtl:scale-x-[-1] hidden dark:block"
-          />
-          <img
-            src="/imgs/mysite.svg"
-            alt=""
-            class="h-full w-[210px] rtl:scale-x-[-1] dark:hidden"
+            class="h-full w-[210px] rtl:scale-x-[-1]"
           />
         </div>
       </div>
@@ -1186,7 +1181,7 @@ const openInvestor = (app, pack) => {
                           app.package[0].type !== 'Investors') ||
                           (app.package[0].type === 'Investors' &&
                             app.package[0].status === 'not_installed'))
-                          ? '!bg-[#FAEBEB] dark:!bg-[#bb8181]'
+                          ? '!bg-[#FAEBEB] dark:!bg-[#977474]'
                           : '',
 
                         mysiteStore.selectedApp &&
@@ -2209,7 +2204,7 @@ const openInvestor = (app, pack) => {
                           "
                           @click.stop="
                             () => {
-                              mysiteStore.currentInvoice = pk.invoice_name;
+                              mysiteStore.currentInvoice = pk.package_name;
                               mysiteStore.currentWebsite = apps.find(
                                 (a) => a.title === 'Internal Service'
                               );
