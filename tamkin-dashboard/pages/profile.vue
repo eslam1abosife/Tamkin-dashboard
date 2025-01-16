@@ -211,10 +211,10 @@ const runtimeconfig = useRuntimeConfig();
       </div>
     </div>
 
-    <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
-      <div class="grid grid-cols-12 gap-[40px] ipad-max:gap-4">
+    <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px] pt-[20px] md:pt-0">
+      <div class="grid grid-cols-12 md:gap-[40px]">
         <div
-          class="flex flex-col items-start justify-start space-y-[10px] col-span-4"
+          class="flex flex-col items-start justify-start space-y-[10px] col-span-12 md:col-span-4"
         >
           <ProfileOwner
             v-if="
@@ -352,7 +352,7 @@ const runtimeconfig = useRuntimeConfig();
               !profileStore.loadingProfile &&
               !loadingInvestor
             "
-            class="bg-white/60 dark:bg-tamkinDarkPrimary rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+            class="bg-white/60 dark:bg-tamkinDarkPrimary rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative overflow-hidden md:overflow-visible"
           >
             <div
               class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
@@ -491,7 +491,7 @@ const runtimeconfig = useRuntimeConfig();
         </div>
 
         <div
-          class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary"
+          class="w-full bg-white/60 shadow-sm rounded-[10px] md:col-span-8 col-span-12 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary"
         >
           <div class="flex items-start justify-between w-full">
             <!-- Personal Info Tab -->

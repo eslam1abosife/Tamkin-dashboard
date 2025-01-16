@@ -268,7 +268,7 @@ watch(
           <span> {{ getAvatarLetters(currTeam?.team_name || "") }} </span>
         </div>
       </div>
-      <div class="w-[100%]" style="margin-bottom: -15px">
+      <div class="w-[100%]">
         <Searchbar class="block md:hidden" />
       </div>
       <nuxt-link

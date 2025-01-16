@@ -327,7 +327,7 @@ const clearFieldError = (condition) => {
 <style lang="scss">
   input:focus ~ .floating_label,
   input:not(:placeholder-shown) ~ .floating_label {
-    @apply  dark:!bg-darkTamkin text-whiteTamkin;
+    @apply  dark:!bg-darkTamkin dark:!text-whiteTamkin;
   }
 //   input:-webkit-autofill {
 //     @apply dark:[-webkit-box-shadow:0_0_0_1000px_#2D333D_inset] dark:!text-white;
