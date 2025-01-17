@@ -130,7 +130,7 @@ const levelsTraffic = ref([
                         </div>
                         <h1 class="font-[500] text-[14px] dark:text-whiteTamkin">Annual Plan</h1>
                         <h2 class="font-[500] text-[10px]">
-                            <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">12% </span>
+                            <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80">12% </span>
                             <span class="text-[#536174] dark:text-whiteTamkin/80">Discount on the monthly Plan</span>
                         </h2>
                     </div>
@@ -167,7 +167,7 @@ const levelsTraffic = ref([
                       </div>
                       <h1 class="font-[500] text-[14px] dark:text-whiteTamkin">3- Year Plan</h1>
                       <h2 class="font-[500] text-[10px]">
-                        <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">20% </span>
+                        <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80">20% </span>
                         <span class="text-[#536174] dark:text-whiteTamkin/80">Discount on the monthly Plan</span>
                       </h2>
                     </div>

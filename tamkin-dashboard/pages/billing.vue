@@ -237,6 +237,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="billingStore.cards?.length === 0 && !billingStore.loadCards"
+      
       class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
       <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
@@ -320,7 +321,7 @@ function leaveCart(el, done) {
       v-if="billingStore.cards?.length && !billingStore.loadCards"
       class="bg-white dark:bg-tamkinDarkPrimary w-full h-full min-h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
-      <div class="flex items-center justify-between w-full">
+      <div class="gap-4 md-gap-0 flex-col md:flex-row flex md:items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black dark:text-whiteTamkin">
           {{ $t("Payment Methods") }}
         </div>
@@ -392,17 +393,17 @@ function leaveCart(el, done) {
             :class="[
               savedCard.isprimary ? 'custom-border-tamkin' : 'border-[1px] ',
             ]"
-            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+            class="w-full flex-col-reverse items-end md:flex-row p-3 md:h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex md:items-center justify-between rounded-[10px] border-lightGrey md:rtl:pr-[16px] md:ltr:pl-[16px] md:rtl:pl-[0] md:ltr:pr-[0] md:py-0"
           >
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
+              class="flex items-start md:items-center justify-start rtl:space-x-reverse md:space-x-[13px] space-x-[6.5px] w-full md:w-auto "
             >
               <div>
                 <img :src="fullUrl(savedCard.logo)" class="w-[44px] h-[44px]" />
               </div>
               <div class="flex flex-col items-start justify-start relative">
                 <div
-                  class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                  class="absolute w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd  md:rtl:right-[250px] md:ltr:left-[250px] md:top-[10px] rtl:right-[-44px] ltr:left-[-44px] top-[-30px]"
                   v-if="savedCard.isprimary"
                 >
                   <div class="text-[10px] font-[500] text-white">
@@ -410,9 +411,9 @@ function leaveCart(el, done) {
                   </div>
                 </div>
                 <div
-                  class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
+                  class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse md:space-x-[16px] space-x-[8px]"
                 >
-                  <div class="w-36 truncate">{{ savedCard.holdername }}</div>
+                  <div class="md:w-36 truncate">{{ savedCard.holdername }}</div>
                   <div>****{{ savedCard.last4 }}</div>
                 </div>
                 <div
@@ -425,7 +426,7 @@ function leaveCart(el, done) {
             </div>
 
             <div
-              class="flex items-center justify-center rtl:space-x-reverse space-x-[12px] px-[15px]"
+              class="flex items-center justify-center rtl:space-x-reverse space-x-[12px] md:px-[15px]"
             >
               <button
                 @click="openCard(savedCard)"
@@ -476,7 +477,7 @@ function leaveCart(el, done) {
               class="border-t border-b border-gray-200 dark:border-darkborder"
             >
               <td
-                class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px]"
+                class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px]  lg:max-w-[600px]"
               >
                 <!-- Spinner icon -->
                 <div

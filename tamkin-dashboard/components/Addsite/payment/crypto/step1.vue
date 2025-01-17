@@ -454,7 +454,7 @@ const finalAmount = computed(() => {
                     v-model="addSiteStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
-                      addSiteStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+                      addSiteStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
                       addSiteStore.noDiscount
                         ? '!bg-red-500/10 !text-red-500 !border-red-500'
                         : '',
@@ -466,8 +466,8 @@ const finalAmount = computed(() => {
                     v-if="addSiteStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[15px] font-[500] text-darkGrey">
-                      <span class="text-[#021328] font-[700]">{{ addSiteStore.currentDiscount }}%</span>
+                    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                      <span class="text-[#021328] font-[700] dark:text-white">{{ addSiteStore.currentDiscount }}%</span>
                       {{ $t('Discount') }} (-${{ percentageOff }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
