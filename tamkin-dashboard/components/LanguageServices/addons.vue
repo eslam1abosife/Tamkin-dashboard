@@ -16,6 +16,7 @@ const getImagePath = (icon) => {
     import.meta.url
   ).href;
 };
+const runtim = useRuntimeConfig()
 const customizeStore = useCustomizeStore();
 </script>
 
@@ -41,22 +42,24 @@ const customizeStore = useCustomizeStore();
           class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
         >
           <span v-if="!collapseStore.collapses.includes('webPlugins')">
-            {{
+            {{ $t('Complete control over the features of the sign language player for easy management of your widgets') }}
+            <!-- {{
               $t(
                 signLangStore.addonsPlugin.description_on_show
                   ? signLangStore.addonsPlugin.description_on_show
                   : ""
               )
-            }}
+            }} -->
           </span>
           <span v-else>
-            {{
+            {{ $t('Enjoy full and seamless control over all the features of the sign language player, ensuring effortless and efficient management of your wedgit with maximum flexibility and customization options.') }}
+            <!-- {{
               $t(
                 signLangStore.addonsPlugin.description_on_hide
                   ? signLangStore.addonsPlugin.description_on_hide
                   : ""
               )
-            }}
+            }} -->
           </span>
         </h2>
       </div>
@@ -210,6 +213,7 @@ const customizeStore = useCustomizeStore();
           )
         "
       />
+      <!-- {{ signLangStore.WebpluginsCards }} -->
       <draggable
         v-model="signLangStore.WebpluginsCards"
         @change="
@@ -233,7 +237,7 @@ const customizeStore = useCustomizeStore();
                 class="rounded-full dark:bg-darkSecondary flex items-center justify-center p-4"
               >
                 <img
-                  :src="getImagePath(element.icon)"
+                  :src="runtim.public.baseImagerUrl + element.icon"
                   class="w-[24px]"
                   :class="[
                     !signLangStore.isChecked(element.checkboxId)
@@ -264,13 +268,14 @@ const customizeStore = useCustomizeStore();
                 </div>
               </div>
               <div class="ml-auto">
+             
                 <label :for="element.checkboxId" class="toggle_wrap">
                   <input
                     type="checkbox"
                     :id="element.checkboxId"
                     class="sr-only"
                     :checked="signLangStore.isChecked(element.checkboxId)"
-                    @change="signLangStore.toggleCheckbox(element.checkboxId)"
+                    @click="signLangStore.toggleCheckbox(element.checkboxId)"
                   />
                   <div
                     class="toggle_parent"

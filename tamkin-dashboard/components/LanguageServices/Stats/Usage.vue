@@ -254,7 +254,7 @@ const navStore = useNavbarStore();
                   <p
                     class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
                   >
-                    {{ functionItem.label }}
+                    {{ $t(functionItem.label) }}
                   </p>
                 </div>
               </div>

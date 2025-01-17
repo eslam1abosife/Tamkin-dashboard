@@ -147,7 +147,7 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
     
     urlPayment.value = resTheme;
 

@@ -163,8 +163,14 @@ const runtimec = useRuntimeConfig();
     </div>
     <div v-else>
       <div v-if="selectTab === 'webplugins'">
-        <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
-        <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
+        <OverviewWidgetEmbdedCode v-if="navStore.defaultappobj 
+        && navStore.defaultappobj.package 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status !== 'Active'" />
+        <OverviewConnectWithUs v-if="navStore.defaultappobj 
+        && navStore.defaultappobj.package 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
+        && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status !== 'Active'" />
         <LanguageServicesOverviewCurrentPlan
           :plan-type="'free'"
           :is-installed="false"

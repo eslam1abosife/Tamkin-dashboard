@@ -86,9 +86,12 @@ const cancelAc = () => {
     );
   }
 };
+const loadingplayerdata = ref(true)
+
 
 onBeforeMount(async () => {
-  getPlayerData();
+   getPlayerData();
+
   [
     "deaf-customize-sign-language-background-sign-language-background",
     "deaf-customize-sign-language-player-contrast-sign-language-contrast",
@@ -103,6 +106,8 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
     "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
   ]);
+
+  loadingplayerdata.value = false
 });
 
 const loadingSave = ref(false);
@@ -270,6 +275,7 @@ const getSettingsValue = (name: any) => {
     <LanguageServicesNavbar />
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
+      v-if="!customizeStore.loadingData"
         :show-footer="shouldShowFooter"
         :loadingSave="loadingSave"
         :loadingSavetoAll="loadingSavetoAll"
@@ -301,7 +307,7 @@ const getSettingsValue = (name: any) => {
       />
 
       <div
-        v-if="customizeStore.loadingData || settingsStore.loadingdefaultappobj"
+        v-if="customizeStore.loadingData"
       >
         <div
           class="animate-pulse space-y-4 mt-[40px] card bg-white rounded-[10px] p-4 dark:bg-tamkinDarkPrimary"
@@ -314,9 +320,9 @@ const getSettingsValue = (name: any) => {
         </div>
       </div>
 
-      <div v-else>
+      <div v-else-if="!loadingplayerdata">
         <LanguageServicesNodata v-if="!settingsStore.defaultappobj" />
-        <div v-else>
+        <div v-else-if="!customizeStore.loadingData">
           <LanguageServicesAddons v-if="signLangStore.addonsPlugin" />
         </div>
       </div>

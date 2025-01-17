@@ -195,7 +195,6 @@ const moveSplide = (newIndex) => {
                 "
                 class="my-[24px]"
               >
-                <!-- Content here will be displayed if either cost_before_month or cost_before_yearly is zero -->
               </div>
 
               <p
@@ -243,7 +242,6 @@ const moveSplide = (newIndex) => {
                 "
                 class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
               >
-                <!-- Contact Us Case -->
                 <span v-if="pak.is_contact_us"> {{ $t("Contact us") }} </span>
 
                 <span
@@ -257,7 +255,6 @@ const moveSplide = (newIndex) => {
                   {{ pak.trial_days > 0 ? `${$t("Free Trial")}` : "" }}
                 </span>
 
-                <!-- Free Package Case -->
                 <span
                   v-else-if="
                     (pak.cost_month === 0 && pak.cost_yearly === 0) ||
@@ -267,7 +264,6 @@ const moveSplide = (newIndex) => {
                   {{ $t("Free Package") }}
                 </span>
 
-                <!-- Default Case -->
                 <span v-else>{{ $t("Get Started") }}</span>
               </button>
             </div>

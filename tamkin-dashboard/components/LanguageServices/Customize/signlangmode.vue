@@ -218,11 +218,9 @@ const backgroundWidgetValues = (v: string) => {
           : ''
       "
     >
+
       <div
-        v-if="
-          customizeStore.playerMoveHideFeature.active == 1 &&
-          customizeStore.playerMoveHideFeature.value == 1
-        "
+    
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
         <MessagesLockedFeature

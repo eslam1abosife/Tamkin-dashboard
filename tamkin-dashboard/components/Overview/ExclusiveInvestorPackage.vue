@@ -14,7 +14,7 @@ onMounted(async ()=>{
     <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px]" >
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
-            <h1 class="font-[500] leading-[30px] text-[18px] dark:text-whiteTamkin">
+            <h1 class="font-[500] leading-[30px] text-[18px]  rtl:mr-[-20px] dark:text-whiteTamkin">
               <div v-html="$t('Exclusive Investor Package')" class=" flex justify-start rtl:!flex-row"></div>
             </h1>
 

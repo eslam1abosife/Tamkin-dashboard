@@ -16,7 +16,7 @@ import {
   TimeScale,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-
+const {t,locale} = useI18n();
 const navStore = useNavbarStore();
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
@@ -109,12 +109,10 @@ const options = ref({
   maintainAspectRatio: true,
   plugins: {
     tooltip: {
-      enabled: false,  // Disable the default tooltip
-      external: function(context) {
-        // Tooltip Element
+      enabled: false, // Disable the default tooltip
+      external: function (context) {
         let tooltipEl = document.getElementById('chartjs-tooltip');
 
-        // Create element on first render
         if (!tooltipEl) {
           tooltipEl = document.createElement('div');
           tooltipEl.id = 'chartjs-tooltip';
@@ -122,14 +120,13 @@ const options = ref({
           document.body.appendChild(tooltipEl);
         }
 
-        // Hide if no tooltip
         const tooltipModel = context.tooltip;
+
         if (tooltipModel.opacity === 0) {
           tooltipEl.style.opacity = 0;
           return;
         }
 
-        // Set caret position
         tooltipEl.classList.remove('above', 'below', 'no-transform');
         if (tooltipModel.yAlign) {
           tooltipEl.classList.add(tooltipModel.yAlign);
@@ -137,96 +134,90 @@ const options = ref({
           tooltipEl.classList.add('no-transform');
         }
 
-        function getBody(bodyItem) {
-          return bodyItem.lines;
-        }
-
-        // Set Text
         if (tooltipModel.body) {
           const titleLines = tooltipModel.title || [];
-          const bodyLines = tooltipModel.body.map(getBody);
+          const bodyLines = tooltipModel.body.map((bodyItem) => bodyItem.lines);
 
           let innerHtml = '<thead>';
-
-          titleLines.forEach(function(title) {
-            innerHtml += '<tr><th>' + title + '</th></tr>';
+          titleLines.forEach((title) => {
+            innerHtml += `<tr><th>${title}</th></tr>`;
           });
-
           innerHtml += '</thead><tbody>';
-
-          bodyLines.forEach(function(body, i) {
-            innerHtml += '<tr><td>' + body + '</td></tr>';
+          bodyLines.forEach((body) => {
+            innerHtml += `<tr><td>${body}</td></tr>`;
           });
-
           innerHtml += '</tbody>';
 
-          let tableRoot = tooltipEl.querySelector('table');
-          tableRoot.innerHTML = innerHtml;
+          tooltipEl.querySelector('table').innerHTML = innerHtml;
         }
 
-        // Display, position, and set styles for font
         const position = context.chart.canvas.getBoundingClientRect();
-
         tooltipEl.style.opacity = 1;
         tooltipEl.style.position = 'absolute';
-        tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-        tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+        tooltipEl.style.left =
+          position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        tooltipEl.style.top =
+          position.top + window.pageYOffset + tooltipModel.caretY + 'px';
         tooltipEl.style.fontFamily = tooltipModel.options.bodyFont.family;
         tooltipEl.style.fontSize = tooltipModel.options.bodyFont.size + 'px';
         tooltipEl.style.fontStyle = tooltipModel.options.bodyFont.style;
-        tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
         tooltipEl.style.pointerEvents = 'none';
 
-        // Apply custom styles for the tooltip
-        tooltipEl.style.backgroundColor = 'white'; // Background color
-        tooltipEl.style.color = '#333'; // Text color
-        tooltipEl.style.borderRadius = '10px'; // Rounded corners
-        tooltipEl.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.1)'; // Drop shadow
-        tooltipEl.style.textAlign = 'center'; // Center-align text
-        tooltipEl.style.padding = '15px'; // Add padding
-      }
+        Object.assign(tooltipEl.style, {
+          backgroundColor: 'white',
+          color: '#333',
+          borderRadius: '10px',
+          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+          textAlign: 'center',
+          padding: '15px',
+        });
+      },
     },
     legend: {
       display: false,
+      rtl: locale.value === 'ar', // Dynamically set RTL for legend
     },
   },
   scales: {
     x: {
+      reverse: locale.value === 'ar', // Reverse the X-axis for RTL
       border: {
         display: true,
       },
-      
       grid: {
         display: false,
       },
-      type: "time",
+      type: 'time',
       time: {
-        unit: "day",
-        tooltipFormat: "MMM dd",
+        unit: 'day',
+        tooltipFormat: 'MMM dd',
         displayFormats: {
-          day: "MMM dd",
+          day: 'MMM dd',
         },
       },
       ticks: {
         autoSkip: true,
         maxTicksLimit: 10,
-        color: (c) => {
-            return colorMode.preference === 'dark' ?'white' :'black'
-          },
+        color: (c) => (colorMode.preference === 'dark' ? 'white' : 'black'),
         callback: function (value) {
           const date = new Date(value);
-          const options = { month: "short", day: "numeric" };
-          return date.toLocaleDateString("en-US", options);
+          const options = { month: 'short', day: 'numeric' };
+          return date.toLocaleDateString(
+            locale.value === 'ar' ? 'ar-EG' : 'en-US',
+            options
+          );
         },
+        rtl: locale.value === 'ar', // Dynamically set RTL for X-axis ticks
       },
     },
     y: {
+      position: locale.value === 'ar' ? 'right' : 'left', // Move Y-axis to the right for RTL
       grid: {
         display: true,
-        
       },
       ticks: {
         display: true,
+        color: (c) => (colorMode.preference === 'dark' ? 'white' : 'black'),
       },
       border: {
         display: false,
@@ -234,6 +225,8 @@ const options = ref({
     },
   },
 });
+
+
 const updateChartOptions = async (isDarkMode) => {
   options.value.scales.x.ticks.color = isDarkMode === "dark" ? "#ffffff" : "#000000";
 
@@ -293,7 +286,7 @@ watchEffect(() => {
       labels: sortedOpenData.map((t: any) => t.date),  // Using opencount's date as common labels
       datasets: [
         {
-          label: "Widget Opens",  // Dataset for opencount
+          label: t("Widget Opens"),  // Dataset for opencount
           data: sortedOpenData.map((t: any) => t.count),
            borderColor: "rgba(75, 192, 192, 1)",
       backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -301,12 +294,13 @@ watchEffect(() => {
       tension: 0.5,
         },
         {
-          label: "Widget Load",  // Dataset for loadscount
+          label: t("Widget Load"),  // Dataset for loadscount
           data: sortedLoadData.map((t: any) => t.count),
        borderColor: "rgba(255, 99, 132, 0)",
       backgroundColor: "rgba(255, 99, 132, 0.1)",
       fill: true,
       tension: 0.5,
+
         },
       ],
     };
@@ -322,7 +316,7 @@ watchEffect(() => {
       :class="[collapseStore.collapses.includes('webplugins_chart_card') ? 'pb-[24px]' : 'pb-[10px]']">
       <div class="flex items-center justify-start pt-[16px]">
         <div>
-          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Web Plugins</h1>
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Web Plugins')}}</h1>
           <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
           </p>
         </div>

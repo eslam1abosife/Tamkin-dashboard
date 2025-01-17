@@ -13,13 +13,12 @@ const collapseStore = useCollapseStore();
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Translation Accuracy
+          {{ $t('Translation Accuracy') }}
         </h1>
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          Translation Accuracy: Ensuring precise and reliable translations to
-          maintain high-quality communication and understanding
+          {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
         </p>
       </div>
       <div

@@ -186,11 +186,8 @@ const options = ref({
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          {{
-            $t(
-              "Select Date Range specifies start and end dates to analyze or display data."
-            )
-          }}
+        {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
+
         </p>
       </div>
       <div
@@ -388,7 +385,7 @@ const options = ref({
               <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
                 <Line
                   ref="chart14"
-                  :data="chartData"
+                  :data="chartData2"
                   :options="options"
                   class="h-[80px]"
                 />
