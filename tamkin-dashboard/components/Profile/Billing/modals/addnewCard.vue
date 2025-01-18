@@ -31,6 +31,9 @@ import {
 const { getCountries, countries } = useGetAllCountries();
 
 const { addNewCardToStripe, response } = useAddNewCard();
+
+const navStore = useNavbarStore();
+
 let state = reactive({
   firstName: "",
   lastName: "",
@@ -64,6 +67,7 @@ const cardOptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif",
+        color: navStore.isDark ? '#ffffff' : '#000000',
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -79,6 +83,7 @@ const expiryoptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
+        color: navStore.isDark ? '#ffffff' : '#000000',
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -92,6 +97,7 @@ const cardCvcOptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
+        color: navStore.isDark ? '#ffffff' : '#000000',
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -517,7 +523,7 @@ const countriesC = computed(() => {
             >
               <div
                 ref="cardNumberInp"
-                class="w-full input_floating_label dark:text-whiteTamkin"
+                class="w-full input_floating_label"
                 :class="{
                   input_error: cardError !== 'valid' && cardError,
                   input_success: cardError === 'valid',
@@ -591,7 +597,7 @@ const countriesC = computed(() => {
                 />
                 <label
                   for="address"
-                  class="floating_label dark:text-whiteTamkin"
+                  class="floating_label"
                   :class="[
                     v$.address.$error && v$.address.required.$invalid
                       ? '!text-error'
@@ -631,7 +637,7 @@ const countriesC = computed(() => {
                   />
                   <label
                     for="city"
-                    class="floating_label dark:text-whiteTamkin"
+                    class="floating_label"
                     :class="[
                       v$.city.$error && v$.city.required.$invalid
                         ? '!text-error'
@@ -669,7 +675,7 @@ const countriesC = computed(() => {
                   />
                   <label
                     for="state"
-                    class="floating_label dark:text-whiteTamkin"
+                    class="floating_label"
                     :class="[
                       v$.state.$error && v$.state.required.$invalid
                         ? '!text-error'
@@ -711,7 +717,7 @@ const countriesC = computed(() => {
                   />
                   <label
                     for="email"
-                    class="floating_label dark:text-whiteTamkin"
+                    class="floating_label"
                     :class="[
                       v$.zip.$error && v$.zip.required.$invalid
                         ? '!text-error'

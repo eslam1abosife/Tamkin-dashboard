@@ -86,7 +86,7 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
-const loadingplayerdata = ref(true)
+const loadingplayerdata = ref(true);
 onBeforeMount(() => {
   [
     "deaf-setting-general-settings-player-enabled-on-this-site",
@@ -102,7 +102,7 @@ onBeforeMount(() => {
   ]);
 
   getPlayerData();
-  loadingplayerdata.value = false
+  loadingplayerdata.value = false;
 });
 const deleteSite = async () => {
   try {
@@ -433,11 +433,11 @@ const getSettingsValue = (name: any) => {
         v-if="customizeStore.loadingData || settingsStore.loadingdefaultappobj"
       >
         <div
-          class="animate-pulse space-y-4 card dark:bg-tamkinDarkPrimary bg-white rounded-[10px] p-4"
+          class="animate-pulse space-y-4 card bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-4"
           :class="!settingsStore.defaultappobj ? 'mt-[42px]' : 'mt-[42px]'"
         >
           <div
-            class="h-[55px] w-full rounded-md dark:bg-p bg-gray-200"
+            class="h-[55px] w-full rounded-md bg-gray-200 dark:bg-p"
             v-for="s in 6"
             :key="s"
           ></div>

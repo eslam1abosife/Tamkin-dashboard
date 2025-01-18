@@ -150,7 +150,7 @@ const tgl = ()=>{
             </div>
             <div class="flex flex-col items-center justify-center px-[10px] lg:space-y-0 space-y-4">
               <h2
-                class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
+                class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 dark:text-whiteTamkin dark:drop-shadow-xl mb-2"
               >
                 {{ $t('Would you like to have early access to the platform?') }}
               </h2>

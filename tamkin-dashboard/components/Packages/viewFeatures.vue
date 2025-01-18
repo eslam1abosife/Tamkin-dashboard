@@ -104,7 +104,7 @@ const getFeaturesForSection = (sectionName) => {
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
             <template v-for="(section, name, index) in filteredSections" :key="index">
               <!-- Section Header -->
               <tr class="bg-[#ECECF0] h-[50px]">

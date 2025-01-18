@@ -347,7 +347,7 @@ const options = ref({
                   {{ $t("Translated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black leading-[30px]"
+                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                  
                 >
                   {{ statsStore.translation_quality.translated_content ? statsStore.translation_quality.translated_content : 0 }}
@@ -375,7 +375,7 @@ const options = ref({
                   {{ $t("Untranslated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black leading-[30px]"
+                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 
                 >
                   {{ statsStore.translation_quality.untranslated_content ? statsStore.translation_quality.untranslated_content : 0 }}

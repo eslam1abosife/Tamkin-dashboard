@@ -116,7 +116,7 @@ const submitInviteApp = async () => {
         {{$t('Invite Member')}}
       </h1>
     
-      <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+      <div class="flex items-center dark:border-darkborder rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
        
        
         <div>
@@ -193,7 +193,7 @@ const submitInviteApp = async () => {
                 <div>
                   <input type="checkbox" id="checkbox" class="peer sr-only m-auto" v-model="checkAll" />
                   <label for="checkbox" class="relative block border-[1px] w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
@@ -201,7 +201,7 @@ const submitInviteApp = async () => {
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
             <tr v-for="permission in filteredPermissions" :key="permission.name">
               
               <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
@@ -230,7 +230,7 @@ const submitInviteApp = async () => {
                 <div>
                   <input type="checkbox" v-model="checked" :id="`checkbox_` + permission.name" :value="permission.name" class="peer sr-only rtl:mr-auto ltr:ml-auto" number />
                   <label :for="`checkbox_` + permission.name" class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>

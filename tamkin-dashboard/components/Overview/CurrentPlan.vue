@@ -105,36 +105,34 @@ const getCurrentAccessPackage = computed(() => {
         class="w-full bg-white relative dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
       >
         <div
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkGrey absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
-        >
+        class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300">
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
             :class="[
               packagesStore.discountType === 'month'
-                ? 'bg-white dark:bg-light rounded-full'
-                : '',
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
+              : '',
             ]"
-            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
-          >
+              class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
+              >
             {{ $t("Monthly") }}
           </button>
           <button
             @click="switchBetweenMonthlyAndAnnual('year')"
             :class="[
               packagesStore.discountType === 'year'
-                ? 'bg-white dark:bg-light rounded-full'
-                : '',
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
+              : '',
             ]"
-            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
-          >
+              class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
             <div>{{ $t("Annual") }}</div>
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
             >
-              <div class="text-black font-[800] !text-[10px]">
-                {{ $t("SAVE") }}
-              </div>
-              <div class="text-black font-[800] !text-[10px]">
+            <div class="text-black dark:text-white font-[800] !text-[10px]">
+                  {{ $t("SAVE") }}
+                </div>
+                <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{
                   packagesStore.types.length
                     ? packagesStore.types.find(
@@ -171,7 +169,7 @@ const getCurrentAccessPackage = computed(() => {
                   (p) => p.type === 'Accessibility'
                 )
               "
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+              class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
@@ -238,14 +236,14 @@ const getCurrentAccessPackage = computed(() => {
             </div>
             <div
               v-else
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+              class="h-[55px] px-[20px] bg-white dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
               >
                 <div></div>
                 <div
-                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey"
                 >
                   {{ $t("No Current Package") }}
                 </div>
@@ -339,26 +337,26 @@ const getCurrentAccessPackage = computed(() => {
             <div
               v-for="n in 3"
               :key="n"
-              class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
+              class="flex items-center flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full dark:bg-darkTamkin"
             >
               <div
-                class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
+                class="bg-gray-300 dark:bg-gray-600 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
               ></div>
 
               <div
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
-                  <div class="bg-gray-300 h-[30px] rounded mb-[8px]"></div>
+                  <div class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"></div>
                   <div
-                    class="bg-gray-300 h-[20px] w-[150px] rounded mb-[16px]"
+                    class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded mb-[16px]"
                   ></div>
-                  <div class="bg-gray-300 h-[29px] w-[100px] rounded"></div>
+                  <div class="bg-gray-300  dark:bg-gray-600h-[29px] w-[100px] rounded"></div>
                   <div
-                    class="bg-gray-200 h-[16px] w-[120px] mt-[10px] rounded"
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[120px] mt-[10px] rounded"
                   ></div>
                   <div
-                    class="bg-gray-200 h-[16px] w-[80px] mt-[10px] rounded"
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[80px] mt-[10px] rounded"
                   ></div>
                 </div>
               </div>
@@ -366,11 +364,11 @@ const getCurrentAccessPackage = computed(() => {
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
-                <div class="bg-gray-300 h-[20px] w-[200px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[150px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[100px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[200px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[100px] rounded"></div>
                 <div
-                  class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"
+                  class="bg-gray-200 dark:bg-gray-600 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
               </div>
             </div>

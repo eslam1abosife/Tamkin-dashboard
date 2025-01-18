@@ -419,7 +419,7 @@ onBeforeUnmount(() => {
                   alt=""
                 />
                 <div
-                  class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center"
+                  class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white text-center"
                 >
                   {{ $t(`You haven't added any cards yet`) }}
                 </div>

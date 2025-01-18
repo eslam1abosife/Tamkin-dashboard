@@ -290,11 +290,11 @@ const options = ref({
         >
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#71DAD2] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div class="text-[12px] font-[400] text-[#787486] dark:text-white/80 leading-[18px]">
               {{ $t('Total') }}
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80">
           {{ statsStore.sign_languageStats.total }}
           </div>
         </div>
@@ -304,11 +304,11 @@ const options = ref({
         >
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#FFBA6B] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div class="text-[12px] font-[400] text-[#787486] dark:text-white/80 leading-[18px]">
               {{$t('Used')}}
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80">
             {{ statsStore.sign_languageStats.used }}
 
           </div>
@@ -319,11 +319,11 @@ const options = ref({
         >
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#A35EFE] w-2 h-2 rounded-full"></div>
-            <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
+            <div class="text-[12px] font-[400] text-[#787486] dark:text-white/80 leading-[18px]">
               {{$t('Remaining')}}
             </div>
           </div>
-          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
+          <div class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80">
             {{ Number(statsStore.sign_languageStats.total) - (statsStore.sign_languageStats.used) }}
 
           </div>
@@ -344,7 +344,7 @@ const options = ref({
                 >
                   {{ $t('Translated content') }}
                 </h2>
-                <h1 class="text-[20px] font-[600] text-black leading-[30px]">
+                <h1 class="text-[20px] font-[600] text-black dark:text-white leading-[30px]">
                              {{ statsStore.translation_quality.translated_content }}
                 {{ $t('Words') }}
                 </h1>
@@ -371,7 +371,7 @@ const options = ref({
                 >
                   {{ $t('Untranslated content') }}
                 </h2>
-                <h1 class="text-[20px] font-[600] text-black leading-[30px]">
+                <h1 class="text-[20px] font-[600] text-black dark:text-white leading-[30px]">
                   {{ statsStore.translation_quality.untranslated_content }}
                   {{ $t('Words') }}
                 </h1>

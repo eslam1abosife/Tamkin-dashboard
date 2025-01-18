@@ -222,13 +222,13 @@ const customizeStore = useCustomizeStore();
         @start="signLangStore.onDragStart('initialCardsOrder')"
         @end="signLangStore.onDragEnd('WebpluginsCards', 'initialCardsOrder')"
         item-key="name"
-        class="w-full divide-y divide-lightGrey"
+        class="w-full divide-y divide-lightGrey dark:divide-darkborder"
         handle=".handle"
       >
         <template #item="{ element }">
           <div
             v-if="element.active == 1"
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkSecondary"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkTamkin"
           >
             <div
               class="flex items-center justify-start gap-4 rtl:space-x-reverse xs:space-x-[4px] w-full"
