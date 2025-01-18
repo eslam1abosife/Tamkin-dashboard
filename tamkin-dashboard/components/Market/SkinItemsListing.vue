@@ -46,7 +46,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             ? 'dark:bg-tamkinDarkPrimary'
             : '',
         ]"
-        class="w-full dark:bg-tamkinDarkPrimary bg-[#f2efef] flex items-center justify-center rounded-[10px] relative"
+        class="w-full dark:bg-p bg-[#f2efef] flex items-center justify-center rounded-[10px] relative"
       >
         <div class="h-[120px] flex items-center justify-center">
           <img

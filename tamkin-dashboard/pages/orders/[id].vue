@@ -219,7 +219,7 @@ function leaveCart(el, done) {
       class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] dark:bg-tamkinDarkPrimary rounded-[10px] animate-pulse"
     >
       <div
-        class="flex items-center justify-between w-full mt-[26px] pb-[24px] rtl:space-x-reverse space-x-[24px] border-b-[1px] border-[#D9D9D9]"
+        class="flex items-center justify-between w-full mt-[26px] pb-[24px] rtl:space-x-reverse space-x-[24px] border-b-[1px] border-[#D9D9D9] dark:border-darkborder"
       >
         <div class="h-[16px] dark:bg-p bg-gray-300 rounded w-1/4"></div>
         <div class="h-[24px] dark:bg-p w-[1px] bg-[#D9D9D9]"></div>
@@ -234,10 +234,10 @@ function leaveCart(el, done) {
 
       <div class="space-y-4 mt-[10px]">
         <template v-for="index in 3" :key="index">
-          <div class="flex items-center border-b justify-between pb-4">
+          <div class="flex items-center border-b justify-between pb-4 dark:border-darkborder">
             <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div
-                class="rounded-lg dark:bg-p bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border"
+                class="rounded-lg dark:bg-p bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border dark:border-darkborder"
               >
                 <div
                   class="w-[63px] h-[67px] dark:bg-tamkinDarkPrimary bg-gray-300 rounded"
@@ -259,7 +259,6 @@ function leaveCart(el, done) {
           </div>
         </template>
       </div>
-
       <div class="pb-[10px]">
         <table class="min-w-full">
           <tbody>
@@ -267,7 +266,7 @@ function leaveCart(el, done) {
               class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             >
               <td
-                class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -275,7 +274,7 @@ function leaveCart(el, done) {
                 ></div>
               </td>
               <td
-                class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -287,7 +286,7 @@ function leaveCart(el, done) {
               class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             >
               <td
-                class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -295,7 +294,7 @@ function leaveCart(el, done) {
                 ></div>
               </td>
               <td
-                class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -305,7 +304,7 @@ function leaveCart(el, done) {
             </tr>
             <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
               <td
-                class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -313,7 +312,7 @@ function leaveCart(el, done) {
                 ></div>
               </td>
               <td
-                class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                 colspan="4"
               >
                 <div
@@ -331,7 +330,7 @@ function leaveCart(el, done) {
       v-else
     >
       <div
-        class="flex items-center justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]"
+        class="flex items-center justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9] dark:border-darkborder"
       >
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
@@ -387,7 +386,7 @@ function leaveCart(el, done) {
           </button>
         </div>
 
-        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
           class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
         >
@@ -418,7 +417,7 @@ function leaveCart(el, done) {
           </div>
         </div>
 
-        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
           class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
         >
@@ -433,7 +432,7 @@ function leaveCart(el, done) {
             {{ orderDetails.Account }}
           </div>
         </div>
-        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
           class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
         >
@@ -459,10 +458,10 @@ function leaveCart(el, done) {
       </div>
       <div class="space-y-4 mt-[10px]">
         <template v-for="item in orderDetails.items" :key="item.name">
-          <div class="flex items-center border-b justify-between pb-4">
+          <div class="flex items-center border-b justify-between pb-4 dark:border-darkborder">
             <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div
-                class="rounded-lg bg-[#F8F8F8] dark:bg-darkTamkin w-[97px] h-[101px] flex items-center justify-center border"
+                class="rounded-lg bg-[#F8F8F8] dark:bg-darkTamkin w-[97px] h-[101px] flex items-center justify-center border dark:border-darkborder"
               >
                 <img
                   :src="
@@ -564,13 +563,13 @@ function leaveCart(el, done) {
               class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             >
               <td
-                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ $t("Subtotal") }}
               </td>
               <td
-                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] uppercase dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder rtl:text-left ltr:text-right w-full font-[500] uppercase dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ orderDetails.subtotal }}
@@ -581,13 +580,13 @@ function leaveCart(el, done) {
               class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             >
               <td
-                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right t font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right t font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ $t("Discount") }}
               </td>
               <td
-                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right min-w-[100px] font-[500] uppercase dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder rtl:text-left ltr:text-right min-w-[100px] font-[500] uppercase dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ orderDetails.discount }}
@@ -599,13 +598,13 @@ function leaveCart(el, done) {
               v-if="orderDetails['Payment Method'] === 'Crypto'"
             >
               <td
-                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ $t("Total Crypto") }}
               </td>
               <td
-                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{
@@ -620,13 +619,13 @@ function leaveCart(el, done) {
             </tr>
             <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
               <td
-                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ $t("Total") }}
               </td>
               <td
-                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-darkborder rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
                 colspan="4"
               >
                 {{ orderDetails.total }}

@@ -172,7 +172,7 @@ const getCurrentAccessPackage = computed(() => {
                   (p) => p.type === 'Sign language'
                 )
               "
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+ class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
@@ -239,7 +239,7 @@ const getCurrentAccessPackage = computed(() => {
             </div>
             <div
               v-else
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+ class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"

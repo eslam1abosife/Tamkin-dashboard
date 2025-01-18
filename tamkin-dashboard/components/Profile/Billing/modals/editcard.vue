@@ -437,7 +437,7 @@ watch(eventCounter, async () => {
               class="border-[1px] cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me"
             />
-            <div class="text-[14px] font-[400] text-black mt-1 rtl:font-[Almarai]">
+            <div class="text-[14px] font-[400] dark:text-whiteTamkin text-black mt-1 rtl:font-[Almarai]">
               {{ $t("Set as Primary Card") }}
             </div>
           </label>

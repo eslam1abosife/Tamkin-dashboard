@@ -169,7 +169,7 @@ const navStore = useNavbarStore();
         <div class="flex flex-col items-center justify-center mt-[44px] space-y-[30px] "
         v-if=" statsStore.loadingStats">
 
-        <div class="bg-gray-300 w-full h-[462px] animate-pulse rounded-[10px]" v-for="i in 4">
+        <div class="bg-gray-300 w-full h-[462px] animate-pulse rounded-[10px] dark:bg-tamkinDarkPrimary" v-for="i in 4">
 
         </div>
        </div>

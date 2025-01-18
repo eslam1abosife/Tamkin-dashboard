@@ -122,7 +122,7 @@ onMounted(() => {
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
     <button
       @click.prevent="toggleDropdown"
-      class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between h-[40px] px-4 peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
+      class="border-[1px] border-lightGrey dark:border-darkborder rounded-[10px] flex items-center justify-between h-[40px] px-4 peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
       :class="[
         isListOpen ? 'border-tamkin' : '',
         disabled
@@ -147,9 +147,9 @@ onMounted(() => {
             class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
           />
           <div
-            class="dark:text-whiteTamkin"
             :class="[
               errorField ? '!text-error' : '',
+              selectedOption ? 'text-black dark:text-white' : '',
               selectedOption &&
               selectedOption[nameKey] &&
               selectedOption[nameKey].length >= 20
@@ -220,7 +220,7 @@ onMounted(() => {
       <!-- Show a message when no records are found -->
       <div
         v-if="isListOpen && filteredList.length === 0"
-        class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2"
+        class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2 dark:bg-darkTamkin dark:border-darkborder dark:text-white"
       >
         {{ $t("No countries found.") }}
       </div>

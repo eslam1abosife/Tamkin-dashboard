@@ -639,7 +639,7 @@ const isCurrentRateEmpty = computed(() => {
           "
         >
           <table
-            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200"
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200 dark:border-darkborder"
           >
             <thead class="bg-gray-50 dark:bg-p">
               <tr>
@@ -672,7 +672,7 @@ const isCurrentRateEmpty = computed(() => {
             </thead>
             <tbody class="text-gray-700" v-if="filteredWithdraw.length > 0">
               <tr
-                class="border-t border-gray-200"
+                class="border-t border-gray-200 dark:border-darkborder"
                 v-for="reward in filteredWithdraw"
               >
                 <td
@@ -748,7 +748,7 @@ const isCurrentRateEmpty = computed(() => {
           v-if="currentTab === 'refs' && !loadingBlock"
         >
           <table
-            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200"
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white border-b table-fixed border-gray-200 dark:border-darkborder"
           >
             <thead class="bg-gray-50 dark:bg-p">
               <tr>
@@ -780,7 +780,7 @@ const isCurrentRateEmpty = computed(() => {
                 v-for="referral in filteredReferrals"
                 :key="referral.name"
               >
-                <tr class="border-t border-gray-200">
+                <tr class="border-t border-gray-200 dark:border-darkborder">
                   <td
                     class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
                   >
@@ -854,7 +854,7 @@ const isCurrentRateEmpty = computed(() => {
           </div>
 
           <div
-            class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]"
+            class="text-[14px] font-[400] leading-[19px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
           >
             {{ $t("Currently, there are no withdrawals available") }}
           </div>
@@ -876,7 +876,7 @@ const isCurrentRateEmpty = computed(() => {
           </div>
 
           <div
-            class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]"
+            class="text-[14px] font-[400] leading-[19px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
           >
             {{ $t("Currently, there are no rewards available") }}
           </div>
@@ -884,7 +884,7 @@ const isCurrentRateEmpty = computed(() => {
 
         <!-- no Referrals available-->
         <div class="w-full mt-[16px]" v-if="loadingBlock">
-          <div class="bg-white border-b table-fixed border-gray-200 dark:bg-p">
+          <div class="bg-white border-b table-fixed border-gray-200 dark:bg-p dark:border-darkborder">
             <div
               class="h-[40px] flex items-center px-4 bg-gray-50 dark:bg-p animate-pulse"
             >
@@ -893,7 +893,7 @@ const isCurrentRateEmpty = computed(() => {
               <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
               <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded mx-2"></div>
             </div>
-            <div v-for="i in 5" :key="i" class="border-t border-gray-200">
+            <div v-for="i in 5" :key="i" class="border-t border-gray-200 dark:border-darkborder">
               <div
                 class="h-[60px] flex items-center dark:bg-tamkinDarkPrimary px-4 rtl:space-x-reverse space-x-4 bg-gray-50 animate-pulse"
               >

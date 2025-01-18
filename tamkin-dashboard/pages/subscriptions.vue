@@ -410,7 +410,7 @@ const openInvestor = (app, pack) => {
         subs.filter((t) => t.subscripitions.length > 0).length > 0
       "
       style="box-shadow: 0px 4px 12px 0px #00000014"
-      class="w-full h-[125px] rounded-[10px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#C0CAFF]/[79%] to-white/[79%] px-[16px] my-[30px] relative flex items-center justify-between"
+      class="w-full h-[125px] rounded-[10px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#C0CAFF]/[79%] to-white/[79%] dark:to-darkTamkin/[79%] px-[16px] my-[30px] relative flex items-center justify-between"
     >
       <div class="absolute left-[40%] z-10">
         <img
@@ -434,7 +434,7 @@ const openInvestor = (app, pack) => {
         />
       </div>
       <div class="flex flex-col items-start justify-start static z-[40]">
-        <div class="text-[18px] leading-[27px] font-[600] text-[#3D3D3D]">
+        <div class="text-[18px] leading-[27px] font-[600] text-[#3D3D3D] dark:text-white dark:drop-shadow-xl">
           ${{
             subsStore.totalRenews.reduce((sum, item) => {
               return sum + (item.amount || 0);
@@ -449,7 +449,7 @@ const openInvestor = (app, pack) => {
           }}
         </div>
         <div
-          class="text-[13px] font-[500] leading-[19px] text-darkGrey mt-[6px]"
+          class="text-[13px] font-[500] leading-[19px] text-darkGrey dark:text-white dark:drop-shadow-xl mt-[6px]"
         >
           {{ $t("Total value of renewals") }}
         </div>
@@ -469,7 +469,7 @@ const openInvestor = (app, pack) => {
     ></div>
 
     <div
-      class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white dark:bg-tamkinDarkPrimary w-full h-full mt-[32px] rounded-[10px] p-[32px]"
       v-if="
         subs.filter((t) => t.subscripitions.length > 0).length === 0 &&
         !loadingSubs
@@ -478,7 +478,7 @@ const openInvestor = (app, pack) => {
       <div class="flex flex-col items-center justify-center space-y-[10px]">
         <img src="/imgs/no_subs.png" class="w-[71px] h-[71px]" alt="" />
         <div
-          class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center"
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white w-1/4 text-center"
         >
           {{
             $t(`You don't have any subscriptions in this list at the moment`)

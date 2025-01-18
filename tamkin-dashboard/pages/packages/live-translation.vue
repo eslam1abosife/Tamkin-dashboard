@@ -295,7 +295,7 @@ provide("pricingType", pricingType);
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
               <tr>
                 <td
                   class="px-6 py-4 text-sm font-medium text-gray-900 text-left"

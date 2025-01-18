@@ -80,7 +80,7 @@ const ifuserhaspermissiontoEdit = computed(() => {
       <textarea
         v-if="currentMode === 'editing' && ifuserhaspermissiontoEdit"
         v-model="state.about"
-        class="w-full focus:border-tamkin max-h-[176px] focus:ring-0 text-[12px] text-black border !p-2 !m-0 border-gray-300 rounded-lg resize-none"
+        class="w-full focus:border-tamkin max-h-[176px] focus:ring-0 text-[12px] text-black border !p-2 !m-0 dark:bg-tamkinDarkPrimary dark:border-darkborder border-gray-300 rounded-lg resize-none dark:text-white"
         rows="4"
         maxlength="120"
         :class="[v$.about.$error ? '!border-red-500' : '!border-tamkin']"

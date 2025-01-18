@@ -175,7 +175,7 @@ const mysiteStore = useMySiteStore();
         <div
           v-for="site in searchData"
           :key="site.id"
-          class="flex items-center divide-y justify-between p-3 rounded-[10px] cursor-pointer w-full hover:bg-gray-50"
+          class="flex items-center divide-y justify-between p-3 rounded-[10px] cursor-pointer w-full hover:bg-gray-50 dark:hover:bg-darkTamkin"
         >
           <div
             class="flex items-center justify-start space-x-4 rtl:space-x-reverse w-full"

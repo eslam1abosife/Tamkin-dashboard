@@ -141,7 +141,9 @@ onUpdated(() => {
         <div
           class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
         >
-          <div class="text-black dark:text-white font-[800] !text-[10px]">{{ $t("SAVE") }}</div>
+          <div class="text-black dark:text-white font-[800] !text-[10px]">
+            {{ $t("SAVE") }}
+          </div>
           <div class="text-black dark:text-white font-[800] !text-[10px]">
             {{
               packagesStore.types.length

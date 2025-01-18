@@ -219,7 +219,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -231,7 +231,7 @@ const submitInviteApp = async () => {
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
             <!-- Actual content -->
             <tr v-for="permission in filteredPermissions" :key="permission.name">
               <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
@@ -287,7 +287,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -318,7 +318,7 @@ const submitInviteApp = async () => {
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
               <tr v-for="n in 2" :key="n">
                 <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                   <div class="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full"></div>

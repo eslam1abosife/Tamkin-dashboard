@@ -278,7 +278,7 @@ const setPageSize = (size: number) => {
             <tr
               v-for="n in 5"
               :key="n"
-              class="border-t border-gray-200 table-row"
+              class="border-t border-gray-200 dark:border-darkborder table-row"
             >
               <td
                 class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap"
@@ -310,7 +310,7 @@ const setPageSize = (size: number) => {
         class="min-w-full bg-white dark:bg-tamkinDarkPrimary last:rounded-b-[10px]"
       >
         <thead
-          class="bg-white dark:bg-tamkinDarkPrimary border-b text-[12px] leading-[18px] text-[#999999]"
+          class="bg-white dark:bg-tamkinDarkPrimary border-b text-[12px] leading-[18px] text-[#999999] dark:border-darkborder"
         >
           <tr>
             <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
@@ -338,7 +338,7 @@ const setPageSize = (size: number) => {
         >
           <template v-for="order in paginatedRows" :key="order.id">
             <tr
-              class="border-t border-gray-200 table-row cursor-pointer hover:dark:bg-p hover:dark:text-whiteTamkin hover:bg-gray-100"
+              class="border-t border-gray-200 table-row cursor-pointer hover:dark:bg-p hover:dark:text-whiteTamkin hover:bg-gray-100 dark:border-darkborder"
               @click="$router.push(localePath('/orders/' + order.name))"
             >
               <td

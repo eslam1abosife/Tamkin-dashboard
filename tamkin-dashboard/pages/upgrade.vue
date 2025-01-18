@@ -214,7 +214,7 @@ ipad-max:leading-[10px] whitespace-nowrap
     <div class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full 
     lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]">
       <!-- Placeholder for each package item -->
-      <div v-for="n in 3" :key="n" class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white 
+      <div v-for="n in 3" :key="n" class="flex items-center flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white dark:bg-gray-600
       rounded-t-[10px] relative mt-[35px] w-full p-4">
         <div class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"></div>
   

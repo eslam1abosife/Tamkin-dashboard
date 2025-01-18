@@ -249,7 +249,7 @@ function leaveCart(el, done) {
       >
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div
-          class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center"
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white text-center"
         >
           {{ $t(`You haven't added any cards yet`) }}
         </div>
@@ -672,7 +672,7 @@ function leaveCart(el, done) {
       >
         <img src="/imgs/no_billing.png" class="w-[42px] h-[42px]" alt="" />
         <div
-          class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center dark:text-whiteTamkin"
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white text-center dark:text-whiteTamkin"
         >
           {{ $t("There are currently no invoices to show") }}
         </div>

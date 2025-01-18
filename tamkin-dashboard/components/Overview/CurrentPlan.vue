@@ -171,7 +171,7 @@ const getCurrentAccessPackage = computed(() => {
                   (p) => p.type === 'Accessibility'
                 )
               "
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+              class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
@@ -238,7 +238,7 @@ const getCurrentAccessPackage = computed(() => {
             </div>
             <div
               v-else
-              class="h-[55px] px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
+              class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
@@ -339,26 +339,26 @@ const getCurrentAccessPackage = computed(() => {
             <div
               v-for="n in 3"
               :key="n"
-              class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
+              class="flex items-center flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full dark:bg-darkTamkin"
             >
               <div
-                class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
+                class="bg-gray-300 dark:bg-gray-600 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
               ></div>
 
               <div
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
-                  <div class="bg-gray-300 h-[30px] rounded mb-[8px]"></div>
+                  <div class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"></div>
                   <div
-                    class="bg-gray-300 h-[20px] w-[150px] rounded mb-[16px]"
+                    class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded mb-[16px]"
                   ></div>
-                  <div class="bg-gray-300 h-[29px] w-[100px] rounded"></div>
+                  <div class="bg-gray-300  dark:bg-gray-600h-[29px] w-[100px] rounded"></div>
                   <div
-                    class="bg-gray-200 h-[16px] w-[120px] mt-[10px] rounded"
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[120px] mt-[10px] rounded"
                   ></div>
                   <div
-                    class="bg-gray-200 h-[16px] w-[80px] mt-[10px] rounded"
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[80px] mt-[10px] rounded"
                   ></div>
                 </div>
               </div>
@@ -366,11 +366,11 @@ const getCurrentAccessPackage = computed(() => {
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
-                <div class="bg-gray-300 h-[20px] w-[200px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[150px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[100px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[200px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[100px] rounded"></div>
                 <div
-                  class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"
+                  class="bg-gray-200 dark:bg-gray-600 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
               </div>
             </div>

@@ -217,7 +217,7 @@ const navStore = useNavbarStore();
       >
         <template #item="{ element }">
           <div
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkSecondary"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkTamkin"
           >
             <div
               class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full"

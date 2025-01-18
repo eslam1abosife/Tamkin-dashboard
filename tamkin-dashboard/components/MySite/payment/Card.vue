@@ -348,7 +348,7 @@ onBeforeUnmount(() => {
                         <div>****{{ savedCard.last4 }}</div>
                       </div>
                       <div
-                        class="text-darkGrey text-[13px] font-[400] leading-[10px]"
+                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px] "
                       >
                         {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
                         {{ savedCard.expyear }}
@@ -394,7 +394,7 @@ onBeforeUnmount(() => {
                   alt=""
                 />
                 <div
-                  class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center"
+                  class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white text-center"
                 >
                   {{ $t(`You haven't added any cards yet`) }}
                 </div>
