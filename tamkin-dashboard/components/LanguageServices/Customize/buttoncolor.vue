@@ -11,34 +11,38 @@ const inputGradient2 = ref(customizeStore.gradient2);
 const colorPickerGradient = ref(customizeStore.gradient1);
 const colorPickerGradient2 = ref(customizeStore.gradient2);
 
+const inputcurrentcolor = ref(customizeStore.currentColor);
+const colorcurrentpicker = ref(customizeStore.currentColor);
+
+// Update functions
 const updateGradient = () => {
   customizeStore.gradient1 = inputGradient.value;
   colorPickerGradient.value = inputGradient.value;
 };
+
 const updategradient2 = () => {
   customizeStore.gradient2 = inputGradient2.value;
-  colorPickerGradient.value = inputGradient.value;
+  colorPickerGradient2.value = inputGradient2.value;
 };
 
-watch(colorPickerGradient, (newVal) => {
-  customizeStore.gradient1 = newVal;
-  inputGradient.value = newVal;
-});
-watch(colorPickerGradient2, (newVal) => {
-  customizeStore.gradient2 = newVal;
-  inputGradient2.value = newVal;
-});
-
-const colorcurrentpicker = ref(customizeStore.currentColor);
-const inputcurrentcolor = ref(customizeStore.currentColor);
 const updatecurrentcolor = () => {
   customizeStore.currentColor = inputcurrentcolor.value;
   colorcurrentpicker.value = inputcurrentcolor.value;
 };
+
+// Watchers
+watch([colorPickerGradient, colorPickerGradient2], ([newVal1, newVal2]) => {
+  customizeStore.gradient1 = newVal1;
+  customizeStore.gradient2 = newVal2;
+  inputGradient.value = newVal1;
+  inputGradient2.value = newVal2;
+});
+
 watch(colorcurrentpicker, (newVal) => {
   customizeStore.currentColor = newVal;
   inputcurrentcolor.value = newVal;
 });
+
 </script>
 
 <template>

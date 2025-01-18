@@ -512,11 +512,11 @@ const openInvestor = (app, pack) => {
         class="flex flex-col md:flex-row items-center md:justify-between w-full space-x-[24px] rtl:space-x-reverse"
 >>>>>>> fb5a24abc521c4c3c17542315d6226286e4dfe70
       >
-        <div class="w-full">
+        <div class="lg:w-[80%] w-full">
           <div class="py-[17px] search_input">
             <input
               type="text"
-              class="input_dashboard_search w-full"
+              class="input_dashboard_search lg:w-[80%] w-full"
               v-model="search"
               :placeholder="`${$t('Search')} ...`"
             />
@@ -535,7 +535,7 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div
-          class="!mx-auto flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[5px] justify-center flex-wrap md:flex-nowrap"
+          class="!mx-auto md:!me-0 md:!ms-6 flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[5px] justify-center flex-wrap md:flex-nowrap"
         >
           <div
             @click="changePeriod(0)"
@@ -620,10 +620,14 @@ const openInvestor = (app, pack) => {
           </div>
           <div class="relative rounded-xl mt-[19px]">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div class="overflow-y-auto">
 =======
             <div class="overflow-x-auto">
 >>>>>>> fb5a24abc521c4c3c17542315d6226286e4dfe70
+=======
+            <div class="">
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               <table
                 class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey"
               >
@@ -776,7 +780,8 @@ const openInvestor = (app, pack) => {
                       </div>
                     </td>
                     <td
-                      class="text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="text-[14px]
+                       leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       <div
                         class="flex items-center justify-center rtl:space-x-reverse space-x-[8px] rtl:pl-[12px] ltr:pr-[12px]"
@@ -844,7 +849,9 @@ const openInvestor = (app, pack) => {
 
                           <!-- Tooltip -->
                           <div
-                            class="absolute bottom-[-25px] rtl:left-[20%] ltr:right-[20%] w-[100px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200"
+                            class="absolute bottom-[-25px] rtl:left-[20%] ltr:right-[20%] w-[100px]
+                             bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500]
+                              rounded-md py-1 hidden group-hover:block transition-opacity duration-200 z-[500]"
                           >
                             {{ $t("Upgrade Package") }}
                           </div>
@@ -942,7 +949,7 @@ const openInvestor = (app, pack) => {
                           @click="
                             () => {
                               currentApp = sub.name;
-                              currentInvoice = sb.invoice_name;
+                              currentInvoice = sb.package_name;
                               openModal('cancel_subscription_subs');
                             }
                           "
@@ -1002,7 +1009,7 @@ const openInvestor = (app, pack) => {
           class="flex mt-[42px] flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
           v-for="t in 3"
         >
-          <div class="relative overflow-x-auto w-full">
+          <div class="relative  lg:overflow-x-hidden overflow-x-auto w-full">
             <table
               class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
             >

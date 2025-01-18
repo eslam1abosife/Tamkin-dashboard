@@ -126,6 +126,7 @@ import "vue-loading-overlay/dist/css/index.css";
               :animationData="AuthJson"
               :width="authWidth"
               :height="authHeight"
+              renderer="svg"
               class="absolute inset-x-0 top-[50px] ipad-max:top-[40px]"
             />
           </div>

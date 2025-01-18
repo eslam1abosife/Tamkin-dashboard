@@ -21,7 +21,11 @@ watch(width, (newWidth) => {
     chart14.value.chart.resize(50, 50);
   }
 });
-
+const translationPercentage = computed(() => {
+  const translated = Number(statsStore.translation_quality.translated_content)
+  const total = Number(statsStore.sign_languageStats.total)
+  return total > 0 ? ((translated / total) * 100).toFixed(0) : 0
+})
 const collapseStore = useCollapseStore();
 
 const chartData = ref({
@@ -280,11 +284,11 @@ const options = ref({
       class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('translation_acc_card')"
     >
-      <div class="flex items-center justify-between space-x-[40px]">
+      <div class="flex items-center justify-between rtl:space-x-reverse space-x-[40px]">
         <div
           class="h-[92px] w-full rounded-[23px] dark:bg-p dark:text-whiteTamkin bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
-          <div class="flex items-center justify-start space-x-[4px]">
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#71DAD2] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
               {{ $t('Total') }}
@@ -298,7 +302,7 @@ const options = ref({
         <div
           class="h-[92px] w-full rounded-[23px] dark:bg-p bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
-          <div class="flex items-center justify-start space-x-[4px]">
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#FFBA6B] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
               {{$t('Used')}}
@@ -313,7 +317,7 @@ const options = ref({
         <div
           class="h-[92px] w-full rounded-[23px] dark:bg-p bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]"
         >
-          <div class="flex items-center justify-start space-x-[4px]">
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
             <div class="bg-[#A35EFE] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
               {{$t('Remaining')}}
@@ -342,10 +346,10 @@ const options = ref({
                 </h2>
                 <h1 class="text-[20px] font-[600] text-black leading-[30px]">
                              {{ statsStore.translation_quality.translated_content }}
-                {{ $t('words') }}
+                {{ $t('Words') }}
                 </h1>
               </div>
-              <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
                 <Line
                   ref="chart13"
                   :data="chartData"
@@ -369,10 +373,10 @@ const options = ref({
                 </h2>
                 <h1 class="text-[20px] font-[600] text-black leading-[30px]">
                   {{ statsStore.translation_quality.untranslated_content }}
-                  {{ $t('words') }}
+                  {{ $t('Words') }}
                 </h1>
               </div>
-              <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
                 <Line
                   ref="chart14"
                   :data="chartData2"
@@ -387,17 +391,17 @@ const options = ref({
         <div class="flex flex-col items-center justify-start">
          
           <div class="  mt-[-20px] ipad-max:mx-auto w-1/4 flex justify-center">
-            <CircularProgressBar :initial-percentage="45"
-             :total="'2004'"/>
+            <CircularProgressBar :initial-percentage="translationPercentage" 
+             :total="`${statsStore.sign_languageStats.total}`" class="!w-[200px] !h-[200px]"/>
                   </div>
           <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328]">
-            {{ $t('Translation accuracy') }}
+            {{ $t('Translation Accuracy') }}
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else
+  <div velse
   class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
 >
   <div class="flex items-center justify-start">
@@ -410,7 +414,7 @@ const options = ref({
   <div
     class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
   >
-    <div class="flex items-center justify-between space-x-[40px]">
+    <div class="flex items-center justify-between rtl:space-x-reverse space-x-[40px]">
       <div
         class="h-[92px] w-full rounded-[23px] bg-gray-300 dark:bg-gray-700 flex flex-col items-center justify-center space-y-[10px]"
       >
@@ -434,7 +438,7 @@ const options = ref({
     <div class="flex items-center justify-between w-full mt-[66px]">
       <div class="grid grid-cols-12 w-full">
         <div
-          class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
+          class="rounded-[10px] col-span-12 "
         >
           <div
             class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
@@ -446,7 +450,7 @@ const options = ref({
           </div>
         </div>
         <div
-          class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
+          class="rounded-[10px] col-span-12 "
         >
           <div
             class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
@@ -459,14 +463,7 @@ const options = ref({
         </div>
       </div>
 
-      <div class="flex flex-col items-center justify-start">
-        <div class="w-1/4 flex justify-center">
-          <div
-            class="rounded-full bg-gray-300 dark:bg-gray-700 h-[80px] w-[80px]"
-          ></div>
-        </div>
-        <div class="h-[18px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3 mt-[10px]"></div>
-      </div>
+ 
     </div>
   </div>
 </div>

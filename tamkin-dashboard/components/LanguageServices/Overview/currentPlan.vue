@@ -147,7 +147,8 @@ const getCurrentAccessPackage = computed(() => {
           </button>
         </div>
         <div
-          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9]"
+          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r
+          from-[#423568]  to-[#26687945]/[27%] t "
         >
           <div
             class="flex flex-col items-start justify-center w-full px-[15px]"
@@ -256,10 +257,10 @@ const getCurrentAccessPackage = computed(() => {
           <div
             class="rtl:mr-auto rtl:scale-x-[-1] ltr:ml-auto h-full w-full lg:block hidden"
           >
-            <img
-              src="/assets/imgs/overview/current_plan_upgrade.svg"
+            <!-- <img
+              src="/imgs/vector_plan.png"
               class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
-            />
+            /> -->
           </div>
         </div>
 

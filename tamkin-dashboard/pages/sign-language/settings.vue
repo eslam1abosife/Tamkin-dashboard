@@ -86,7 +86,7 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
-
+const loadingplayerdata = ref(true)
 onBeforeMount(() => {
   [
     "deaf-setting-general-settings-player-enabled-on-this-site",
@@ -102,6 +102,7 @@ onBeforeMount(() => {
   ]);
 
   getPlayerData();
+  loadingplayerdata.value = false
 });
 const deleteSite = async () => {
   try {
@@ -642,7 +643,7 @@ const getSettingsValue = (name: any) => {
                   class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
                 >
                   <div
-                    class="flex items-center justify-start space-x-[13px] w-full"
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
                   >
                     <div
                       class="flex flex-col items-start justify-center w-full"
@@ -654,7 +655,7 @@ const getSettingsValue = (name: any) => {
                         <span>{{ $t(item.label) }}</span>
                       </div>
                     </div>
-                    <div class="ml-auto">
+                    <div class="rtl:mr-auto ltr:ml-auto">
                       <label :for="item.name" class="toggle_wrap">
                         <input
                           type="checkbox"
@@ -893,7 +894,7 @@ const getSettingsValue = (name: any) => {
                 "
               />
               <button
-                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
+                class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group mb-[4px]"
                 @click="openModal('resetModal', 'settings')"
               >
                 <div>

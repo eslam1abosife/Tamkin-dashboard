@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const { locale, t } = useI18n();
-
+const navbarStore = useNavbarStore();
 import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
@@ -205,45 +205,46 @@ watch(eventCounter, async () => {
 
     // Log the current app and default app names
     console.log("Current App Name:", currAppName.value);
-    console.log("Default App Name:", defaultApp.value.name);
+    // console.log("Default App Name:", defaultApp.value.name);
 
     // Check if the current app being deleted is the default app
-    if (currAppName.value.name === defaultApp.value.name) {
-      const currentIndex = appList.value.findIndex(
-        (app) => app.title === currAppName.value.title
-      );
+    // if (currAppName.value.name === defaultApp.value.name) {
+    //   const currentIndex = appList.value.findIndex(
+    //     (app) => app.title === currAppName.value.title
+    //   );
 
-      let nextApp = null; // Set the next app to null (empty)
+    //   let nextApp = null; // Set the next app to null (empty)
 
-      // Log the current index and app list
-      console.log("Current Index:", currentIndex);
-      console.log("App List:", appList.value);
+    //   // Log the current index and app list
+    //   console.log("Current Index:", currentIndex);
+    //   console.log("App List:", appList.value);
 
-      // Check if the app being deleted is the last one in the list
-      if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
-        // No need to find a specific app, just set it to null
-        nextApp = "";
-      } else {
-        // Otherwise, set the next app in the list as nextApp
-        nextApp = appList.value[currentIndex + 1];
-      }
+    //   // Check if the app being deleted is the last one in the list
+    //   if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
+    //     // No need to find a specific app, just set it to null
+    //     nextApp = "";
+    //   } else {
+    //     // Otherwise, set the next app in the list as nextApp
+    //     nextApp = appList.value[currentIndex + 1];
+    //   }
 
-      // Log next app and update the default app if valid
-      console.log("Next App Before Updating Default:", nextApp);
+    //   // Log next app and update the default app if valid
+    //   console.log("Next App Before Updating Default:", nextApp);
 
-      // If nextApp is valid, set it as default. Otherwise, set it to null (empty).
-      if (nextApp) {
-        console.log("Calling updateDefaultApp with:", nextApp.name);
-        await updateDefaultApp(nextApp.name);
-      } else {
-        console.log("No valid next app found. Setting default to empty.");
-        await updateDefaultApp(""); // Set the default app to empty
-      }
-    }
+    //   // If nextApp is valid, set it as default. Otherwise, set it to null (empty).
+    //   if (nextApp) {
+    //     console.log("Calling updateDefaultApp with:", nextApp.name);
+    //     // await updateDefaultApp(nextApp.name);
+    //   } else {
+    //     console.log("No valid next app found. Setting default to empty.");
+    //     // await updateDefaultApp(""); // Set the default app to empty
+    //   }
+    // }
 
     // Delete the app
     await deleteApp(currAppName.value.name);
     console.log("App deleted, proceeding to update default app.");
+    await getApps();
 
     // Close modal and update UI
     closeModal("deleteApp");
@@ -780,7 +781,7 @@ const openInvestor = (app, pack) => {
             </div>
           </div>
           <div
-            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#977474] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
+            class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] dark:from-[#977474] px-[10px] py-[4.5px] relative to-white dark:to-tamkinDarkPrimary flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("Not installed") }}
@@ -800,6 +801,7 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
+<<<<<<< HEAD
           <!-- <img
             src="imgs/mysite_dark.png"
             alt=""
@@ -810,6 +812,13 @@ const openInvestor = (app, pack) => {
             alt=""
             class="h-full w-[210px] rtl:scale-x-[-1] dark:hidden"
           /> -->
+=======
+          <img
+            :src="`/imgs/${navbarStore.isDark ? 'mysite_dark.png' : 'mysite.svg'}`"
+            alt=""
+            class="h-full w-[210px] rtl:scale-x-[-1]"
+          />
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
         </div>
       </div>
     </div>
@@ -923,7 +932,7 @@ const openInvestor = (app, pack) => {
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div
-                class="flex items-start justify-start lg:justify-between flex-row"
+                class="flex items-start justify-start lg:justify-between flex-row gap-4 md:gap-0"
               >
                 <div
                   class="flex items-start rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
@@ -938,7 +947,7 @@ const openInvestor = (app, pack) => {
                           ? 'border-b-[3px] border-tamkin  font-[600] '
                           : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
+                      class="text-[14px] px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
                       {{ $t("My Sites") }} (
@@ -962,7 +971,7 @@ const openInvestor = (app, pack) => {
                           ? 'border-b-[3px] border-tamkin  font-[600]'
                           : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
+                      class="text-[14px] px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
                       {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
@@ -1029,7 +1038,7 @@ const openInvestor = (app, pack) => {
                     >
                       <input
                         type="text"
-                        class="input_dashboard_search w-full !h-[40px]"
+                        class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset]"
                         v-model="search"
                         :placeholder="`${$t('Search')} ...`"
                       />
@@ -1175,19 +1184,27 @@ const openInvestor = (app, pack) => {
                     v-for="(app, index) in paginatedFilteredAppList"
                     :key="index"
                   >
+                  
                     <tr
                       :id="app.name"
                       class="h-[50px] dark:bg-tamkinDarkPrimary dark:border-darkborder"
                       :class="[
                         app.package &&
                         app.package[0] &&
-                        ((app.package[0].status === 'not_installed' &&
-                          new Date() < new Date(app.package[0].endpackage) &&
-                          app.package[0].type !== 'Investors') ||
-                          (app.package[0].type === 'Investors' &&
-                            app.package[0].status === 'not_installed'))
-                          ? '!bg-[#FAEBEB] dark:!bg-[#bb8181]'
+                        (
+                          (
+                            app.package[0].status === 'not_installed' &&
+                           
+                            app.package[0].type !== 'Investors'
+                          ) ||
+                          (
+                            app.package[0].type === 'Investors' &&
+                            app.package[0].status === 'not_installed'
+                          )
+                        )
+                          ? '!bg-[#FAEBEB] dark:!bg-[#977474]'
                           : '',
+                        
 
                         mysiteStore.selectedApp &&
                         mysiteStore.selectedApp.name === app.name
@@ -2209,7 +2226,7 @@ const openInvestor = (app, pack) => {
                           "
                           @click.stop="
                             () => {
-                              mysiteStore.currentInvoice = pk.invoice_name;
+                              mysiteStore.currentInvoice = pk.package_name;
                               mysiteStore.currentWebsite = apps.find(
                                 (a) => a.title === 'Internal Service'
                               );

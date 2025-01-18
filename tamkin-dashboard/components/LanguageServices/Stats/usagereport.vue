@@ -206,7 +206,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-between space-x-[6px]">
+            <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
               <span
                 style="
                   background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
@@ -226,7 +226,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center space-x-[6px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -243,7 +243,7 @@ const accuracy = computed(() => {
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center space-x-[6px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -283,6 +283,7 @@ const accuracy = computed(() => {
       <!-- Menu Button Placeholder -->
     </div>
 
+<<<<<<< HEAD
     <!-- Content Section -->
     <div
       class="w-full mt-[24px] mx-auto overflow-hidden bg-white dark:bg-tamkinDarkPrimary rounded-lg"
@@ -310,10 +311,36 @@ const accuracy = computed(() => {
                 class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
               ></span>
             </div>
+=======
+      <!-- Stats Placeholder -->
+      <div class="flex items-start w-full justify-evenly pt-[16px]">
+        <!-- Placeholder for Each Stat -->
+        <div
+          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+        >
+          <!-- Icon and Text Placeholder -->
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
+            <span
+              class="block w-3 h-3 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto"
+            ></span>
+            <span
+              class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
+            ></span>
+          </div>
+          <span
+            class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
+          ></span>
+        </div>
+        <div
+          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+        >
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
             <span
               class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
             ></span>
           </div>
+<<<<<<< HEAD
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
@@ -325,6 +352,16 @@ const accuracy = computed(() => {
                 class="h-[14px] w-[100px] bg-gray-300 dark:bg-gray-700 rounded"
               ></span>
             </div>
+=======
+          <span
+            class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
+          ></span>
+        </div>
+        <div
+          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+        >
+          <div class="flex items-center justify-between space-x-[6px] rtl:space-x-reverse">
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
             <span
               class="block h-[18px] w-[60px] bg-gray-300 dark:bg-gray-700 rounded"
             ></span>

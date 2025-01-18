@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
   <div class="no-data-container min-h-[200px] mt-10">
     <img class="w-[105px] h-[60px] block mx-auto" :class="!$slots.button && 'w-[115px] h-[70px]'" :src="imgUrl ? imgUrl : '/assets/imgs/no-data-found.svg'" alt="">
-    <h6 class="no-data-text mt-2 !text-[15px] font-medium dark:text-white" :class="!$slots.button && '!text-[16px]'">{{ $t(text) }}</h6>
+    <h6 class="no-data-text mt-2 !text-[15px] font-medium dark:!text-white/70" :class="!$slots.button && '!text-[16px]'">{{ $t(text) }}</h6>
     <div class="mt-2 p-0 mb-8 " :class="!$slots.button ? '!mt-1' : '!mt-8'">
       <slot name="button" />
       <p v-if="showSubText" class="text-xs text-gray-500">{{$t('It seems we can’t find any results based on your search.')}}</p>

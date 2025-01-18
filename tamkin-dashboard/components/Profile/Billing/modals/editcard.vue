@@ -143,7 +143,7 @@ watch(eventCounter, async () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-center fixed z-[9999] top-1/6 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[24px] w-[700px] lg:h-auto"
+    class="md:max-w-[unset] max-w-[97%] flex flex-col items-start justify-center fixed z-[9999] top-1/6 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[24px] w-[700px] lg:h-auto"
     style="left: 50%; transform: translate(-50%, 0)"
     v-if="isModalOpen('edit_card_billing_profile')"
   >

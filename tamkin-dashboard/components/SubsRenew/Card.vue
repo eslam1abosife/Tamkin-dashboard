@@ -4,6 +4,7 @@ import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useRenewAll, useGetRenewdetails } from "@/composables/usePackages";
 import { useCouponCode } from "@/composables/useMarket";
 const { locale } = useI18n();
+const navbarStore = useNavbarStore();
 const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 const { detailsRenew, messageData: rn, codeStatus: rr } = useGetRenewdetails();
 
@@ -141,7 +142,7 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
+    const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
     
     urlPayment.value = resTheme;
 
@@ -422,7 +423,9 @@ onBeforeUnmount(() => {
                 "
               >
                 <div class="cursor-pointer">
-                  <img src="/assets/imgs/payment_methods/new_card.svg" />
+                                    <img v-if="navbarStore.isDark" src="/assets/imgs/payment_methods/new_card_dark.svg" />
+                  <img v-else src="/assets/imgs/payment_methods/new_card.svg" />
+
                 </div>
                 <div
                   class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
@@ -604,7 +607,7 @@ onBeforeUnmount(() => {
                     :placeholder="$t('Promo Code')"
                     :class="[
                       subsStore.validPromo
-                        ? '!bg-[#E8F8F6] !text-[#E8F8F6] '
+                        ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
                         : '',
                       subsStore.noDiscount
                         ? '!bg-red-500/10 !text-red-500 !border-red-500'
@@ -617,8 +620,8 @@ onBeforeUnmount(() => {
                     v-if="subsStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[15px] font-[500] text-darkGrey">
-                      <span class="text-[#021328] font-[700]"
+                    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                      <span class="text-[#021328] font-[700] dark:text-white"
                         >{{ subsStore.currentDiscount }}%</span
                       >
                       {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})

@@ -9,6 +9,10 @@ const props = defineProps({
 const openModalFromLocked = () => {
   openModal("upgrade_no_package");
 };
+
+onMounted(() => {
+  
+});  
 </script>
 
 <template>

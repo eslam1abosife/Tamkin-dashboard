@@ -166,13 +166,23 @@ const navStore = useNavbarStore();
            v-if="!navStore.defaultappobj"
       />
       <div v-else>
-        <StatisticsChart />
+        <div class="flex flex-col items-center justify-center mt-[44px] space-y-[30px] "
+        v-if=" statsStore.loadingStats">
+
+        <div class="bg-gray-300 w-full h-[462px] animate-pulse rounded-[10px]" v-for="i in 4">
+
+        </div>
+       </div>
+
+         <div v-else-if="!statsStore.loadingStats" class="w-full h-full">
+          <StatisticsChart />
 
         <StatisticsUsagebyfunction />
         <StatisticsUsagebyprofile />
         <!-- <StatisticsEnablegoogleanalytics /> -->
 
         <StatisticsLivetranslation />
+        </div>
       </div>
     </div>
   </div>

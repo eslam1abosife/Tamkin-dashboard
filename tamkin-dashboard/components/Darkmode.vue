@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-const colorMode = useColorMode();
 
+const colorMode = useColorMode();
+const navbarStore = useNavbarStore();
 const changeColorMode = (mode: any) => {
   colorMode.preference = mode;
+  navbarStore.isDark = mode === 'dark' ? true : false;
 };
 </script>
 

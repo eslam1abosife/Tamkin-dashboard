@@ -1,14 +1,23 @@
 <script lang="ts" setup>
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const { locale } = useI18n();
-
+const addSiteStore = useAddSiteStore();
 const route = useRoute();
 
 const localePath = useLocalePath();
 
 const { getAvatarLetters } = useGetAvatarLetters();
+
 const formatToUrl = (domain) => {
   // Check if the domain starts with "http://" or "https://"
   if (!/^https?:\/\//i.test(domain)) {
@@ -33,27 +42,37 @@ const mySiteStore = useMySiteStore();
 const switchBetweenMonthlyAndAnnual = (v: any) => {
   packagesStore.discountType = v;
 };
-
-onMounted(async () => {
+const getApps = async () => {
+  mySiteStore.loadingApps = true;
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getInviteApps({ agency: user.agency });
+  mySiteStore.loadingApps = false;
+};
+onBeforeMount(async () => {
+// await getApps();
   await packagesStore.getDataPackage();
   await addSiterStore.getPackages();
+
   loadingDataModal.value = false;
+  mySiteStore.currentWebsite= defaultApp.value
+
+
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]
 });
-const sortedPlans = computed(() => {
-  const desiredType = "Sign language";
+// const sortedPlans = computed(() => {
+//   const desiredType = "Sign language";
 
-  const specificTypePackages = addSiterStore.packages
-    .filter((pkg) => pkg.type === desiredType)
+//   const specificTypePackages = addSiterStore.packages
+//     .filter((pkg) => pkg.type === desiredType)
 
-    .slice(0, 3);
+//     .slice(0, 3);
 
-  const otherPackages = addSiterStore.packages
-    .filter((pkg) => pkg.type !== desiredType)
-    .slice(0, 3);
+//   const otherPackages = addSiterStore.packages
+//     .filter((pkg) => pkg.type !== desiredType)
+//     .slice(0, 3);
 
-  return [...specificTypePackages, ...otherPackages];
-});
+//   return [...specificTypePackages, ...otherPackages];
+// });
 
 // const selectPlan = async (plan: any) => {
 //   selectedPlan.value = plan;
@@ -83,6 +102,9 @@ const isLinkActive = (path) => {
 
   return regex.test(currentPath);
 };
+
+
+
 </script>
 
 <template>
@@ -254,10 +276,7 @@ const isLinkActive = (path) => {
             </div>
           </button>
         </div>
-
-        <div class="w-full" v-if="!loadingDataModal">
-          <MySitePricingnopackage />
-        </div>
+          <MySitePricingnopackage v-if="!loadingDataModal && addSiteStore.getSortedPackagesAddSite.length > 0"/>
 
         <div
           v-else

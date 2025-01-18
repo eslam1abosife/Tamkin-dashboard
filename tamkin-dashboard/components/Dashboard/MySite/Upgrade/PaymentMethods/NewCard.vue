@@ -713,12 +713,12 @@ const checkInput = (event) =>{
             class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
           v-model="promo"
             placeholder="Promo Code"
-            :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+            :class="[validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '']"
           />
          <div class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] 
          flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="validPromo">
           <img  src="/assets/imgs/promo_valid.svg" />
-          <div class="text-[15px] font-[500] text-darkGrey ">
+          <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70 ">
                   <span class="text-[#021328]  font-[700]">12%</span> Discount (-$2,444 )
           </div>
           <img  src="/assets/imgs/promo_valid_.svg" class="" />

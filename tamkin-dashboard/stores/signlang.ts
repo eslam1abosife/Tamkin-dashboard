@@ -35,7 +35,7 @@ export const useSignLangStore = defineStore("signLanguage", {
       this.routeLeaveModal = false;
     },
     initializeCheckboxes(names: string[]) {
-      this.checkboxes = names.map((name) => ({ name, value: false }));
+      this.checkboxes = names.map((name) => ({ name}));
       this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes)); // Deep copy the initial state
     },
     isChecked(name: string) {
@@ -46,7 +46,7 @@ export const useSignLangStore = defineStore("signLanguage", {
     },
     addCheckbox(name: string) {
       if (!this.checkboxes.some((checkbox) => checkbox.name === name)) {
-        const newCheckbox = { name, value: false };
+        const newCheckbox = { name };
         this.checkboxes.push(newCheckbox);
         this.initialCheckboxes.push(newCheckbox);
       }

@@ -339,8 +339,28 @@ const runtimeconfig = useRuntimeConfig();
                 class="animate-pulse dark:bg-p bg-gray-300 rounded-full h-[24px] w-[24px]"
               ></div>
               <div
+<<<<<<< HEAD
                 class="animate-pulse dark:bg-p bg-gray-300 rounded-full h-[24px] w-[24px]"
               ></div>
+=======
+                class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] dark:bg-p rounded-[9px]"
+              >
+                <div
+                  v-if="!profileStore.loadingProfile"
+                  class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light dark:shadow-tamkinDarkPrimary"
+                  :style="`width: ${score}%;`"
+                ></div>
+                <div
+                  v-else
+                  class="h-[8px] dark:bg-p bg-gray-300 rounded-[9px] animate-pulse"
+                ></div>
+              </div>
+              <span
+                v-if="!profileStore.loadingProfile"
+                class="rtl:mr-2 ltr:ml-2 dark:text-whiteTamkin text-black font-[500] text-[12px] leading-[21px]"
+                >{{ score }}%</span
+              >
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               <div
                 class="animate-pulse dark:bg-p bg-gray-300 rounded-full h-[24px] w-[24px]"
               ></div>

@@ -7,6 +7,7 @@ import { useWindowSize } from "@vueuse/core";
 import { ar } from "date-fns/locale";
 
 import { useDownloadSignLangCSV } from "~/composables/useAccessibility";
+const {t,locale} = useI18n()
 const { downloadSignLangChartCsv } = useDownloadSignLangCSV();
 const isOpen = ref(false);
 const localePath = useLocalePath();
@@ -278,7 +279,7 @@ watchEffect(() => {
       labels: sortedData.map((t: any) => t.date),
       datasets: [
         {
-          label: "Player Load",
+          label: t("Player Load"),
           data: sortedData.map((t: any) => t.count),
           borderColor: (ctx) => {
         const chart = ctx.chart;
@@ -324,7 +325,7 @@ watchEffect(() => {
       labels: sortedData.map((t: any) => t.date),
       datasets: [
         {
-          label: "Player Opens",
+          label: t("Player Opens"),
           data: sortedData.map((t: any) => t.count),
           borderColor: (ctx) => {
         const chart = ctx.chart;
@@ -487,8 +488,8 @@ function getLoadsCountSummary(
     : interval;
 
   return {
-    loadscountSummary: `${loadscountResult.currentTotal} Times during ${period}`,
-    opencountSummary: `${opencountResult.currentTotal} Times during ${period}`,
+    loadscountSummary: `${loadscountResult.currentTotal} ${t('Times during')} ${period}`,
+    opencountSummary: `${opencountResult.currentTotal} ${t('Times during')} ${period}`,
   };
 }
 // Computed properties for summary calculations
@@ -698,7 +699,6 @@ const loadscountSummary = computed(
                 :format="format"
                 :locale="locale"
                 :format-locale="locale === 'ar' ? ar : ''"
-                format="E"
                 :position="langStore.direction === 'rtl' ? 'right' : 'left'"
                 :auto-position="false"
                 range
@@ -837,7 +837,7 @@ const loadscountSummary = computed(
                         ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600  bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                     role="menuitem"
                     @click="selectOption('7 Days')"
                     >{{ $t("7 Days") }}</a
@@ -848,7 +848,7 @@ const loadscountSummary = computed(
                         ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                     role="menuitem"
                     @click="selectOption('14 Days')"
                     >{{ $t("14 Days") }}</a
@@ -859,13 +859,13 @@ const loadscountSummary = computed(
                         ? 'custom-border-tamkin padding-override-1 no_bottom dark:bg-gray-600 bg-tamkinLight'
                         : '',
                     ]"
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                     role="menuitem"
                     @click="selectOption('1 Month')"
                     >{{ $t("1 Month") }}</a
                   >
                   <a
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                     role="menuitem"
                     :class="[
                       selectedInterval === '2 Months'
@@ -876,7 +876,7 @@ const loadscountSummary = computed(
                     >{{ $t("2 Months") }}</a
                   >
                   <a
-                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight"
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:dark:bg-gray-600 hover:bg-tamkinLight cursor-pointer"
                     role="menuitem"
                     :class="[
                       selectedInterval === '3 Months'
@@ -1059,7 +1059,7 @@ const loadscountSummary = computed(
   </div>
 </template>
 
-<style>
+<style >
 .bg_interval_open {
   @apply !text-white bg-gradient-to-b from-tamkinStart to-tamkinEnd dark:bg-tamkinDarkPrimary;
 
@@ -1078,11 +1078,13 @@ const loadscountSummary = computed(
   focus:!outline-0;
 }
 .dp__pointer::placeholder {
-  @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins];
+  @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins] rtl:font-[Almarai];
 }
-
+.tamkin_date_input::placeholder {
+  @apply ltr:font-[Poppins] rtl:!font-[Almarai];
+}
 .dp__input.dp__input_icon_pad.dp__input_focus {
-  @apply !outline-0 !ring-0 !border-[1px] !border-[#585B5B8C];
+  @apply !outline-0 !ring-0 !border-[1px] !border-[#585B5B8C] font-[Poppins] rtl:font-[Almarai];
 }
 .dp__input {
   @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px];
@@ -1198,5 +1200,15 @@ const loadscountSummary = computed(
   --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
   --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
   --dp-range-between-border-color: var(--dp-hover-color, #fff);
+}
+.dp__calendar_header_item {
+  @apply !text-[12px] ;
+}
+:root[dir="rtl"] {
+  --dp-font-family: "Almarai", sans-serif !important;
+}
+
+.dp__pointer::placeholder {
+  @apply rtl:!font-[Almarai] ;
 }
 </style>

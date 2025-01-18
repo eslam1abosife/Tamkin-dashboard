@@ -16,9 +16,20 @@ function formatNumber(value) {
   }
 }
 function calculatePercentage(total, usage) {
+<<<<<<< HEAD
   return ((usage / total) * 100).toFixed(0);
 }
 const navStore = useNavbarStore();
+=======
+  if (!total || total <= 0 || isNaN(total) || isNaN(usage)) {
+    return 0;
+  }
+  return ((usage / total) * 100).toFixed(0);
+}
+
+const navStore = useNavbarStore()
+
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
 </script>
 
 <template>
@@ -334,6 +345,7 @@ const navStore = useNavbarStore();
       v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
       class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
     >
+<<<<<<< HEAD
       <div class="h-full mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
         <Circularprogressbar
           :initial-percentage="
@@ -344,6 +356,13 @@ const navStore = useNavbarStore();
           "
           :total="formatNumber(statsStore.overviewStats.total)"
         />
+=======
+     
+      <div class="h-full  mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
+<CircularProgressBar :showtotal="true" textsize="20px" class="!w-[200px] !h-[200px]"
+ :initial-percentage="calculatePercentage(statsStore.overviewStats.total.toFixed(0), statsStore.overviewStats.usage.toFixed(0))"
+ :total="statsStore.overviewStats.total.toFixed(0)"/>
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
       </div>
 
       <div
@@ -407,13 +426,18 @@ const navStore = useNavbarStore();
           >
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
                 {{ $t("Average Daily") }}
               </div>
+<<<<<<< HEAD
               <span
                 class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >{{ statsStore.overviewStats.liveTranslation.daily.max }}</span
+=======
+              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{statsStore.overviewStats.liveTranslation.daily.max}}</span
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -436,15 +460,20 @@ const navStore = useNavbarStore();
           >
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
                 {{ $t("Average Weekly") }}
               </div>
+<<<<<<< HEAD
               <span
                 class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >{{
                   statsStore.overviewStats.liveTranslation.weeckly.max
                 }}</span
+=======
+              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{statsStore.overviewStats.liveTranslation.weeckly.max}}</span
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -466,13 +495,18 @@ const navStore = useNavbarStore();
           >
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="lg:w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
                 {{ $t("Average Monthly") }}
               </div>
+<<<<<<< HEAD
               <span
                 class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >{{ statsStore.overviewStats.liveTranslation.mount.max }}</span
+=======
+              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{statsStore.overviewStats.liveTranslation.mount.max}}</span
+>>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">

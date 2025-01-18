@@ -5,7 +5,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { Chart as ChartJS, registerables } from "chart.js";
 
 import shadowPlugin from "@/chartjs/plugins/shadowPlugin.js"; // Adjust the path if necessary
-
+const {t} = useI18n()
 const collapseStore = useCollapseStore();
 
 ChartJS.register(...registerables, shadowPlugin);
@@ -52,14 +52,13 @@ if (statsStore.translation_quality) {
     ?.slice()
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  if (sortedtranslated?.length) {
     chartData.value = {
-      labels: sortedtranslated.map((t) => t.date),
-      datasets: [
-        {
-          label: "Translated Words",
-          data: sortedtranslated.map((t) => t.count),
-          borderColor: (ctx) => {
+  labels: sortedtranslated.length > 0 ? sortedtranslated.map((t) => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
+  datasets: [
+    {
+      label: t("Translated Words"),
+      data: sortedtranslated.length > 0 ? sortedtranslated.map((t) => t.count) : [1, 1, 1, 1,1,1,1,1], // Default non-zero value for the line to be visible
+      borderColor: (ctx) => {
         const chart = ctx.chart;
         const { ctx: canvasCtx, chartArea } = chart;
         if (!chartArea) {
@@ -77,21 +76,24 @@ if (statsStore.translation_quality) {
         gradient.addColorStop(0, "#2DADA3"); // Start color
         gradient.addColorStop(1, "#71DAD2"); // End color
         return gradient;
-      },           backgroundColor: "rgba(75, 192, 192, 0.2)",
-          fill: false,
-          tension: 0.4,
-        },
-      ],
-    };
-  } 
+      },
+      backgroundColor: "rgba(75, 192, 192, 0.2)",
+      fill: false,
+      tension: 0, // Ensures the line is perfectly straight
+      borderWidth: 2, // Ensure the line is visible
+      pointRadius: 0, // Optional: Hide points if you only want the line
+    },
+  ],
+};
+
+
   
-  if (sorteduntranslated?.length) {
     chartData2.value = {
-      labels: sorteduntranslated.map((t) => t.date),
+      labels: sorteduntranslated.length > 0 ? sorteduntranslated.map((t) => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
       datasets: [
         {
-          label: "Untranslated Words",
-          data: sorteduntranslated.map((t) => t.count),
+          label: t("Untranslated Words"),
+          data: sortedtranslated.length > 0 ? sorteduntranslated.map((t) => t.count) : [1, 1, 1, 1,1,1,1,1],
           borderColor: (ctx) => {
         const chart = ctx.chart;
         const { ctx: canvasCtx, chartArea } = chart;
@@ -116,12 +118,11 @@ if (statsStore.translation_quality) {
         },
       ],
     };
-  }
 }
 
 });
 const options = ref({
-  responsive: false,
+  responsive: true,
   maintainAspectRatio: true,
   elements: {
     point: {
@@ -185,11 +186,8 @@ const options = ref({
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          {{
-            $t(
-              "Select Date Range specifies start and end dates to analyze or display data."
-            )
-          }}
+        {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
+
         </p>
       </div>
       <div
@@ -350,16 +348,13 @@ const options = ref({
                 </h2>
                 <h1
                   class="text-[20px] font-[600] text-black leading-[30px]"
-                  v-if="
-                    statsStore.translation_quality &&
-                    statsStore.translation_quality.translated_content
-                  "
+                 
                 >
-                  {{ statsStore.translation_quality.translated_content }}
-                  {{ $t("words") }}
+                  {{ statsStore.translation_quality.translated_content ? statsStore.translation_quality.translated_content : 0 }}
+                  {{ $t("Words") }}
                 </h1>
               </div>
-              <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
                 <Line
                   ref="chart13"
                   :data="chartData"
@@ -381,19 +376,16 @@ const options = ref({
                 </h2>
                 <h1
                   class="text-[20px] font-[600] text-black leading-[30px]"
-                  v-if="
-                    statsStore.translation_quality &&
-                    statsStore.translation_quality.untranslated_content
-                  "
+                
                 >
-                  {{ statsStore.translation_quality.untranslated_content }}
-                  {{ $t("words") }}
+                  {{ statsStore.translation_quality.untranslated_content ? statsStore.translation_quality.untranslated_content : 0 }}
+                  {{ $t("Words") }}
                 </h1>
               </div>
-              <div class="h-[80px] left-1/2 right-0 absolute">
+              <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
                 <Line
                   ref="chart14"
-                  :data="chartData"
+                  :data="chartData2"
                   :options="options"
                   class="h-[80px]"
                 />
@@ -407,14 +399,13 @@ const options = ref({
           v-if="statsStore.translation_quality"
         >
           <CircularProgressBar
-            v-if="accuracy"
             textsize="32px"
-            :initialPercentage="accuracy"
+            :initialPercentage="accuracy? accuracy : 0"
             class=" small_circle !w-[150px] !h-[150px] text-[12px]"
           />
 
           <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin">
-            {{ $t("Translation accuracy") }}
+            {{ $t("Translation Accuracy") }}
           </div>
         </div>
       </div>

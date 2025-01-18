@@ -1132,6 +1132,9 @@ const isAnyLinkActive = computed(() => {
             :class="
               isLinkActive('/profile') ||
               isLinkActive('/packages/*') ||
+              isLinkActive('/packages/accessibility') ||
+              isLinkActive('/packages/bundle') ||
+              isLinkActive('/packages/investors') ||
               isLinkActive('/ar/packages/*') ||
               isLinkActive('/how-to-join')
                 ? ''
