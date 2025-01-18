@@ -16,20 +16,13 @@ function formatNumber(value) {
   }
 }
 function calculatePercentage(total, usage) {
-<<<<<<< HEAD
-  return ((usage / total) * 100).toFixed(0);
-}
-const navStore = useNavbarStore();
-=======
   if (!total || total <= 0 || isNaN(total) || isNaN(usage)) {
     return 0;
   }
   return ((usage / total) * 100).toFixed(0);
 }
 
-const navStore = useNavbarStore()
-
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
+const navStore = useNavbarStore();
 </script>
 
 <template>
@@ -345,24 +338,19 @@ const navStore = useNavbarStore()
       v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
       class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
     >
-<<<<<<< HEAD
       <div class="h-full mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
-        <Circularprogressbar
+        <CircularProgressBar
+          :showtotal="true"
+          textsize="20px"
+          class="!w-[200px] !h-[200px]"
           :initial-percentage="
             calculatePercentage(
-              statsStore.overviewStats.total,
-              statsStore.overviewStats.usage
+              statsStore.overviewStats.total.toFixed(0),
+              statsStore.overviewStats.usage.toFixed(0)
             )
           "
-          :total="formatNumber(statsStore.overviewStats.total)"
+          :total="statsStore.overviewStats.total.toFixed(0)"
         />
-=======
-     
-      <div class="h-full  mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
-<CircularProgressBar :showtotal="true" textsize="20px" class="!w-[200px] !h-[200px]"
- :initial-percentage="calculatePercentage(statsStore.overviewStats.total.toFixed(0), statsStore.overviewStats.usage.toFixed(0))"
- :total="statsStore.overviewStats.total.toFixed(0)"/>
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
       </div>
 
       <div
@@ -380,8 +368,7 @@ const navStore = useNavbarStore()
                 $t("Used")
               }}</span>
             </div>
-            <span
-              class="block text-[12px] md:text-[14px] font-semibold dark:text-whiteTamkin/90"
+            <span class="block text-xl font-semibold dark:text-whiteTamkin/90"
               >{{ statsStore.overviewStats.usage.toFixed(0) }}%</span
             >
           </div>
@@ -391,13 +378,12 @@ const navStore = useNavbarStore()
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
 
-              <span
-                class="text-gray-500 text-[12px] md:text-[14px] dark:text-whiteTamkin"
-                >{{ $t("User Assistance") }}</span
-              >
+              <span class="text-gray-500 dark:text-whiteTamkin">{{
+                $t("User Assistance")
+              }}</span>
             </div>
             <span
-              class="block text-[12px] md:text-[14px] font-semibold dark:text-whiteTamkin/90"
+              class="block text-xl font-semibold dark:text-whiteTamkin/90"
               >{{ statsStore.overviewStats.user }}</span
             >
           </div>
@@ -409,13 +395,12 @@ const navStore = useNavbarStore()
                   background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                 "
               ></span>
-              <span
-                class="text-gray-500 text-[12px] md:text-[14px] dark:text-whiteTamkin"
-                >{{ $t("Pages Translated") }}</span
-              >
+              <span class="text-gray-500 dark:text-whiteTamkin">{{
+                $t("Pages Translated")
+              }}</span>
             </div>
             <span
-              class="block text-[12px] md:text-[14px] font-semibold dark:text-whiteTamkin/90"
+              class="block text-xl font-semibold dark:text-whiteTamkin/90"
               >{{ statsStore.overviewStats.page }}</span
             >
           </div>
@@ -430,14 +415,9 @@ const navStore = useNavbarStore()
               >
                 {{ $t("Average Daily") }}
               </div>
-<<<<<<< HEAD
               <span
-                class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
                 >{{ statsStore.overviewStats.liveTranslation.daily.max }}</span
-=======
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.daily.max}}</span
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -464,16 +444,11 @@ const navStore = useNavbarStore()
               >
                 {{ $t("Average Weekly") }}
               </div>
-<<<<<<< HEAD
               <span
-                class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
                 >{{
                   statsStore.overviewStats.liveTranslation.weeckly.max
                 }}</span
-=======
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.weeckly.max}}</span
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -499,14 +474,9 @@ const navStore = useNavbarStore()
               >
                 {{ $t("Average Monthly") }}
               </div>
-<<<<<<< HEAD
               <span
-                class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
                 >{{ statsStore.overviewStats.liveTranslation.mount.max }}</span
-=======
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.mount.max}}</span
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">

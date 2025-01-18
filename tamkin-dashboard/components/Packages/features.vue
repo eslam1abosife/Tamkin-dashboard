@@ -156,10 +156,10 @@ const openBuyModal = (pck, contact) => {
     </button>
 
     <div
-      class="flex items-center dark:bg-tamkinDarkPrimary dark:text-whiteTamkin justify-center flex-col w-full relative"
+      class="flex items-center dark:text-whiteTamkin justify-center flex-col w-full relative"
     >
       <div
-        class="flex items-center justify-between ipad-max:flex-col dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin ipadmax:justify-center mt-[32px] w-full top-[70px] z-[20]"
+        class="flex items-center p-2 justify-center lg:justify-between lg:flex-row flex-col dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin ipadmax:justify-center mt-[32px] w-full top-[70px] z-[20]"
         :class="[
           packagesStore.currentType.title === 'Sign language'
             ? 'bg-[#F4F8FF]'
@@ -167,18 +167,20 @@ const openBuyModal = (pck, contact) => {
           showAllFeatures ? 'sticky' : '',
         ]"
       >
-        <div class="rtl:text-right ltr:text-left mb-8 w-2/4 ipad-max:w-full">
+        <div
+          class="lg:rtl:text-right lg:ltr:text-left text-center mb-8 w-2/4 ipad-max:w-full"
+        >
           <h2 class="text-lg font-semibold text-black dark:text-whiteTamkin">
             {{ $t("Compare features") }}
           </h2>
         </div>
 
         <div
-          class="flex justify-end divide-x-2 rtl:divide-x-reverse divide-white w-full"
+          class="flex justify-center lg:justify-end divide-x-2 rtl:divide-x-reverse divide-white w-full"
         >
           <!-- Free -->
           <div
-            class="bg-tamkinEnd/30 rtl:rounded-r-xl ltr:rounded-l-xl p-6 w-1/4 ipad-max:w-full text-center"
+            class="bg-tamkinEnd/30 rtl:rounded-r-xl ltr:rounded-l-xl p-6 lg:w-1/4 w-2/6 ipad-max:w-full text-center"
           >
             <div
               class="flex items-center justify-center space-x-2 rtl:space-x-reverse w-full"
@@ -266,7 +268,9 @@ const openBuyModal = (pck, contact) => {
             </button>
           </div>
           <!-- Pro -->
-          <div class="bg-tamkinEnd/30 p-6 w-1/4 ipad-max:w-full text-center">
+          <div
+            class="bg-tamkinEnd/30 p-6 lg:w-1/4 w-2/6 ipad-max:w-full text-center"
+          >
             <div
               class="flex items-center justify-center space-x-2 rtl:space-x-reverse"
             >
@@ -351,7 +355,7 @@ const openBuyModal = (pck, contact) => {
           </div>
           <!-- Teams -->
           <div
-            class="bg-tamkinEnd/30 rtl:rounded-l-xl ltr:rounded-r-xl p-6 w-1/4 ipad-max:w-full text-center"
+            class="bg-tamkinEnd/30 rtl:rounded-l-xl ltr:rounded-r-xl p-6 lg:w-1/4 w-2/6 ipad-max:w-full text-center"
           >
             <div
               class="flex items-center justify-center space-x-2 rtl:space-x-reverse"
@@ -452,7 +456,7 @@ const openBuyModal = (pck, contact) => {
       <div
         v-for="(section, name, index) in filteredSections"
         :key="index"
-        class="w-full"
+        class="w-full overflow-y-auto"
       >
         <div v-if="!showAllFeatures && name === 'addons'">
           <div
@@ -462,9 +466,7 @@ const openBuyModal = (pck, contact) => {
               openedTabs.includes(name) ? 'rounded-t-[10px]' : 'rounded-[10px]',
             ]"
           >
-            <div
-              class="flex items-center justify-center gap-4"
-            >
+            <div class="flex items-center justify-center gap-4">
               <svg
                 v-if="name === 'addons'"
                 xmlns="http://www.w3.org/2000/svg"

@@ -75,11 +75,7 @@ watch([() => route.path, () => width.value], () => {
 <template>
   <div
     ref="navContainer"
-<<<<<<< HEAD
-    class="shadow-sm absolute z-[80] gap-[20px] overflow-y-auto top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px] dark:text-whiteTamkin"
-=======
     class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
   >
     <!-- Slider -->
     <div
@@ -127,21 +123,7 @@ watch([() => route.path, () => width.value], () => {
   @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
-<<<<<<< HEAD
-
-.active_subNavb__div {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar dark:border-0 transition-all ease-out 
-  w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px]  dark:!bg-darkSecondary
-  border-[1px] border-black flex items-center justify-center text-darkGrey dark:!text-white  !text-[13px] font-[500] text-center;
-}
-
-.router-link-active.router-link-exact-active {
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar border dark:border dark:border-white dark:border-solid dark:border-[solid]  dark:text-whiteTamkin/90 transition-all  ease-in w-[100px] lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-   border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
-}
-=======
 */
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
 
 a {
   @apply !text-[13px] font-[500] text-center;

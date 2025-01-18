@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Sign langauge Packages - Tamkin Dashboard"),
-})
+});
 definePageMeta({
   layout: "dashboard",
 });
@@ -76,7 +76,7 @@ onUpdated(() => {
       </div>
 
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12 dark:text-whiteTamkin"
+        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-9/12 md:w-7/12 dark:text-whiteTamkin"
       >
         {{ $t(packagesStore.getTabDetails().description) }}
       </div>
@@ -115,7 +115,7 @@ onUpdated(() => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] lg:top-[90px] top-[170px] sm:top-[150px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"
@@ -141,7 +141,9 @@ onUpdated(() => {
         <div
           class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
         >
-          <div class="text-black dark:text-white font-[800] !text-[10px]">{{ $t("SAVE") }}</div>
+          <div class="text-black dark:text-white font-[800] !text-[10px]">
+            {{ $t("SAVE") }}
+          </div>
           <div class="text-black dark:text-white font-[800] !text-[10px]">
             {{
               packagesStore.types.length
@@ -188,7 +190,7 @@ onUpdated(() => {
           .getAddonsOrExtras('Extra')
           .filter((g) => g.custom_extra_type === 'words').length
       "
-      class="mt-[32px] w-full p-[40px] grid dark:bg-p gap-[30px] grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
+      class="mt-[32px] w-full p-[40px] grid dark:bg-p gap-[30px] grid-cols-1 md:grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
       <div
         v-for="addon in packagesStore

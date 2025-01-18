@@ -35,7 +35,9 @@ const openBuyModal = (pck) => {
       {{ $t("Additional add-ons") }}
     </div>
 
-    <div class="grid gap-4 grid-cols-4 mt-[26px] ipad-max:grid-cols-2 z-50">
+    <div
+      class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[26px] ipad-max:grid-cols-2 z-50"
+    >
       <div
         v-for="addon in packagesStore
           .getAddonsOrExtras('Addons')
@@ -64,7 +66,7 @@ const openBuyModal = (pck) => {
         </div>
 
         <div
-          class="font-[700] text-[14px] text-black absolute lg:bottom-14 dark:text-whiteTamkin 2xl:bottom-16"
+          class="font-[700] text-[14px] text-black absolute bottom-14 lg:bottom-14 dark:text-whiteTamkin 2xl:bottom-16"
         >
           $
           {{

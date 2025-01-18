@@ -331,7 +331,7 @@ function leaveCart(el, done) {
       v-else
     >
       <div
-        class="flex items-center justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]"
+        class="flex items-center overflow-y-auto gap-[25px] justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]"
       >
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
