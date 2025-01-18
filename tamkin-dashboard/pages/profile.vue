@@ -211,6 +211,7 @@ const runtimeconfig = useRuntimeConfig();
       </div>
     </div>
 
+<<<<<<< HEAD
     <div
       class="flex w-full px-6 gap-[40px] ipad-max:gap-4 flex-col md:flex-row"
     >
@@ -239,6 +240,12 @@ const runtimeconfig = useRuntimeConfig();
             !loadingInvestor
           "
           class="bg-white/60 rounded-[10px] dark:bg-tamkinDarkPrimary backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+=======
+    <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px] pt-[20px] md:pt-0">
+      <div class="grid grid-cols-12 md:gap-[40px]">
+        <div
+          class="flex flex-col items-start justify-start space-y-[10px] col-span-12 md:col-span-4"
+>>>>>>> fb5a24abc521c4c3c17542315d6226286e4dfe70
         >
           <div
             class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
@@ -285,6 +292,7 @@ const runtimeconfig = useRuntimeConfig();
           </div>
 
           <div
+<<<<<<< HEAD
             class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
           >
             <div class="flex items-center justify-between w-full">
@@ -310,6 +318,16 @@ const runtimeconfig = useRuntimeConfig();
         >
           <div
             class="w-full flex items-center justify-between rtl:space-x-reverse space-x-[16px]"
+=======
+            v-if="
+              (profileStore.currentTab === 'personal' ||
+                profileStore.currentTab === 'security') &&
+              !packagesStore.investorUser &&
+              !profileStore.loadingProfile &&
+              !loadingInvestor
+            "
+            class="bg-white/60 dark:bg-tamkinDarkPrimary rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative overflow-hidden md:overflow-visible"
+>>>>>>> fb5a24abc521c4c3c17542315d6226286e4dfe70
           >
             <div
               class="animate-pulse dark:bg-p bg-gray-300 rounded h-6 w-32"
@@ -408,7 +426,11 @@ const runtimeconfig = useRuntimeConfig();
         </div>
 
         <div
+<<<<<<< HEAD
           class="bg-white/60 dark:bg-tamkinDarkPrimary rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+=======
+          class="w-full bg-white/60 shadow-sm rounded-[10px] md:col-span-8 col-span-12 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary"
+>>>>>>> fb5a24abc521c4c3c17542315d6226286e4dfe70
         >
           <div>
             <h1
