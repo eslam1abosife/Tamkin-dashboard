@@ -356,7 +356,7 @@ const backgroundWidgetValues = (v: string) => {
           <div>
             <img
               src="/assets/imgs/customize/left_side.svg"
-              class="w-[25px] h-[25px]"
+              class="w-[25px] h-[25px] dark:invert"
             />
           </div>
           <div class="text-[14px]">{{ $t("Left Side") }}</div>
@@ -384,7 +384,7 @@ const backgroundWidgetValues = (v: string) => {
           <div>
             <img
               src="/assets/imgs/customize/right_side.svg"
-              class="w-[25px] h-[25px]"
+              class="w-[25px] h-[25px] dark:invert"
             />
           </div>
           <div class="text-[14px]">{{ $t("Right Side") }}</div>
@@ -412,7 +412,7 @@ const backgroundWidgetValues = (v: string) => {
           <div>
             <img
               src="/assets/imgs/customize/hide.svg"
-              class="w-[25px] h-auto object-cover"
+              class="w-[25px] h-auto object-cover dark:invert"
             />
           </div>
           <div class="text-[14px]">{{ $t("Hide") }}</div>

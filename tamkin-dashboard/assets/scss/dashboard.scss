@@ -846,7 +846,7 @@ input[type=number] {
 
     @apply flex flex-col items-start justify-start cursor-default absolute z-[1000] top-0 rtl:left-[50px]
      ltr:right-[50px] w-[203px] !divide-y dark:divide-darkborder bg-white dark:bg-tamkinDarkPrimary
-     rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder shadow-lg;
+     rounded-[10px] border-[1px] border-lightGrey dark:border-transparent shadow-lg;
 
     .mini_wrap{
 
