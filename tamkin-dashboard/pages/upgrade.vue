@@ -65,13 +65,13 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 
     <div v-if="!loadingPage"
     class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto
-    dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[250px] p-[4px] border border-gray-300"
+    dark:bg-transparent  dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[250px] p-[4px] border border-gray-300"
   >
     <button
       @click="switchBetweenMonthlyAndAnnual('month')"
       :class="[
         packagesStore.discountType === 'month'
-          ? 'bg-white dark:bg-light rounded-full'
+          ? 'bg-white dark:bg-darkTamkin rounded-full'
           : '',
       ]"
       class="w-auto px-3 transition-all h-[32px] 
@@ -83,7 +83,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
       @click="switchBetweenMonthlyAndAnnual('year')"
       :class="[
         packagesStore.discountType === 'year'
-          ? 'bg-white dark:bg-light rounded-full'
+          ? 'bg-white dark:bg-darkTamkin rounded-full'
           : '',
       ]"
       class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out
@@ -91,8 +91,8 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
     >
       <div>{{$t('Annual')}}</div>
       <div class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]" >
-        <div  class="text-black font-[800] !text-[10px]">{{ $t('SAVE')}}</div>
-      <div class="text-black font-[800] !text-[10px]">
+        <div  class="text-black dark:text-white font-[800] !text-[10px]">{{ $t('SAVE')}}</div>
+      <div class="text-black dark:text-white font-[800] !text-[10px]">
         {{
           packagesStore.types.length ?  packagesStore.types.find(type => type.title === getCurrentPackageToUpgrade.type).discount_yearly :''
         }}%</div
