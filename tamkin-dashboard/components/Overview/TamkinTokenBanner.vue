@@ -84,18 +84,18 @@ const localePath = useLocalePath();
         class="flex lg:space-x-4 w-auto rtl:space-x-reverse lg:flex-nowrap flex-wrap lg:space-y-0 space-y-[10px]"
       >
         <a
-          class="btn-dashboard rounded-full h-[40px] hover_tamkin w-3/4"
+          class="btn-dashboard rounded-full h-[40px] hover_tamkin w-fit min-w-[128px] !px-3"
           href="https://www.lbank.com/trade/tslt_usdt"
           target="_blank"
           >{{ $t("Buy Tamkin") }}</a
         >
         <nuxt-link
-          class="btn_bordered_dashboard rounded-full w-3/4 bg-white h-[40px] !p-[0px]"
+          class="btn_bordered_dashboard rounded-full w-fit min-w-[128px] !px-3 bg-white h-[40px] !p-[0px]"
           :to="localePath('/how-to-join')"
           >{{ $t("Investor Program") }}</nuxt-link
         >
         <nuxt-link
-          class="btn_bordered_dashboard rounded-full w-3/4 bg-white h-[40px] !p-[0px]"
+          class="btn_bordered_dashboard rounded-full w-fit min-w-[128px] !px-3 bg-white h-[40px] !p-[0px]"
           :to="localePath('/packages/investors')"
           >{{ $t("Investor Package") }}</nuxt-link
         >

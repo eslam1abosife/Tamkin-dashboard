@@ -547,7 +547,7 @@ const isOwner = computed(() => {
       >
         <div class="flex flex-col items-start justify-start">
           <div
-            class="text-[#021328] dark:text-whiteTamkin/90 text-[10px] md:text-[14px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
+            class="text-[#021328] dark:text-whiteTamkin/90 font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
           >
             <div>
               <img
@@ -558,7 +558,7 @@ const isOwner = computed(() => {
             </div>
             <div class="flex items-center justify-between w-full">
               <div
-                class="flex-grow ipad-max:text-[12px] text-[9px] sm:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap text-nowrap"
+                class="flex-grow 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap text-nowrap"
               >
                 {{ $t("Total Member") }}
               </div>
