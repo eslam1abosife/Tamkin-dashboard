@@ -105,34 +105,37 @@ const getCurrentAccessPackage = computed(() => {
         class="w-full bg-white relative dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
       >
         <div
-        class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300">
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
+        >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
             :class="[
               packagesStore.discountType === 'month'
-              ? 'bg-white dark:bg-darkTamkin rounded-full'
-              : '',
+                ? 'bg-white dark:bg-darkTamkin rounded-full'
+                : '',
             ]"
-              class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
-              >
+            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
+          >
+            >
             {{ $t("Monthly") }}
           </button>
           <button
             @click="switchBetweenMonthlyAndAnnual('year')"
             :class="[
               packagesStore.discountType === 'year'
-              ? 'bg-white dark:bg-darkTamkin rounded-full'
-              : '',
+                ? 'bg-white dark:bg-darkTamkin rounded-full'
+                : '',
             ]"
-              class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
+            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
+          >
             <div>{{ $t("Annual") }}</div>
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
             >
-            <div class="text-black dark:text-white font-[800] !text-[10px]">
-                  {{ $t("SAVE") }}
-                </div>
-                <div class="text-black dark:text-white font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
+                {{ $t("SAVE") }}
+              </div>
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{
                   packagesStore.types.length
                     ? packagesStore.types.find(
@@ -196,7 +199,7 @@ const getCurrentAccessPackage = computed(() => {
               <nuxt-link
                 :to="localePath('/embed-code')"
                 v-if="getCurrentAccessPackage.status === 'not_installed'"
-                class="cursor-pointer text-[#DE4134] w-[150px] ml-auto text-[14px] font-[500] leading-[21px] underline"
+                class="cursor-pointer text-[#DE4134] ml-auto text-[12px] md:text-[14px] font-[500] leading-[15px] md:leading-[21px] underline"
               >
                 {{ $t("Not installed") }}
               </nuxt-link>
@@ -347,11 +350,15 @@ const getCurrentAccessPackage = computed(() => {
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
-                  <div class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"></div>
+                  <div
+                    class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"
+                  ></div>
                   <div
                     class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded mb-[16px]"
                   ></div>
-                  <div class="bg-gray-300  dark:bg-gray-600h-[29px] w-[100px] rounded"></div>
+                  <div
+                    class="bg-gray-300 dark:bg-gray-600h-[29px] w-[100px] rounded"
+                  ></div>
                   <div
                     class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[120px] mt-[10px] rounded"
                   ></div>
@@ -364,9 +371,15 @@ const getCurrentAccessPackage = computed(() => {
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
-                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[200px] rounded"></div>
-                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded"></div>
-                <div class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[100px] rounded"></div>
+                <div
+                  class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[200px] rounded"
+                ></div>
+                <div
+                  class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded"
+                ></div>
+                <div
+                  class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[100px] rounded"
+                ></div>
                 <div
                   class="bg-gray-200 dark:bg-gray-600 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
