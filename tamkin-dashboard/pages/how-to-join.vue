@@ -60,7 +60,7 @@ const extractAndTranslate = (htmlString) => {
         >
           <path
             d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-            class="shape-fill"
+            class="shape-fill dark:!fill-darkTamkin"
           ></path>
         </svg>
       </div>
@@ -71,7 +71,7 @@ const extractAndTranslate = (htmlString) => {
 
       <div
         class="relative z-[50] overflow-hidden top-[-60px] h-[350px]
-         bg-gradient-to-t from-[#340E75] to-[#54ECE3] rtl:skew-y-[4deg] ltr:skew-y-[-4deg]"
+         bg-gradient-to-t from-[#340E75] to-[#54ECE3] dark:to-[#35968f] rtl:skew-y-[4deg] ltr:skew-y-[-4deg]"
       >
         <div class="absolute left-[46px] top-[36px]">
           <img
@@ -132,7 +132,7 @@ const extractAndTranslate = (htmlString) => {
         </div>
       </div>
     </div>
-    <div class="min-h-[800px] top-[0%] w-full bg-[#E1E8FE] absolute z-[5]">
+    <div class="min-h-[800px] top-[0%] w-full bg-[#E1E8FE] dark:bg-tamkinDarkPrimary absolute z-[5]">
       <div class="custom-shape-divider-top-1725435211">
         <svg
           data-name="Layer 1"
@@ -142,7 +142,7 @@ const extractAndTranslate = (htmlString) => {
         >
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            class="shape-fill"
+            class="shape-fill dark:!fill-tamkinDarkPrimary"
           ></path>
         </svg>
       </div>
@@ -157,9 +157,9 @@ const extractAndTranslate = (htmlString) => {
 
           <div
             class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r rounded-[10px] px-[24px] 
-             from-white to-white/[10%] w-3/4 flex flex-col items-start justify-center"
+             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%] w-3/4 flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] mb-[6px]">
+            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
              {{$t(data.page_cards_items[1].title)}}
             </div>
 
@@ -167,7 +167,7 @@ const extractAndTranslate = (htmlString) => {
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
            
-            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[1].description) " :key="index">
+            <li class="custom-list-styles dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[1].description) " :key="index">
               {{ item }}
             </li>
             
@@ -182,9 +182,9 @@ const extractAndTranslate = (htmlString) => {
 
           <div
             class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r w-3/4 rounded-[10px] px-[24px] 
-             from-white to-white/[10%] flex flex-col items-start justify-center"
+             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] mb-[6px]">
+            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
               {{$t(data.page_cards_items[2].title)}}
 
             </div>
@@ -192,7 +192,7 @@ const extractAndTranslate = (htmlString) => {
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[2].description) " :key="index">
+            <li class="custom-list-styles dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[2].description) " :key="index">
               {{ item }}
             </li>
 
@@ -207,16 +207,16 @@ const extractAndTranslate = (htmlString) => {
 
           <div
             class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r w-3/4 rounded-[10px] px-[24px] 
-             from-white to-white/[10%] flex flex-col items-start justify-center"
+             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] mb-[6px]">
+            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
               {{$t(data.page_cards_items[3].title)}}
             </div>
 
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <li class="custom-list-styles" v-for="(item, index) in extractAndTranslate(data.page_cards_items[3].description) " :key="index">
+            <li class="custom-list-styles dark:text-white dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[3].description) " :key="index">
               {{ item }}
             </li>
 
@@ -224,8 +224,8 @@ const extractAndTranslate = (htmlString) => {
           </div>
         </div>
 
-        <div class="bg-white rounded-[10px] min-h-[450px] w-full my-[64px] px-[30px] py-[30px]">
-          <div class="text-[18px] font-[600] leading-[16px] ">
+        <div class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] min-h-[450px] w-full my-[64px] px-[30px] py-[30px]">
+          <div class="text-[18px] font-[600] leading-[16px] dark:text-white">
             {{ $t('Frequently Asked Questions') }}
           </div>
 
@@ -238,10 +238,10 @@ const extractAndTranslate = (htmlString) => {
                 @click="()=>{
                   currentFaq = currentFaq === question.name ? '' : question.name;
                 }"
-                  class="h-[57px] w-full relative rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#DEE6FF] hover:from-[#D1F7F4] cursor-pointer to-white flex items-center justift-start"
+                  class="h-[57px] w-full relative rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#DEE6FF] dark:from-darkGrey hover:from-[#D1F7F4] dark:hover:from-[#707474] cursor-pointer to-white dark:to-tamkinDarkPrimary flex items-center justift-start"
                 >
                   <div
-                    class="text-[16px] font-[500] leading-[16px] text-black/[80%] px-[30px]"
+                    class="text-[16px] font-[500] leading-[16px] text-black/[80%] dark:text-white/[80%] px-[30px]"
                   >
                     {{$t(question.question)}}
                   </div>

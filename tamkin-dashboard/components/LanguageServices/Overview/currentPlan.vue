@@ -198,7 +198,7 @@ const getCurrentAccessPackage = computed(() => {
               <nuxt-link
                 :to="localePath('/embed-code')"
                 v-if="getCurrentAccessPackage.status === 'not_installed'"
-                class="cursor-pointer text-[#DE4134] text-[12px] md:text-[14px] font-[500] leading-[15px] md:leading-[21px] underline"
+                class="cursor-pointer text-[#DE4134] text-[12px] md:text-[14px] font-[500] leading-[15px] md:leading-[21px] underline text-nowrap"
               >
                 {{ $t("Not installed") }}
               </nuxt-link>
