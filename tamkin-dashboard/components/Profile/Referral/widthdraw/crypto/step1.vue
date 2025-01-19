@@ -233,7 +233,7 @@ const closeAndReset = () => {
               : 'border-[1px] border-lightGrey',
           ]"
           class="disabled:bg-gray-100 dark:disabled:bg-gray-500 disabled:cursor-not-allowed peer focus:outline-none h-[40px] 
-          focus:border-lightGrey dark:border-darkborder rounded-[10px] focus:ring-0 rtl:pr-[42px] ltr:pl-[42px] w-full dark:border-darkborder dark:text-white dark:bg-tamkinDarkPrimary"
+          focus:border-lightGrey dark:focus:border-darkborder rounded-[10px] focus:ring-0 rtl:pr-[42px] ltr:pl-[42px] w-full dark:border-darkborder dark:text-white dark:bg-tamkinDarkPrimary"
           v-model="v$.wallet.$model"
         />
         <label
