@@ -99,27 +99,27 @@ const getCurrentAccessPackage = computed(() => {
       <div v-if="!loadingPacks"
         class="w-full bg-white relative dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]">
         <div
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkGrey absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300">
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent  dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300">
           <button @click="switchBetweenMonthlyAndAnnual('month')" :class="[
             packagesStore.discountType === 'month'
-              ? 'bg-white dark:bg-light rounded-full'
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
               : '',
           ]"
-            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]">
+            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
             {{ $t("Monthly") }}
           </button>
           <button @click="switchBetweenMonthlyAndAnnual('year')" :class="[
             packagesStore.discountType === 'year'
-              ? 'bg-white dark:bg-light rounded-full'
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
               : '',
           ]"
-            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]">
+            class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]">
             <div>{{ $t("Annual") }}</div>
             <div class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]">
-              <div class="text-black font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{ $t("SAVE") }}
               </div>
-              <div class="text-black font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{
                   packagesStore.types.length
                     ? packagesStore.types.find(

@@ -64,7 +64,7 @@ provide("pricingType", pricingType);
       </button>
       <button
         :class="[
-          pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '',
+          pricingType === 'annual' ? 'bg-white dark:bg-darkTamkin rounded-full' : '',
         ]"
         @click="switchBetweenMonthlyAndAnnual('annual')"
         class="h-[22px] p-1 transition-all ease-in-out flex items-center justify-center"
