@@ -49,7 +49,7 @@ const localePath = useLocalePath();
         </div>
         <!-- Text content -->
         <div
-          class="flex flex-col space-y-[16px] rtl:mr-14 ltr:ml-14 w-2/4 mt-[16px]"
+          class="flex flex-col space-y-[16px] rtl:mr-14 ltr:ml-14 w-full md:w-2/4 mt-[16px]"
         >
           <div>
             <h2 class="text-[13px] leading-[21px] font-[500] mb-2">
@@ -80,22 +80,20 @@ const localePath = useLocalePath();
     </div>
     <!-- Big number and buttons -->
     <div class="flex items-center justify-end w-full relative z-[50]">
-      <div
-        class="flex lg:space-x-4 w-auto rtl:space-x-reverse lg:flex-nowrap flex-wrap lg:space-y-0 space-y-[10px]"
-      >
+      <div class="flex w-auto rtl:space-x-reverse lg:flex-nowrap flex-wrap">
         <a
-          class="btn-dashboard rounded-full h-[40px] hover_tamkin w-fit min-w-[128px] !px-3"
+          class="btn-dashboard rounded-full h-[40px] hover_tamkin ml-2 w-fit min-w-[128px] mb-2 !px-3"
           href="https://www.lbank.com/trade/tslt_usdt"
           target="_blank"
           >{{ $t("Buy Tamkin") }}</a
         >
         <nuxt-link
-          class="btn_bordered_dashboard rounded-full w-fit min-w-[128px] !px-3 bg-white h-[40px] !p-[0px]"
+          class="btn_bordered_dashboard rounded-full w-fit ml-2 min-w-[128px] mb-2 !px-3 bg-white h-[40px]"
           :to="localePath('/how-to-join')"
           >{{ $t("Investor Program") }}</nuxt-link
         >
         <nuxt-link
-          class="btn_bordered_dashboard rounded-full w-fit min-w-[128px] !px-3 bg-white h-[40px] !p-[0px]"
+          class="btn_bordered_dashboard rounded-full w-fit ml-2 min-w-[128px] mb-2 !px-3 bg-white h-[40px]"
           :to="localePath('/packages/investors')"
           >{{ $t("Investor Package") }}</nuxt-link
         >
