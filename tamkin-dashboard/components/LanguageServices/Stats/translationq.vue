@@ -5,7 +5,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { Chart as ChartJS, registerables } from "chart.js";
 
 import shadowPlugin from "@/chartjs/plugins/shadowPlugin.js"; // Adjust the path if necessary
-const {t} = useI18n()
+const { t } = useI18n();
 const collapseStore = useCollapseStore();
 
 ChartJS.register(...registerables, shadowPlugin);
@@ -34,92 +34,120 @@ const accuracy = computed(() => {
 });
 const chartData = ref({
   labels: [],
-  datasets: []
+  datasets: [],
 });
 const chartData2 = ref({
   labels: [],
-  datasets: []
+  datasets: [],
 });
 
-
-watchEffect( () => {
-//   translated_chart
-// untranslated_chart
-if (statsStore.translation_quality) {
-  const sortedtranslated = statsStore.translation_quality.translated_chart ?.slice()
-  .sort((a, b) => new Date(a.date) - new Date(b.date));
-  const sorteduntranslated = statsStore.translation_quality.untranslated_chart
-    ?.slice()
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+watchEffect(() => {
+  //   translated_chart
+  // untranslated_chart
+  if (statsStore.translation_quality) {
+    const sortedtranslated = statsStore.translation_quality.translated_chart
+      ?.slice()
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+    const sorteduntranslated = statsStore.translation_quality.untranslated_chart
+      ?.slice()
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     chartData.value = {
-  labels: sortedtranslated.length > 0 ? sortedtranslated.map((t) => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
-  datasets: [
-    {
-      label: t("Translated Words"),
-      data: sortedtranslated.length > 0 ? sortedtranslated.map((t) => t.count) : [1, 1, 1, 1,1,1,1,1], // Default non-zero value for the line to be visible
-      borderColor: (ctx) => {
-        const chart = ctx.chart;
-        const { ctx: canvasCtx, chartArea } = chart;
-        if (!chartArea) {
-          // Return a default color until the chart is fully initialized
-          return "#2DADA3";
-        }
+      labels:
+        sortedtranslated.length > 0
+          ? sortedtranslated.map((t) => t.date)
+          : [
+              "2023-12-01",
+              "2024-01-15",
+              "2024-02-28",
+              "2024-03-10",
+              "2023-12-01",
+              "2024-01-15",
+              "2024-02-28",
+              "2024-03-10",
+            ],
+      datasets: [
+        {
+          label: t("Translated Words"),
+          data:
+            sortedtranslated.length > 0
+              ? sortedtranslated.map((t) => t.count)
+              : [1, 1, 1, 1, 1, 1, 1, 1], // Default non-zero value for the line to be visible
+          borderColor: (ctx) => {
+            const chart = ctx.chart;
+            const { ctx: canvasCtx, chartArea } = chart;
+            if (!chartArea) {
+              // Return a default color until the chart is fully initialized
+              return "#2DADA3";
+            }
 
-        // Create the gradient
-        const gradient = canvasCtx.createLinearGradient(
-          0,
-          chartArea.top,
-          0,
-          chartArea.bottom
-        );
-        gradient.addColorStop(0, "#2DADA3"); // Start color
-        gradient.addColorStop(1, "#71DAD2"); // End color
-        return gradient;
-      },
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: false,
-      tension: 0, // Ensures the line is perfectly straight
-      borderWidth: 2, // Ensure the line is visible
-      pointRadius: 0, // Optional: Hide points if you only want the line
-    },
-  ],
-};
+            // Create the gradient
+            const gradient = canvasCtx.createLinearGradient(
+              0,
+              chartArea.top,
+              0,
+              chartArea.bottom
+            );
+            gradient.addColorStop(0, "#2DADA3"); // Start color
+            gradient.addColorStop(1, "#71DAD2"); // End color
+            return gradient;
+          },
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0, // Ensures the line is perfectly straight
+          borderWidth: 2, // Ensure the line is visible
+          pointRadius: 0, // Optional: Hide points if you only want the line
+        },
+      ],
+    };
 
-
-  
     chartData2.value = {
-      labels: sorteduntranslated.length > 0 ? sorteduntranslated.map((t) => t.date) : ['2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10','2023-12-01', '2024-01-15', '2024-02-28', '2024-03-10'],
+      labels:
+        sorteduntranslated.length > 0
+          ? sorteduntranslated.map((t) => t.date)
+          : [
+              "2023-12-01",
+              "2024-01-15",
+              "2024-02-28",
+              "2024-03-10",
+              "2023-12-01",
+              "2024-01-15",
+              "2024-02-28",
+              "2024-03-10",
+            ],
       datasets: [
         {
           label: t("Untranslated Words"),
-          data: sortedtranslated.length > 0 ? sorteduntranslated.map((t) => t.count) : [1, 1, 1, 1,1,1,1,1],
+          data:
+            sortedtranslated.length > 0
+              ? sorteduntranslated.map((t) => t.count)
+              : [1, 1, 1, 1, 1, 1, 1, 1],
           borderColor: (ctx) => {
-        const chart = ctx.chart;
-        const { ctx: canvasCtx, chartArea } = chart;
-        if (!chartArea) {
-          // Return a default color until the chart is fully initialized
-          return "#2DADA3";
-        }
+            const chart = ctx.chart;
+            const { ctx: canvasCtx, chartArea } = chart;
+            if (!chartArea) {
+              // Return a default color until the chart is fully initialized
+              return "#2DADA3";
+            }
 
-        // Create the gradient
-        const gradient = canvasCtx.createLinearGradient(
-          0,
-          chartArea.top,
-          0,
-          chartArea.bottom
-        );
-        gradient.addColorStop(0, "#2DADA3"); // Start color
-        gradient.addColorStop(1, "#71DAD2"); // End color
-        return gradient;
-      },           backgroundColor: "rgba(75, 192, 192, 0.2)",
+            // Create the gradient
+            const gradient = canvasCtx.createLinearGradient(
+              0,
+              chartArea.top,
+              0,
+              chartArea.bottom
+            );
+            gradient.addColorStop(0, "#2DADA3"); // Start color
+            gradient.addColorStop(1, "#71DAD2"); // End color
+            return gradient;
+          },
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: false,
           tension: 0.1,
         },
       ],
     };
-}
-
+  }
 });
 const options = ref({
   responsive: true,
@@ -168,12 +196,11 @@ const options = ref({
     },
   },
 });
-
-
 </script>
 
 <template>
-  <div v-if="!statsStore.loadingStatsIntranlsation"
+  <div
+    v-if="!statsStore.loadingStatsIntranlsation"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start">
@@ -186,8 +213,11 @@ const options = ref({
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-        {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
-
+          {{
+            $t(
+              "Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding"
+            )
+          }}
         </p>
       </div>
       <div
@@ -334,7 +364,9 @@ const options = ref({
         "
       />
 
-      <div class="flex items-center justify-between w-full">
+      <div
+        class="flex items-center flex-col md:flex-row justify-between w-full"
+      >
         <div class="flex flex-col items-start justify-center w-full">
           <div class="rounded-[10px] w-full">
             <div
@@ -348,9 +380,12 @@ const options = ref({
                 </h2>
                 <h1
                   class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
-                 
                 >
-                  {{ statsStore.translation_quality.translated_content ? statsStore.translation_quality.translated_content : 0 }}
+                  {{
+                    statsStore.translation_quality.translated_content
+                      ? statsStore.translation_quality.translated_content
+                      : 0
+                  }}
                   {{ $t("Words") }}
                 </h1>
               </div>
@@ -376,9 +411,12 @@ const options = ref({
                 </h2>
                 <h1
                   class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
-                
                 >
-                  {{ statsStore.translation_quality.untranslated_content ? statsStore.translation_quality.untranslated_content : 0 }}
+                  {{
+                    statsStore.translation_quality.untranslated_content
+                      ? statsStore.translation_quality.untranslated_content
+                      : 0
+                  }}
                   {{ $t("Words") }}
                 </h1>
               </div>
@@ -400,67 +438,70 @@ const options = ref({
         >
           <CircularProgressBar
             textsize="32px"
-            :initialPercentage="accuracy? accuracy : 0"
-            class=" small_circle !w-[150px] !h-[150px] text-[12px]"
+            :initialPercentage="accuracy ? accuracy : 0"
+            class="small_circle !w-[150px] !h-[150px] text-[12px]"
           />
 
-          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin">
+          <div
+            class="text-[18px] leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin"
+          >
             {{ $t("Translation Accuracy") }}
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else
-  class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
->
-  <div class="flex items-center justify-start">
-    <div class="pt-[24px] w-full">
-      <div class="h-[20px] bg-gray-300 dark:bg-gray-700 rounded-md w-2/3 mb-4"></div>
-      <div class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded-md w-full"></div>
-    </div>
-  </div>
-
   <div
-    class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+    v-else
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
   >
- 
-
-    <div class="flex items-center justify-between w-full mt-[66px]">
-      <div class="grid grid-cols-12 w-full">
+    <div class="flex items-center justify-start">
+      <div class="pt-[24px] w-full">
         <div
-          class="rounded-[10px] col-span-12 ]"
-        >
-          <div
-            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
-          >
-            <div class="space-y-[16px]">
-              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
-              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+          class="h-[20px] bg-gray-300 dark:bg-gray-700 rounded-md w-2/3 mb-4"
+        ></div>
+        <div
+          class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded-md w-full"
+        ></div>
+      </div>
+    </div>
+
+    <div
+      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+    >
+      <div class="flex items-center justify-between w-full mt-[66px]">
+        <div class="grid grid-cols-12 w-full">
+          <div class="rounded-[10px] col-span-12 ]">
+            <div
+              class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+            >
+              <div class="space-y-[16px]">
+                <div
+                  class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"
+                ></div>
+                <div
+                  class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          class="rounded-[10px] col-span-12 w-full "
-        >
-          <div
-            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
-          >
-            <div class="space-y-[16px]">
-              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
-              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+          <div class="rounded-[10px] col-span-12 w-full">
+            <div
+              class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+            >
+              <div class="space-y-[16px]">
+                <div
+                  class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"
+                ></div>
+                <div
+                  class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-    
     </div>
   </div>
-</div>
 </template>
-<style lang="scss" scoped>
-
-</style>
-
-
+<style lang="scss" scoped></style>
