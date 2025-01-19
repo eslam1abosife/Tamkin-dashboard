@@ -140,7 +140,7 @@ const completeWithDraw = async () => {
 
 
     <div class="mt-[32px] w-full h-[81px] px-[10px] py-[20px] flex items-center justify-start space-x-[100px] rounded-[10px]
-     bg-[#F8F9FC] custom-border-tamkin padding-override-1">
+     bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
 
 <div class="flex items-center justify-start gap-4">
     <div>
@@ -149,7 +149,7 @@ const completeWithDraw = async () => {
     <div class="flex items-start justify-start flex-col">
 
 
-<div class="text-[#021328] text-[12px]  font-[500] ">
+<div class="text-[#021328] dark:text-white text-[12px]  font-[500] ">
 {{withdrawStore.paypal.paypalEmail}}
 </div>
     </div>
@@ -158,11 +158,11 @@ const completeWithDraw = async () => {
 </div>
 
 
-<div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
+<div class="text-[14px] font-[600] dark:text-white text-[#021328] mt-[14px]">
     {{ $t('Amount') }}
 </div>
 
-<div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
+<div class="mt-2 text-[13px] font-[500] text-darkGrey dark:text-white/80 leading-[15px]">
   {{ $t('How much would you like to withdraw?') }}
 </div>
 
@@ -173,13 +173,13 @@ const completeWithDraw = async () => {
       type="text"
       v-model="amount"
       @input="formatAmount"
-      class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
+      class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] dark:text-white dark:bg-darkTamkin font-[600] border-0 text-center"
       placeholder="0"
     />
   </div>
 
 
-  <div class="text-center text-[14px] font-[600] text-darkGrey">
+  <div class="text-center text-[14px] font-[600] text-darkGrey dark:text-white mt-3">
 
     {{ $t('Available balance') }}  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
   </div>

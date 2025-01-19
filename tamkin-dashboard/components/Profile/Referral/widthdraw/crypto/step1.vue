@@ -208,7 +208,7 @@ const closeAndReset = () => {
         </div>
       </div>
 
-      <div class="text-[14px] font-[600] text-[#021328] mt-[24px]">
+      <div class="text-[14px] font-[600] text-[#021328] dark:text-white mt-[24px]">
         {{ $t("Wallet Address") }}
       </div>
 
@@ -230,10 +230,10 @@ const closeAndReset = () => {
               ? 'input_error'
               : !v$.wallet.$error && !v$.wallet.$invalid
               ? 'input_success'
-              : 'border-[1px] border-lightGrey ',
+              : 'border-[1px] border-lightGrey',
           ]"
-          class="disabled:bg-gray-100 disabled:cursor-not-allowed peer focus:outline-none h-[40px] 
-          focus:border-lightGrey rounded-[10px] focus:ring-0 rtl:pr-[42px] ltr:pl-[42px] w-full"
+          class="disabled:bg-gray-100 dark:disabled:bg-gray-500 disabled:cursor-not-allowed peer focus:outline-none h-[40px] 
+          focus:border-lightGrey dark:border-darkborder rounded-[10px] focus:ring-0 rtl:pr-[42px] ltr:pl-[42px] w-full dark:border-darkborder dark:text-white dark:bg-tamkinDarkPrimary"
           v-model="v$.wallet.$model"
         />
         <label
@@ -257,7 +257,7 @@ const closeAndReset = () => {
         </div>
       </div>
       <div
-        class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px]"
+        class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px] dark:text-white"
         v-if="withdrawStore.selectedCrypto"
       >
 

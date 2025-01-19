@@ -142,7 +142,7 @@ const closeAndReset = ()=>{
 </h1>
 
 
-<div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
+<div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
   <!-- Icon Column -->
   <div class="col-span-1 w-[39px] h-[39px] flex items-center justify-center">
     <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" alt="" class="w-full h-full object-cover">
@@ -168,7 +168,7 @@ const closeAndReset = ()=>{
 
 
 
-<div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
+<div class="text-[14px] font-[600] dark:text-white text-[#021328] mt-[14px]">
     {{$t('Amount')}}
 </div>
 

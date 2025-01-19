@@ -866,7 +866,7 @@ const formattedTotal = computed(() => {
               packagesStore.currentPackage.package_type === 'Addons' ||
               packagesStore.currentPackage.package_type === 'Extra'
             "
-            class="h-[61px] w-full border-b mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF]"
+            class="h-[61px] w-full border-b dark:border-darkborder mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF] dark:bg-darkTamkin"
           >
             <div class="rtl:pr-[5px] ltr:pl-[5px]">
               <img
@@ -875,12 +875,12 @@ const formattedTotal = computed(() => {
                 alt=""
               />
             </div>
-            <div class="text-[16px] font-[600] leading-[24px]">
+            <div class="text-[16px] font-[600] leading-[24px] dark:text-white">
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
 
             <div
-              class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
+              class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E] dark:text-white/80"
               v-if="packagesStore.currentPackage.package_type === 'Addons'"
             >
               {{ $t(packagesStore.currentType.title) }} -

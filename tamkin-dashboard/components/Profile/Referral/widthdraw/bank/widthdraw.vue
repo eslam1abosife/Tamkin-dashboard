@@ -165,7 +165,7 @@ const closeAndreset = () => {
         {{ $t('Withdraw Money') }}
       </h1>
 
-      <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
+      <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
         <!-- Bank Image -->
         <div class="col-span-1 flex items-center justify-center">
           <img src="/imgs/bank_img.png" class="w-[39px] h-[39px] object-contain" alt="">
@@ -173,20 +173,20 @@ const closeAndreset = () => {
       
         <!-- Account Holder and BIC -->
         <div class="flex items-start justify-start col-span-6 flex-col gap-1">
-          <div class="text-[#021328] text-[12px] font-[500]  w-full" :class="[ withdrawStore.bankDetails.account_holder.length > 30 ? 'truncate' :'']">
+          <div class="text-[#021328] dark:text-white text-[12px] font-[500]  w-full" :class="[ withdrawStore.bankDetails.account_holder.length > 30 ? 'truncate' :'']">
             {{ withdrawStore.bankDetails.account_holder }}
           </div>
-          <div class="text-[#021328] text-[10px] font-[500]  w-full">
+          <div class="text-[#021328] dark:text-white text-[10px] font-[500]  w-full">
             {{ withdrawStore.bankDetails.bic }}
           </div>
         </div>
       
         <!-- Bank Name and IBAN -->
         <div class="flex items-start col-span-5 justify-start flex-col gap-1">
-          <div class="text-[#021328] text-[12px] font-[500]  w-full">
+          <div class="text-[#021328] dark:text-white text-[12px] font-[500]  w-full">
             {{ withdrawStore.bankDetails.bank_name }}
           </div>
-          <div class="text-[#021328] text-[10px] font-[500]  w-full">
+          <div class="text-[#021328] dark:text-white text-[10px] font-[500]  w-full">
             {{ withdrawStore.bankDetails.iban }}
           </div>
         </div>
@@ -194,27 +194,27 @@ const closeAndreset = () => {
       
   
 
-      <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
+      <div class="text-[14px] font-[600] dark:text-white text-[#021328] mt-[14px]">
         {{ $t('Amount') }}
       </div>
 
-      <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
+      <div class="mt-2 text-[13px] font-[500] dark:text-white/80 text-darkGrey leading-[15px]">
         {{ $t('How much would you like to withdraw?') }}
       </div>
 
       <div class="mt-[44px] mx-auto text-center relative">
         <input
           type="text"
-         :class="[Number(withdrawStore.currentAmount) === 0 ? 'text-lightGrey cursor-not-allowed':'']"
+         :class="[Number(withdrawStore.currentAmount) === 0 ? 'text-lightGrey dark:text-white/80 cursor-not-allowed':'']"
           v-model="amount"
           :disabled="isInputDisabled"
           @input="formatAmount"
-          class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
+          class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] dark:text-white dark:bg-darkTamkin font-[600] border-0 text-center"
           placeholder="0"
         />
       </div>
 
-      <div class="text-center text-[14px] font-[600] text-darkGrey">
+      <div class="text-center text-[14px] font-[600] text-darkGrey dark:text-white/80 mt-3">
         {{ $t('Available balance') }} <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
       </div>
 
