@@ -359,7 +359,7 @@ const isCurrentRateEmpty = computed(() => {
             </div>
 
             <div
-              class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] rtl:left-[16px] ltr:right-[16px]"
+              class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] rtl:left-[16px] ltr:right-[-50px]"
             >
               <img
                 src="/imgs/balance_img.png"
@@ -489,7 +489,7 @@ const isCurrentRateEmpty = computed(() => {
               class="mt-[12px] border-[1px] dark:bg-tamkinDarkPrimary bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px] rtl:flex-row-reverse"
             >
               <div
-                class="lg:text-[14px] text-[12px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
+                class="lg:text-[14px] hidden sm:flex text-[12px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
               >
                 {{ $t("Referral Link") }}
               </div>
@@ -497,7 +497,7 @@ const isCurrentRateEmpty = computed(() => {
                 class="flex items-center justify-end space-x-[12px] rtl:flex-row-reverse"
               >
                 <div
-                  class="ml-auto lg:text-[14px] md:text-[12px] text-[10px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
+                  class="ml-auto lg:text-[14px] md:text-[12px] text-[10px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[13px] sm:leading-[21px] dark:text-whiteTamkin/70"
                 >
                   {{ source }}
                 </div>
@@ -527,10 +527,10 @@ const isCurrentRateEmpty = computed(() => {
         class="bg-white dark:bg-tamkinDarkPrimary w-full flex flex-col items-start justify-center my-[16px] p-[32px] rounded-[10px]"
       >
         <div
-          class="flex items-center justify-between ipad-max:space-x-[24px] w-full"
+          class="flex items-center flex-col md:flex-row justify-between ipad-max:space-x-[24px] w-full"
         >
           <div
-            class="p-[10px] ipad-max:w-full w-3/4 md:w-2/4 lg:w-2/4 h-[42px] dark:bg-p bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
+            class="p-[10px] w-full md:w-2/4 lg:w-2/4 h-[42px] dark:bg-p bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
           >
             <div
               @click="changeTab('rewards')"
@@ -552,7 +552,7 @@ const isCurrentRateEmpty = computed(() => {
             </div>
           </div>
 
-          <div class="w-1/4 md:w-1/4 lg:w-1/4">
+          <div class="w-full mt-2 md:mt-0 md:w-1/4 lg:w-1/4">
             <VueDatePicker
               direction="ltr"
               :enable-time-picker="false"

@@ -419,7 +419,7 @@ const countriesC = computed(() => {
           </h1>
         </div>
         <div
-          class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
+          class="flex flex-col items-start lg:pr-0 pr-4 justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
