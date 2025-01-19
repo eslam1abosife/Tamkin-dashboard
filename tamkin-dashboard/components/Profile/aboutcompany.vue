@@ -55,7 +55,7 @@ const ifuserhaspermissiontoEdit = computed(() => {
 
 <template>
   <div
-    class="bg-white/60 dark:bg-tamkinDarkPrimary rounded-[10px] ipad-max:w-full backdrop-blur-md flex flex-col items-start justify-center p-[15px] space-y-[10px] w-full lg:mt-[-60px]"
+    class="bg-white/60 dark:bg-tamkinDarkPrimary/60 rounded-[10px] ipad-max:w-full backdrop-blur-md flex flex-col items-start justify-center p-[15px] space-y-[10px] w-full lg:mt-[-60px]"
   >
     <div
       class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]"

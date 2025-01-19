@@ -16,7 +16,7 @@ const profileStore = useProfileStore();
 </script>
 <template>
   <div
-    class="bg-white/60 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin rounded-[10px] backdrop-blur-md shadow-sm flex flex-col items-start justify-center p-[15px] space-y-[15px] w-full h-[140px] lg:mt-[-60px]"
+    class="bg-white/60 dark:bg-tamkinDarkPrimary/60 dark:text-whiteTamkin rounded-[10px] backdrop-blur-md shadow-sm flex flex-col items-start justify-center p-[15px] space-y-[15px] w-full h-[140px] lg:mt-[-60px]"
   >
     <div class="flex items-start justify-start w-full">
       <div class="flex items-center justify-start gap-4 w-full">
@@ -55,7 +55,7 @@ const profileStore = useProfileStore();
           <div
             v-if="!profileStore.loadingProfile"
             @click="openModal('edit_company_picture', 'profile')"
-            class="absolute top-[50px] right-0 ipad-max:top-[30px] drop-shadow-md cursor-pointer bg-white w-[24px] h-[24px] lg:w-[24px] ipad-max:w-[16px] ipad-max:h-[16px] lg:h-[24px] rounded-full flex items-center justify-center"
+            class="absolute top-[50px] right-0 ipad-max:top-[30px] drop-shadow-md cursor-pointer bg-white dark:bg-tamkinDarkPrimary w-[24px] h-[24px] lg:w-[24px] ipad-max:w-[16px] ipad-max:h-[16px] lg:h-[24px] rounded-full flex items-center justify-center"
           >
             <img src="/imgs/pencil.svg" alt="" class="w-[10px] h-[10px]" />
           </div>

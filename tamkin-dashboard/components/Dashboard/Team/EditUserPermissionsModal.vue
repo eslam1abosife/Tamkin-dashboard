@@ -167,28 +167,28 @@ const savePermission = async () => {
          <!-- Placeholder Loading -->
          <div class="animate-pulse">
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
-            <div class="w-4 h-4 bg-gray-300 rounded"></div>
-            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+            <div class="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 dark:bg-gray-600 rounded"></div>
           </div>
         </div>
      </div>
@@ -198,10 +198,10 @@ const savePermission = async () => {
       <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading"
        class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-scroll w-full">
         <table v-if="permissions && permissions.length > 0"
-          class="min-w-full divide-y divide-gray-200 dark:border-darkborder mt-[40px] ">
+          class="min-w-full divide-y divide-gray-200 dark:divide-darkborder mt-[40px] ">
           <thead>
             <tr class="h-[50px]">
-              <th class="rtl:text-right ltr:text-left   text-[15px]  leading-[22.5px] font-[500] text-darkGrey
+              <th class="rtl:text-right ltr:text-left   text-[15px]  leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin
               w-full  ">
           
                 <div class="text-[14px] leading-[22px] text-darkGrey dark:text-whiteTamkin">{{$t('ALL Permissions')}}</div>
@@ -212,7 +212,7 @@ const savePermission = async () => {
                 <input type="checkbox" id="checkbox" class="peer sr-only   " v-model="checkAll" />
                 <label for="checkbox"
                   class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                  <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                  <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                   </svg>
@@ -223,15 +223,15 @@ const savePermission = async () => {
           <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-scroll">
             <tr v-for="permission in permissions " :key="permission.name" class="h-[50px]">
                 <td>
-                  <span class="text-[14px] leading-[21px] font-[400] text-darkGrey ">{{ $t(permission.title) }}</span>
+                  <span class="text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-white">{{ $t(permission.title) }}</span>
   
                 </td>
                 <td class=""> 
                   <input type="checkbox" v-model="checked" :id="`checkbox_` + permission.name" :value="permission.name"
                     class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
                   <label :for="`checkbox_` + permission.name"
-                    class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none"
+                  class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary" fill="none"
                       viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>

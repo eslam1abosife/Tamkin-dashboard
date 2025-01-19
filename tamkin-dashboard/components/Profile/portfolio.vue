@@ -87,7 +87,7 @@ const { handlers } = toRefs(state);
 </script>
 <template>
   <div
-    class="dark:bg-tamkinDarkPrimary bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+    class="dark:bg-tamkinDarkPrimary/60 bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
   >
     <div class="flex items-center justify-between w-full">
       <div class="text-[16px] dark:text-whiteTamkin leading-[24px] font-[600]">

@@ -131,7 +131,8 @@ const getCurrentAccessPackage = computed(() => {
             </div>
           </button>
         </div>
-        <div class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9]">
+        <div class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r
+          from-[#423568]  to-[#26687945]/[27%] t ">
           <div class="flex flex-col items-start justify-center w-full px-[15px]">
             <div>
               <h1 class="text-white font-[500] text-[18px] leading-[30px]">
@@ -151,7 +152,7 @@ const getCurrentAccessPackage = computed(() => {
                 (p) => p.type === 'Sign language'
               )
             "
-              class="h-[55px] px-[20px] bg-white bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full">
+              class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full">
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full">
                 <div>
                   <img :src="runtimeConfig.public.baseImagerUrl +
@@ -161,7 +162,7 @@ const getCurrentAccessPackage = computed(() => {
                     " class="w-[40px] h-[40px] rounded-full" />
                 </div>
                 <div
-                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey">
+                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
                   {{ $t(getCurrentAccessPackage.title) }} -
                   {{ $t(`${getCurrentAccessPackage.type}`) }}
                 </div>
@@ -198,11 +199,11 @@ const getCurrentAccessPackage = computed(() => {
               </div>
             </div>
             <div v-else
-              class="h-[55px] px-[20px] bg-whitebg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full">
+              class="h-[55px] px-[20px] bg-white dark:bg-gray-600 dark:bg-opacity-100 bg-opacity-75 rounded-[41px] space-x-[42px] flex items-center justify-between rtl:space-x-reverse p-2 mt-[24px] w-full">
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full">
                 <div></div>
                 <div
-                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey ">
+                  class="text-[10px] lg:text-[14px] font-[500] ipad-max:text-[12px] ipad-max:leading-[10px] whitespace-nowrap lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
                   {{ $t("No Current Package") }}
                 </div>
               </div>
@@ -214,10 +215,6 @@ const getCurrentAccessPackage = computed(() => {
               src="/imgs/vector_plan.png"
               class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
             /> -->
-            <img
-              src="/assets/imgs/overview/current_plan_upgrade.svg"
-              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
-            />
           </div>
         </div>
 
