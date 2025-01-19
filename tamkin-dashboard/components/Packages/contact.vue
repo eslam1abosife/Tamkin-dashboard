@@ -23,7 +23,7 @@ const tgl = () => {
 
     <!-- Content Section -->
     <div
-      class="absolute h-[246px] z-50 w-[379px] rtl:right-0 ltr:left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rtl:rounded-l-[55px] ltr:rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
+      class="absolute h-[210px] md:h-[246px] z-50 w-[100%] sm:w-[50%] rtl:right-0 ltr:left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rtl:rounded-l-[55px] ltr:rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
     >
       <div
         class="text-[20px] font-[600] leading-[24px] text-black dark:text-white rtl:text-right ltr:text-left"
