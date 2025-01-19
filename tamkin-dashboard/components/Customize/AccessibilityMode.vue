@@ -124,7 +124,7 @@ const settingsStore = useSettingsStore();
 
     <div
       v-if="customizeStore.isAccessbilityModeIconsActive"
-      class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      class="flex items-center flex-col sm:flex-row justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       :class="[
         !isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
           ? 'blur-[2px] !cursor-not-allowed'

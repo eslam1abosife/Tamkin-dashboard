@@ -81,7 +81,7 @@ watch([currentColor], () => {}, { immediate: true });
     </div>
 
     <div
-      class="flex items-center justify-between lg:flex-nowrap flex-wrap"
+      class="flex items-center justify-between lg:flex-row flex-col"
       v-if="
         switchButtonLocation === 'desktop' &&
         customizeStore.isButtonDesktopPositionActive
@@ -393,7 +393,7 @@ watch([currentColor], () => {}, { immediate: true });
     </div>
 
     <div
-      class="flex items-center justify-between lg:flex-nowrap flex-wrap"
+      class="flex items-center justify-between lg:flex-row flex-col"
       v-if="
         switchButtonLocation === 'mobile' &&
         customizeStore.isButtonMobilePositionActive
@@ -663,18 +663,22 @@ watch([currentColor], () => {}, { immediate: true });
           </div>
         </div>
         <div
-          class="flex items-center justify-center lg:justify-evenly rtl:space-x-reverse space-x-[20px] ipad-max:space-x-[50px] lg:space-x-[100px] lg:px-[40px]"
+          class="flex items-center flex-row gap-[100px] justify-between w-full lg:px-[40px]"
         >
-          <img
-            src="/assets/imgs/customize/iphone.svg"
-            alt="Laptop Image"
-            class="w-full h-full"
-          />
-          <img
-            src="/assets/imgs/customize/ipad.svg"
-            alt="Laptop Image"
-            class="lg:w-full ipad-max:w-[200px] ipad-max:h-[200px] w-[200px] h-[200px] lg:h-auto"
-          />
+          <div>
+            <img
+              src="/assets/imgs/customize/iphone.svg"
+              alt="Laptop Image"
+              class="w-full h-full"
+            />
+          </div>
+          <div>
+            <img
+              src="/assets/imgs/customize/ipad.svg"
+              alt="Laptop Image"
+              class="lg:w-full ipad-max:w-[200px] ipad-max:h-[200px] w-[200px] h-[200px] lg:h-auto"
+            />
+          </div>
         </div>
       </div>
     </div>
