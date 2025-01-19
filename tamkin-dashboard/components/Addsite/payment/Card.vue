@@ -144,13 +144,8 @@ const continueCheckOut = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     // await getInviteApps({ agency: user.agency });
     // alert(res)
-<<<<<<< HEAD
-    const resTheme = colorMode.value === "dark" ? res + "?is_dark=1" : res;
-
-=======
     const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
     
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
     urlPayment.value = resTheme;
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
     // addSiteStore.urls =[]

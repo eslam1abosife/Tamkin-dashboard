@@ -16,11 +16,7 @@ const memberFullName = computed(() => {
 </script>
 <template>
   <div
-<<<<<<< HEAD
-    class="bg-white/60 relative rounded-[10px] w-[100%] dark:bg-tamkinDarkPrimary backdrop-blur-md shadow-sm flex flex-col items-start justify-center space-y-[15px] h-[140px] lg:mt-[-60px]"
-=======
     class="bg-white/60 rounded-[10px] dark:bg-tamkinDarkPrimary/60 backdrop-blur-md shadow-sm flex flex-col items-start justify-center p-[15px] space-y-[15px] w-full h-[140px] lg:mt-[-60px]"
->>>>>>> 48a74f835ab8756fe024a17709e2f1c3ef25227d
   >
     <div class="flex relative items-start justify-between w-full">
       <div class="flex items-center justify-start gap-4 w-full">
