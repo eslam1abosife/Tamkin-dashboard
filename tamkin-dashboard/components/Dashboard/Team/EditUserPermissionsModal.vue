@@ -198,7 +198,7 @@ const savePermission = async () => {
       <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading"
        class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-scroll w-full">
         <table v-if="permissions && permissions.length > 0"
-          class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
+          class="min-w-full divide-y divide-gray-200 dark:border-darkborder mt-[40px] ">
           <thead>
             <tr class="h-[50px]">
               <th class="rtl:text-right ltr:text-left   text-[15px]  leading-[22.5px] font-[500] text-darkGrey

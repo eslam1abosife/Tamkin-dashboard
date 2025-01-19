@@ -399,7 +399,7 @@ watchEffect(() => {
           </h1>
           <div
             v-bind="getRootProps()"
-            class="w-full h-auto p-[10px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] flex items-center justify-center flex-col space-y-[10px]"
+            class="w-full h-auto p-[10px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-darkborder mt-[16px] flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
             <div
@@ -422,7 +422,7 @@ watchEffect(() => {
               >
                 <div
                   @click.stop="removeFile(file)"
-                  class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"
+                  class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-darkborder shadow-xl transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"
                 >
                   <svg
                     width="10"

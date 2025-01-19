@@ -238,7 +238,7 @@ const discountAmount = computed(() => {
               <thead>
                 <tr>
                   <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
                     colspan="12"
                   >
                     {{ $t("Summary") }}
@@ -251,13 +251,13 @@ const discountAmount = computed(() => {
                   v-if="addSiteStore.validPromo"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
                     colspan="2"
                   >
                     {{ $t("Subtotal") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
                     ${{ addSiteStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
@@ -268,13 +268,13 @@ const discountAmount = computed(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Discount") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
@@ -284,13 +284,13 @@ const discountAmount = computed(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Total") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{ (addSiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}

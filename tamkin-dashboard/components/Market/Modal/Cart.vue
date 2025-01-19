@@ -156,7 +156,7 @@ const confirmOrder = async () => {
             <thead>
               <tr>
                 <th
-                  class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                  class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
                   colspan="12"
                 >
                   {{ $t("Summary") }}
@@ -168,13 +168,13 @@ const confirmOrder = async () => {
                 class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
               >
                 <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                  class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                   colspan="2"
                 >
                   {{ $t("Subtotal") }}
                 </td>
                 <td
-                  class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
+                  class="py-2 px-1 border-b dark:border-darkborder rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
                   ${{ marketStore.cartSubtotal }}
@@ -185,13 +185,13 @@ const confirmOrder = async () => {
                 v-if="marketStore.cartDiscount"
               >
                 <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                  class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                   colspan="2"
                 >
                   {{ $t("Discount") }}
                 </td>
                 <td
-                  class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
+                  class="py-2 px-1 border-b dark:border-darkborder rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
                   ${{ marketStore.cartDiscount }}
@@ -199,13 +199,13 @@ const confirmOrder = async () => {
               </tr>
               <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
                 <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                  class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
                   colspan="2"
                 >
                   {{ $t("Total") }}
                 </td>
                 <td
-                  class="py-2 px-1 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                  class="py-2 px-1 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
                   ${{ marketStore.cartTotal }}

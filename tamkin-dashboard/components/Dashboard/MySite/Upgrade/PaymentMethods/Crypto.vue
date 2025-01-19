@@ -212,7 +212,7 @@ const filteredCryptoMethods = computed(() => {
             </button>
             <div
               v-if="isOpen"
-              class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light 
+              class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-darkborder 
               border-[#C8CFEB] shadow w-full  py-[16px]"
             >
            
@@ -323,7 +323,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <thead>
       <tr>
         <th
-          class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b dark:border-light dark:text-whiteTamkin text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+          class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b dark:border-darkborder dark:text-whiteTamkin text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>
@@ -336,12 +336,12 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"           v-if="validPromo"
       >
         <td
-          class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin "
+          class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin "
           colspan="2"
         >
           Subtotal
         </td>
-        <td class="py-2 px-5 border-b text-right w-full dark:text-whiteTamkin " colspan="2">
+        <td class="py-2 px-5 border-b dark:border-darkborder text-right w-full dark:text-whiteTamkin " colspan="2">
           $50,444.00
         </td>
       </tr>
@@ -360,7 +360,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"         
       >
         <td
-          class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin "
+          class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin "
           colspan="2"
         >
           Total
@@ -372,7 +372,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"         
       >
         <td
-          class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin "
+          class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin "
           colspan="2"
         >
         Total Crypto

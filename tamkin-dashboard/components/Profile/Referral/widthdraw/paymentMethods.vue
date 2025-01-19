@@ -139,7 +139,7 @@ const closeModalAndresetPaymentMethods = () => {
             @click="withdrawStore.selectedPaymentMethod = 'by_bank'"
             :class="[withdrawStore.selectedPaymentMethod == 'by_bank' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary
-            flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+            flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                     <div><img  src="/assets/imgs/payment_methods/cc.svg"  class="w-[40px] h-[40px]"/></div>
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin" >
@@ -171,7 +171,7 @@ const closeModalAndresetPaymentMethods = () => {
             @click="withdrawStore.selectedPaymentMethod = 'by_crypto'"
             :class="[withdrawStore.selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
-             rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+             rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                     <div><img  src="/assets/imgs/payment_methods/crypto.svg"  class="w-[40px] h-[40px]"/></div>
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">Crypto currency</div>
@@ -201,7 +201,7 @@ const closeModalAndresetPaymentMethods = () => {
             @click="withdrawStore.selectedPaymentMethod = 'by_paypal'"
             :class="[withdrawStore.selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
-            justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+            justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                     <div><img  src="/assets/imgs/payment_methods/paypal.svg"  class="w-[40px] h-[40px]"/></div>
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">PayPal</div>
@@ -238,7 +238,7 @@ const closeModalAndresetPaymentMethods = () => {
                   : 'border-[1px] ',
               ]"
               class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary 
-              flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+              flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"

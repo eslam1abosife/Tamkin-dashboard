@@ -98,7 +98,7 @@ const goToPaymentMethod = async (method: any) => {
               <div @click="marketStore.selectedPaymentMethod = 'by_card'"
                 :class="[marketStore.selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
                 class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary
-            flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+            flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/cc.svg" class="w-[40px] h-[40px]" /></div>
                   <div class="text-[16px] leading-[44px] font-[600] ltr:font-[Poppins] rtl:font-[Almarai]  text-darkGrey dark:text-whiteTamkin">
@@ -119,7 +119,7 @@ const goToPaymentMethod = async (method: any) => {
             <div class=" w-full ">
               <div @click="marketStore.selectedPaymentMethod = 'by_crypto'"
                 :class="[marketStore.selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
-             rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+             rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
                   <div class="text-[16px] leading-[44px] rtl:font-[Almarai] ltr:font-[Poppins] font-[600]  text-darkGrey dark:text-whiteTamkin">
@@ -139,7 +139,7 @@ const goToPaymentMethod = async (method: any) => {
             <div class=" w-full ">
               <div @click="marketStore.selectedPaymentMethod = 'by_paypal'"
                 :class="[marketStore.selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
-            justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+            justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" /></div>
                   <div class="text-[16px] leading-[44px] rtl:font-[Almarai] font-[600]  text-darkGrey dark:text-whiteTamkin">

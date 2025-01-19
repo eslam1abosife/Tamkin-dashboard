@@ -499,7 +499,7 @@ onBeforeUnmount(() => {
                     ? '!cursor-not-allowed opacity-50'
                     : '',
                 ]"
-                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -553,7 +553,7 @@ onBeforeUnmount(() => {
                     ? '!cursor-not-allowed opacity-50'
                     : '',
                 ]"
-                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -705,22 +705,22 @@ onBeforeUnmount(() => {
               <thead>
                 <tr>
                   <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
                   >
                     {{ $t("Domain") }}
                   </th>
                   <th
-                    class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
                   >
                     {{ $t("Package") }}
                   </th>
                   <th
-                    class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
                   >
                     {{ $t("Section") }}
                   </th>
                   <th
-                    class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
                   >
                     {{ $t("Amount") }}
                   </th>
@@ -734,7 +734,7 @@ onBeforeUnmount(() => {
                   class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="text-[14px] py-2 px-5 truncate border-b dark:border-light dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400]"
+                    class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400]"
                   >
                     {{
                       rr.app_type === "Internal Services"
@@ -743,17 +743,17 @@ onBeforeUnmount(() => {
                     }}
                   </td>
                   <td
-                    class="text-[14px] py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-center w-full font-[400]"
+                    class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]"
                   >
                     {{ $t(rr.package_title) }}
                   </td>
                   <td
-                    class="text-[14px] py-2 border-b dark:border-light dark:text-whiteTamkin text-center w-4 truncate font-[400]"
+                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-4 truncate font-[400]"
                   >
                     <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
                   </td>
                   <td
-                    class="text-[14px] py-2 border-b dark:border-light dark:text-whiteTamkin text-center ltr:pr-5 font-[400]"
+                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]"
                   >
                     ${{
                       rr.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -768,12 +768,12 @@ onBeforeUnmount(() => {
                 >
                   <td
                     colspan="3"
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
                   >
                     {{ $t("Subtotal") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right w-full font-[500]"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right w-full font-[500]"
                   >
                     ${{
                       Number(subsStore.packagePayload.total)
@@ -791,12 +791,12 @@ onBeforeUnmount(() => {
                 >
                   <td
                     colspan="3"
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                   >
                     {{ $t("Discount") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                   >
                     ${{
                       percentageOff
@@ -813,12 +813,12 @@ onBeforeUnmount(() => {
                 >
                   <td
                     colspan="3"
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                   >
                     {{ $t("Total") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
                   >
                     ${{
                       (Number(subsStore.packagePayload.total) - percentageOff)

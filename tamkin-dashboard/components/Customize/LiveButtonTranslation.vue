@@ -275,7 +275,7 @@ const backgroundImageStyle = computed(() => {
               }}
             </th>
             <th
-              class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
+              class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-darkborder text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
               <div class="flex items-center">
                 <label for="toggle_enable_live_button" class="toggle_wrap">
