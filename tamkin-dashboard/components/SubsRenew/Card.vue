@@ -8,8 +8,7 @@ const navbarStore = useNavbarStore();
 const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 const { detailsRenew, messageData: rn, codeStatus: rr } = useGetRenewdetails();
 
-const colorMode = useColorMode()
-
+const colorMode = useColorMode();
 
 const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
@@ -142,8 +141,8 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
-    
+    const resTheme = colorMode.value === "dark" ? res + "&is_dark=1" : res;
+
     urlPayment.value = resTheme;
 
     // subsStore.removeMultipleFromCart(subsStore.cartItems);
@@ -423,9 +422,11 @@ onBeforeUnmount(() => {
                 "
               >
                 <div class="cursor-pointer">
-                                    <img v-if="navbarStore.isDark" src="/assets/imgs/payment_methods/new_card_dark.svg" />
+                  <img
+                    v-if="navbarStore.isDark"
+                    src="/assets/imgs/payment_methods/new_card_dark.svg"
+                  />
                   <img v-else src="/assets/imgs/payment_methods/new_card.svg" />
-
                 </div>
                 <div
                   class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
@@ -465,15 +466,21 @@ onBeforeUnmount(() => {
                 <div
                   class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
-                <div class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+                <div
+                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
               </div>
 
               <!-- Right section for showing more payment options -->
               <div
                 class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
               >
-                <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
-                <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                ></div>
               </div>
             </div>
 
@@ -620,7 +627,9 @@ onBeforeUnmount(() => {
                     v-if="subsStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <div
+                      class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                    >
                       <span class="text-[#021328] font-[700] dark:text-white"
                         >{{ subsStore.currentDiscount }}%</span
                       >

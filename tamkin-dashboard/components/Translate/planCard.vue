@@ -4,8 +4,7 @@ const showExpired = ref(false);
 
 <template>
   <div
-    class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse
-     space-x-[16px] rounded-[10px] h-[119px] mt-[16px] px-[15px] flex items-center justify-start mb-[16px]"
+    class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] rounded-[10px] h-[119px] mt-[16px] px-[15px] flex items-center justify-start mb-[16px]"
   >
     <div>
       <img src="/assets/imgs/overview/plan-calender.svg" />
@@ -26,10 +25,10 @@ const showExpired = ref(false);
               <div
                 class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
               >
-                {{ $t('Package Expires in') }}
+                {{ $t("Package Expires in") }}
               </div>
               <div
-                class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                class="flex text-[12px] items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
               >
                 Aug 20,2024
               </div>
@@ -37,8 +36,10 @@ const showExpired = ref(false);
           </template>
           <template v-else>
             <div class="flex items-center" key="expired">
-              <div class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]">
-                {{ $t('Expired') }}
+              <div
+                class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+              >
+                {{ $t("Expired") }}
               </div>
               <div
                 class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
@@ -54,17 +55,18 @@ const showExpired = ref(false);
     <div class="relative">
       <div
         v-if="!showExpired"
-        class="flex items-center justify-center absolute top-[-10px] transform left-[50%] h-[19px] 
-        bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
+        class="flex items-center justify-center absolute top-[-10px] transform left-[50%] h-[19px] bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
       >
-        {{ $t('SAVE') }} 12%
+        {{ $t("SAVE") }} 12%
       </div>
       <button
         class="rounded-full w-[178px]"
-        :class="[showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard']"
+        :class="[
+          showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+        ]"
         @click="modalStore.controlShowUpgradeModal"
       >
-        {{ !showExpired ? $t("Switch To Annual") : $t("Renew")}}
+        {{ !showExpired ? $t("Switch To Annual") : $t("Renew") }}
       </button>
     </div>
   </div>

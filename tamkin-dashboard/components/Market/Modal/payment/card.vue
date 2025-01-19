@@ -325,7 +325,7 @@ onBeforeUnmount(() => {
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
                 >
-                  <div>
+                  <div class="w-[44px]">
                     <img
                       :src="fullUrl(savedCard.logo)"
                       class="w-[44px] h-[44px]"

@@ -18,7 +18,7 @@ const openBuyModal = (pck) => {
 <template>
   <div class="flex flex-col items-center justify-center w-full">
     <div
-      class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+      class="flex items-center xl:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse xl:space-x-[36px] mt-[32px]"
     >
       <div
         v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')"

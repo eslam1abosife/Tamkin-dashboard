@@ -234,7 +234,9 @@ function leaveCart(el, done) {
 
       <div class="space-y-4 mt-[10px]">
         <template v-for="index in 3" :key="index">
-          <div class="flex items-center border-b justify-between pb-4 dark:border-darkborder">
+          <div
+            class="flex items-center border-b justify-between pb-4 dark:border-darkborder"
+          >
             <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div
                 class="rounded-lg dark:bg-p bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border dark:border-darkborder"
@@ -330,7 +332,7 @@ function leaveCart(el, done) {
       v-else
     >
       <div
-        class="flex items-center justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9] dark:border-darkborder"
+        class="flex items-center overflow-y-auto gap-[25px] justify-between w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]"
       >
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
@@ -458,7 +460,9 @@ function leaveCart(el, done) {
       </div>
       <div class="space-y-4 mt-[10px]">
         <template v-for="item in orderDetails.items" :key="item.name">
-          <div class="flex items-center border-b justify-between pb-4 dark:border-darkborder">
+          <div
+            class="flex items-center border-b justify-between pb-4 dark:border-darkborder"
+          >
             <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div
                 class="rounded-lg bg-[#F8F8F8] dark:bg-darkTamkin w-[97px] h-[101px] flex items-center justify-center border dark:border-darkborder"

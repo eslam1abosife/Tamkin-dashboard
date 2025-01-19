@@ -8,9 +8,9 @@ const overviewStore = useOverviewStore();
 const collapseStore = useCollapseStore();
 function formatNumber(value) {
   if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(1) + "M"; 
+    return (value / 1_000_000).toFixed(1) + "M";
   } else if (value >= 1_000) {
-    return (value / 1_000).toFixed(1) + "k"; 
+    return (value / 1_000).toFixed(1) + "k";
   } else {
     return value.toString();
   }
@@ -22,110 +22,161 @@ function calculatePercentage(total, usage) {
   return ((usage / total) * 100).toFixed(0);
 }
 
-const navStore = useNavbarStore()
-
+const navStore = useNavbarStore();
 </script>
 
 <template>
-  <div v-if="statsStore.loadingStats"
-  class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full mb-[24px] relative animate-pulse"
-  style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08)"
->
-  <!-- Header Placeholder -->
-  <div class="flex items-center justify-start px-[15px] pt-[24px] ">
-    <div class="w-3/4 space-y-2">
-      <div class="h-[24px] bg-gray-300 rounded dark:bg-gray-700 w-2/3"></div>
-      <div class="h-[18px] bg-gray-200 rounded dark:bg-gray-600 w-full"></div>
-    </div>
-    <div class="ml-auto flex space-x-2">
-      <div class="h-[30px] w-[80px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"></div>
-      <div class="h-[20px] w-[20px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"></div>
-    </div>
-  </div>
-
-  <!-- Main Content Placeholder -->
   <div
-    class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
+    v-if="statsStore.loadingStats"
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full mb-[24px] relative animate-pulse"
+    style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08)"
   >
-    <!-- Circular Progress Placeholder -->
-    <div class="h-[180px] w-[180px] bg-gray-200 rounded-full dark:bg-gray-700 mt-[60px]"></div>
-
-    <!-- Stats Section Placeholder -->
-    <div class="flex flex-col items-start justify-center w-3/4 space-y-[10px] mt-[32px] px-[4px]">
-      <!-- Placeholder for the Stats Headers -->
-      <div
-        class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap justify-evenly lg:justify-between w-full"
-      >
-        <div class="text-center space-y-2 ">
-          <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
-            <div class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"></div>
-          </div>
-          <div class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"></div>
-        </div>
-
-        <div class="text-center space-y-2">
-          <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
-            <div class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"></div>
-          </div>
-          <div class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"></div>
-        </div>
-
-        <div class="text-center lg:mt-0 mt-[10px] space-y-2">
-          <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
-            <div class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"></div>
-          </div>
-          <div class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"></div>
-        </div>
+    <!-- Header Placeholder -->
+    <div class="flex items-center justify-start px-[15px] pt-[24px]">
+      <div class="w-3/4 space-y-2">
+        <div class="h-[24px] bg-gray-300 rounded dark:bg-gray-700 w-2/3"></div>
+        <div class="h-[18px] bg-gray-200 rounded dark:bg-gray-600 w-full"></div>
       </div>
+      <div class="ml-auto flex space-x-2">
+        <div
+          class="h-[30px] w-[80px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"
+        ></div>
+        <div
+          class="h-[20px] w-[20px] bg-gray-300 dark:bg-gray-600 rounded-full dark:bg-gray-700"
+        ></div>
+      </div>
+    </div>
 
-      <!-- Progress Bars Placeholder -->
-      <div class="w-full space-y-4">
-        <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
-          <div class="flex items-center mt-[32px] w-full">
-            <div class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"></div>
-            <div class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"></div>
-          </div>
-          <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
-            <div
-              class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
-            >
-              <div class="bg-[#F3DFD1] h-full rounded-r-full" style="width: 20%"></div>
+    <!-- Main Content Placeholder -->
+    <div
+      class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
+    >
+      <!-- Circular Progress Placeholder -->
+      <div
+        class="h-[180px] w-[180px] bg-gray-200 rounded-full dark:bg-gray-700 mt-[60px]"
+      ></div>
+
+      <!-- Stats Section Placeholder -->
+      <div
+        class="flex flex-col items-start justify-center w-3/4 space-y-[10px] mt-[32px] px-[4px]"
+      >
+        <!-- Placeholder for the Stats Headers -->
+        <div
+          class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap justify-evenly lg:justify-between w-full"
+        >
+          <div class="text-center space-y-2">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
+              <div
+                class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"
+              ></div>
             </div>
+            <div
+              class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"
+            ></div>
+          </div>
+
+          <div class="text-center space-y-2">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
+              <div
+                class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"
+              ></div>
+            </div>
+            <div
+              class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"
+            ></div>
+          </div>
+
+          <div class="text-center lg:mt-0 mt-[10px] space-y-2">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
+              <div
+                class="h-[16px] bg-gray-300 w-16 rounded dark:bg-gray-600"
+              ></div>
+            </div>
+            <div
+              class="h-[24px] bg-gray-200 w-12 rounded dark:bg-gray-700 mx-auto"
+            ></div>
           </div>
         </div>
 
-        <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
-          <div class="flex items-center mt-[32px] w-full">
-            <div class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"></div>
-            <div class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"></div>
-          </div>
-          <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
-            <div
-              class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
-            >
-              <div class="bg-[#D7D4F4] h-full rounded-r-full" style="width: 40%"></div>
+        <!-- Progress Bars Placeholder -->
+        <div class="w-full space-y-4">
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
+            <div class="flex items-center mt-[32px] w-full">
+              <div
+                class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"
+              ></div>
+              <div
+                class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"
+              ></div>
+            </div>
+            <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+              >
+                <div
+                  class="bg-[#F3DFD1] h-full rounded-r-full"
+                  style="width: 20%"
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
-          <div class="flex items-center mt-[32px] w-full">
-            <div class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"></div>
-            <div class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"></div>
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
+            <div class="flex items-center mt-[32px] w-full">
+              <div
+                class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"
+              ></div>
+              <div
+                class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"
+              ></div>
+            </div>
+            <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+              >
+                <div
+                  class="bg-[#D7D4F4] h-full rounded-r-full"
+                  style="width: 40%"
+                ></div>
+              </div>
+            </div>
           </div>
-          <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
-            <div
-              class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
-            >
-              <div class="bg-[#CEE5F0] h-full rounded-r-full" style="width: 60%"></div>
+
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
+            <div class="flex items-center mt-[32px] w-full">
+              <div
+                class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"
+              ></div>
+              <div
+                class="h-[16px] bg-gray-300 rounded w-12 ml-auto dark:bg-gray-600"
+              ></div>
+            </div>
+            <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+              >
+                <div
+                  class="bg-[#CEE5F0] h-full rounded-r-full"
+                  style="width: 60%"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-  <div  v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length  &&!statsStore.loadingStats"
+  <div
+    v-if="
+      navStore.defaultappobj?.package?.filter((p) => p.type === 'Accessibility')
+        .length && !statsStore.loadingStats
+    "
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full mb-[24px] relative"
     style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08)"
   >
@@ -137,13 +188,17 @@ const navStore = useNavbarStore()
               <h1
                 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
               >
-                {{ $t('Live Translation Overview') }}
+                {{ $t("Live Translation Overview") }}
               </h1>
 
               <p
                 class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
               >
-               {{$t('Live Translation Overview offers insights into real-time translation technologies, enabling instant communication between speakers of different languages')}}
+                {{
+                  $t(
+                    "Live Translation Overview offers insights into real-time translation technologies, enabling instant communication between speakers of different languages"
+                  )
+                }}
               </p>
             </div>
           </div>
@@ -154,11 +209,13 @@ const navStore = useNavbarStore()
           @click="$router.push('/statistics')"
           class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
-          {{ $t('View All') }}
+          {{ $t("View All") }}
         </button>
         <div
           @click.stop="collapseStore.collapseMenu('livetranslation_overview')"
-          v-on-click-outside="() => collapseStore.removeMenu('livetranslation_overview')"
+          v-on-click-outside="
+            () => collapseStore.removeMenu('livetranslation_overview')
+          "
           :class="[
             collapseStore.menus.includes('livetranslation_overview')
               ? 'active_notification !text-darkGrey'
@@ -191,7 +248,9 @@ const navStore = useNavbarStore()
           >
             <div
               class="mini_wrap"
-              @click="collapseStore.collapseCard('livetranslation_overview_card')"
+              @click="
+                collapseStore.collapseCard('livetranslation_overview_card')
+              "
             >
               <div>
                 <svg
@@ -229,7 +288,9 @@ const navStore = useNavbarStore()
               </div>
               <div class="text_mini">
                 {{
-                  !collapseStore.collapses.includes("livetranslation_overview_card")
+                  !collapseStore.collapses.includes(
+                    "livetranslation_overview_card"
+                  )
                     ? "Minisize"
                     : "Maxsize"
                 }}
@@ -246,7 +307,13 @@ const navStore = useNavbarStore()
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
-                  <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
                     <feDropShadow
                       dx="1"
                       dy="1"
@@ -266,18 +333,26 @@ const navStore = useNavbarStore()
         </div>
       </div>
     </div>
-   
+
     <div
-      v-if="!collapseStore.collapses.includes('livetranslation_overview_card') "
+      v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
       class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
     >
-     
-      <div class="h-full  mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
-<CircularProgressBar :showtotal="true" textsize="20px" class="!w-[200px] !h-[200px]"
- :initial-percentage="calculatePercentage(statsStore.overviewStats.total.toFixed(0), statsStore.overviewStats.usage.toFixed(0))"
- :total="statsStore.overviewStats.total.toFixed(0)"/>
+      <div class="h-full mt-[60px] ipad-max:mx-auto w-1/4 flex justify-center">
+        <CircularProgressBar
+          :showtotal="true"
+          textsize="20px"
+          class="!w-[200px] !h-[200px]"
+          :initial-percentage="
+            calculatePercentage(
+              statsStore.overviewStats.total.toFixed(0),
+              statsStore.overviewStats.usage.toFixed(0)
+            )
+          "
+          :total="statsStore.overviewStats.total.toFixed(0)"
+        />
       </div>
-     
+
       <div
         class="flex flex-col items-start justify-center w-full space-y-[10px] mt-[32px] px-[4px]"
       >
@@ -286,10 +361,16 @@ const navStore = useNavbarStore()
         >
           <div class="text-center">
             <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
-              <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
-              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('Used')}}</span>
+              <span
+                class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"
+              ></span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{
+                $t("Used")
+              }}</span>
             </div>
-            <span class="block text-xl font-semibold dark:text-whiteTamkin/90">{{statsStore.overviewStats.usage.toFixed(0)}}%</span>
+            <span class="block text-xl font-semibold dark:text-whiteTamkin/90"
+              >{{ statsStore.overviewStats.usage.toFixed(0) }}%</span
+            >
           </div>
           <div class="text-center">
             <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
@@ -297,31 +378,46 @@ const navStore = useNavbarStore()
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
 
-              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('User Assistance')}}</span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{
+                $t("User Assistance")
+              }}</span>
             </div>
-            <span class="block text-xl font-semibold dark:text-whiteTamkin/90">{{statsStore.overviewStats.user}}</span>
+            <span
+              class="block text-xl font-semibold dark:text-whiteTamkin/90"
+              >{{ statsStore.overviewStats.user }}</span
+            >
           </div>
           <div class="text-center lg:mt-0 mt-[10px]">
             <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 rounded-full mx-auto"
-                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                style="
+                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                "
               ></span>
-              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('Pages Translated')}}</span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{
+                $t("Pages Translated")
+              }}</span>
             </div>
-            <span class="block text-xl font-semibold dark:text-whiteTamkin/90">{{statsStore.overviewStats.page}}</span>
+            <span
+              class="block text-xl font-semibold dark:text-whiteTamkin/90"
+              >{{ statsStore.overviewStats.page }}</span
+            >
           </div>
         </div>
         <div class="w-full">
-          <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
             <div class="flex items-center mt-[32px] w-full">
               <div
                 class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
-                {{ $t('Average Daily') }}
+                {{ $t("Average Daily") }}
               </div>
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.daily.max}}</span
+              <span
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{ statsStore.overviewStats.liveTranslation.daily.max }}</span
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -329,20 +425,30 @@ const navStore = useNavbarStore()
                 style="background: rgba(242, 243, 245, 1)"
                 class="rounded-full h-4 w-full relative overflow-hidden"
               >
-                <div class="bg-[#F3DFD1] h-full rounded-r-full" :style="{width: `${statsStore.overviewStats.liveTranslation.daily.avg}%`}"></div>
+                <div
+                  class="bg-[#F3DFD1] h-full rounded-r-full"
+                  :style="{
+                    width: `${statsStore.overviewStats.liveTranslation.daily.avg}%`,
+                  }"
+                ></div>
               </div>
             </div>
           </div>
 
-          <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
             <div class="flex items-center mt-[32px] w-full">
               <div
                 class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
-                {{ $t('Average Weekly') }}
+                {{ $t("Average Weekly") }}
               </div>
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.weeckly.max}}</span
+              <span
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{
+                  statsStore.overviewStats.liveTranslation.weeckly.max
+                }}</span
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -350,19 +456,27 @@ const navStore = useNavbarStore()
                 style="background: rgba(242, 243, 245, 1)"
                 class="rounded-full h-4 w-full relative overflow-hidden"
               >
-                <div class="bg-[#D7D4F4] h-full rounded-r-full" :style="{width: `${statsStore.overviewStats.liveTranslation.weeckly.avg}%`}"></div>
+                <div
+                  class="bg-[#D7D4F4] h-full rounded-r-full"
+                  :style="{
+                    width: `${statsStore.overviewStats.liveTranslation.weeckly.avg}%`,
+                  }"
+                ></div>
               </div>
             </div>
           </div>
-          <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
+          <div
+            class="flex flex-col items-center justify-center w-full space-y-[6px]"
+          >
             <div class="flex items-center mt-[32px] w-full">
               <div
                 class="lg:w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] rtl:ml-auto ltr:mr-auto"
               >
-                {{ $t('Average Monthly') }}
+                {{ $t("Average Monthly") }}
               </div>
-              <span class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
-                >{{statsStore.overviewStats.liveTranslation.mount.max}}</span
+              <span
+                class="text-[#A6A6A6] text-sm ltr:ml-auto rtl:mr-auto dark:text-whiteTamkin/90"
+                >{{ statsStore.overviewStats.liveTranslation.mount.max }}</span
               >
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -370,7 +484,12 @@ const navStore = useNavbarStore()
                 style="background: rgba(242, 243, 245, 1)"
                 class="rounded-full h-4 w-full relative overflow-hidden"
               >
-                <div class="bg-[#CEE5F0] h-full rounded-r-full" :style="{width: `${statsStore.overviewStats.liveTranslation.mount.avg}%`}"></div>
+                <div
+                  class="bg-[#CEE5F0] h-full rounded-r-full"
+                  :style="{
+                    width: `${statsStore.overviewStats.liveTranslation.mount.avg}%`,
+                  }"
+                ></div>
               </div>
             </div>
           </div>
@@ -379,5 +498,4 @@ const navStore = useNavbarStore()
     </div>
     <!-- Progress Bars -->
   </div>
-
 </template>

@@ -84,7 +84,6 @@ const isLinkActive = (path) => {
 
 <template>
   <div class="space-y-[10px] relative !z-[50]">
-
     <h1
       v-if="!loadApp"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
@@ -205,7 +204,7 @@ const isLinkActive = (path) => {
   </div>
   <div
     v-else
-    class="flex items-center gap-2 pb-[65px] mt-[-20px] flex lg:space-y-0 space-y-[16px]"
+    class="flex items-center gap-2 pb-[65px] mt-[-20px] lg:space-y-0 space-y-[16px]"
     :class="
       loadApp &&
       (isLinkActive('/sign-language/overview') ||

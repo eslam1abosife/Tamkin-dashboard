@@ -30,7 +30,7 @@ const {
   setData,
 } = useModalManager();
 
-const colorMode = useColorMode()
+const colorMode = useColorMode();
 
 const currentCard = ref("");
 const loading = ref(false);
@@ -340,7 +340,7 @@ onBeforeUnmount(() => {
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
                 >
-                  <div>
+                  <div class="w-[44px]">
                     <img
                       :src="fullUrl(savedCard.logo)"
                       class="w-[44px] h-[44px]"
@@ -478,15 +478,21 @@ onBeforeUnmount(() => {
                 <div
                   class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
-                <div class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+                <div
+                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
               </div>
 
               <!-- Right section for showing more payment options -->
               <div
                 class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
               >
-                <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
-                <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                ></div>
               </div>
             </div>
 

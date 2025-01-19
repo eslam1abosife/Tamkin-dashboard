@@ -101,12 +101,12 @@ const isLinkActive = (path) => {
         }"
       >
         <div
-          class="rtl:pr-[120px] ltr:pl-[120px] rtl:text-right ltr:text-left mt-[32px] ipad-max:text-[10px] ipad-max:pl-[80px] text-[14px] font-[600] dark:text-whiteTamkin leading-[24px] text-black break-words w-full"
+          class="rtl:pr-[38px] ltr:pl-[38px] lg:rtl:pr-[120px] lg:ltr:pl-[120px] rtl:text-right ltr:text-left mt-[32px] ipad-max:text-[10px] ipad-max:pl-[80px] text-[14px] font-[600] dark:text-whiteTamkin leading-[24px] text-black break-words w-full"
         >
           {{ $t(packagesStore.selectedQuestion.question) }}
         </div>
         <div
-          class="rtl:pr-[120px] ltr:pl-[120px] ipad-max:pl-[80px] ipad-max:text-[10px] mt-[28px] rtl:text-right ltr:text-left text-[12px] font-[400] dark:text-whiteTamkin leading-[24px] text-black"
+          class="rtl:pr-[38px] ltr:pl-[38px] lg:rtl:pr-[120px] lg:ltr:pl-[120px] ipad-max:pl-[80px] ipad-max:text-[10px] mt-[28px] rtl:text-right ltr:text-left text-[12px] font-[400] dark:text-whiteTamkin leading-[24px] text-black"
         >
           {{ $t(packagesStore.selectedQuestion.answer) }}
         </div>
