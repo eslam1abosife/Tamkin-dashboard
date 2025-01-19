@@ -141,13 +141,13 @@ const changePlan = (data: string) => {
                 </div>
 
                 <div
-                    class="inline-flex items-center rounded-full bg-tamkinLight  dark:bg-transparent dark:border-darkGrey p-1 border border-gray-300">
+                    class="inline-flex items-center rounded-full bg-tamkinLight  dark:bg-transparent  dark:border-darkborder p-1 border border-gray-300">
                     <button @click="switchBetweenMonthlyAndAnnual('monthly')"
-                        :class="[pricingType === 'monthly' ? 'bg-white dark:bg-light rounded-full' : '']"
+                        :class="[pricingType === 'monthly' ? 'bg-white dark:bg-darkTamkin rounded-full' : '']"
                         class="py-2 px-4 transition-all ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[14px] leading-[22.5px]">
                         Monthly
                     </button>
-                    <button :class="[pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '']"
+                    <button :class="[pricingType === 'annual' ? 'bg-white dark:bg-darkTamkin rounded-full' : '']"
                         @click="switchBetweenMonthlyAndAnnual('annual')" class="py-2 px-2 transition-all ease-in-out text-darkGrey  dark:text-whiteTamkin 
             font-[500] text-[14px] leading-[22.5px] mr-[4px]">
                         Annual
