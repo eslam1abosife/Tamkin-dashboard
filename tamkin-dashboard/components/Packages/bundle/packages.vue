@@ -25,7 +25,7 @@ const openModalCustom = async (pk) => {
       <!-- {{ packagesStore.getPackageByTypeAndCategory('Package') }} -->
 
       <div
-        class="w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin h-auto mx-auto bg-white rounded-xl custom-border relative p-6"
+        class="w-full dark:bg-tamkinDarkPrimary mt-4 dark:text-whiteTamkin h-auto mx-auto bg-white rounded-xl custom-border relative p-6"
         v-for="pak in packagesStore
           .getPackageByTypeAndCategory('Package')
           .sort((a, b) => a.sort - b.sort)"

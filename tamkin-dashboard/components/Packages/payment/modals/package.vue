@@ -838,12 +838,12 @@ const formattedTotal = computed(() => {
               />
             </div>
             <div
-              class="font-[600] text-[16px] leading-[30px] text-black text-center"
+              class="font-[600] dark:text-whiteTamkin text-[16px] leading-[30px] text-black text-center"
             >
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
             <div
-              class="font-[400] text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
+              class="font-[400] dark:text-whiteTamkin text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
             >
               {{
                 packagesStore.currentType.title +

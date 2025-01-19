@@ -80,7 +80,7 @@ watch(packagesStore.traffic_level, () => {
   >
     <div
       v-if="!loadingchange"
-      class="flex items-center lg:flex-row dark:bg-tamkinDarkPrimary flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+      class="flex items-center xl:flex-row dark:bg-tamkinDarkPrimary flex-col justify-center lg:justify-evenly h-full w-full xl:rtl:space-x-reverse xl:space-x-[36px] mt-[32px]"
     >
       <div
         v-for="pak in filteredPackages"
@@ -90,7 +90,7 @@ watch(packagesStore.traffic_level, () => {
       >
         <div
           v-if="pak.type_deal !== 'None'"
-          class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:bg-tamkinDarkPrimary top-[-15px] rtl:lg:right-[250px] ltr:lg:left-[250px]"
+          class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:bg-tamkinDarkPrimary top-[-15px] rtl:lg:right-[50%] ltr:lg:left-[50%]"
           style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
         >
           <div class=" ">{{ $t(pak.type_deal) }}</div>

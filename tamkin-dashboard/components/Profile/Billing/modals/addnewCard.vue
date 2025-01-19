@@ -67,7 +67,7 @@ const cardOptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif",
-        color: navStore.isDark ? '#ffffff' : '#000000',
+      color: navStore.isDark ? "#ffffff" : "#000000",
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -83,7 +83,7 @@ const expiryoptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
-        color: navStore.isDark ? '#ffffff' : '#000000',
+      color: navStore.isDark ? "#ffffff" : "#000000",
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -97,7 +97,7 @@ const cardCvcOptions = ref({
     base: {
       fontFamily:
         locale.value === "ar" ? "Almarai, sans-serif" : "Poppins, sans-serif", // Ensure fallback fonts are specified
-        color: navStore.isDark ? '#ffffff' : '#000000',
+      color: navStore.isDark ? "#ffffff" : "#000000",
       "::placeholder": {
         color: "#A7A7A7",
         fontWeight: "500",
@@ -419,7 +419,7 @@ const countriesC = computed(() => {
           </h1>
         </div>
         <div
-          class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
+          class="flex flex-col items-start lg:pr-0 pr-4 justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
@@ -432,7 +432,7 @@ const countriesC = computed(() => {
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[0px] lg:space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="w-full relative">
@@ -620,7 +620,7 @@ const countriesC = computed(() => {
               </div>
             </div>
             <div
-              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[0px] lg:space-x-[20px] lg:mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -700,7 +700,7 @@ const countriesC = computed(() => {
             </div>
 
             <div
-              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
+              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse lg:space-x-[20px] space-x-[0px] lg:mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -768,7 +768,7 @@ const countriesC = computed(() => {
             </div>
           </div>
 
-          <div class="px-[20px]">
+          <div class="px-[20px] mt-2">
             <label
               for="remember_me"
               class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"

@@ -5,14 +5,13 @@ import {
   useGetMembers,
   useSummaryDetailedCode,
 } from "@/composables/useEmbedCode";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
 
-
 useHead({
   title: t("Investors Packages - Tamkin Dashboard"),
-})
+});
 definePageMeta({
   layout: "dashboard",
 });
@@ -103,7 +102,9 @@ const uniqueValues = (items) => {
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
         <!-- Icon Skeleton -->
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <!-- Title Skeleton -->
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <!-- Subtitle Skeleton -->
@@ -126,7 +127,9 @@ const uniqueValues = (items) => {
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
@@ -143,7 +146,9 @@ const uniqueValues = (items) => {
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
@@ -191,11 +196,15 @@ const uniqueValues = (items) => {
       </div>
     </div>
 
-    <div class="flex items-center justify-between w-full mt-[26px]">
+    <div
+      class="flex items-center flex-col md:flex-row justify-between w-full mt-[26px]"
+    >
       <!-- Traffic level selection section (first) -->
-      <div class="flex items-center justify-start w-2/4 p-[4px] order-1">
+      <div
+        class="flex items-center mb-2 flex-col md:flex-row w-full md:w-[50%] justify-start p-[4px] order-1"
+      >
         <div
-          class="text-black dark:text-whiteTamkin font-[600] text-[14px] w-3/6"
+          class="text-black mb-2 dark:text-whiteTamkin font-[600] text-[14px] w-3/6"
         >
           {{ $t("Choose Traffic level") }} :
         </div>
@@ -213,7 +222,7 @@ const uniqueValues = (items) => {
 
       <!-- What’s included section (second) -->
       <div
-        class="flex items-center justify-end rtl:space-x-reverse space-x-[10px] w-2/4 order-2 cursor-pointer"
+        class="flex items-center mb-2 justify-end rtl:space-x-reverse space-x-[10px] w-4/4 order-2 cursor-pointer"
         @click="
           packagesStore.showMoreINInvestors = !packagesStore.showMoreINInvestors
         "

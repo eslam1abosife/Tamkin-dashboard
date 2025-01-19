@@ -24,11 +24,13 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
 
 <template>
   <div
-    class="grid dark:bg-tamkinDarkPrimary grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+    class="grid dark:bg-tamkinDarkPrimary grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4` overflow-x-hidden bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
     <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div
-      v-if="currentCategoryWithSkinItems.skin_items_list.length > 0 && !loadingChars"
+      v-if="
+        currentCategoryWithSkinItems.skin_items_list.length > 0 && !loadingChars
+      "
       class="market_card_char order-1 cursor-pointer"
       @click="playerStore.wearClothes(skin_item)"
       :role="marketStore.owned(skin_item) ? 'button' : ''"
@@ -296,7 +298,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <div
                 v-if="!defaultApp"
