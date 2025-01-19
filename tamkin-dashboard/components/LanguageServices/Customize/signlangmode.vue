@@ -218,9 +218,7 @@ const backgroundWidgetValues = (v: string) => {
           : ''
       "
     >
-
       <div
-    
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
         <MessagesLockedFeature
@@ -324,7 +322,7 @@ const backgroundWidgetValues = (v: string) => {
 
       <div
         v-if="customizeStore.isAccessbilityModeIconsActive"
-        class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+        class="flex items-center flex-wrap justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
         :class="[
           !isChecked(
             'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
@@ -333,65 +331,67 @@ const backgroundWidgetValues = (v: string) => {
             : '',
         ]"
       >
-        <div
-          v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
-          class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-          :class="[
-            customizeStore.accessibilityMode === 'left'
-              ? 'custom-border padding-2'
-              : '',
-          ]"
-          @click="
-            () => {
-              if (
-                isChecked(
-                  'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
-                )
-              ) {
-                customizeStore.moveHideWidget('left');
+        <div class="flex flex-row">
+          <div
+            v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
+            class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+            :class="[
+              customizeStore.accessibilityMode === 'left'
+                ? 'custom-border padding-2'
+                : '',
+            ]"
+            @click="
+              () => {
+                if (
+                  isChecked(
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                  )
+                ) {
+                  customizeStore.moveHideWidget('left');
+                }
               }
-            }
-          "
-        >
-          <div>
-            <img
-              src="/assets/imgs/customize/left_side.svg"
-              class="w-[25px] h-[25px] dark:invert"
-            />
+            "
+          >
+            <div>
+              <img
+                src="/assets/imgs/customize/left_side.svg"
+                class="w-[25px] h-[25px] dark:invert"
+              />
+            </div>
+            <div class="text-[14px]">{{ $t("Left Side") }}</div>
           </div>
-          <div class="text-[14px]">{{ $t("Left Side") }}</div>
-        </div>
-        <div
-          v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
-          class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-          @click="
-            () => {
-              if (
-                isChecked(
-                  'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
-                )
-              ) {
-                customizeStore.moveHideWidget('right');
+          <div
+            v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
+            class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+            @click="
+              () => {
+                if (
+                  isChecked(
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                  )
+                ) {
+                  customizeStore.moveHideWidget('right');
+                }
               }
-            }
-          "
-          :class="[
-            customizeStore.accessibilityMode === 'right'
-              ? 'custom-border padding-2'
-              : '',
-          ]"
-        >
-          <div>
-            <img
-              src="/assets/imgs/customize/right_side.svg"
-              class="w-[25px] h-[25px] dark:invert"
-            />
+            "
+            :class="[
+              customizeStore.accessibilityMode === 'right'
+                ? 'custom-border padding-2'
+                : '',
+            ]"
+          >
+            <div>
+              <img
+                src="/assets/imgs/customize/right_side.svg"
+                class="w-[25px] h-[25px] dark:invert"
+              />
+            </div>
+            <div class="text-[14px]">{{ $t("Right Side") }}</div>
           </div>
-          <div class="text-[14px]">{{ $t("Right Side") }}</div>
         </div>
         <div
           v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
-          class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
           @click="
             () => {
               if (

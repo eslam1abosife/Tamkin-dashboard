@@ -79,7 +79,7 @@ const settingsStore = useSettingsStore();
     </div>
 
     <div
-      class="flex items-center justify-between lg:flex-nowrap flex-wrap"
+      class="flex items-center justify-between lg:flex-row flex-col"
       v-if="
         switchButtonLocation === 'desktop' &&
         customizeStore.isButtonDesktopPositionActive
@@ -391,7 +391,7 @@ const settingsStore = useSettingsStore();
     </div>
 
     <div
-      class="flex items-center justify-between lg:flex-nowrap flex-wrap"
+      class="flex items-center justify-between lg:flex-row flex-col"
       v-if="
         switchButtonLocation === 'mobile' &&
         customizeStore.isButtonMobilePositionActive

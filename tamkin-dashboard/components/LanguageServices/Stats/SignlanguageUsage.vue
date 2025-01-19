@@ -183,93 +183,100 @@ const formattedTotal = computed(() => {
       </div>
     </div>
     <div
-    class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
-    v-if="statsStore.loadingStatsIntranlsation"
-  >
-    <div
-      class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
-    ></div>
+      class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
+      v-if="statsStore.loadingStatsIntranlsation"
+    >
+      <div
+        class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
+      ></div>
 
-    <table class="min-w-full leading-normal">
-      <thead>
-        <tr>
-          <th
-            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
-          ></th>
-          <th
-            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
-          ></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="h-[56px]" v-for="i in 5" :key="i">
-          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-            <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-            >
+      <table class="min-w-full leading-normal">
+        <thead>
+          <tr>
+            <th
+              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+            ></th>
+            <th
+              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+            ></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="h-[56px]" v-for="i in 5" :key="i">
+            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
               <div
-                class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"
-              ></div>
-              <div
-                class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"
-              ></div>
-            </div>
-          </td>
-          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-            <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-              <div
-                class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
-              ></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+              >
+                <div
+                  class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"
+                ></div>
+                <div
+                  class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"
+                ></div>
+              </div>
+            </td>
+            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                <div
+                  class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+                ></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div
-      class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
-    ></div>
+      <div
+        class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
+      ></div>
 
-    <table class="min-w-full leading-normal">
-      <thead>
-        <tr>
-          <th
-            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
-          ></th>
-          <th
-            class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
-          ></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="h-[56px]" v-for="i in 5" :key="i">
-          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-            <div class="flex items-start flex-col justify-center">
-              <div
-                class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"
-              ></div>
-              <div
-                class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"
-              ></div>
-            </div>
-          </td>
-          <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-            <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-              <div
-                class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
-              ></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <table class="min-w-full leading-normal">
+        <thead>
+          <tr>
+            <th
+              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+            ></th>
+            <th
+              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+            ></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="h-[56px]" v-for="i in 5" :key="i">
+            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+              <div class="flex items-start flex-col justify-center">
+                <div
+                  class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"
+                ></div>
+                <div
+                  class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"
+                ></div>
+              </div>
+            </td>
+            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                <div
+                  class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+                ></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div
-      class="relative w-full lg:mt-[-70px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary mt-[10px]"
-      v-if="!collapseStore.collapses.includes('translation_stats_card') && !statsStore.loadingStatsIntranlsation"
-      :class="[ navStore.defaultappobj?.package?.filter(
-        (p) => p.type === 'Sign language'
-      ).length === 0 ? 'h-[500px]':'']"
+      class="relative w-full lg:mt-[-50px] mx-auto rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary mt-[10px]"
+      v-if="
+        !collapseStore.collapses.includes('translation_stats_card') &&
+        !statsStore.loadingStatsIntranlsation
+      "
+      :class="[
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Sign language'
+        ).length === 0
+          ? 'h-[500px]'
+          : '',
+      ]"
     >
       <MessagesLockedFeature
         v-if="
@@ -279,24 +286,26 @@ const formattedTotal = computed(() => {
         "
         class="mt-[100px]"
       />
-      <div  
-      :class="[ navStore.defaultappobj?.package?.filter(
-        (p) => p.type === 'Sign language'
-      ).length > 0 ? 'visible':'invisible']"
-        class="flex items-center justify-start rtl:mr-auto ltr:ml-auto ltr:mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full
-         ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
+      <div
+        :class="[
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Sign language'
+          ).length > 0
+            ? 'visible'
+            : 'invisible',
+        ]"
+        class="flex items-center justify-start rtl:mr-auto ltr:ml-auto ltr:mr-[15px] h-[105px] my-[28px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] custom-border bg-white dark:bg-p"
       >
         <div
           class="circular-progress big bg-white dark:bg-transparent rounded-full rtl:mr-[10px] ltr:ml-[10px]"
         >
-          <svg viewBox="0 0 36 36"  width="60" height="60">
+          <svg viewBox="0 0 36 36" width="60" height="60">
             <defs>
               <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
                 <stop offset="0%" stop-color="#E494C4" stop-opacity="0.2" />
                 <stop offset="50%" stop-color="#D389D6" stop-opacity="0.7" />
                 <stop offset="100%" stop-color="#CBB5EA" stop-opacity="0.7" />
               </linearGradient>
-              
             </defs>
             <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
             <circle
@@ -304,12 +313,10 @@ const formattedTotal = computed(() => {
               cx="18"
               cy="18"
               r="15.91549431"
-                opacity="0.7"
+              opacity="0.7"
               :style="`stroke-dasharray: ${usagePercentage.toFixed(0)},100`"
             ></circle>
           </svg>
-
-       
 
           <div
             class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
@@ -376,18 +383,26 @@ const formattedTotal = computed(() => {
         <thead>
           <tr>
             <th
-            :class="   navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length === 0 ? 'opacity-10' : ' '" 
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length === 0
+                  ? 'opacity-10'
+                  : ' '
+              "
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("languages") }}
             </th>
 
             <th
-            :class="   navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length === 0 ? 'opacity-10' : ' '" 
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length === 0
+                  ? 'opacity-10'
+                  : ' '
+              "
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Usage") }}
@@ -468,9 +483,13 @@ const formattedTotal = computed(() => {
       </table>
 
       <h1
-      :class="   navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length === 0 ? 'opacity-10' : ' '" 
+        :class="
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Sign language'
+          ).length === 0
+            ? 'opacity-10'
+            : ' '
+        "
         class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin"
       >
         {{ $t("Pages Translated") }}
@@ -480,18 +499,26 @@ const formattedTotal = computed(() => {
         <thead>
           <tr>
             <th
-            :class="   navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length === 0 ? 'opacity-10' : ' '" 
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length === 0
+                  ? 'opacity-10'
+                  : ' '
+              "
               class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Page") }}
             </th>
 
             <th
-            :class="   navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Sign language'
-            ).length === 0 ? 'opacity-10' : ' '" 
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length === 0
+                  ? 'opacity-10'
+                  : ' '
+              "
               class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
             >
               {{ $t("Usage") }}
@@ -502,7 +529,6 @@ const formattedTotal = computed(() => {
           v-if="statsStore.pagesTranslated && statsStore.pagesTranslated.length"
         >
           <tr
-
             class="bg-white h-[56px] dark:bg-tamkinDarkPrimary"
             v-for="(page, i) in statsStore.pagesTranslated"
             :key="i"
@@ -556,9 +582,9 @@ const formattedTotal = computed(() => {
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${Number(page.percentage).toFixed(
-                      0
-                    )},100`"
+                    :style="`stroke-dasharray: ${Number(
+                      page.percentage
+                    ).toFixed(0)},100`"
                   ></circle>
                 </svg>
                 <div

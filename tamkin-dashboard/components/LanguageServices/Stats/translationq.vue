@@ -353,7 +353,7 @@ const options = ref({
       </div>
     </div>
     <div
-      class="relative w-full mt-[24px] mx-auto dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+      class="relative w-full mt-[24px] mx-auto dark:bg-tamkinDarkPrimary rounded-lg"
       v-if="!collapseStore.collapses.includes('translation_q_card')"
     >
       <MessagesLockedFeature
@@ -443,7 +443,7 @@ const options = ref({
           />
 
           <div
-            class="text-[18px] leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin"
+            class="text-[18px] text-center leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin"
           >
             {{ $t("Translation Accuracy") }}
           </div>
