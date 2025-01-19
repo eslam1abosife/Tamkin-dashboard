@@ -24,7 +24,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
 
 <template>
   <div
-    class="grid dark:bg-tamkinDarkPrimary grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-x-hidden bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+    class="grid dark:bg-tamkinDarkPrimary grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4` overflow-x-hidden bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
     <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div

@@ -18,7 +18,7 @@ const props = defineProps({
   showModal: Boolean,
 });
 const {
-  isOpen:isModalOpen,
+  isOpen: isModalOpen,
   currentView,
   openModal,
   closeModal,
@@ -43,7 +43,8 @@ const validDate = (value) => {
   const [month, year] = value.split("/").map(Number);
   return month >= 1 && month <= 12 && year >= 0 && year <= 99;
 };
-const creditCardPattern2 = /^(?:4[0-9]{15}|5[1-5][0-9]{14}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
+const creditCardPattern2 =
+  /^(?:4[0-9]{15}|5[1-5][0-9]{14}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
 
 const futureDate = (value) => {
   if (!value || value.length !== 5) {
@@ -120,7 +121,7 @@ const countries = [
 const isOpen = ref(false);
 const search = ref("");
 const selectedCountry = ref(null);
-const loading = ref(false)
+const loading = ref(false);
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
@@ -138,7 +139,6 @@ const filteredCountries = computed(() => {
 watch(
   state,
   (newValue) => {
-   
     const formattedValue = newValue.cardNumber
       .replace(/\s+/g, "")
       .replace(/(.{4})/g, "$1 ")
@@ -151,15 +151,30 @@ watch(
   { deep: true }
 );
 
-const checkInput = (event) =>{
-      // Allow only numeric input
-      const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
+const checkInput = (event) => {
+  // Allow only numeric input
+  const allowedKeys = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "Backspace",
+    "ArrowLeft",
+    "ArrowRight",
+    "Delete",
+    "Tab",
+  ];
 
-      if (!allowedKeys.includes(event.key)) {
-        event.preventDefault();
-      }
-    }
-
+  if (!allowedKeys.includes(event.key)) {
+    event.preventDefault();
+  }
+};
 </script>
 
 <template>
@@ -167,11 +182,11 @@ const checkInput = (event) =>{
     class="flex flex-col lg:items-start justify-center w-full"
     v-if="showModal"
   >
-    <div class="flex items-center justify-center ">
+    <div class="flex items-center justify-center">
       <div
-        @click="navigateTo('newCard','add-site','cardModal')"
-        class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]
-        border-linecolor rounded-full w-[30px] h-[30px]"        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
+        @click="navigateTo('newCard', 'add-site', 'cardModal')"
+        class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
+        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
       >
         <svg
           width="9"
@@ -187,17 +202,17 @@ const checkInput = (event) =>{
         </svg>
       </div>
       <h1
-        class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
+        class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
       >
         Billing Info
       </h1>
     </div>
     <div
-      class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px] "
+      class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[31px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
       >
         Billing Info
       </h1>
@@ -206,8 +221,7 @@ const checkInput = (event) =>{
         class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
       >
         <div
-          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
-           space-y-[25px] mb-[25px] w-full"
+          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="w-full relative">
@@ -296,7 +310,6 @@ const checkInput = (event) =>{
               placeholder="{{$t('Card Number')}}"
               id="cardNumber"
               @keydown="checkInput"
-
               :maxlength="19"
               class="input_floating_label peer w-full lg:w-[704px]"
               v-model="v$.cardNumber.$model"
@@ -311,7 +324,8 @@ const checkInput = (event) =>{
               for="cardNumber"
               class="floating_label"
               :class="[
-                v$.cardNumber.$error && v$.cardNumber.required.$invalid || v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid
+                (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
+                (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid)
                   ? '!text-error'
                   : '',
               ]"
@@ -396,7 +410,7 @@ const checkInput = (event) =>{
               <input
                 type="password"
                 @keydown="checkInput"
-              :maxlength="3"
+                :maxlength="3"
                 placeholder="{{$t('CVV')}}"
                 id="cvv"
                 class="input_floating_label peer w-full lg:w-[330px]"
@@ -451,7 +465,7 @@ const checkInput = (event) =>{
       </div>
 
       <h1
-        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[0px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[0px]"
       >
         Billing address
       </h1>
@@ -576,8 +590,7 @@ const checkInput = (event) =>{
         </div>
 
         <div
-          class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 
-          space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+          class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -622,39 +635,45 @@ const checkInput = (event) =>{
                 class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] ltr:text-left rtl:text-right"
                 :class="[isOpen ? 'rounded-b-none' : '']"
               >
-                <div class="floating_country !font-[400] text-[14px]" :class="[selectedCountry && selectedCountry.name ? '!text-black' :'text-light']">{{
-                  selectedCountry ? selectedCountry.name : "Country*"
-                }}</div>
+                <div
+                  class="floating_country !font-[400] text-[14px]"
+                  :class="[
+                    selectedCountry && selectedCountry.name
+                      ? '!text-black'
+                      : 'text-light',
+                  ]"
+                >
+                  {{ selectedCountry ? selectedCountry.name : "Country*" }}
+                </div>
 
-                <img 
+                <img
                   src="/assets/imgs/payment_methods/country_arrow.svg"
-                  
                   :class="[isOpen ? 'rotate-90' : '']"
-                  class="mr-[20px] mb-[0px] float-right w-[16px] h-[12px]" 
+                  class="mr-[20px] mb-[0px] float-right w-[16px] h-[12px]"
                 />
               </button>
               <div
                 v-if="isOpen"
                 class="absolute z-10 top-[52px] w-[330px] bg-white border rounded shadow"
               >
-                <div class="py-[21px]  search_input mx-auto w-full  px-[20px]">
+                <div class="py-[21px] search_input mx-auto w-full px-[20px]">
                   <input
                     type="text"
-                    class="input_dashboard_search w-full  "
+                    class="input_dashboard_search w-full"
                     v-model="search"
-                    :placeholder="`${$t('Search')} ...`" 
+                    :placeholder="`${$t('Search')} ...`"
                   />
                   <div
                     class="absolute top-[33px] lg:top-[20px] lg:left-[20px] left-[30px] lg:p-[16px]"
                   >
-                    <img  src="/assets/imgs/icons/search.svg"  />
+                    <img src="/assets/imgs/icons/search.svg" />
                   </div>
                   <div
                     v-if="search"
                     @click="search = ''"
                     class="absolute top-[16px] lg:top-[18px] right-[20px] p-[16px] cursor-pointer"
                   >
-                    <img  src="/assets/imgs/icons/clear_search.svg"  />
+                    <img src="/assets/imgs/icons/clear_search.svg" />
                   </div>
                 </div>
                 <ul>
@@ -663,7 +682,7 @@ const checkInput = (event) =>{
                     :key="country.code"
                     class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100"
                   >
-                    <img  :src="country.flag"  class="w-6 h-4 mr-2" />
+                    <img :src="country.flag" class="w-6 h-4 mr-2" />
                     <span>{{ country.name }}</span>
                     <div class="ml-auto">
                       <input
@@ -706,43 +725,64 @@ const checkInput = (event) =>{
         </div>
       </div>
 
-      <div class="flex items-center justify-between  rtl:space-x-reverse space-x-[24px] w-full  px-[20px] ">
+      <div
+        class="flex items-center justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+      >
         <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[10px]">
           <input
             type="text"
             class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
-          v-model="promo"
+            v-model="promo"
             placeholder="Promo Code"
-            :class="[validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '']"
+            :class="[
+              validPromo
+                ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                : '',
+            ]"
           />
-         <div class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] 
-         flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="validPromo">
-          <img  src="/assets/imgs/promo_valid.svg" />
-          <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70 ">
-                  <span class="text-[#021328]  font-[700]">12%</span> Discount (-$2,444 )
+          <div
+            class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
+            v-if="validPromo"
+          >
+            <img src="/assets/imgs/promo_valid.svg" />
+            <div
+              class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+            >
+              <span class="text-[#021328] font-[700]">12%</span> Discount
+              (-$2,444 )
+            </div>
+            <img src="/assets/imgs/promo_valid_.svg" class="" />
           </div>
-          <img  src="/assets/imgs/promo_valid_.svg" class="" />
-      
-         </div>
           <div
             v-if="isPromoFilled"
             @click="clearInput"
-            class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]" 
+            class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
           >
-            <img  src="/assets/imgs/close_promo.svg"  />
+            <img src="/assets/imgs/close_promo.svg" />
           </div>
         </div>
-            <div class="text-center mt-[10px]">
-              <button class="btn-dashboard hover_tamkin w-6/6 mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
-              <button v-else class="btn_bordered_dashboard 
-      error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
-            </div>
-       </div>
+        <div class="text-center mt-[10px]">
+          <button
+            class="btn-dashboard hover_tamkin w-6/6 mx-auto text-center"
+            @click="addPromoCode"
+            v-if="!validPromo"
+          >
+            Apply Code
+          </button>
+          <button
+            v-else
+            class="btn_bordered_dashboard error w-6/6 mx-auto text-center"
+            @click="removePromoCode"
+          >
+            Remove Code
+          </button>
+        </div>
+      </div>
       <table class="min-w-full">
         <thead>
           <tr>
             <th
-              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey  dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
               colspan="12"
             >
               Summary
@@ -755,12 +795,15 @@ const checkInput = (event) =>{
             v-if="validPromo"
           >
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
+              class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
               colspan="2"
             >
               Subtotal
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
+            <td
+              class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
+              colspan="2"
+            >
               $50,444.00
             </td>
           </tr>
@@ -769,23 +812,31 @@ const checkInput = (event) =>{
             class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
           >
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
+              class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
               colspan="2"
             >
               Discount
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
+            <td
+              class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
+              colspan="2"
+            >
               $50,444.00
             </td>
           </tr>
-          <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
+          <tr
+            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+          >
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
+              class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
               colspan="2"
             >
               Total
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin"  colspan="2">
+            <td
+              class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
+              colspan="2"
+            >
               $50,444.00
             </td>
           </tr>
@@ -793,20 +844,19 @@ const checkInput = (event) =>{
       </table>
       <div class="mt-[39px] mx-auto mb-[34px]">
         <button
-          class="btn-dashboard hover_tamkin lg:w-[535px]  !h-[40px]  w-full"
-          @click="navigateTo('newCard','add-site','successPayment')"
+          class="btn-dashboard hover_tamkin lg:w-[535px] !h-[40px] w-full"
+          @click="navigateTo('newCard', 'add-site', 'successPayment')"
           v-if="!loading"
         >
           Confirm Payment
         </button>
-        <button class="processing_payment lg:w-[535px]  !h-[40px] w-full" v-else>
+        <button class="processing_payment lg:w-[535px] !h-[40px] w-full" v-else>
           Payment Processing...
         </button>
       </div>
 
       <div class="">
-
-        <img  src="/assets/imgs/payment_methods/accepted-cards.svg" />
+        <img src="/assets/imgs/payment_methods/accepted-cards.svg" />
       </div>
       <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
   
