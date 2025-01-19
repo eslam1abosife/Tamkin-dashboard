@@ -36,7 +36,9 @@ const openBuyModal = (pck) => {
       />
     </div>
 
-    <div class="grid grid-cols-4 ipad-max:grid-cols-2 gap-4 relative z-50">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative z-50"
+    >
       <div
         v-for="addon in packagesStore
           .getAddonsOrExtras('Addons')

@@ -284,7 +284,9 @@ const isCurrentRateEmpty = computed(() => {
           {{ $t("How It Works") }}
         </div>
 
-        <div class="flex items-center justify-between w-full mt-[36px]">
+        <div
+          class="flex items-center flex-col xl:flex-row gap-4 justify-between w-full mt-[36px]"
+        >
           <div class="flex flex-col items-center justify-center w-full">
             <div>
               <img
@@ -345,7 +347,7 @@ const isCurrentRateEmpty = computed(() => {
         class="bg-white dark:bg-tamkinDarkPrimary w-full grid grid-cols-12 gap-4 my-[16px] p-[32px] rounded-[10px]"
       >
         <div
-          class="h-[247px] dark:bg-p col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px]"
+          class="dark:bg-p col-span-12 xl:col-span-4 p-[24px] bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px]"
         >
           <div
             class="flex items-center justify-between w-full p-[16px] relative"
@@ -440,7 +442,7 @@ const isCurrentRateEmpty = computed(() => {
         </div>
 
         <div
-          class="h-[247px] dark:bg-p col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative z-[10] p-[24px]"
+          class="dark:bg-p col-span-12 xl:col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative z-[10] p-[24px]"
         >
           <!-- Loading placeholder -->
           <div
@@ -487,7 +489,7 @@ const isCurrentRateEmpty = computed(() => {
               class="mt-[12px] border-[1px] dark:bg-tamkinDarkPrimary bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px] rtl:flex-row-reverse"
             >
               <div
-                class="text-[14px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
+                class="lg:text-[14px] text-[12px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
               >
                 {{ $t("Referral Link") }}
               </div>
@@ -495,7 +497,7 @@ const isCurrentRateEmpty = computed(() => {
                 class="flex items-center justify-end space-x-[12px] rtl:flex-row-reverse"
               >
                 <div
-                  class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
+                  class="ml-auto lg:text-[14px] md:text-[12px] text-[10px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
                 >
                   {{ source }}
                 </div>
@@ -528,14 +530,14 @@ const isCurrentRateEmpty = computed(() => {
           class="flex items-center justify-between ipad-max:space-x-[24px] w-full"
         >
           <div
-            class="p-[10px] ipad-max:w-full w-1/4 h-[42px] dark:bg-p bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
+            class="p-[10px] ipad-max:w-full w-3/4 md:w-2/4 lg:w-2/4 h-[42px] dark:bg-p bg-[#F9F9F9] rounded-[10px] flex items-center justify-center"
           >
             <div
               @click="changeTab('rewards')"
               :class="[
                 currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]',
               ]"
-              class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
+              class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center md:text-[16px] text-[12px] font-[500] leading-[22px]"
             >
               {{ $t("Withdraw") }}
             </div>
@@ -544,13 +546,13 @@ const isCurrentRateEmpty = computed(() => {
               :class="[
                 currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]',
               ]"
-              class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
+              class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center md:text-[16px] text-[12px] font-[500] leading-[22px]"
             >
               {{ $t("Referrals") }}
             </div>
           </div>
 
-          <div class="w-full ipad-max:w-full lg:w-1/4">
+          <div class="w-1/4 md:w-1/4 lg:w-1/4">
             <VueDatePicker
               direction="ltr"
               :enable-time-picker="false"
@@ -884,7 +886,9 @@ const isCurrentRateEmpty = computed(() => {
 
         <!-- no Referrals available-->
         <div class="w-full mt-[16px]" v-if="loadingBlock">
-          <div class="bg-white border-b table-fixed border-gray-200 dark:bg-p dark:border-darkborder">
+          <div
+            class="bg-white border-b table-fixed border-gray-200 dark:bg-p dark:border-darkborder"
+          >
             <div
               class="h-[40px] flex items-center px-4 bg-gray-50 dark:bg-p animate-pulse"
             >
@@ -893,7 +897,11 @@ const isCurrentRateEmpty = computed(() => {
               <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded"></div>
               <div class="w-1/4 h-6 bg-gray-300 dark:bg-p rounded mx-2"></div>
             </div>
-            <div v-for="i in 5" :key="i" class="border-t border-gray-200 dark:border-darkborder">
+            <div
+              v-for="i in 5"
+              :key="i"
+              class="border-t border-gray-200 dark:border-darkborder"
+            >
               <div
                 class="h-[60px] flex items-center dark:bg-tamkinDarkPrimary px-4 rtl:space-x-reverse space-x-4 bg-gray-50 animate-pulse"
               >

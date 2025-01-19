@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Accessibility Packages - Tamkin Dashboard"),
-})
+});
 definePageMeta({
   layout: "dashboard",
 });
@@ -89,7 +89,7 @@ const uniqueValues = (items) => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] md:top-[90px] top-[140px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"
@@ -130,7 +130,7 @@ const uniqueValues = (items) => {
     </div>
 
     <div
-      class="flex items-center justify-start w-full absolute z-[140] rtl:right-[3.3%] left-[3.3%] top-[90px] p-[4px] rtl:space-x-reverse space-x-[14px]"
+      class="flex items-center justify-start w-full absolute z-[140] rtl:right-[3.3%] left-[3.3%] md:top-[90px] top-[140px] p-[4px] rtl:space-x-reverse space-x-[14px]"
     >
       <div class="text-black dark:text-whiteTamkin font-[600] text-[14px]">
         {{ $t("Choose Traffic level") }} :

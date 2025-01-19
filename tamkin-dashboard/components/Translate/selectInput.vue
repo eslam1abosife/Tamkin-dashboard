@@ -119,7 +119,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
+  <div class="relative" v-on-click-outside="closeOnOutSideClick">
     <button
       @click.prevent="toggleDropdown"
       class="border-[1px] border-lightGrey dark:border-darkborder rounded-[10px] flex items-center justify-between h-[40px] px-4 peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
@@ -156,6 +156,7 @@ onMounted(() => {
                 ? 'w-64 truncate'
                 : 'w-auto',
             ]"
+            class="text-[12px]"
           >
             {{
               selectedOption

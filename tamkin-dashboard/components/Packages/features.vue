@@ -224,7 +224,7 @@ const openBuyModal = (pck, contact) => {
                     .is_contact_us
                 )
               "
-              class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
+              class="mt-6 btn_bordered_dashboard !text-[12px] md:!text-[14px] !p-1 w-full hover_tamkin"
             >
               <span
                 v-if="
@@ -312,7 +312,7 @@ const openBuyModal = (pck, contact) => {
                     .is_contact_us
                 )
               "
-              class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
+              class="mt-6 btn_bordered_dashboard !text-[12px] md:!text-[14px] !p-1 w-full hover_tamkin"
             >
               <span
                 v-if="
@@ -398,7 +398,7 @@ const openBuyModal = (pck, contact) => {
                     .is_contact_us
                 )
               "
-              class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
+              class="mt-6 btn_bordered_dashboard !text-[12px] md:!text-[14px] !p-1 w-full hover_tamkin"
             >
               <span
                 v-if="
