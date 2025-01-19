@@ -11,15 +11,19 @@ const localePath = useLocalePath();
     >
       {{ $t(`Buy Tamkin Token - TSLT and Join in our Investor Program`) }}
     </h1>
-    <div class="relative mb-6 w-full">
+    <div class="relative h-full mb-6 w-full">
       <div class="absolute rtl:left-0 ltr:right-0 top-10 lg:block hidden">
-        <img src="/assets/imgs/overview/10p.svg" />
+        <img src="/public/assets/imgs/overview/10p.svg" />
       </div>
       <div
-        class="absolute lg:top-[-100px] top-[50px] transform ltr:translate-x-[50%] z-[1]"
+        class="absolute w-[120%] h-[120%] md:w-[150%] md:h-[150%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1]"
       >
-        <img src="/assets/imgs/overview/svg_opacity.svg" />
+        <img
+          class="w-[100%] h-[100%]"
+          src="/public/assets/imgs/overview/svg_opacity.svg"
+        />
       </div>
+
       <!-- Timeline bar -->
       <div
         class="absolute rtl:right-4 ltr:left-4 top-[6px] h-full 2xl:h-[220px] w-[9px] z-[20] bg-tamkin rounded-full"
@@ -32,7 +36,7 @@ const localePath = useLocalePath();
             class="absolute rtl:right-[5px] ltr:left-[5px] top-12 w-[27px] h-[27px]"
           >
             <img
-              src="/assets/imgs/icons/investor.svg"
+              src="/public/assets/imgs/icons/investor.svg"
               alt="Icon 1"
               class="w-[27px] h-[27px]"
             />
@@ -41,7 +45,7 @@ const localePath = useLocalePath();
             class="absolute rtl:right-[5px] ltr:left-[5px] top-36 w-[27px] max-h-[27px]"
           >
             <img
-              src="/assets/imgs/icons/investor.svg"
+              src="/public/assets/imgs/icons/investor.svg"
               alt="Icon 2"
               class="w-[27px] h-[27px]"
             />

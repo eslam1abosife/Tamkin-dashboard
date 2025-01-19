@@ -191,7 +191,9 @@ const accuracy = computed(() => {
           ).length === 0
         "
       />
-      <div class="flex items-center justify-between w-full">
+      <div
+        class="flex items-center justify-between flex-col lg:flex-row w-full"
+      >
         <div>
           <CircularProgressBar
             :initialPercentage="accuracy"
@@ -215,12 +217,13 @@ const accuracy = computed(() => {
                 "
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
+              <span
+                class="text-gray-500 text-[12px] md:text-[14px] dark:text-whiteTamkin"
                 >{{ $t("Your total words") }}
               </span>
             </div>
             <span
-              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
+              class="block text-[12px] md:text-[14px] font-semibold dark:text-whiteTamkin/90"
               >{{ statsStore.sign_languageStats.total }}</span
             >
           </div>
@@ -233,12 +236,13 @@ const accuracy = computed(() => {
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
+              <span
+                class="text-gray-500 text-[12px] md:text-[14px] dark:text-whiteTamkin"
                 >{{ $t("Used") }}
               </span>
             </div>
             <span
-              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
+              class="block text-[12px] md:text-[14px] font-semibold dark:text-whiteTamkin/90"
               >{{ statsStore.sign_languageStats.used }}</span
             >
           </div>
@@ -251,12 +255,13 @@ const accuracy = computed(() => {
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin">{{
-                $t("Remaining")
-              }}</span>
+              <span
+                class="text-gray-500 text-[12px] md:text-[14px] dark:text-whiteTamkin"
+                >{{ $t("Remaining") }}</span
+              >
             </div>
             <span
-              class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
+              class="block font-semibold text-[12px] md:text-[14px] dark:text-whiteTamkin/90"
               >{{
                 statsStore.sign_languageStats.total -
                 statsStore.sign_languageStats.used
