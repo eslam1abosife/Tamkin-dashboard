@@ -144,13 +144,8 @@ const continueCheckOut = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     // await getInviteApps({ agency: user.agency });
     // alert(res)
-<<<<<<< HEAD
-    const resTheme = colorMode.value === "dark" ? res + "?is_dark=1" : res;
-
-=======
     const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
     
->>>>>>> 99dcfb995e85ebcec921e9217c32f32a4b2de39c
     urlPayment.value = resTheme;
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
     // addSiteStore.urls =[]
@@ -516,7 +511,7 @@ onBeforeUnmount(() => {
                     ? '!cursor-not-allowed opacity-50'
                     : '',
                 ]"
-                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -571,7 +566,7 @@ onBeforeUnmount(() => {
                     ? '!cursor-not-allowed opacity-50'
                     : '',
                 ]"
-                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+                class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -724,7 +719,7 @@ onBeforeUnmount(() => {
               <thead>
                 <tr>
                   <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
                     colspan="12"
                   >
                     {{ $t("Summary") }}
@@ -737,13 +732,13 @@ onBeforeUnmount(() => {
                   v-if="percentageOff"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
                     colspan="2"
                   >
                     {{ $t("Subtotal") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
                     ${{
@@ -759,13 +754,13 @@ onBeforeUnmount(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Discount") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{
@@ -780,13 +775,13 @@ onBeforeUnmount(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Total") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{

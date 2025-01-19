@@ -350,7 +350,7 @@ const finalAmount = computed(() => {
                   </button>
                   <div
                     v-if="isCryptoMenuOpen"
-                    class="absolute z-10 top-[52px]  bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
+                    class="absolute z-10 top-[52px]  bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-darkborder border-[#C8CFEB] shadow w-full py-[16px]"
                   >
                     <ul>
                       <li
@@ -519,21 +519,21 @@ const finalAmount = computed(() => {
               <thead>
                 <tr class="px-">
                   <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
                     {{ $t('Domain') }}
                   </th>
                   <th
-                    class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey
+                    class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey
                      dark:text-whiteTamkin font-[600] text-center">
                     {{ $t('Package') }}
                   </th>
                   <th
-                    class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
+                    class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
                      text-center ">
                     {{ $t('Section') }}
                   </th>
                   <th
-                    class="py-2 border-b dark:border-light text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
+                    class="py-2 border-b dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
                     leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center">
                     {{ $t('Amount') }}
                   </th>
@@ -542,17 +542,17 @@ const finalAmount = computed(() => {
               <tbody>
                 <tr v-for="rr in subsStore.totalRenews " :key="rr.name"
                 class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
-                <td class="py-2 px-5 w-1/6   border-b dark:border-light dark:text-whiteTamkin 
+                <td class="py-2 px-5 w-1/6   border-b dark:border-darkborder dark:text-whiteTamkin 
                 rtl:text-right ltr:text-left text-[14px] font-[400] whitespace-nowrap">
                   {{ rr.app_type === 'Internal Services' ? $t('Internal Service') : rr.app_domain }}
                 </td>
-                <td class="py-2 px-5 w-1/6 text-[14px]  border-b dark:border-light dark:text-whiteTamkin text-center font-[400]">
+                <td class="py-2 px-5 w-1/6 text-[14px]  border-b dark:border-darkborder dark:text-whiteTamkin text-center font-[400]">
                   {{ $t(rr.package_title) }}
                 </td>
-                <td class="py-2   w-1/6 border-b text-[14px] dark:border-light dark:text-whiteTamkin text-center  font-[400]">
+                <td class="py-2   w-1/6 border-b text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center  font-[400]">
                   <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
                 </td>
-                <td class="py-2  border-b w-1/6  text-[14px] dark:border-light dark:text-whiteTamkin text-center ltr:pr-1 rtl:pl-1 font-[400]">
+                <td class="py-2  border-b w-1/6  text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-1 rtl:pl-1 font-[400]">
                   ${{ rr.amount.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
                 </td>
@@ -562,13 +562,13 @@ const finalAmount = computed(() => {
                   v-if="false"
                 >
                   <td
-                    class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t('Promo Code') + ' : ' +subsStore.currentDiscount +'%' }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b text-right w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     ${{ percentageOff.toString()
@@ -623,7 +623,7 @@ const finalAmount = computed(() => {
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t('Total') }}
@@ -643,12 +643,12 @@ const finalAmount = computed(() => {
           min-h-full">
             <!-- Placeholder for Selected Crypto -->
             <div class="flex flex-col items-center justify-center w-full px-[20px] min-h-full">
-              <div class="w-full h-[100px] cursor-pointer bg-gray-200 animate-pulse rounded-[10px] border-lightGrey">
+              <div class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey">
                 <div class="flex items-center justify-between p-[16px]">
                   <div class="flex items-center rtl:space-x-reverse space-x-[13px]">
                     <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                     <div class="flex flex-col justify-center space-y-[-4px]">
-                      <div class="w-[150px] h-[18px] bg-gray-300 rounded mb-[12px]"></div>
+                      <div class="w-[150px] h-[18px] bg-gray-300 dark:bg-gray-600 rounded mb-[12px]"></div>
                       <div class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"></div>
                     </div>
                   </div>
@@ -661,18 +661,18 @@ const finalAmount = computed(() => {
             <div class="flex items-center justify-between w-full px-[20px]">
               <div class="w-full mt-[20px]">
                 <div class="relative w-full">
-                  <button class="w-full bg-gray-200 animate-pulse h-[40px] rounded-[10px] flex items-center 
+                  <button class="w-full bg-gray-200 dark:bg-gray-500 animate-pulse h-[40px] rounded-[10px] flex items-center 
                   justify-between px-[16px]">
-                    <div class="w-[150px] h-[14px] bg-gray-300 rounded"></div>
+                    <div class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"></div>
                     <div class="w-[10px] h-[10px] bg-gray-300 rounded"></div>
                   </button>
-                  <div class="absolute z-10 top-[52px] bg-gray-200 animate-pulse rounded-[12px]
+                  <div class="absolute z-10 top-[52px] bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[12px]
                    border-light border-[#C8CFEB] shadow w-full py-[16px]">
                     <ul>
-                      <li class="flex items-center hover:bg-gray-300 py-[6px] px-[10px] cursor-pointer">
+                      <li class="flex items-center hover:bg-gray-300 dark:hover:bg-gray-500 py-[6px] px-[10px] cursor-pointer">
                         <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-                        <div class="w-[150px] h-[14px] bg-gray-300 rounded ml-[10px]"></div>
-                        <div class="ml-auto w-[100px] h-[14px] bg-gray-300 rounded"></div>
+                        <div class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded ml-[10px]"></div>
+                        <div class="ml-auto w-[100px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"></div>
                       </li>
                     </ul>
                   </div>

@@ -175,7 +175,7 @@ const closeAndReset = () => {
             <div
               v-if="isCryptoMenuOpen"
               class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] 
-              dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
+              dark:border-darkborder border-[#C8CFEB] shadow w-full py-[16px]"
             >
               <ul>
                 <li

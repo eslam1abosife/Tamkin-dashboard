@@ -222,7 +222,7 @@ const cancelPayment =()=>{
           <div class="flex items-center justify-center">
             <div
               @click="navigateTo('crypto_packages_step2', 'marpackagesket', 'crypto_packages_step1')"
-              class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-light rounded-full w-[30px] h-[30px]"
+              class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
               <svg
@@ -277,7 +277,7 @@ const cancelPayment =()=>{
             >
               <!-- here-->
               <div
-                class="h-[50px] w-full bg-[#FAFCFE] dark:bg-tamkinDarkPrimary border-[1px] border-lightGrey dark:border-light rounded-[10px] mb-[24px] flex items-center justify-start rtl:space-x-reverse space-x-[10px] px-[10px]"
+                class="h-[50px] w-full bg-[#FAFCFE] dark:bg-tamkinDarkPrimary border-[1px] border-lightGrey dark:border-darkborder rounded-[10px] mb-[24px] flex items-center justify-start rtl:space-x-reverse space-x-[10px] px-[10px]"
               >
                 <div>
                   <img src="/assets/imgs/info.svg" />

@@ -265,7 +265,7 @@ const formattedTotal = computed(() => {
     </table>
   </div>
     <div
-      class="relative w-full lg:mt-[-70px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
+      class="relative w-full lg:mt-[-70px] mx-auto  rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary mt-[10px]"
       v-if="!collapseStore.collapses.includes('translation_stats_card') && !statsStore.loadingStatsIntranlsation"
       :class="[ navStore.defaultappobj?.package?.filter(
         (p) => p.type === 'Sign language'

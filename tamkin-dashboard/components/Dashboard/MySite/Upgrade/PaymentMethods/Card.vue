@@ -181,7 +181,7 @@ const props = defineProps({
 @click="changepaymentMethod('by_paypal')"
 :class="[chooseOtherPaymentMethod === 'by_paypal'  ? 'custom-border-tamkin' : 'border-[1px] ']"
  class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px]
-  border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+  border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]">
 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
         <div><img  src="/assets/imgs/payment_methods/paypal.svg"  class="w-[40px] h-[40px]"/></div>
         <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">Pay Via PayPal</div>
@@ -212,7 +212,7 @@ const props = defineProps({
   @click="changepaymentMethod('by_crypto')"
   :class="[chooseOtherPaymentMethod === 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
   class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] 
-  border-lightGrey dark:border-light rtl:pr-[16px] ltr:pl-[16px]">
+  border-lightGrey dark:border-darkborder rtl:pr-[16px] ltr:pl-[16px]">
       <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
           <div><img  src="/assets/imgs/payment_methods/crypto.svg"  class="w-[40px] h-[40px]"/></div>
           <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">Pay Via Crypto currency</div>
@@ -286,7 +286,7 @@ const props = defineProps({
     <thead>
       <tr>
         <th
-          class="py-2  rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+          class="py-2  rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>
@@ -298,35 +298,35 @@ const props = defineProps({
       <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"           v-if="validPromo"
       >
         <td
-          class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
+          class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
           colspan="2"
         >
           Subtotal
         </td>
-        <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]" colspan="2">
+        <td class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>
       <tr           v-if="validPromo"
        class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
         <td
-          class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+          class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
           colspan="2"
         >
         Discount
         </td>
-        <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80" colspan="2">
+        <td class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80" colspan="2">
           $50,444.00
         </td>
       </tr>
       <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
         <td
-          class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+          class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
           colspan="2"
         >
           Total
         </td>
-        <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"  colspan="2">
+        <td class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"  colspan="2">
           $50,444.00
         </td>
       </tr>

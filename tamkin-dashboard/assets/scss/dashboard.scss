@@ -764,7 +764,7 @@ input[type=number] {
         }
 
         &:not(.translate).in_active {
-            @apply border-[1px] dark:border-light;
+            @apply border-[1px] dark:border-darkborder;
         }
 
         &:not(.translate).active::before {

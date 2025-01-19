@@ -254,21 +254,21 @@ const discountAmount = computed(() => {
               <thead>
                 <tr class="px-">
                     <th
-                      class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
+                      class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
                       {{ $t('Domain') }}
                     </th>
                     <th
-                      class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey
+                      class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey
                        dark:text-whiteTamkin font-[600] text-center">
                       {{ $t('Package') }}
                     </th>
                     <th
-                      class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
+                      class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
                        text-center ">
                       {{ $t('Section') }}
                     </th>
                     <th
-                      class="py-2 border-b dark:border-light text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
+                      class="py-2 border-b dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
                       leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center">
                       {{ $t('Amount') }}
                     </th>
@@ -277,16 +277,16 @@ const discountAmount = computed(() => {
               <tbody>
                 <tr v-for="rr in subsStore.totalRenews " :key="rr.name"
                 class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
-                <td class="text-[14px] py-2 px-5 truncate border-b dark:border-light dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400] ">
+                <td class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400] ">
                   {{ rr.app_type === 'Internal Services' ? $t('Internal Service') : rr.app_domain }}
                 </td>
-                <td class="text-[14px] py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-center w-full font-[400]">
+                <td class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]">
                   {{ $t(rr.package_title) }}
                 </td>
-                <td class="text-[14px] py-2  border-b dark:border-light dark:text-whiteTamkin text-center   font-[400]">
+                <td class="text-[14px] py-2  border-b dark:border-darkborder dark:text-whiteTamkin text-center   font-[400]">
                   <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
                 </td>
-                <td class="text-[14px] py-2  border-b dark:border-light dark:text-whiteTamkin text-center ltr:pr-5 font-[400]">
+                <td class="text-[14px] py-2  border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]">
                   ${{ rr.amount.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                 </td>
@@ -296,13 +296,13 @@ const discountAmount = computed(() => {
                   v-if="subsStore.validPromo"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
                     colspan="2"
                   >
                     {{ $t("Subtotal") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
+                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
                     ${{ subsStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
@@ -313,13 +313,13 @@ const discountAmount = computed(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Discount") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
@@ -329,13 +329,13 @@ const discountAmount = computed(() => {
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-light  font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder  font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Total") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
                     ${{ (Number(subsStore.packagePayload.total) - discountAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}

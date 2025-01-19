@@ -140,7 +140,7 @@ const submitInviteApp = async () => {
             </span>
           </div>
           <div
-            class="w-[56px] h-[56px] rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"
+            class="w-[56px] h-[56px] rounded-full bg-gray-300 dark:bg-gray-600 animate-pulse"
             v-else-if="true">
           </div>
       
@@ -151,7 +151,7 @@ const submitInviteApp = async () => {
                 {{ getData().firstName + ' ' + getData().lastName }}
               </h2>
             </div>
-            <div v-else class="h-4 w-2/3 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div v-else class="h-4 w-2/3 bg-gray-300 dark:bg-gray-600 rounded animate-pulse"></div>
       
             <div v-if="!getAppsLoading">
               <h2
@@ -159,7 +159,7 @@ const submitInviteApp = async () => {
                 {{ getData().email }}
               </h2>
             </div>
-            <div v-else class="mt-2 h-3 w-1/2 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div v-else class="mt-2 h-3 w-1/2 bg-gray-300 dark:bg-gray-600 rounded animate-pulse"></div>
           </div>
       
           <div>
@@ -173,7 +173,7 @@ const submitInviteApp = async () => {
             {{ getData().firstName + ' ' + getData().lastName }}
           </span> {{$t('can access')}}
         </p>
-        <div class="my-[16px] w-full h-[24px] rounded-[5px] bg-gray-300 dark:bg-gray-700  animate-pulse" v-else>
+        <div class="my-[16px] w-full h-[24px] rounded-[5px] bg-gray-300 dark:bg-gray-600  animate-pulse" v-else>
 
           </div>
         <!-- Search Input Section -->
@@ -191,7 +191,7 @@ const submitInviteApp = async () => {
           </div>
         </div>
 
-        <div class="w-full py-[17px] h-[45px] rounded-[5px] bg-gray-300 dark:bg-gray-700  animate-pulse" v-else>
+        <div class="w-full py-[17px] h-[45px] rounded-[5px] bg-gray-300 dark:bg-gray-600  animate-pulse" v-else>
           
         </div>
       </div>
@@ -219,7 +219,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -287,7 +287,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -308,24 +308,24 @@ const submitInviteApp = async () => {
                 <th
                   class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
                 >
-                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
+                  <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
                 </th>
                 <th
                   class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
                 >
-                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
-                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                  <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
+                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
                 </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
               <tr v-for="n in 2" :key="n">
                 <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
-                  <div class="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
-                  <span class="block h-4 w-1/3 bg-gray-300 dark:bg-gray-700 rounded"></span>
+                  <div class="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                  <span class="block h-4 w-1/3 bg-gray-300 dark:bg-gray-600 rounded"></span>
                 </td>
                 <td class="py-4 text-right">
-                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded rtl:mr-auto ltr:ml-auto"></div>
                 </td>
               </tr>
             </tbody>
