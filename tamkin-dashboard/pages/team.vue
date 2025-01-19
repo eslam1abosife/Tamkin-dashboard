@@ -385,7 +385,7 @@ const isOwner = computed(() => {
                   :src="`https://tamkin.app/${currTeam.team_image}`"
                 />
                 <div
-                  class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
+                  class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-darkTamkin rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

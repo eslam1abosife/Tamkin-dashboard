@@ -32,7 +32,7 @@ const props = defineProps({
     </h1>
     </div>
     <div
-      class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[40px]"
+      class="flex flex-col items-center justify-center bg-white dark:bg-darkTamkin w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[40px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
 
@@ -49,7 +49,7 @@ const props = defineProps({
     </h1>
 </div>
  <div class="w-full ">
-  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
+  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E] dark:text-whiteTamkin">
     
     there is some thing wrong happened please tray again 
 </p>

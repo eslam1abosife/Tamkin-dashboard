@@ -422,7 +422,7 @@ watchEffect(() => {
               >
                 <div
                   @click.stop="removeFile(file)"
-                  class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-darkborder shadow-xl transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"
+                  class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white dark:bg-darkTamkin rounded-full border-black dark:border-darkborder shadow-xl transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"
                 >
                   <svg
                     width="10"

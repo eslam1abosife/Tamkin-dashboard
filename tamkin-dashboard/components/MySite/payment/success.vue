@@ -209,7 +209,7 @@ router.push({
 
   </div>
   <div v-if="$route.query && $route.query.paid === 'False' || $route.query && $route.query.paid === 'false' || payStore.stateOfPayment === 'failed'"
-  class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[55px] pt-[55px] mb-[40px]"
+  class="flex flex-col items-center justify-center bg-white dark:bg-darkTamkin w-full h-full rounded-[10px] mt-[55px] pt-[55px] mb-[40px]"
   style="box-shadow: 0px 4px 24px 8px #51459f14"
 >
 
@@ -226,7 +226,7 @@ router.push({
 </h1>
 </div>
 <div class="w-full ">
-<p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
+<p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E] dark:text-whiteTamkin">
 
 {{ $t('Your payment was declined. Please check details or contact your bank') }}
 </p>

@@ -106,7 +106,7 @@ const uniqueValues = (items) => {
         @click="switchBetweenMonthlyAndAnnual('year')"
         :class="[
           packagesStore.discountType === 'year'
-            ? 'bg-white dark:bg-tamkinDarkPrimary rounded-full'
+            ? 'bg-white dark:bg-darkTamkin rounded-full'
             : '',
         ]"
         class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
