@@ -89,7 +89,7 @@ const uniqueValues = (items) => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-transparent  dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-tamkinDarkPrimary  dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"

@@ -488,14 +488,14 @@ watchEffect(() => {
           {{ $t("please Uplaod atleast one image") }}
         </div>
 
-        <div
+        <!-- <div
           class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF] rounded-[10px]"
         >
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>
           <div class="text-[16px] font-[600] uppercase">
             {{ price }} {{ currency ? currency : "USD" }}
           </div>
-        </div>
+        </div> -->
         <div
           class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto py-3"
         >

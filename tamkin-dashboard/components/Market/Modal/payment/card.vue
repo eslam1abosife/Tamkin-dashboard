@@ -145,8 +145,8 @@ const continueCheckOut = async () => {
   const res = await createOrder("Card", currentCard.value, locale.value);
   // return navigateTo('cardModal','add-site','crypto')
   if (codeStatus.value === 200) {
-    const resTheme =  colorMode.value === 'dark' ? res + '?is_dark=1' : res;
-    
+    const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
+    console.log(resTheme);
     urlPayment.value = resTheme;
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
   } else {
