@@ -49,12 +49,13 @@ const getApps = async () => {
   mySiteStore.loadingApps = false;
 };
 onBeforeMount(async () => {
-  // await getApps();
+// await getApps();
   await packagesStore.getDataPackage();
   await addSiterStore.getPackages();
 
   loadingDataModal.value = false;
-  mySiteStore.currentWebsite = defaultApp.value;
+  mySiteStore.currentWebsite= defaultApp.value
+
 
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]
 });
@@ -101,11 +102,14 @@ const isLinkActive = (path) => {
 
   return regex.test(currentPath);
 };
+
+
+
 </script>
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] w-[100%] lg:w-[50%] h-screen overflow-y-auto"
+    class="mysite_bg_modal max-w-full dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] px-4 lg:p-[30px] w-[900px] h-screen overflow-y-auto"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -129,7 +133,7 @@ const isLinkActive = (path) => {
 
     <div class="w-full h-screen">
       <div
-        class="flex flex-col items-start justify-center p-4 w-full lg:overflow-x-hidden"
+        class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
       >
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
@@ -230,7 +234,7 @@ const isLinkActive = (path) => {
 
         <div
           v-if="!loadingDataModal"
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[120px] p-[4px] border border-gray-300"
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary  dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
@@ -272,17 +276,12 @@ const isLinkActive = (path) => {
             </div>
           </button>
         </div>
-        <MySitePricingnopackage
-          v-if="
-            !loadingDataModal &&
-            addSiteStore.getSortedPackagesAddSite.length > 0
-          "
-        />
+          <MySitePricingnopackage v-if="!loadingDataModal && addSiteStore.getSortedPackagesAddSite.length > 0"/>
 
         <div
           v-else
           :class="[isLinkActive('/sign-language/*') ? '' : ' pb-[24px] ']"
-          class="flex flex-col items-center justify-center w-full mt-[42px] animate-pulse"
+          class="flex flex-col items-center justify-center w-full mt-[42px]animate-pulse"
         >
           <div
             class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly rtl:space-x-reverse h-full w-full space-x-[10px] mt-[32px]"
@@ -291,30 +290,26 @@ const isLinkActive = (path) => {
             <div
               v-for="n in 3"
               :key="n"
-              class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
+              class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full dark:border-darkGrey"
             >
               <div
-                class="bg-gray-300 dark:bg-p w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
+                class="bg-gray-300 dark:bg-gray-600 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
               ></div>
 
               <div
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
+                  <div class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"></div>
                   <div
-                    class="bg-gray-300 h-[30px] dark:bg-p rounded mb-[8px]"
+                    class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded mb-[16px]"
+                  ></div>
+                  <div class="bg-gray-300 dark:bg-gray-600 h-[29px] w-[100px] rounded"></div>
+                  <div
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[120px] mt-[10px] rounded"
                   ></div>
                   <div
-                    class="bg-gray-300 h-[20px] dark:bg-p w-[150px] rounded mb-[16px]"
-                  ></div>
-                  <div
-                    class="bg-gray-300 h-[29px] dark:bg-p w-[100px] rounded"
-                  ></div>
-                  <div
-                    class="bg-gray-200 h-[16px] dark:bg-p w-[120px] mt-[10px] rounded"
-                  ></div>
-                  <div
-                    class="bg-gray-200 h-[16px] dark:bg-p w-[80px] mt-[10px] rounded"
+                    class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[80px] mt-[10px] rounded"
                   ></div>
                 </div>
               </div>
@@ -323,12 +318,12 @@ const isLinkActive = (path) => {
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
                 <div
-                  class="bg-gray-300 dark:bg-p h-[20px] w-[200px] rounded"
+                  class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[200px] rounded"
                   v-for="n in 6"
                 ></div>
 
                 <div
-                  class="bg-gray-200 dark:bg-p w-full h-[40px] rounded-[19px] mt-[20px]"
+                  class="bg-gray-200 dark:bg-gray-600 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
               </div>
             </div>

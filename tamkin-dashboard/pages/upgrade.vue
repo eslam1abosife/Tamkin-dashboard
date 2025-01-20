@@ -57,7 +57,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
   <div class="relative">
     <div
       v-if="!loadingPage"
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[250px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[250px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"

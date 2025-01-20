@@ -74,9 +74,10 @@ const moveSplide = (newIndex) => {
       @splide:destroy="destroySplide"
       :options="{
         destroy: false,
+        rewind: false,
         gap: 10,
         arrows: false,
-        rewind: false,
+        direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
         perPage: 3,
         breakpoints: {
           768: {
@@ -84,10 +85,7 @@ const moveSplide = (newIndex) => {
           },
           1024: {
             perPage: 3,
-          },
-          1400: {
-            perPage: 1,
-          },
+          }
         },
       }"
     >
@@ -96,7 +94,7 @@ const moveSplide = (newIndex) => {
         :key="pak.name"
       >
         <div
-          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group dark:bg-tamkinDarkPrimary bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group bg-white dark:bg-tamkinDarkPrimary hover:bg-selected dark:hover:bg-p w-full"
         >
           <div
             v-if="pak.type_deal !== 'None'"
@@ -204,7 +202,8 @@ const moveSplide = (newIndex) => {
                     pak.package_price_role[0].cost_before_yearly === 0)
                 "
                 class="my-[24px]"
-              ></div>
+              >
+              </div>
 
               <p
                 class="font-[700] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"
