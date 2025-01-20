@@ -843,13 +843,11 @@ input[type=number] {
 
 }
 .mini_SizeMenu{
-
     @apply flex flex-col items-start justify-start cursor-default absolute z-[1000] top-0 rtl:left-[50px]
-     ltr:right-[50px] w-[203px] !divide-y dark:divide-darkborder bg-white dark:bg-tamkinDarkPrimary
+     ltr:right-[50px] w-[203px] !divide-y dark:divide-darkborder bg-white dark:bg-darkTamkin
      rounded-[10px] border-[1px] border-lightGrey dark:border-transparent shadow-lg;
 
     .mini_wrap{
-
         @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full
     }
 .text_mini{
@@ -859,6 +857,11 @@ input[type=number] {
     .arrow{
         @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px]
          border-lightGrey dark:border-darkborder ;
+         svg {
+            path {
+                @apply dark:!fill-darkTamkin;
+            }
+         }
     }
 }
 
