@@ -5,6 +5,7 @@ const {locale} = useI18n()
 const {getAppByName} = useGetAppByName()
 const packagesStore = usePackgesStore()
 const mySiteStore = useMySiteStore()
+const navStore = useNavbarStore();
 const {
   isOpen,
   currentView,
@@ -106,7 +107,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
   >
     <div
       class="flex items-center justify-start rounded-[10px] h-[212px] w-full
-       rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9]"
+       rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9] dark:to-darkTamkin"
     >
       <div class="flex flex-col items-start justify-center w-full px-[15px]">
         <div>
@@ -167,11 +168,9 @@ ipad-max:leading-[10px] whitespace-nowrap
       </div>
 
       <div class="rtl:!mr-auto ltr:ml-auto h-full w-full lg:block hidden">
-        <img 
-          src="/assets/imgs/overview/current_plan_upgrade.svg"
-          class="w-full h-full"
-          
-        />
+        <img
+              :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
+              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]" :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
       </div>
     </div>
 

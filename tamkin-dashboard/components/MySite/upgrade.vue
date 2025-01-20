@@ -2,6 +2,7 @@
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
+const navStore = useNavbarStore();
 
 const formatToUrl = (domain) => {
   // Check if the domain starts with "http://" or "https://"
@@ -140,7 +141,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             </button>
           </div>
           <div class="flex items-center justify-start rounded-[10px] h-[212px] w-full
-           rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9]">
+           rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9] dark:to-darkTamkin">
             <div class="flex flex-col items-start justify-center w-full px-[15px]">
               <div>
                 <h1 class="text-white font-[500] text-[18px] leading-[30px]">
@@ -150,7 +151,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
                   {{ $t('Your current plan provides comprehensive features tailored to meet your needs.') }}
                 </h3>
               </div>
-              <div class="h-[55px]  px-[20px] bg-white bg-opacity-75 rounded-[41px] space-x-[42px]
+              <div class="h-[55px]  px-[20px] bg-white dark:bg-darkTamkin bg-opacity-75 rounded-[41px] space-x-[42px]
               flex items-center justify-between    rtl:space-x-reverse p-2 mt-[24px] w-full ">
                 <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full ">
                   <div>
@@ -161,7 +162,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
                   <div class="text-[10px]   lg:text-[14px] font-[500]
                 ipad-max:text-[12px]
     ipad-max:leading-[10px] whitespace-nowrap
-                lg:leading-[22.5px] text-darkGrey">
+                lg:leading-[22.5px] text-darkGrey dark:text-white">
                     {{ $t(mySiteStore.currentPackage.title) }} {{ mySiteStore.currentPackage.title === 'Free' ? ' - '
                       + $t(`${mySiteStore.currentPackage.category}`) : '' }} - {{ mySiteStore.currentPackage.type !== null
                       ?
@@ -199,8 +200,9 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             </div>
 
             <div class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden">
-              <img src="/assets/imgs/overview/current_plan_upgrade.svg"
-                class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]" />
+              <img
+              :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
+              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]" :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
             </div>
           </div>
 

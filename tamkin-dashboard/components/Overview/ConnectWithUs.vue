@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import banner from "/assets/imgs/gradient_embded.png";
-
+import bannerDark from '/assets/imgs/gradient_embded_dark.png'
 import { useCollapseStore } from "@/stores/collapse.js";
 
 import { vOnClickOutside } from "@vueuse/components";
@@ -137,7 +137,7 @@ const tgl = ()=>{
           v-if="!collapseStore.collapses.includes('connect_withUs_card')"
         >
           <div
-            :style="{ backgroundImage: `url(${banner})` }"
+            :style="{ backgroundImage: `url(${navStore.isDark ? bannerDark : banner})` }"
             style="width: 100%; background-size: cover"
             class="rounded-lg h-[150px] lg:h-auto text-center flex items-center justify-center lg:flex-row md:flex-row flex-col w-full"
           >
