@@ -49,13 +49,12 @@ const getApps = async () => {
   mySiteStore.loadingApps = false;
 };
 onBeforeMount(async () => {
-// await getApps();
+  // await getApps();
   await packagesStore.getDataPackage();
   await addSiterStore.getPackages();
 
   loadingDataModal.value = false;
-  mySiteStore.currentWebsite= defaultApp.value
-
+  mySiteStore.currentWebsite = defaultApp.value;
 
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]
 });
@@ -102,9 +101,6 @@ const isLinkActive = (path) => {
 
   return regex.test(currentPath);
 };
-
-
-
 </script>
 
 <template>
@@ -234,7 +230,7 @@ const isLinkActive = (path) => {
 
         <div
           v-if="!loadingDataModal"
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent  dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
@@ -276,7 +272,12 @@ const isLinkActive = (path) => {
             </div>
           </button>
         </div>
-          <MySitePricingnopackage v-if="!loadingDataModal && addSiteStore.getSortedPackagesAddSite.length > 0"/>
+        <MySitePricingnopackage
+          v-if="
+            !loadingDataModal &&
+            addSiteStore.getSortedPackagesAddSite.length > 0
+          "
+        />
 
         <div
           v-else
@@ -293,23 +294,27 @@ const isLinkActive = (path) => {
               class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
             >
               <div
-                class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
+                class="bg-gray-300 dark:bg-p w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
               ></div>
 
               <div
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
-                  <div class="bg-gray-300 h-[30px] rounded mb-[8px]"></div>
                   <div
-                    class="bg-gray-300 h-[20px] w-[150px] rounded mb-[16px]"
-                  ></div>
-                  <div class="bg-gray-300 h-[29px] w-[100px] rounded"></div>
-                  <div
-                    class="bg-gray-200 h-[16px] w-[120px] mt-[10px] rounded"
+                    class="bg-gray-300 h-[30px] dark:bg-p rounded mb-[8px]"
                   ></div>
                   <div
-                    class="bg-gray-200 h-[16px] w-[80px] mt-[10px] rounded"
+                    class="bg-gray-300 h-[20px] dark:bg-p w-[150px] rounded mb-[16px]"
+                  ></div>
+                  <div
+                    class="bg-gray-300 h-[29px] dark:bg-p w-[100px] rounded"
+                  ></div>
+                  <div
+                    class="bg-gray-200 h-[16px] dark:bg-p w-[120px] mt-[10px] rounded"
+                  ></div>
+                  <div
+                    class="bg-gray-200 h-[16px] dark:bg-p w-[80px] mt-[10px] rounded"
                   ></div>
                 </div>
               </div>
@@ -318,12 +323,12 @@ const isLinkActive = (path) => {
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
                 <div
-                  class="bg-gray-300 h-[20px] w-[200px] rounded"
+                  class="bg-gray-300 dark:bg-p h-[20px] w-[200px] rounded"
                   v-for="n in 6"
                 ></div>
 
                 <div
-                  class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"
+                  class="bg-gray-200 dark:bg-p w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
               </div>
             </div>
