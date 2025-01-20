@@ -101,7 +101,9 @@ onBeforeMount(() => {
     "deaf-setting-general-settings-player-sound-effects",
   ]);
 
-  getPlayerData();
+  if(customizeStore.managePlayerPackages.length <= 0) {
+    getPlayerData();
+   }
   loadingplayerdata.value = false;
 });
 const deleteSite = async () => {

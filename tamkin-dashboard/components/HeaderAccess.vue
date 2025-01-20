@@ -54,22 +54,24 @@ const getApps = async () => {
   settingsStore.loadingdefaultappobj = true;
   try {
     const user = JSON.parse(localStorage.getItem("user"));
-    await getInviteApps({ agency: user.agency });
-    settingsStore.apps = apps.value;
-    settingsStore.appHeader = defaultApp.value;
-    settingsStore.defaultapp = settingsStore.appHeader;
-    settingsStore.defaultappobj = defaultApp.value;
-    navStore.defaultappobj = defaultApp.value;
-    loadApp.value = false;
-    navStore.loadingdefaultappobj = false;
-    settingsStore.loadingdefaultappobj = false;
-  } catch (error) {
-    loadApp.value = false;
-    navStore.loadingdefaultappobj = false;
-    settingsStore.loadingdefaultappobj = false;
-    console.error(error); // Better error handling
-    throw typeof error === "string" ? error : "There is something wrong";
-  }
+    if(settingsStore.apps.length <= 0) {
+      await getInviteApps({ agency: user.agency });
+    }
+      settingsStore.apps = apps.value;
+      settingsStore.appHeader = defaultApp.value;
+      settingsStore.defaultapp = settingsStore.appHeader;
+      settingsStore.defaultappobj = defaultApp.value;
+      navStore.defaultappobj = defaultApp.value;
+      loadApp.value = false;
+      navStore.loadingdefaultappobj = false;
+      settingsStore.loadingdefaultappobj = false;
+    } catch (error) {
+      loadApp.value = false;
+      navStore.loadingdefaultappobj = false;
+      settingsStore.loadingdefaultappobj = false;
+      console.error(error); // Better error handling
+      throw typeof error === "string" ? error : "There is something wrong";
+    }
 };
 
 onMounted(() => {
