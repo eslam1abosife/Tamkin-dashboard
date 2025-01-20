@@ -282,16 +282,16 @@ const isLinkActive = (path) => {
         <div
           v-else
           :class="[isLinkActive('/sign-language/*') ? '' : ' pb-[24px] ']"
-          class="flex flex-col items-center justify-center w-full mt-[42px]animate-pulse"
+          class="flex flex-col items-center justify-center w-full mt-[42px] animate-pulse"
         >
           <div
             class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly rtl:space-x-reverse h-full w-full space-x-[10px] mt-[32px]"
           >
             <!-- Placeholder for each package item -->
             <div
-              v-for="n in 2"
+              v-for="n in 3"
               :key="n"
-              class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
+              class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
             >
               <div
                 class="bg-gray-300 dark:bg-p w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"
