@@ -77,13 +77,13 @@ const moveSplide = (newIndex) => {
         gap: 10,
         arrows: false,
         rewind: false,
-        perPage: 2,
+        perPage: 3,
         breakpoints: {
           768: {
             perPage: 1,
           },
           1024: {
-            perPage: 2,
+            perPage: 3,
           },
           1400: {
             perPage: 1,
