@@ -320,15 +320,15 @@ export default function () {
           icon: "",
         };
       } else {
-        // console.log('langs',res.data.data.languages)
-       if(selectLang){
+
         const selectedLanguage = res.data.data.languages.filter((el: any) => {
-          el.code === selectLang.value;
+          return el.language_code === selectLang.value;
         })[0];
+        
      
-        customizeStore.selectedLang = selectedLanguage
+        customizeStore.selectedLang = {...selectedLanguage,title:selectedLanguage.language_name}
         customizeStore.initselectedLang = selectedLanguage
-       }
+    
       }
 
       // acc enableLangHighlight
