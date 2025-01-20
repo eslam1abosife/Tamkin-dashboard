@@ -17,7 +17,7 @@ const openBuyModal = (pck)=>{
 onBeforeMount(()=>{
     packagesStore.currentTab = packagesStore.categories.find(t=>t.title === mySiteStore.currentWebsite.package[0].category)
     packagesStore.currentType = packagesStore.types.find(t=>t.title === 'Sign language')
-  packagesStore.currentTabTitle = mySiteStore.currentWebsite.package[0].category
+    packagesStore.currentTabTitle = mySiteStore.currentWebsite.package[0].category
 })
 </script>
 

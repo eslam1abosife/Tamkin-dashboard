@@ -43,7 +43,8 @@ noDiscount:false,
 loadingPromo:false,
 selectedCrypto:'',
 currentWebsite:'',
-openedCurrentSite:false
+openedCurrentSite:false,
+checkFetchtDataPackage:false
 
   }),
 
@@ -105,7 +106,8 @@ this.investorUser = res[0]
       // this.loadingData = true
       await this.getPacks()
       await this.getPackagesTypes()
-     await this.getCategories()
+      await this.getCategories()
+      this.checkFetchtDataPackage = true;
     //  this.loadingData = false
 
     },
