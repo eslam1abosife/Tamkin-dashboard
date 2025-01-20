@@ -315,7 +315,7 @@ const slugify = (title) => {
     </div>
 
     <!--  bundle IMAGES -->
-    <div class="flex items-center justify-center flex-col my-[50px]">
+    <div class="flex items-center justify-center flex-col my-[50px] px-4 md:px-0 z-[2]">
       <div class="text-[20px] font-[600] leading-[32px] text-white">
         {{ $t("Tamkin the bridge of communication between communities") }}
       </div>
@@ -334,7 +334,7 @@ const slugify = (title) => {
               : '',
           ]"
           @click="debouncedGotolink(linkPackage)"
-          class="h-[57px] w-[110px] rounded-t-[10px] cursor-pointer space-y-[6px] flex items-center justify-center flex-col"
+          class="h-[57px] w-[110px] rounded-t-[10px] text-center cursor-pointer space-y-[6px] flex items-center justify-center flex-col"
         >
           <div>
             <img

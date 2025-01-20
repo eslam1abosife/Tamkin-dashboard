@@ -40,7 +40,7 @@ onUpdated(() => {});
 </script>
 
 <template>
-  <div class="w-full relative px-[40px]" v-if="packagesStore.loadingData">
+  <div class="w-full relative px-4 md:px-[40px]" v-if="packagesStore.loadingData">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <!-- Title Skeleton -->
       <div
@@ -129,7 +129,7 @@ onUpdated(() => {});
     </div>
   </div>
   <div
-    class="w-full relative px-[40px] flex items-center justify-center flex-col"
+    class="w-full relative px-4 md:px-[40px] flex items-center justify-center flex-col"
     v-if="
       packagesStore.currentType.title === 'Bundle' && !packagesStore.loadingData
     "

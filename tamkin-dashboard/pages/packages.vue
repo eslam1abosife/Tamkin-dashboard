@@ -177,7 +177,7 @@ onUpdated(async () => {
       <PackagesPaymentModalsPaypal />
     </transition>
     <!-- <PackagesNavbartab v-else-if="!packagesStore.showNavbar && packagesStore.currentTabTitle !== 'Plugins'"/> -->
-    <div class="w-full relative px-[40px]" v-if="packagesStore.loadingData">
+    <div class="w-full relative px-4 md:px-[40px]" v-if="packagesStore.loadingData">
       <div class="flex flex-col items-center justify-center w-full mt-[26px]">
         <!-- Title Skeleton -->
         <div

@@ -28,10 +28,10 @@ const openBuyModal = (pck) => {
     >
       {{ $t("Accessibility Addons") }}
     </div>
-    <div class="absolute z-[20] top-[-140px] rtl:left-[40px] ltr:right-[-40px]">
+    <div class="absolute z-[20] top-[-140px] rtl:left-[40px] ltr:right-[0] md:ltr:right-[-40px]">
       <img
         src="/imgs/widget_access_hero_2.png"
-        class="w-[400px] h-[600px]"
+        class="max-w-full w-[400px] h-[600px]"
         alt=""
       />
     </div>

@@ -1088,7 +1088,7 @@ const isAnyLinkActive = computed(() => {
             class="sticky flex top-0 z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
           >
             <div
-            class="flex items-center space-x-[10px] rtl:space-x-reverse w-full px-[20px] ipad-max:px-[20px] lg:px-[40px]"
+            class="flex items-center space-x-[10px] rtl:space-x-reverse w-full px-4 ipad-max:px-[20px] lg:px-[40px]"
             >
               <div
                 class="flex items-center justify-between lg:hidden"

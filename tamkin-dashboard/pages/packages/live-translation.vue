@@ -23,7 +23,7 @@ provide("pricingType", pricingType);
 </script>
 
 <template>
-  <div class="w-full relative px-[40px]">
+  <div class="w-full relative px-4 md:px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <div class="text-[18px] font-[700] leading-[35px] whitespace-nowrap">
         <div
