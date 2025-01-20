@@ -267,7 +267,7 @@ onBeforeUnmount(() => {
                     class="flex flex-col items-start justify-start relative w-full"
                   >
                     <div
-                      class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
+                      class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
                     ></div>
                     <div
                       class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
@@ -331,7 +331,7 @@ onBeforeUnmount(() => {
                       class="flex flex-col items-start justify-start relative w-full"
                     >
                       <div
-                        class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary"
                       >
                         <div class="text-[10px] font-[500] text-white">
@@ -340,7 +340,7 @@ onBeforeUnmount(() => {
                       </div>
 
                       <div
-                        class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
+                        class="text-[12px] md:text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                       >
                         <div class="w-36 truncate">
                           {{ savedCard.holdername }}
@@ -348,7 +348,7 @@ onBeforeUnmount(() => {
                         <div>****{{ savedCard.last4 }}</div>
                       </div>
                       <div
-                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px] "
+                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px]"
                       >
                         {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
                         {{ savedCard.expyear }}

@@ -899,7 +899,7 @@ const formattedTotal = computed(() => {
             </div>
           </div>
           <div
-            class="flex items-center justify-center gap-4"
+            class="flex items-center justify-center gap-4 flex-col sm:flex-row "
             v-if="
               packagesStore.currentPackage.package_type === 'Addons' ||
               packagesStore.currentPackage.package_type === 'Package'
@@ -1348,7 +1348,7 @@ const formattedTotal = computed(() => {
                 >
                   <div class="w-[150px] flex items-center h-[40px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
+                      class="flex items-center dark:text-whiteTamkin justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                     >
                       <div>{{ website.title }}</div>
                       <span
@@ -1527,7 +1527,7 @@ const formattedTotal = computed(() => {
                 >
                   <div class="w-[150px] flex items-center h-[40px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
+                      class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                     >
                       <div>
                         {{
