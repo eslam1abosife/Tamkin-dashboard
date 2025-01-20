@@ -67,18 +67,28 @@ const moveSplide = (newIndex) => {
 </script>
 
 <template>
-  <div class="mt-[64px]">
+  <div class="mt-[64px] w-full">
     <Splide
       ref="splide"
       @splide:move="moveSplide"
       @splide:destroy="destroySplide"
       :options="{
         destroy: false,
-        rewind: false,
-        perPage: 3,
         gap: 10,
         arrows: false,
-        direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+        rewind: false,
+        perPage: 2,
+        breakpoints: {
+          768: {
+            perPage: 1,
+          },
+          1024: {
+            perPage: 2,
+          },
+          1400: {
+            perPage: 1,
+          },
+        },
       }"
     >
       <SplideSlide
@@ -86,7 +96,7 @@ const moveSplide = (newIndex) => {
         :key="pak.name"
       >
         <div
-          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group dark:bg-tamkinDarkPrimary bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
         >
           <div
             v-if="pak.type_deal !== 'None'"
@@ -194,8 +204,7 @@ const moveSplide = (newIndex) => {
                     pak.package_price_role[0].cost_before_yearly === 0)
                 "
                 class="my-[24px]"
-              >
-              </div>
+              ></div>
 
               <p
                 class="font-[700] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"

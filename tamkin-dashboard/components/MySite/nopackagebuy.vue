@@ -105,7 +105,7 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] w-[900px] h-screen overflow-y-auto"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] w-[100%] lg:w-[50%] h-screen overflow-y-auto"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -129,7 +129,7 @@ const isLinkActive = (path) => {
 
     <div class="w-full h-screen">
       <div
-        class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
+        class="flex flex-col items-start justify-center p-4 w-full lg:overflow-x-hidden"
       >
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
@@ -230,7 +230,7 @@ const isLinkActive = (path) => {
 
         <div
           v-if="!loadingDataModal"
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[120px] p-[4px] border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
@@ -289,7 +289,7 @@ const isLinkActive = (path) => {
           >
             <!-- Placeholder for each package item -->
             <div
-              v-for="n in 3"
+              v-for="n in 2"
               :key="n"
               class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full"
             >
