@@ -149,7 +149,7 @@ const mysiteStore = useMySiteStore();
   <div class="py-[17px] w-[100%] search_input relative">
     <input
       type="text"
-      class="input_dashboard_search w-full h-[30px] lg:h-[40px] text-[10px]"
+      class="input_dashboard_search w-full h-[30px] md:h-[40px] pr-[14px] text-[10px]"
       @input="loadingSearch = true"
       v-model="search"
       :placeholder="`${$t('Search in Sites')} ...`"
@@ -157,7 +157,7 @@ const mysiteStore = useMySiteStore();
     <div
       class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
     >
-      <img class="rtl:!mr-[190px]" src="/assets/imgs/icons/search.svg" />
+      <img class="" src="/assets/imgs/icons/search.svg" />
     </div>
     <div
       v-if="isSearchfilled"

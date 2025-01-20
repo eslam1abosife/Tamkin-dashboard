@@ -97,7 +97,7 @@
     .input_dashboard_search {
       @apply placeholder:text-[#BCC0BF]  dark:placeholder:text-whiteTamkin 
        rtl:placeholder:text-right rtl:text-right text-[14px] font-[500] pl-[30px] 
-       rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px] lg:h-[45px] rounded-[8px] py-[14px]
+       rtl:lg:pr-[38px] pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px] lg:h-[45px] rounded-[8px] py-[14px]
         bg-white dark:bg-tamkinDarkPrimary border-lightGrey dark:border-darkborder border-[1px] focus:border-tamkin focus:ring-0
          dark:text-whiteTamkin leading-[19.5px];
     }
