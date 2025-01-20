@@ -60,7 +60,7 @@ const filteredApps = computed(() => {
 });
 
 onMounted(async () => {
-  await getApps();
+  // await getApps();
   if (defaultApp.value) {
     // console.log(defaultApp.value.name);
     // console.log(checked.value);
