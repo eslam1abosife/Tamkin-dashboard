@@ -91,7 +91,6 @@ const loadingplayerdata = ref(true)
 
 onBeforeMount(async () => {
    if(customizeStore.managePlayerPackages.length <= 0) {
-    console.log("Done Get Defult")
     getPlayerData();
    }
 
