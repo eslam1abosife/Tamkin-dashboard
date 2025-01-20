@@ -55,7 +55,7 @@ onUpdated(() => {
 
 <template>
   <div
-    class="w-full relative px-[40px]"
+    class="w-full relative px-4 md:px-[40px]"
     v-if="
       !packagesStore.loadingData &&
       packagesStore.currentType.title === 'Sign language'
@@ -190,7 +190,7 @@ onUpdated(() => {
           .getAddonsOrExtras('Extra')
           .filter((g) => g.custom_extra_type === 'words').length
       "
-      class="mt-[32px] w-full p-[40px] grid dark:bg-p gap-[30px] grid-cols-1 md:grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
+      class="mt-[32px] w-full p-[40px] px-0 grid dark:bg-p gap-[30px] grid-cols-1 md:grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
       <div
         v-for="addon in packagesStore

@@ -406,7 +406,7 @@ watch([currentColor], () => {}, { immediate: true });
           class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
         >
           <div
-            class="w-[28px] h-[28px]"
+            class="w-[28px] h-[28px]"                                                   
             v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1"
           >
             <input
@@ -596,23 +596,23 @@ watch([currentColor], () => {}, { immediate: true });
           class="absolute"
           :class="[
           buttonPositionMobile === 'postion1' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1
-            ? 'top-[30px]  ltr:lg:left-[50px] rtl:lg:right-[120px]  position1'
+            ? 'top-[52px] md:top-[30px] ltr:left-[8px] rtl:right-[8px] ltr:md:left-[50px] rtl:md:right-[50px] position1'
             : '',
           buttonPositionMobile === 'postion2'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion2').active == 1
-            ? 'top-[80px] ltr:lg:left-[50px] rtl:lg:right-[120px] position2'
+            ? 'top-[80px] ltr:left-[8px] rtl:right-[8px] ltr:md:left-[50px] rtl:md:right-[50px] position2'
             : '',
           buttonPositionMobile === 'postion3'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion3').active == 1
-            ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] rtl:lg:right-[120px]  ltr:lg:left-[50px] position3'
+            ? 'top-[135px] md:top-[140px] ltr:left-[8px] rtl:right-[8px] ltr:md:left-[50px] rtl:md:right-[50px] position3'
             : '',
 
           buttonPositionMobile === 'postion4'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion4').active == 1
-            ? 'top-[30px] ltr:lg:left-[120px] rtl:lg:left-[250px]  position4'
+            ? 'top-[52px] md:top-[30px] ltr:left-[51px] rtl:left-[51px] ltr:md:left-[120px] rtl:md:left-[120px] position4'
             : '',
           buttonPositionMobile === 'postion5'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion5').active == 1
-            ? 'top-[80px]  ltr:lg:left-[120px] rtl:lg:left-[250px] position5'
+            ? 'top-[80px]  ltr:left-[51px] rtl:left-[51px] ltr:md:left-[120px] rtl:md:left-[120px] position5'
             : '',
           buttonPositionMobile === 'postion6'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion6').active == 1
-            ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] rtl:lg:right-[270px] lg:left-[120px] position6'
+            ? 'top-[135px] md:top-[140px]  ltr:left-[51px] rtl:left-[51px] ltr:md:left-[120px] rtl:md:left-[120px] position6'
             : '',
         ]"
         >
@@ -631,23 +631,23 @@ watch([currentColor], () => {}, { immediate: true });
           class="absolute"
           :class="[
           buttonPositionMobile === 'postion1' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1
-            ? 'position1 ipad-max:top-[50px] top-[50px] lg:top-[30px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
-            : '',
+          ? 'position1 top-[58px] md:top-[30px] ltr:left-[190px] rtl:right-[190px] ltr:md:left-[270px] rtl:md:right-[270px]'
+          : '',
           buttonPositionMobile === 'postion2'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion2').active == 1
-            ? 'position2 top-[80px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
+            ? 'position2 top-[86px] md:top-[80px] ltr:left-[190px] rtl:right-[190px] ltr:md:left-[270px] rtl:md:right-[270px]'
             : '',
           buttonPositionMobile === 'postion3'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion3').active == 1
-            ? 'position3 top-[130px] lg:top-[140px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
+            ? 'position3 top-[118px] md:top-[140px] ltr:left-[190px] rtl:right-[190px] ltr:md:left-[270px] rtl:md:right-[270px]'
             : '',
 
           buttonPositionMobile === 'postion4'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion4').active == 1
-            ? 'position4 top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position4 top-[58px] md:top-[30px] ltr:right-[10px] ltr:md:right-[20px] ltr:lg:right-[56px] rtl:left-[10px] rtl:md:left-[20px] rtl:lg:left-[56px]'
             : '',
           buttonPositionMobile === 'postion5'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion5').active == 1
-            ? 'position5 top-[90px] lg:top-[80px]   right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position5 top-[86px] md:top-[80px] ltr:right-[10px] ltr:md:right-[20px] ltr:lg:right-[56px] rtl:left-[10px] rtl:md:left-[20px] rtl:lg:left-[56px]'
             : '',
           buttonPositionMobile === 'postion6'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion6').active == 1
-            ? 'position6 top-[130px] lg:top-[140px] ipad-max:top-[130px]  right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position6 top-[118px] md:top-[140px] ltr:right-[10px] ltr:md:right-[20px] ltr:lg:right-[56px] rtl:left-[10px] rtl:md:left-[20px] rtl:lg:left-[56px]'
             : '',
         ]"
         >

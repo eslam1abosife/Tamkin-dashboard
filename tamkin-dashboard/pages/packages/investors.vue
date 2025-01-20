@@ -68,7 +68,7 @@ const uniqueValues = (items) => {
 </script>
 
 <template>
-  <div class="w-full relative px-[40px]" v-if="packagesStore.loadingData">
+  <div class="w-full relative px-4 md:px-[40px]" v-if="packagesStore.loadingData">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <!-- Title Skeleton -->
       <div
@@ -163,7 +163,7 @@ const uniqueValues = (items) => {
     </div>
   </div>
   <div
-    class="w-full relative px-[40px]"
+    class="w-full relative px-4 md:px-[40px]"
     v-if="
       packagesStore.currentType.title === 'Investors' &&
       !packagesStore.loadingData

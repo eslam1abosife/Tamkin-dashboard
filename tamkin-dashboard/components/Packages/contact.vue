@@ -13,17 +13,17 @@ const tgl = () => {
   >
     <!-- Gradient Overlay -->
     <div
-      class="absolute z-20 w-[95%] h-[170px] dark:bg-p top-[50%] rtl:left-[44.9%] ltr:left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
+      class="hidden md:block absolute z-20 w-[95%] h-[170px] dark:bg-p top-[50%] rtl:left-[44.9%] ltr:left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
     ></div>
 
     <!-- Image -->
-    <div class="absolute rtl:left-[70px] ltr:right-[70px] top-[25px] z-50">
-      <img src="/imgs/av.png" alt="" class="w-[300px] h-[295px]" />
+    <div class="p-4 md:p-0 static md:absolute rtl:left-[70px] ltr:right-[70px] top-[25px] z-50">
+      <img src="/imgs/av.png" alt="" class="w-[300px] h-[295px] mx-auto md:mx-[unset]" />
     </div>
 
     <!-- Content Section -->
     <div
-      class="absolute h-[246px] z-50 w-[379px] rtl:right-0 ltr:left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rtl:rounded-l-[55px] ltr:rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
+      class="static md:absolute mt-[32px] md:mt-0  h-[246px] z-50 w-full md:w-[379px] rtl:right-0 ltr:left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rtl:rounded-l-[55px] ltr:rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
     >
       <div
         class="text-[20px] font-[600] leading-[24px] text-black dark:text-white rtl:text-right ltr:text-left"

@@ -11,7 +11,7 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="w-full h-full min-h-auto bg-white p-[30px] mx-auto mt-[32px] relative dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+    class="w-full h-full min-h-auto bg-white p-[30px] px-3 md:px-[30px] mx-auto mt-[32px] relative dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
   >
     <div class="absolute top-[180px] left-[100px]">
       <img
@@ -47,7 +47,7 @@ const isLinkActive = (path) => {
               ? 'bg-[#E8F2FF]'
               : 'bg-white/[80%]',
           ]"
-          class="h-[45px] w-[40vw] ipad-max:w-[35vw] border-[1px] dark:opacity-90 dark:border-darkborder dark:bg-p_secondary dark:text-whiteTamkin py-[15px] cursor-pointer rtl:space-x-reverse space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
+          class="h-[55px] md:h-[45px] w-[98%] md:w-[40vw] ipad-max:w-[35vw] border-[1px] dark:opacity-90 dark:border-darkborder dark:bg-p_secondary dark:text-whiteTamkin py-[15px] cursor-pointer rtl:space-x-reverse space-x-[6px] px-[10px] flex items-center justify-start relative z-[50]"
           style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
         >
           <div
@@ -59,7 +59,7 @@ const isLinkActive = (path) => {
             ]"
           ></div>
           <div
-            class="text-[12px] font-[400] leading-[14px] text-black dark:text-whiteTamkin"
+            class="text-[12px] flex-1 font-[400] me-1 md:me-0 leading-[14px] text-black dark:text-whiteTamkin"
           >
             {{ $t(faq.question) }}
           </div>
@@ -101,12 +101,12 @@ const isLinkActive = (path) => {
         }"
       >
         <div
-          class="rtl:pr-[38px] ltr:pl-[38px] lg:rtl:pr-[120px] lg:ltr:pl-[120px] rtl:text-right ltr:text-left mt-[32px] ipad-max:text-[10px] ipad-max:pl-[80px] text-[14px] font-[600] dark:text-whiteTamkin leading-[24px] text-black break-words w-full"
+        class="px-3 md:rtl:pr-[120px] md:ltr:pl-[120px] rtl:text-right ltr:text-left mt-[32px] ipad-max:text-[10px] ipad-max:pl-[80px] text-[14px] font-[600] dark:text-whiteTamkin leading-[24px] text-black break-words w-full"
         >
           {{ $t(packagesStore.selectedQuestion.question) }}
         </div>
         <div
-          class="rtl:pr-[38px] ltr:pl-[38px] lg:rtl:pr-[120px] lg:ltr:pl-[120px] ipad-max:pl-[80px] ipad-max:text-[10px] mt-[28px] rtl:text-right ltr:text-left text-[12px] font-[400] dark:text-whiteTamkin leading-[24px] text-black"
+        class="px-3 md:rtl:pr-[120px] md:ltr:pl-[120px] ipad-max:pl-[80px] ipad-max:text-[10px] mt-[28px] rtl:text-right ltr:text-left text-[12px] font-[400] dark:text-whiteTamkin leading-[24px] text-black"
         >
           {{ $t(packagesStore.selectedQuestion.answer) }}
         </div>
