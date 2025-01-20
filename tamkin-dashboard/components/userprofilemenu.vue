@@ -124,7 +124,7 @@ onMounted(async () => {
 <template>
   <div
     style="border-radius: 8px"
-    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[190px] lg:w-[220px] flex items-center justify-center relative"
+    class="dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin h-auto w-[170px] sm:w-[170px] lg:w-[220px] flex items-center justify-center relative"
     @click.stop.prevent="openLangSwitchMenu"
     v-on-click-outside="closeMenu"
   >
@@ -160,7 +160,7 @@ onMounted(async () => {
       class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]"
     >
       <div class="flex items-center justify-start w-full space-x-[14px]">
-        <div class="w-2/4">
+        <div class="w-2/4 rtl:ml-2 ltr:mr-2">
           <UserAvatar :member="profileStore.member" />
         </div>
         <div class="flex flex-col items-start justify-center w-full !mx-0">
@@ -180,7 +180,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div>
+      <div class="rtl:ml-0 ltr:mr-0">
         <svg
           :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
           width="6"

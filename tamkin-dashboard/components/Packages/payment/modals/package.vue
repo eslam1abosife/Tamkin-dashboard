@@ -843,7 +843,7 @@ const formattedTotal = computed(() => {
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
             <div
-              class="font-[400] dark:text-whiteTamkin text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
+              class="font-[400] dark:text-whiteTamkin text-[12px] sm:text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
             >
               {{
                 packagesStore.currentType.title +
@@ -899,7 +899,7 @@ const formattedTotal = computed(() => {
             </div>
           </div>
           <div
-            class="flex items-center justify-center gap-4 flex-col sm:flex-row "
+            class="flex items-center justify-center gap-4 flex-wrap sm:flex-nowrap"
             v-if="
               packagesStore.currentPackage.package_type === 'Addons' ||
               packagesStore.currentPackage.package_type === 'Package'
