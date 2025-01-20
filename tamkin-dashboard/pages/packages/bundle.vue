@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Bundle - Tamkin Dashboard"),
-})
+});
 const {
   isOpen,
   currentView,
@@ -40,7 +40,10 @@ onUpdated(() => {});
 </script>
 
 <template>
-  <div class="w-full relative px-4 md:px-[40px]" v-if="packagesStore.loadingData">
+  <div
+    class="w-full relative px-4 md:px-[40px]"
+    v-if="packagesStore.loadingData"
+  >
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <!-- Title Skeleton -->
       <div
@@ -74,7 +77,9 @@ onUpdated(() => {});
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
         <!-- Icon Skeleton -->
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <!-- Title Skeleton -->
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <!-- Subtitle Skeleton -->
@@ -97,7 +102,9 @@ onUpdated(() => {});
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
@@ -114,7 +121,9 @@ onUpdated(() => {});
       <div
         class="flex flex-col items-center justify-start p-6 bg-white rounded-lg animate-pulse"
       >
-        <div class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+        <div
+          class="w-[50px] h-[50px] bg-gray-300 dark:bg-gray-600 rounded-full mb-4"
+        ></div>
         <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
         <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
         <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
@@ -136,7 +145,7 @@ onUpdated(() => {});
   >
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <div
-        class="text-[18px] font-[700] leading-[35px] dark:text-whiteTamkin  text-black w-full flex items-center justify-center"
+        class="text-[14px] sm:text-[18px] font-[700] leading-[35px] dark:text-whiteTamkin text-black w-full flex items-center justify-center"
       >
         <div
           v-html="`${$t(packagesStore.getPackageDetails().color_title)}`"
