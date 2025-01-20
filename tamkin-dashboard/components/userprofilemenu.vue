@@ -180,7 +180,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="rtl:ml-0 ltr:mr-0">
+      <div class="rtl:!mr-0 ltr:!ml-0">
         <svg
           :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
           width="6"
