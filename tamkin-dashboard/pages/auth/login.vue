@@ -17,6 +17,9 @@ const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
   layout: "auth",
+  pageTransition: {
+    name: 'page'
+  }
 });
 
 const state = reactive({
@@ -332,4 +335,13 @@ const clearFieldError = (condition) => {
 //   input:-webkit-autofill {
 //     @apply dark:[-webkit-box-shadow:0_0_0_1000px_#2D333D_inset] dark:!text-white;
 // }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

@@ -21,10 +21,10 @@ watch(width, (newWidth) => {
     authWidth.value = 400;
     authHeight.value = 550;
   } else if (newWidth >= 768) {
-    authWidth.value = 200;
+    authWidth.value = 300;
     authHeight.value = 400;
   } else if (newWidth === 1024) {
-    authWidth.value = 200;
+    authWidth.value = 300;
     authHeight.value = 400;
   } else {
     authWidth.value = 300;
@@ -50,8 +50,9 @@ const isLinkActive = (path) => {
 
   return regex.test(currentPath);
 };
-
+const loadedfn = ref(false)
 onMounted(() => {
+  loadedfn.value = true
   // if(process.client ){
   //     window.$chatwoot.toggleBubbleVisibility("hide");
   //   window.$chatwoot.toggle("close");
@@ -105,7 +106,10 @@ import "vue-loading-overlay/dist/css/index.css";
         >
       </div>
       <div class="grid grid-cols-12 lg:gap-[20px]">
-        <div
+
+        <transition name="fade" mode="out-in">
+
+        <div v-if="loadedfn"
           class="dark:[background:#383f4a;] lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 rtl:left-0 ltr:right-0 z-50 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd rtl:order-2 order-2"
         >
           <Vue3Lottie
@@ -158,11 +162,19 @@ import "vue-loading-overlay/dist/css/index.css";
             </div>
           </div>
         </div>
-        <div
+ 
+      </transition>
+
+        <transition name="fade" mode="out-in">
+
+        <div v-if="loadedfn"
           class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] dark:bg-darkTamkin 3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative"
         >
+
           <NuxtPage class="dark:bg-darkTamkin" />
+
         </div>
+      </transition>
 
         <div
           v-if="isLinkActive('/auth/login')"
@@ -179,3 +191,17 @@ import "vue-loading-overlay/dist/css/index.css";
     </div>
   </Html>
 </template>
+
+
+<style >
+/* Scoped fade transition styles */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
