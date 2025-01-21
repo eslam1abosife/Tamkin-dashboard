@@ -31,7 +31,7 @@ const {
   navigateTo,
   setData,
 } = useModalManager();
-const colorMode = useColorMode()
+const colorMode = useColorMode();
 
 const currentCard = ref("");
 const loading = ref(false);
@@ -147,8 +147,8 @@ const continueCheckOut = async () => {
     codeStatus.value === 200 &&
     res !== "A 3-day trial package is configured in the app"
   ) {
-    const resTheme =  colorMode.value === 'dark' ? res + '&is_dark=1' : res;
-    
+    const resTheme = colorMode.value === "dark" ? res + "&is_dark=1" : res;
+
     urlPayment.value = resTheme;
 
     // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
@@ -282,7 +282,7 @@ onBeforeUnmount(() => {
                     class="flex flex-col items-start justify-start relative w-full"
                   >
                     <div
-                      class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
+                      class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
                     ></div>
                     <div
                       class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
@@ -347,7 +347,7 @@ onBeforeUnmount(() => {
                       class="flex flex-col items-start justify-start relative w-full"
                     >
                       <div
-                        class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary"
                       >
                         <div class="text-[10px] font-[500] text-white">
@@ -356,7 +356,7 @@ onBeforeUnmount(() => {
                       </div>
 
                       <div
-                        class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
+                        class="text-[12px] md:text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                       >
                         <div class="w-36 truncate">
                           {{ savedCard.holdername }}
@@ -364,7 +364,7 @@ onBeforeUnmount(() => {
                         <div>****{{ savedCard.last4 }}</div>
                       </div>
                       <div
-                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px] "
+                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px]"
                       >
                         {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
                         {{ savedCard.expyear }}
@@ -432,9 +432,11 @@ onBeforeUnmount(() => {
                 "
               >
                 <div class="cursor-pointer">
-                                    <img v-if="navbarStore.isDark" src="/assets/imgs/payment_methods/new_card_dark.svg" />
+                  <img
+                    v-if="navbarStore.isDark"
+                    src="/assets/imgs/payment_methods/new_card_dark.svg"
+                  />
                   <img v-else src="/assets/imgs/payment_methods/new_card.svg" />
-
                 </div>
                 <div
                   class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
@@ -474,15 +476,21 @@ onBeforeUnmount(() => {
                 <div
                   class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
-                <div class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+                <div
+                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
               </div>
 
               <!-- Right section for showing more payment options -->
               <div
                 class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
               >
-                <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
-                <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                ></div>
               </div>
             </div>
 
@@ -626,7 +634,9 @@ onBeforeUnmount(() => {
                     v-if="packagesStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <div
+                      class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                    >
                       <span class="text-[#021328] font-[700] dark:text-white"
                         >{{ packagesStore.currentDiscount }}%</span
                       >

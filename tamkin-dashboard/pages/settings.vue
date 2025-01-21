@@ -8,7 +8,7 @@ import { useApi } from "@/composables/useApi";
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
 const { locale,t } = useI18n();
-
+const mySiteStore = useMySiteStore();
 useHead({
   title: t("Accessibility - Settings - Tamkin Dashboard"),
 })
@@ -71,6 +71,7 @@ const foo = 'bar';
 };
 
 onBeforeMount(() => {
+  mySiteStore.currentType = "Accessibility";
   getAccessability();
   currentCode.value = `const foo = 'bar';`;
   code.value = true;

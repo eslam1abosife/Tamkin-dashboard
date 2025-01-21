@@ -90,7 +90,9 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 const { $toast } = useNuxtApp();
 
 onMounted(async () => {
-  await packagesStore.getDataPackage();
+  if(!packagesStore.checkFetchtDataPackage) {
+    await packagesStore.getDataPackage();
+  }
   const targetId = route.query.package;
 
   if (targetId) {

@@ -67,7 +67,7 @@ const moveSplide = (newIndex) => {
 </script>
 
 <template>
-  <div class="mt-[64px]">
+  <div class="mt-[64px] w-full">
     <Splide
       ref="splide"
       @splide:move="moveSplide"
@@ -75,10 +75,18 @@ const moveSplide = (newIndex) => {
       :options="{
         destroy: false,
         rewind: false,
-        perPage: 3,
         gap: 10,
         arrows: false,
         direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+        perPage: 3,
+        breakpoints: {
+          768: {
+            perPage: 1,
+          },
+          1024: {
+            perPage: 3,
+          }
+        },
       }"
     >
       <SplideSlide
@@ -86,7 +94,7 @@ const moveSplide = (newIndex) => {
         :key="pak.name"
       >
         <div
-          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+          class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group bg-white dark:bg-tamkinDarkPrimary hover:bg-selected dark:hover:bg-p w-full"
         >
           <div
             v-if="pak.type_deal !== 'None'"

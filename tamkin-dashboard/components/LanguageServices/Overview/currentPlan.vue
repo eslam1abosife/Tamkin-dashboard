@@ -105,7 +105,7 @@ const getCurrentAccessPackage = computed(() => {
         class="w-full bg-white relative dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
       >
         <div
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-transparent dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"

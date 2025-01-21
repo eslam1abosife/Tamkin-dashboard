@@ -30,7 +30,6 @@ export default function () {
       customizeStore.features = getnamesFeature;
       checkboxStore.features = getnamesFeature;
       settingsStore.features = getnamesFeature;
-
       // button color
       const isBtnColorActive = features.find(
         (feature: any) => feature.name === "acc-customize-button-color"

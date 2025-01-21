@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import VCodeBlock from "@wdns/vue-code-block";
 import banner from '/assets/imgs/gradient_embded.png'
+import bannerDark from '/assets/imgs/gradient_embded_dark.png'
 import { Vue3Lottie } from 'vue3-lottie'
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
 const { locale,t } = useI18n();
+
+const navStore = useNavbarStore();
 
 useHead({
   title: t("Embed Code - Tamkin Dashboard"),
@@ -145,7 +147,7 @@ const filteredInstallationGuide = computed(() => {
 
 
       <div class="flex items-center flex-col justify-center mt-[16px] space-y-[16px] ">
-        <div :style="{ backgroundImage: `url(${banner})` }" style="width: 100%; background-size: cover"
+        <div :style="{ backgroundImage: `url(${navStore.isDark ? bannerDark : banner})` }" style="width: 100%; background-size: cover"
           class="rounded-lg h-[150px] lg:h-auto text-center flex items-center justify-center lg:flex-row md:flex-row flex-col w-full">
           <div class="hidden lg:block md:block lg:h-full md:h-full">
             <img src="/assets/imgs/icons/man.svg" alt="Character" class=" h-full " />
