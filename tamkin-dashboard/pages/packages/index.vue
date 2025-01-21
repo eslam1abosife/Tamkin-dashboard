@@ -223,7 +223,7 @@ onUpdated(() => {
           :key="addon.name"
           style="overflow: inherit"
           ><div
-            class="relative flex p-[30px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin w-full"
+            class="relative flex p-[12px] md:p-[30px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin w-full"
           >
             <div class="">
               <img
