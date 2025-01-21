@@ -74,7 +74,7 @@ const uniqueValues = (items) => {
       </div>
       <div
         v-if="packagesStore.getPackageDetails()"
-        class="text-[14px] font-[400] leading-[20px] text-center w-7/12 dark:text-whiteTamkin"
+        class="text-[14px] font-[400] leading-[20px] text-center w-full dark:text-whiteTamkin"
       >
         {{
           $t(
@@ -88,65 +88,71 @@ const uniqueValues = (items) => {
     <PackagesModalsCustomPackage />
 
     <!-- PACKAGES-->
-     <div class="flex items-center justify-between flex-col md:flex-row gap-4 mt-4">
+    <div
+      class="flex items-center justify-between flex-col md:flex-row gap-4 mt-4"
+    >
       <div
-         class="flex items-center flex-col md:flex-row justify-start w-full p-[4px] rtl:space-x-reverse md:space-x-[14px]"
-       >
-         <div class="text-black dark:text-whiteTamkin font-[600] text-[14px]">
-           {{ $t("Choose Traffic level") }} :
-         </div>
-         <TranslateSelectInput
-           @getCurrentSelectedItem="geteFilterInfo"
-           :enableSearch="false"
-           placeholderinput="Traffic level"
-           :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
-           nameKey="name"
-           idField="id"
-           class="!w-[100%] md:!w-[40%]"
-           :currentListValue="packagesStore.traffic_level"
-         />
-       </div> 
+        class="flex items-center flex-row justify-start w-full p-[4px] rtl:space-x-reverse md:space-x-[14px]"
+      >
+        <div
+          class="text-black dark:text-whiteTamkin w-[77%] sm:w-[50%] md:w-[40%] lg:w-[30%] font-[600] text-[12px] sm:text-[12px]"
+        >
+          {{ $t("Choose Traffic level") }} :
+        </div>
+        <TranslateSelectInput
+          @getCurrentSelectedItem="geteFilterInfo"
+          :enableSearch="false"
+          placeholderinput="Traffic level"
+          :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
+          nameKey="name"
+          idField="id"
+          class="!w-[100%] md:!w-[40%]"
+          :currentListValue="packagesStore.traffic_level"
+        />
+      </div>
       <div
-         class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-tamkinDarkPrimary  dark:border-darkborder p-[4px] border border-gray-300"
-       >
-         <button
-           @click="switchBetweenMonthlyAndAnnual('month')"
-           :class="[
-             packagesStore.discountType === 'month'
-               ? 'bg-white dark:bg-darkTamkin rounded-full'
-               : '',
-           ]"
-           class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
-         >
-           {{ $t("Monthly") }}
-         </button>
-         <button
-           @click="switchBetweenMonthlyAndAnnual('year')"
-           :class="[
-             packagesStore.discountType === 'year'
-               ? 'bg-white dark:bg-darkTamkin rounded-full'
-               : '',
-           ]"
-           class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
-         >
-           <div>{{ $t("Annual") }}</div>
-           <div
-             class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
-           >
-             <div class="text-black dark:text-white font-[800] !text-[10px]">{{ $t("SAVE") }}</div>
-             <div class="text-black dark:text-white font-[800] !text-[10px]">
-               {{
-                 packagesStore.types.length
-                   ? packagesStore.types.find(
-                       (type) => type.title === "Accessibility"
-                     ).discount_yearly
-                   : ""
-               }}%
-             </div>
-           </div>
-         </button>
-       </div>
-     </div>
+        class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-full md:w-auto z-[40] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[4px] border border-gray-300"
+      >
+        <button
+          @click="switchBetweenMonthlyAndAnnual('month')"
+          :class="[
+            packagesStore.discountType === 'month'
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
+              : '',
+          ]"
+          class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
+        >
+          {{ $t("Monthly") }}
+        </button>
+        <button
+          @click="switchBetweenMonthlyAndAnnual('year')"
+          :class="[
+            packagesStore.discountType === 'year'
+              ? 'bg-white dark:bg-darkTamkin rounded-full'
+              : '',
+          ]"
+          class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[22.5px]"
+        >
+          <div>{{ $t("Annual") }}</div>
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
+          >
+            <div class="text-black dark:text-white font-[800] !text-[10px]">
+              {{ $t("SAVE") }}
+            </div>
+            <div class="text-black dark:text-white font-[800] !text-[10px]">
+              {{
+                packagesStore.types.length
+                  ? packagesStore.types.find(
+                      (type) => type.title === "Accessibility"
+                    ).discount_yearly
+                  : ""
+              }}%
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
 
     <div
       class="flex flex-col items-center justify-center w-full bg-white mt-5 md:mt-[85px] dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin"

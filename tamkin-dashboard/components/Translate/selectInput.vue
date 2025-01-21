@@ -153,7 +153,7 @@ onMounted(() => {
               selectedOption &&
               selectedOption[nameKey] &&
               selectedOption[nameKey].length >= 20
-                ? 'w-64 truncate'
+                ? 'w-64 truncate text-[11px] sm:text-[14px]'
                 : 'w-auto',
             ]"
             class="text-[12px]"
