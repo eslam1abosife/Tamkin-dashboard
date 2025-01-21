@@ -537,7 +537,7 @@ const isOwner = computed(() => {
 
         <!-- Edit Button Skeleton -->
         <div
-          class="w-[100px] h-[30px] dark:bg-p bg-gray-300 rounded-full animate-pulse"
+          class="w-[50px] h-[30px] dark:bg-p bg-gray-300 rounded-full animate-pulse"
         ></div>
       </div>
       <div
@@ -624,7 +624,7 @@ const isOwner = computed(() => {
               class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]"
             >
               <div
-                class="w-[100px] h-[16px] dark:bg-p bg-gray-300 rounded"
+                class="w-[50px] h-[16px] dark:bg-p bg-gray-300 rounded"
               ></div>
               <div
                 class="w-[30px] h-[16px] dark:bg-p bg-gray-300 rounded"
@@ -672,9 +672,9 @@ const isOwner = computed(() => {
         </div>
 
         <!-- Placeholder for the image -->
-        <div class="pl-[20px]">
+        <div class="ps-4 md:ps-[20px]">
           <div
-            class="w-[203px] h-[70px] dark:bg-p bg-gray-300 rounded animate-pulse"
+            class="max-w-100 w-[203px] h-[70px] dark:bg-p bg-gray-300 rounded animate-pulse"
           ></div>
         </div>
       </div>
@@ -794,7 +794,7 @@ const isOwner = computed(() => {
             !capacityLoader
           "
         >
-        <div class="overflow-y-auto w-full">
+        <div class="overflow-x-auto w-full">
           <table
             class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
           >
@@ -816,7 +816,7 @@ const isOwner = computed(() => {
                   {{ $t("Permissions") }}
                 </th>
                 <th
-                  class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 px-4 text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Action") }}
                 </th>
@@ -831,7 +831,7 @@ const isOwner = computed(() => {
                 :key="index"
               >
                 <td
-                  class="lg:pe-0 pe-[100px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pe-0 pe-[50px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] space-x-[16px]"
@@ -887,12 +887,12 @@ const isOwner = computed(() => {
                   </div>
                 </td>
                 <td
-                  class="py-4 ltr:text-left lg:pr-0 pr-[100px] whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-4 ltr:text-left lg:pe-0 pe-[50px] whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <p>{{ member.member_email }}</p>
                 </td>
                 <td
-                  class="py-4 text-center text-[14px] lg:pr-0 pr-[100px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-4 text-center text-[14px] lg:pe-0 pe-[50px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start"
@@ -926,7 +926,7 @@ const isOwner = computed(() => {
                 >
                   <div
                     v-if="profileStore.isOwner && !isOwner(member)"
-                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
                   >
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
@@ -1052,7 +1052,7 @@ const isOwner = computed(() => {
                     </button>
                   </div>
                   <div
-                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
                     v-else
                   >
                     -
@@ -1077,7 +1077,7 @@ const isOwner = computed(() => {
                   class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin ps-[16px] ltr:lg:pl-[16px]"
                 >
                   <div
-                    class="w-[100px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
+                    class="w-[50px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
@@ -1095,7 +1095,7 @@ const isOwner = computed(() => {
                   ></div>
                 </th>
                 <th
-                  class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 px-4 text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="w-3/4 h-[20px] bg-gray-300 dark:bg-p rounded animate-pulse"
@@ -1108,7 +1108,7 @@ const isOwner = computed(() => {
             >
               <tr v-for="index in 2" :key="index">
                 <td
-                  class="lg:pe-0 pe-[100px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pe-0 pe-[50px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"

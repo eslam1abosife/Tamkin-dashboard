@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
 
     <div
       v-bind="getRootProps()"
-      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-[40px] flex items-center justify-center flex-col space-y-[30px]  bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
+      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-[40px] flex items-center justify-center flex-col space-y-[30px]  bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
     >
       <input v-bind="getInputProps()"  :disabled="
 

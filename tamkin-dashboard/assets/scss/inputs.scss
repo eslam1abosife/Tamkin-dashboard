@@ -50,7 +50,7 @@
   }
 
   .floating_label {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
+    @apply cursor-text rounded-[10px] absolute rtl:right-[15px] ltr:left-[15px]
      lg:rtl:right-[30px] lg:ltr:left-[16px] top-[8px] ipad-max:top-[14px]
       -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
       text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] ipad-max:text-[10px] 
