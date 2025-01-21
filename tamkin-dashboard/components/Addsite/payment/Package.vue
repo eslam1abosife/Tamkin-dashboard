@@ -4,24 +4,24 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { helpers } from "@vuelidate/validators";
 import Multiselect from "vue-multiselect";
 import { useGetAppInvites } from "@/composables/useTeam";
-import {useGetTrafficByType} from '@/composables/useAddSite'
-const localePath = useLocalePath()
-const {getTrafficType} = useGetTrafficByType()
-const route = useRoute()
-onBeforeMount(async ()=>{
- loadingPriceTraffic.value = true
+import { useGetTrafficByType } from "@/composables/useAddSite";
+const localePath = useLocalePath();
+const { getTrafficType } = useGetTrafficByType();
+const route = useRoute();
+onBeforeMount(async () => {
+  loadingPriceTraffic.value = true;
 
-if(addSiteStore.currentPackage.type ==='Accessibility'){
-  await geteFilterInfo()
+  if (addSiteStore.currentPackage.type === "Accessibility") {
+    await geteFilterInfo();
 
-   await getTrafficType(addSiteStore.currentPackage.name)
-    addSiteStore.currentLevel = addSiteStore.levelsTraffic[0]
-}
+    await getTrafficType(addSiteStore.currentPackage.name);
+    addSiteStore.currentLevel = addSiteStore.levelsTraffic[0];
+  }
 
- loadingPriceTraffic.value = false
+  loadingPriceTraffic.value = false;
 
-// levelof.value = addSiteStore.currentLevel.name
-})
+  // levelof.value = addSiteStore.currentLevel.name
+});
 const isLinkActive = (path) => {
   if (process.client) {
     const localizedPath = localePath(path); // Assuming you use i18n
@@ -35,8 +35,14 @@ import {
   useGetPriceByTraffic,
 } from "@/composables/usePackages";
 const { locale } = useI18n();
-const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
-const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+const { checkifBlockedSite, messageStatus, codeStatus } =
+  useCheckifSiteblocked();
 const addSiteStore = useAddSiteStore();
 const { getPriceByTraffic } = useGetPriceByTraffic();
 const loadingPriceTraffic = ref(false);
@@ -45,8 +51,8 @@ function getDayLabel(number) {
 }
 const { getTraffic } = useGetTraffic();
 
-const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
-
+const domainRegex =
+  /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 
 const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
@@ -62,15 +68,11 @@ const webs = ref([]);
 const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
-const selectedPackage = ref(
-3
-);
-
+const selectedPackage = ref(3);
 
 const selectPackage = async (plan: any) => {
   selectedPackage.value = plan;
-await geteFilterInfo()
-
+  await geteFilterInfo();
 };
 const selectPackageWeb = (plan: any) => {
   selectedPackage.value = plan;
@@ -79,16 +81,10 @@ const props = defineProps({
   showModal: Boolean,
 });
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const openedCurrentSite = ref("");
-const levelof = ref( );
+const levelof = ref();
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
@@ -104,7 +100,8 @@ const addWebsite = async () => {
     const traffic = await getTraffic(state.newWebsite, "url");
 
     if (
-      apps.value.filter((ap) => ap.app_domain === state.newWebsite).length === 0 &&
+      apps.value.filter((ap) => ap.app_domain === state.newWebsite).length ===
+        0 &&
       codeStatus.value === 200 &&
       res.length === 0 &&
       addSiteStore.urls.filter(
@@ -139,7 +136,9 @@ const addWebsite = async () => {
 const trafficTooHighApps = ref([]);
 const trafficTooHighUrls = ref([]);
 const removeWebsite = (website: any) => {
-  addSiteStore.urls = addSiteStore.urls.filter((item: any) => item.title !== website);
+  addSiteStore.urls = addSiteStore.urls.filter(
+    (item: any) => item.title !== website
+  );
 
   trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
     (item: any) => item.title !== website
@@ -162,15 +161,15 @@ const calculateEstimatedPrice = computed(() => {
       ? addSiteStore.currentPackage.package_price_role[0].cost_3_month
       : addSiteStore.currentPackage.package_price_role[0].cost_month;
   }
-  if (addSiteStore.currentPackage.type  === "Accessibility") {
+  if (addSiteStore.currentPackage.type === "Accessibility") {
     if (levelof.value !== "Over 1M page views/mo") {
       // Handle the case for traffic below 1M
       return selectedPackage.value === 12
-        ? addSiteStore.currentPackage.package_price_role[0].cost_yearly 
+        ? addSiteStore.currentPackage.package_price_role[0].cost_yearly
         : selectedPackage.value === 3
-        ? addSiteStore.currentPackage.package_price_role[0].cost_3_month 
+        ? addSiteStore.currentPackage.package_price_role[0].cost_3_month
         : selectedPackage.value === 1
-        ? addSiteStore.currentPackage.package_price_role[0].cost_month 
+        ? addSiteStore.currentPackage.package_price_role[0].cost_month
         : addSiteStore.currentPackage.package_price_role[0].trial_days > 0
         ? 0
         : 0;
@@ -180,10 +179,11 @@ const calculateEstimatedPrice = computed(() => {
     ) {
       // Handle the case for traffic over 1M
       // Find the matching website in webs or addSiteStore.urls
-      const openedCurrentSite =
-        addSiteStore.urls.find((item: any) =>
-          pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
-        );
+      const openedCurrentSite = addSiteStore.urls.find((item: any) =>
+        pricebytraffic.value.some(
+          (priceItem: any) => priceItem.website === item.url
+        )
+      );
 
       if (openedCurrentSite) {
         // Find the corresponding price entry in pricebytraffic for the current website
@@ -208,38 +208,35 @@ const calculateEstimatedPrice = computed(() => {
   }
 });
 const calculatePrice = (website) => {
-    const currentWebsite =  addSiteStore.urls.find((item) => item.url === website);
-   
-    if (currentWebsite && pricebytraffic.value.length) {
-      const priceInfo = pricebytraffic.value.find((priceItem) => priceItem.website === currentWebsite.url);
-   
+  const currentWebsite = addSiteStore.urls.find((item) => item.url === website);
 
- 
-        return selectedPackage.value === 12
-          ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
-          : selectedPackage.value === 3
-          ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
-          : selectedPackage.value === 1
-          ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-          : 0; // Default case
-   
-    }
+  if (currentWebsite && pricebytraffic.value.length) {
+    const priceInfo = pricebytraffic.value.find(
+      (priceItem) => priceItem.website === currentWebsite.url
+    );
 
-
+    return selectedPackage.value === 12
+      ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
+      : selectedPackage.value === 3
+      ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
+      : selectedPackage.value === 1
+      ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
+      : 0; // Default case
+  }
 };
 const calculateTotalPrice = () => {
-  
-  if ( pricebytraffic.value.length > 0) {
+  if (pricebytraffic.value.length > 0) {
     // Sum the prices based on the selected package
     const totalCost = pricebytraffic.value.reduce((sum, priceItem) => {
-      return sum + (
-        selectedPackage.value === 12
+      return (
+        sum +
+        (selectedPackage.value === 12
           ? priceItem.cost_year // Sum yearly cost if selectedPackage is 12
           : selectedPackage.value === 3
           ? priceItem.cost_3_month // Sum 3-month cost if selectedPackage is 3
           : selectedPackage.value === 1
           ? priceItem.cost_month // Sum monthly cost if selectedPackage is 1
-          : 0 // Default case
+          : 0) // Default case
       );
     }, 0); // Start summing from 0
 
@@ -249,24 +246,20 @@ const calculateTotalPrice = () => {
   return 0; // Default return if no conditions are met
 };
 
-
-
 const packageTypeToSend = computed(() => {
-  const {  currentPackage } = addSiteStore;
+  const { currentPackage } = addSiteStore;
 
+  //   if (
+  //     (currentType &&  currentPackage.name === "Sign language" )&&
+  //     currentPackage.package_type === "Package" &&
+  //     getCategory.value
+  //   ) {
+  //     return getCategory.value;
+  //   }
 
-
-//   if (
-//     (currentType &&  currentPackage.name === "Sign language" )&&
-//     currentPackage.package_type === "Package" &&
-//     getCategory.value
-//   ) {
-//     return getCategory.value;
-//   }
-
-//   if ((currentType  &&currentType.name === "Accessibility") && currentPackage.package_type === "Addons") {
-//     return "Accessibility";
-//   }
+  //   if ((currentType  &&currentType.name === "Accessibility") && currentPackage.package_type === "Addons") {
+  //     return "Accessibility";
+  //   }
 
   return null;
 });
@@ -275,44 +268,52 @@ const packageTypeToSend = computed(() => {
  * Sets the package payload and navigates to the payment methods page.
  * @returns {Promise<void>}
  */
-const packagesStore = usePackgesStore()
+const packagesStore = usePackgesStore();
 const conintuePay = () => {
-
-
   addSiteStore.packagePayload = {
     package: addSiteStore.currentPackage.name,
     urls: addSiteStore.urls.filter((website: any) => website.url !== null),
-    apps: webs.value.length ? webs.value.map((website: any) => website.name) : [],
+    apps: webs.value.length
+      ? webs.value.map((website: any) => website.name)
+      : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: addSiteStore.currentPackage.type === 'Sign language' ? totalCost.value :  calculateTotalPrice(),
-    packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
-    packageTrie:  packagesStore.traffic_level,
+    total:
+      addSiteStore.currentPackage.type === "Sign language"
+        ? totalCost.value
+        : calculateTotalPrice(),
+    packageExtraType: packageTypeToSend.value ? packageTypeToSend.value : null,
+    packageTrie: packagesStore.traffic_level,
   };
-  return navigateTo("add_package_modal_addsite", "addsite", "payment_methods_addsite");
+  return navigateTo(
+    "add_package_modal_addsite",
+    "addsite",
+    "payment_methods_addsite"
+  );
 };
 
 const totalCost = computed(() => {
   const urlCount = addSiteStore.urls.length || 0;
   const webCount = webs.value.length || 0;
   const price = calculateEstimatedPrice.value || 0;
-    return price * urlCount ;
-
+  return price * urlCount;
 });
 
-
-
 const geteFilterInfo = async () => {
-  if (addSiteStore.currentPackage.type === 'Accessibility') {
+  if (addSiteStore.currentPackage.type === "Accessibility") {
     loadingPriceTraffic.value = true;
     const res = await getPriceByTraffic(
-      [...(addSiteStore.urls.length ? addSiteStore.urls.map((we) => we.url) : [])],
+      [
+        ...(addSiteStore.urls.length
+          ? addSiteStore.urls.map((we) => we.url)
+          : []),
+      ],
       addSiteStore.currentPackage.name,
       []
     );
     pricebytraffic.value = res;
-  // levelof.value =res[0].title
-  loadingPriceTraffic.value = false;
+    // levelof.value =res[0].title
+    loadingPriceTraffic.value = false;
   }
 };
 
@@ -355,7 +356,7 @@ const getPackageById = (id) => {
       pkg.package_type === "Package" &&
       pkg.package_price_role.some((item) => item.title === levelof.value)
   );
-console.log(id)
+  console.log(id);
   if (packageg) {
     const priceRole = packageg.package_price_role.find(
       (item) => item.title === levelof.value
@@ -429,9 +430,9 @@ watchEffect(() => {
 
     // If level is 'Over 1M page views/mo', remove recently added items
     if (levelof.value === "Over 1M page views/mo") {
- 
       trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
-        (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
+        (item: any) =>
+          !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
       );
     }
   }
@@ -458,7 +459,6 @@ watchEffect(() => {
 //   }
 // });
 
-
 /**
  * Function to check if a given website already exists in our database.
  * It cleans the given website domain and then checks if the clean domain exists in the list of apps or urls.
@@ -468,8 +468,10 @@ const checkforexistingwebsite = () => {
   const cleanDomain = cleanWebsiteUrl(state.newWebsite);
 
   if (
-    apps.value.filter((website: any) => website.app_domain === cleanDomain).length > 0 ||
-    addSiteStore.urls.filter((website: any) => website.url === cleanDomain).length > 0
+    apps.value.filter((website: any) => website.app_domain === cleanDomain)
+      .length > 0 ||
+    addSiteStore.urls.filter((website: any) => website.url === cleanDomain)
+      .length > 0
   ) {
     websiteExist.value = true;
   } else {
@@ -497,248 +499,271 @@ const closeModalPackage = () => {
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-    <div
-      style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
-      class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-      @click="closeModalPackage"
-    >
-      <svg
-        class="w-[12px] h-[12px]"
-        width="14"
-        height="13"
-        viewBox="0 0 14 13"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M8.64832 6.92435L13.0968 2.66757C13.2076 2.58023 13.2981 2.47187 13.3626 2.34938C13.427 2.22689 13.4641 2.09294 13.4714 1.95606C13.4786 1.81918 13.456 1.68235 13.4048 1.55428C13.3536 1.4262 13.2751 1.30968 13.1741 1.21211C13.0732 1.11455 12.952 1.03807 12.8184 0.98755C12.6848 0.937029 12.5416 0.913564 12.398 0.918649C12.2543 0.923734 12.1134 0.957256 11.9841 1.01709C11.8547 1.07691 11.7399 1.16174 11.6468 1.26618L7.18651 5.53047L2.72621 1.26618C2.52652 1.10872 2.27221 1.02832 2.01342 1.04081C1.75463 1.05331 1.51014 1.1578 1.32816 1.33369C1.14617 1.50958 1.03989 1.74409 1.03028 1.991C1.02067 2.23791 1.10841 2.4793 1.27622 2.66757L5.7247 6.92435L1.27622 11.1774C1.08185 11.3627 0.972656 11.6141 0.972656 11.8762C0.972656 12.1383 1.08185 12.3897 1.27622 12.575C1.47059 12.7603 1.73422 12.8645 2.0091 12.8645C2.28398 12.8645 2.5476 12.7603 2.74198 12.575L7.18651 8.31823L11.6468 12.575C11.8466 12.7285 12.0991 12.8058 12.3552 12.792C12.6114 12.7782 12.8531 12.6743 13.0335 12.5004C13.2139 12.3264 13.3203 12.0949 13.332 11.8505C13.3437 11.6061 13.2599 11.3662 13.0968 11.1774L8.64832 6.92435Z"
-          fill="currentColor"
-        />
-      </svg>
-    </div>
     <div class="w-full h-screen">
-      <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden">
-        <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
-        >
-          {{ $t("Add Package") }}
-        </h1>
+      <div
+        class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
+      >
+        <div class="flex justify-between">
+          <h1
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[31px]"
+          >
+            {{ $t("Add Package") }}
+          </h1>
+          <div
+            style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
+            class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+            @click="closeModalPackage"
+          >
+            <svg
+              class="w-[12px] h-[12px]"
+              width="14"
+              height="13"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.64832 6.92435L13.0968 2.66757C13.2076 2.58023 13.2981 2.47187 13.3626 2.34938C13.427 2.22689 13.4641 2.09294 13.4714 1.95606C13.4786 1.81918 13.456 1.68235 13.4048 1.55428C13.3536 1.4262 13.2751 1.30968 13.1741 1.21211C13.0732 1.11455 12.952 1.03807 12.8184 0.98755C12.6848 0.937029 12.5416 0.913564 12.398 0.918649C12.2543 0.923734 12.1134 0.957256 11.9841 1.01709C11.8547 1.07691 11.7399 1.16174 11.6468 1.26618L7.18651 5.53047L2.72621 1.26618C2.52652 1.10872 2.27221 1.02832 2.01342 1.04081C1.75463 1.05331 1.51014 1.1578 1.32816 1.33369C1.14617 1.50958 1.03989 1.74409 1.03028 1.991C1.02067 2.23791 1.10841 2.4793 1.27622 2.66757L5.7247 6.92435L1.27622 11.1774C1.08185 11.3627 0.972656 11.6141 0.972656 11.8762C0.972656 12.1383 1.08185 12.3897 1.27622 12.575C1.47059 12.7603 1.73422 12.8645 2.0091 12.8645C2.28398 12.8645 2.5476 12.7603 2.74198 12.575L7.18651 8.31823L11.6468 12.575C11.8466 12.7285 12.0991 12.8058 12.3552 12.792C12.6114 12.7782 12.8531 12.6743 13.0335 12.5004C13.2139 12.3264 13.3203 12.0949 13.332 11.8505C13.3437 11.6061 13.2599 11.3662 13.0968 11.1774L8.64832 6.92435Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
         <div
           class="flex flex-col items-start justify-start lg:overflow-x-hidden bg-white dark:bg-tamkinDarkPrimary w-full min-h-[70vh] px-[20px] rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
-         <div class="flex items-center justify-between w-full pt-[24px] ">
-          <div
-          class="flex items-center justify-start rtl:space-x-reverse space-x-[18px] "
-        >
-          <div>
-            <img
-              :src="`https://tamkin.app/${addSiteStore.currentPackage.icon}`"
-              class="w-[32px] h-[32px]"
-              alt=""
-            />
-          </div>
-          <div class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center">
-            {{ $t(addSiteStore.currentPackage.title) }}
-          </div>
-       
-        </div>
-        <div class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center ">
-          {{ $t(addSiteStore.currentPackage.type) }}
-        </div>
-         </div>
-       
-          <div
-          class="flex items-center justify-center gap-4"
-        
-        >
-          <div
-        v-if=" addSiteStore.currentPackage.trial_days > 0"
-         class="flex items-center justify-start bg-selected px-1.5 dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
-          >
-            <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-3/4 h-full">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("Free Trial") }}
-                </h1>
-                <h2                   class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px] "
-                >
-                  {{ $t("Free trial for") }}
-                  {{
-                    +" " +
-                    addSiteStore.currentPackage.trial_days +
-                    " " +
-                    $t(getDayLabel(addSiteStore.currentPackage.trial_days))
-                  }}
-                </h2>
-              </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="free_trial"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 0"
-                  @click.stop="selectPackage(0)"
+          <div class="flex items-center justify-between w-full pt-[24px]">
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px]"
+            >
+              <div>
+                <img
+                  :src="`https://tamkin.app/${addSiteStore.currentPackage.icon}`"
+                  class="w-[32px] h-[32px]"
+                  alt=""
                 />
-                <label for="free_trial" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
+              </div>
+              <div
+                class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center"
+              >
+                {{ $t(addSiteStore.currentPackage.title) }}
               </div>
             </div>
-          </div>
-          <div
-                v-if=" addSiteStore.currentPackage.trial_days === 0"
-                class="flex flex-col items-center justify-center bg-selected dark:bg-p  relative w-full   mx-auto h-[87px] !rounded-[10px] mt-[35px]"
-                :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
-          >
-            <div class="flex items-center justify-center w-full  px-1.5">
-              <div class="order-2 w-3/4 ">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("Monthly Plan") }}
-                </h1>
-                <h2
-                class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px] "
-                v-if="
-                    addSiteStore.currentPackage.package_price_role[0]
-                      .discount_month !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
-                    >{{
-                      addSiteStore.currentPackage.package_price_role[0].discount_month
-                    }}%
-                  </span>
-                  <span class="text-[#536174] dark:text-whiteTamkin/80 ">{{
-                    $t("Discount on the Monthly Plan")
-                  }}</span>
-                </h2>
-              </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="month"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 1"
-                  @click.stop="selectPackage(1)"
-                />
-                <label for="month" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
+            <div
+              class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center"
+            >
+              {{ $t(addSiteStore.currentPackage.type) }}
             </div>
           </div>
-          <div
-  
-          class="flex flex-col items-center justify-center bg-selected dark:bg-p  relative w-full   mx-auto h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[
-              selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ',
-            ]"
-          >
-            <div class="flex items-center justify-center w-full  px-1.5">
-              <div class="order-2  w-3/4">
-                <div
-                  class="absolute text-[13px]  leading-[17.76px]
-                   font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center 
-                   py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
-                   style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
 
-                >
-                  <span>{{ $t("Popular") }}</span>
-                </div>
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin  ">
-                  {{ $t("3 Months Plan") }}
-                </h1>
-                <h2
-                  class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px] "
-                  v-if="
-                    addSiteStore.currentPackage.package_price_role[0]
-                      .discount_3_month !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
-                    >{{
-                      addSiteStore.currentPackage.package_price_role[0]
-                        .discount_3_month
-                    }}%
-                  </span>
-                {{
-                    $t("Discount on the 3 Months Plan")
-                  }}
-                </h2>
-              </div>
-              <div class="order-1 w-1/4 ">
-                <input
-                  id="3_months"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 3"
-                  @click.stop="selectPackage(3)"
-                />
-                <label for="3_months" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
-            </div>
-          </div>
           <div
-  
-          class="flex flex-col items-center justify-center bg-selected dark:bg-p  relative w-full   mx-auto h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[
-              selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
-            ]"
+            class="flex items-center justify-center gap-4 w-full flex-wrap sm:flex-nowrap"
           >
-            <div class="flex items-center justify-center w-full  px-1.5">
-              <div class="order-2  w-3/4">
-                <div
-                  class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] 
-                  w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] 
-                  px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
-                >
-                  <span>{{ $t("Best Value") }}</span>
+            <div
+              v-if="addSiteStore.currentPackage.trial_days > 0"
+              class="flex items-center justify-start bg-selected px-1.5 dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 0
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
+            >
+              <div class="flex items-center justify-center w-full">
+                <div class="order-2 w-3/4 h-full">
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("Free Trial") }}
+                  </h1>
+                  <h2
+                    class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px]"
+                  >
+                    {{ $t("Free trial for") }}
+                    {{
+                      +" " +
+                      addSiteStore.currentPackage.trial_days +
+                      " " +
+                      $t(getDayLabel(addSiteStore.currentPackage.trial_days))
+                    }}
+                  </h2>
                 </div>
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin  ">
-                  {{ $t("Annual Plan") }}
-                </h1>
-                <h2
-                  class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px] "
-                  v-if="
-                    addSiteStore.currentPackage.package_price_role[0]
-                      .discount_yearly !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
-                    >{{
-                      addSiteStore.currentPackage.package_price_role[0]
-                        .discount_yearly
-                    }}%
-                  </span>
-                {{
-                    $t("Discount on the Annual Plan")
-                  }}
-                </h2>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="free_trial"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 0"
+                    @click.stop="selectPackage(0)"
+                  />
+                  <label
+                    for="free_trial"
+                    class="flex items-center cursor-pointer"
+                  >
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
               </div>
-              <div class="order-1 w-1/4 ">
-                <input
-                  id="annual"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 12"
-                  @click.stop="selectPackage(12)"
-                />
-                <label for="annual" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
+            </div>
+            <div
+              v-if="addSiteStore.currentPackage.trial_days === 0"
+              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 1
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
+            >
+              <div class="flex items-center justify-center w-full px-1.5">
+                <div class="order-2 w-3/4">
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("Monthly Plan") }}
+                  </h1>
+                  <h2
+                    class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px]"
+                    v-if="
+                      addSiteStore.currentPackage.package_price_role[0]
+                        .discount_month !== 0
+                    "
+                  >
+                    <span
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
+                      >{{
+                        addSiteStore.currentPackage.package_price_role[0]
+                          .discount_month
+                      }}%
+                    </span>
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the Monthly Plan")
+                    }}</span>
+                  </h2>
+                </div>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="month"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 1"
+                    @click.stop="selectPackage(1)"
+                  />
+                  <label for="month" class="flex items-center cursor-pointer">
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 3
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
+            >
+              <div class="flex items-center justify-center w-full px-1.5">
+                <div class="order-2 w-3/4">
+                  <div
+                    class="absolute text-[13px] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
+                    style="
+                      background: linear-gradient(
+                        180deg,
+                        #2dada3 0%,
+                        #71dad2 100%
+                      );
+                    "
+                  >
+                    <span>{{ $t("Popular") }}</span>
+                  </div>
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("3 Months Plan") }}
+                  </h1>
+                  <h2
+                    class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px]"
+                    v-if="
+                      addSiteStore.currentPackage.package_price_role[0]
+                        .discount_3_month !== 0
+                    "
+                  >
+                    <span
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
+                      >{{
+                        addSiteStore.currentPackage.package_price_role[0]
+                          .discount_3_month
+                      }}%
+                    </span>
+                    {{ $t("Discount on the 3 Months Plan") }}
+                  </h2>
+                </div>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="3_months"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 3"
+                    @click.stop="selectPackage(3)"
+                  />
+                  <label
+                    for="3_months"
+                    class="flex items-center cursor-pointer"
+                  >
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 12
+                  ? 'custom-border-tamkin'
+                  : 'custom-border ',
+              ]"
+            >
+              <div class="flex items-center justify-center w-full px-1.5">
+                <div class="order-2 w-3/4">
+                  <div
+                    class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
+                  >
+                    <span>{{ $t("Best Value") }}</span>
+                  </div>
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("Annual Plan") }}
+                  </h1>
+                  <h2
+                    class="text-[#536174] dark:text-whiteTamkin/80 font-[500] text-[10px]"
+                    v-if="
+                      addSiteStore.currentPackage.package_price_role[0]
+                        .discount_yearly !== 0
+                    "
+                  >
+                    <span
+                      class="!text-[#021328] font-[700] dark:text-white dark:!text-whiteTamkin/80"
+                      >{{
+                        addSiteStore.currentPackage.package_price_role[0]
+                          .discount_yearly
+                      }}%
+                    </span>
+                    {{ $t("Discount on the Annual Plan") }}
+                  </h2>
+                </div>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="annual"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 12"
+                    @click.stop="selectPackage(12)"
+                  />
+                  <label for="annual" class="flex items-center cursor-pointer">
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
           <div
-
             class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
@@ -761,7 +786,9 @@ const closeModalPackage = () => {
                         v$.newWebsite.isDomain.$invalid)) ||
                     websiteExist,
                   input_success:
-                    !v$.newWebsite.$error && !v$.newWebsite.$invalid && !websiteExist,
+                    !v$.newWebsite.$error &&
+                    !v$.newWebsite.$invalid &&
+                    !websiteExist,
                 }"
               />
               <label
@@ -788,7 +815,8 @@ const closeModalPackage = () => {
                 <p class="error_message">
                   <span
                     v-if="
-                      (v$.newWebsite.$error && v$.newWebsite.required.$invalid) ||
+                      (v$.newWebsite.$error &&
+                        v$.newWebsite.required.$invalid) ||
                       (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid)
                     "
                     >{{ $t("Website is not valid") }}</span
@@ -801,7 +829,7 @@ const closeModalPackage = () => {
               </div>
             </div>
 
-            <div class="w-[240px] lg:mt-0 mt-[16px]">
+            <div class="md:w-[240px] w-full lg:mt-0 mt-[16px]">
               <button
                 @click="addWebsite"
                 :disabled="v$.$invalid || loadingAddWebsite || websiteExist"
@@ -837,7 +865,7 @@ const closeModalPackage = () => {
               </button>
             </div>
           </div>
-<!-- 
+          <!-- 
           <div
             class="w-full mt-[24px]"
             v-if="
@@ -864,7 +892,9 @@ const closeModalPackage = () => {
               class="mt-[24px]"
             /> -->
 
-          <table class="min-w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]">
+          <table
+            class="min-w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]"
+          >
             <thead>
               <tr>
                 <th
@@ -889,27 +919,30 @@ const closeModalPackage = () => {
                 v-for="(website, index) in addSiteStore.urls"
                 :key="index"
                 :class="
-                  false && trafficTooHighUrls.some((w) => w.title === website.title) &&
-                  (levelof &&  levelof !== 'Over 1M page views/mo')
+                  false &&
+                  trafficTooHighUrls.some((w) => w.title === website.title) &&
+                  levelof &&
+                  levelof !== 'Over 1M page views/mo'
                     ? 'bg-red-50'
                     : ''
                 "
               >
                 <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] 
-                  text-darkGrey dark:text-whiteTamkin flex items-center justify-start 
-                  rtl:space-x-reverse space-x-[33px]"
+                  class="py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
                 >
-                  <div class="w-[150px] flex items-center h-[40px]">
+                  <div class="w-[130px] flex items-center h-[48px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B]  dark:text-white
-                      font-[500] whitespace-nowrap"
+                      class="flex items-center justify-between text-[12px] sm:text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
                     >
                       <div>{{ website.title }}</div>
                       <span
-                        v-if=" false && 
-                          trafficTooHighUrls.some((w) => w.title === website.title) &&
-                         (levelof &&  levelof !== 'Over 1M page views/mo')
+                        v-if="
+                          false &&
+                          trafficTooHighUrls.some(
+                            (w) => w.title === website.title
+                          ) &&
+                          levelof &&
+                          levelof !== 'Over 1M page views/mo'
                         "
                         class="tooltip packages"
                         :data-tamkin="
@@ -934,7 +967,10 @@ const closeModalPackage = () => {
                       </span>
                     </div>
                   </div>
-                  <div class="cursor-pointer" @click="removeWebsite(website.title)">
+                  <div
+                    class="cursor-pointer"
+                    @click="removeWebsite(website.title)"
+                  >
                     <svg
                       width="18"
                       height="17"
@@ -951,33 +987,35 @@ const closeModalPackage = () => {
                   </div>
                 </td>
                 <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-2 border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-
                   {{
-                     addSiteStore.currentPackage.type === "Accessibility"
+                    addSiteStore.currentPackage.type === "Accessibility"
                       ? $t(website.traffic)
                       : $t("Not applicable")
                   }}
                 </td>
 
                 <td
-                v-if="addSiteStore.currentPackage.package_type === 'Package' && addSiteStore.currentPackage.type === 'Sign language'"
-                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                  v-if="
+                    addSiteStore.currentPackage.package_type === 'Package' &&
+                    addSiteStore.currentPackage.type === 'Sign language'
+                  "
+                  class="py-2 border-b text-center text-[12px] sm:text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                 
-
                   <div class="flex items-center justify-center">
                     <div v-if="!loadingPriceTraffic">
-                   
-                      ${{ addSiteStore.currentPackage.trial_days > 0 && selectedPackage === 0 ? "0" :
-                      calculateEstimatedPrice
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
+                      ${{
+                        addSiteStore.currentPackage.trial_days > 0 &&
+                        selectedPackage === 0
+                          ? "0"
+                          : calculateEstimatedPrice
+                              .toFixed(0)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
                     </div>
-              
+
                     <svg
                       v-if="loadingPriceTraffic"
                       class="animate-spin h-5 w-5 text-tamkin"
@@ -1001,25 +1039,27 @@ const closeModalPackage = () => {
                     </svg>
                   </div>
                 </td>
-                
+
                 <td
-                v-if="addSiteStore.currentPackage.type === 'Accessibility'"
+                  v-if="addSiteStore.currentPackage.type === 'Accessibility'"
                   class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                 
-
                   <div class="flex items-center justify-center">
-                    {{  }}
+                    {{}}
                     <div v-if="!loadingPriceTraffic">
-                   
-                      ${{ addSiteStore.currentPackage.trial_days > 0 && selectedPackage === 0 ? "0" :
-                     pricebytraffic.length ? calculatePrice(website.url)
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") : null
-                    }}
+                      ${{
+                        addSiteStore.currentPackage.trial_days > 0 &&
+                        selectedPackage === 0
+                          ? "0"
+                          : pricebytraffic.length
+                          ? calculatePrice(website.url)
+                              .toFixed(0)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                          : null
+                      }}
                     </div>
-              
+
                     <svg
                       v-if="loadingPriceTraffic"
                       class="animate-spin h-5 w-5 text-tamkin"
@@ -1044,55 +1084,53 @@ const closeModalPackage = () => {
                   </div>
                 </td>
               </tr>
-            
+
               <tr
                 class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
               >
                 <td
-                  class="py-2 border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
+                  class="py-2 border-b rtl:text-left ltr:text-right px-[3.5rem] font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
                   {{ $t("Total") }}
                 </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="addSiteStore.currentPackage.package_type === 'Package' && 
-                  addSiteStore.currentPackage.type === 'Sign language'"
+                  v-if="
+                    addSiteStore.currentPackage.package_type === 'Package' &&
+                    addSiteStore.currentPackage.type === 'Sign language'
+                  "
                 >
-              ${{
-                addSiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
-                      ? "0" :
-                      selectedPackage !==0 ? 
-              
-                   
-                      totalCost
-                   .toFixed(0)
-                       .toString()
-                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                       :0
-                
-              }}
-                
-                
+                  ${{
+                    addSiteStore.currentPackage.trial_days > 0 &&
+                    selectedPackage === 0
+                      ? "0"
+                      : selectedPackage !== 0
+                      ? totalCost
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : 0
+                  }}
                 </td>
 
                 <td
-                v-if="addSiteStore.currentPackage.type === 'Accessibility'"
+                  v-if="addSiteStore.currentPackage.type === 'Accessibility'"
                   class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                 
-
                   <div class="flex items-center justify-center">
                     <div v-if="!loadingPriceTraffic">
-                   
-                      ${{ addSiteStore.currentPackage.trial_days > 0 && selectedPackage === 0 ? "0" :
-                      calculateTotalPrice()
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")  
-                    }}
+                      ${{
+                        addSiteStore.currentPackage.trial_days > 0 &&
+                        selectedPackage === 0
+                          ? "0"
+                          : calculateTotalPrice()
+                              .toFixed(0)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
                     </div>
-              
+
                     <svg
                       v-if="loadingPriceTraffic"
                       class="animate-spin h-5 w-5 text-tamkin"
@@ -1116,24 +1154,20 @@ const closeModalPackage = () => {
                     </svg>
                   </div>
                 </td>
-                
-             
-              
-       
-          
               </tr>
             </tbody>
           </table>
           <!-- {{ webs.length }} -->
-          <div class="my-[26px] rtl:mr-auto ltr:ml-auto">
+          <div class="my-[26px] w-full sm:w-[40%] rtl:mr-auto ltr:ml-auto">
             <button
               class="btn-dashboard hover_tamkin"
               @click="conintuePay"
               :disabled="
-                (addSiteStore.urls.length === 0) ||
+                addSiteStore.urls.length === 0 ||
                 (trafficTooHighApps.length && false) ||
                 (trafficTooHighUrls.length && false) ||
-                websiteExist || loadingPriceTraffic
+                websiteExist ||
+                loadingPriceTraffic
               "
             >
               {{ $t("Continue to Payment") }}

@@ -1,19 +1,16 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
-import { useCart,useGetCategoriesWithSkinItems } from "@/composables/useMarket";
-const {locale } = useI18n()
+import {
+  useCart,
+  useGetCategoriesWithSkinItems,
+} from "@/composables/useMarket";
+const { locale } = useI18n();
 
-const { createOrder, cartItems,messageData,codeStatus } = useCart();
+const { createOrder, cartItems, messageData, codeStatus } = useCart();
 const marketStore = useMarketStore();
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
-const {$toast} = useNuxtApp()
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
+const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
@@ -32,21 +29,18 @@ const changepaymentMethod = (method: any) => {
 };
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await createOrder("paypal",null,locale.value);
-// alert(locale.value)
+  const res = await createOrder("paypal", null, locale.value);
+  // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-  
     loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
-  
   }
-
 };
 const props = defineProps({
   showModal: Boolean,
@@ -74,8 +68,6 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
-
-
 </script>
 
 <template>
@@ -106,7 +98,9 @@ const discountAmount = computed(() => {
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('paypal_market', 'add-site', 'paymentMethods_market')"
+            @click="
+              navigateTo('paypal_market', 'add-site', 'paymentMethods_market')
+            "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -153,7 +147,9 @@ const discountAmount = computed(() => {
                   v-model="marketStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    marketStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
+                    marketStore.validPromo
+                      ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                      : '',
                     marketStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
@@ -165,8 +161,12 @@ const discountAmount = computed(() => {
                   v-if="marketStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
-                  <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
-                    <span class="text-[#021328] font-[700] dark:text-white">{{ marketStore.currentDiscount }}%</span>
+                  <div
+                    class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                  >
+                    <span class="text-[#021328] font-[700] dark:text-white"
+                      >{{ marketStore.currentDiscount }}%</span
+                    >
                     {{ $t("Discount") }} (-${{ discountAmount }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
@@ -188,7 +188,11 @@ const discountAmount = computed(() => {
                   v-if="!marketStore.validPromo"
                 >
                   <div class="flex items-center justify-center">
-                    <div :class="marketStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    <div
+                      :class="
+                        marketStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''
+                      "
+                    >
                       {{ $t("Apply code") }}
                     </div>
 

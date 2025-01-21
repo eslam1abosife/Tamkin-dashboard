@@ -44,12 +44,12 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 };
 
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
-
-
   const rate = rates[packagesStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0)    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return (usdTotal / rate)
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -69,11 +69,9 @@ const selectCryptoMethod = (method) => {
     packagesStore.promo = "";
     packagesStore.currentDiscount = 0;
     packagesStore.validPromo = false;
-    
   } else {
     packagesStore.selectedCrypto = method;
     isCryptoMenuOpen.value = false;
-
   }
 };
 const loading = ref(false);
@@ -92,18 +90,18 @@ onBeforeMount(async () => {
 
   const featuredRate = cryptostore.list.find((rate) => rate.is_featured === 1);
 
-    if(!packagesStore.selectedCrypto) {
-      packagesStore.selectedCrypto = featuredRate;
-    }
-  
+  if (!packagesStore.selectedCrypto) {
+    packagesStore.selectedCrypto = featuredRate;
+  }
+
   // console.log()
 });
 const fetchRates = async () => {
   try {
     await cryptostore.getRates(); // Ensure getRates is a method that returns a promise
-    console.log('Rates updated');
+    console.log("Rates updated");
   } catch (error) {
-    console.error('Error fetching rates:', error);
+    console.error("Error fetching rates:", error);
   }
 };
 
@@ -157,22 +155,22 @@ const finalAmount = computed(() => {
 
   return finalTotal;
 });
-
 </script>
 
 <template>
   <div
- 
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="()=>{
-        closeModal('crypto_packages_step1')
-        packagesStore.selectedPaymentMethod = '' 
-        packagesStore.selectedCrypto = ''
-      }"
+      @click="
+        () => {
+          closeModal('crypto_packages_step1');
+          packagesStore.selectedPaymentMethod = '';
+          packagesStore.selectedCrypto = '';
+        }
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -195,7 +193,13 @@ const finalAmount = computed(() => {
       >
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('crypto_packages_step1', 'packages', 'payment_methods_packages')"
+            @click="
+              navigateTo(
+                'crypto_packages_step1',
+                'packages',
+                'payment_methods_packages'
+              )
+            "
             class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -213,38 +217,41 @@ const finalAmount = computed(() => {
             </svg>
           </div>
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey
-             dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
           >
-            {{$t("Payment processes")}}
+            {{ $t("Payment processes") }}
           </h1>
         </div>
         <div
-          class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary 
-          w-full h-full rounded-[10px] mt-[33px] mb-[87px]" :class="[loadingData ? 'pb-[120px]':'']"
+          class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
+          :class="[loadingData ? 'pb-[120px]' : '']"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
             class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
           >
-            {{ $t('Crypto Payment') }}
+            {{ $t("Crypto Payment") }}
           </h1>
           <p
             class="ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey dark:text-whiteTamkin"
           >
-            {{ $t('Choose the cryptocurrency you want to complete the payment process') }}
+            {{
+              $t(
+                "Choose the cryptocurrency you want to complete the payment process"
+              )
+            }}
           </p>
 
           <div
             class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full"
             v-if="!loadingData"
           >
-            <div class="flex flex-col items-center justify-center w-full px-[20px]">
+            <div
+              class="flex flex-col items-center justify-center w-full px-[20px]"
+            >
               <div
                 v-if="packagesStore.selectedCrypto"
-                class="w-full h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] 
-                dark:bg-tamkinDarkPrimary flex items-center justify-between
-                 rounded-[10px] border-lightGrey rtl:pr-[11px] ltr:pl-[11px]"
+                class="w-full h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[11px] ltr:pl-[11px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
@@ -253,22 +260,32 @@ const finalAmount = computed(() => {
                     :src="`http://tamkin.app/${packagesStore.selectedCrypto.icon}`"
                     class="w-[25px] h-[25px]"
                   />
-                  <div class="flex items-start flex-col justify-start space-y-[-4px]">
+                  <div
+                    class="flex items-start flex-col justify-start space-y-[-4px]"
+                  >
                     <div
                       class="text-[18px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ packagesStore.selectedCrypto.title }} - <span class="!font-[300]">{{ packagesStore.selectedCrypto.network}}</span>
+                      {{ packagesStore.selectedCrypto.title }} -
+                      <span class="!font-[300]">{{
+                        packagesStore.selectedCrypto.network
+                      }}</span>
                     </div>
 
                     <div
                       class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin"
-                      v-if="packagesStore.selectedCrypto && packagesStore.selectedCrypto.is_featured === 1"
+                      v-if="
+                        packagesStore.selectedCrypto &&
+                        packagesStore.selectedCrypto.is_featured === 1
+                      "
                     >
-                      {{ $t('Pay Via') }} {{ packagesStore.selectedCrypto.title }} {{$t('and get')}}
+                      {{ $t("Pay Via") }}
+                      {{ packagesStore.selectedCrypto.title }}
+                      {{ $t("and get") }}
                       <span class="text-[14px] font-[700]"
                         >{{ packagesStore.selectedCrypto.discount }}%</span
                       >
-                      {{$t('discount')}}
+                      {{ $t("discount") }}
                     </div>
                   </div>
                 </div>
@@ -304,9 +321,11 @@ const finalAmount = computed(() => {
                     class="input_search_country ltr:!pl-[10px] rtl:!pr-[10px] !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
                     :class="[isCryptoMenuOpen ? 'rounded-b-none' : '']"
                   >
-                    <span class="floating_label" v-if="!packagesStore.selectedCrypto">{{
-                      $t("Choose Crypto currency")
-                    }}</span>
+                    <span
+                      class="floating_label"
+                      v-if="!packagesStore.selectedCrypto"
+                      >{{ $t("Choose Crypto currency") }}</span
+                    >
                     <div
                       class="flex items-center justify-between w-full space-x-[10px] rtl:space-x-reverse"
                       v-else
@@ -320,7 +339,10 @@ const finalAmount = computed(() => {
                         />
                         <span
                           class="rtl:ml-auto ltr:mr-auto text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                          >{{ packagesStore.selectedCrypto.title }} - <span class="!font-[300]">{{packagesStore.selectedCrypto.network }}</span>
+                          >{{ packagesStore.selectedCrypto.title }} -
+                          <span class="!font-[300]">{{
+                            packagesStore.selectedCrypto.network
+                          }}</span>
                         </span>
                         <!-- <span class="!text-light">{{ selectedCrypto.symbols }}</span> -->
                       </div>
@@ -329,14 +351,20 @@ const finalAmount = computed(() => {
                           <div
                             class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                           >
-                          {{ cryptostore.rates[packagesStore.selectedCrypto.coingecko_id] }}
-                        </div>
+                            {{
+                              cryptostore.rates[
+                                packagesStore.selectedCrypto.coingecko_id
+                              ]
+                            }}
+                          </div>
                         </div>
 
                         <img
                           v-if="packagesStore.selectedCrypto"
                           src="/assets/imgs/menu-down.svg"
-                          :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
+                          :class="[
+                            isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180',
+                          ]"
                           class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
                         />
                       </div>
@@ -345,13 +373,15 @@ const finalAmount = computed(() => {
                     <img
                       v-if="!packagesStore.selectedCrypto"
                       src="/assets/imgs/menu-down.svg"
-                      :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
+                      :class="[
+                        isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180',
+                      ]"
                       class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
                     />
                   </button>
                   <div
                     v-if="isCryptoMenuOpen"
-                    class="absolute z-10 top-[52px]  bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-darkborder border-[#C8CFEB] shadow w-full py-[16px]"
+                    class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-darkborder border-[#C8CFEB] shadow w-full py-[16px]"
                   >
                     <ul>
                       <li
@@ -366,7 +396,10 @@ const finalAmount = computed(() => {
                         />
                         <span
                           class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                          >{{ cryptoMethod.title }} - <span class="!font-[300]">{{cryptoMethod.network }}</span>
+                          >{{ cryptoMethod.title }} -
+                          <span class="!font-[300]">{{
+                            cryptoMethod.network
+                          }}</span>
                         </span>
                         <!-- <span class="!text-light">{{ cryptoMethod.symbols }}</span> -->
                         <div class="rtl:mr-auto ltr:ml-auto">
@@ -389,23 +422,23 @@ const finalAmount = computed(() => {
               <div
                 class="flex-1 w-full text-[14px] font-[400] leading-[24px] mt-[10px] dark:text-whiteTamkin text-[#A7A7A7] whitespace-pre-line"
               >
-                {{ $t('By Choosing this crypto Currency that equal') }}
-              <span class="!font-[600]">
-                {{
-                  convertUsdToCrypto(
-                    packagesStore.packagePayload.total,
-                    cryptostore.rates,
+                {{ $t("By Choosing this crypto Currency that equal") }}
+                <span class="!font-[600]">
+                  {{
+                    convertUsdToCrypto(
+                      packagesStore.packagePayload.total,
+                      cryptostore.rates,
+                      packagesStore.selectedCrypto.title
+                    ) +
+                    " " +
                     packagesStore.selectedCrypto.title
-                  ) +
-                  " " +
-                  packagesStore.selectedCrypto.title
-                }}
-              </span>
-                {{$t('your payment will be')}} :
+                  }}
+                </span>
+                {{ $t("your payment will be") }} :
               </div>
 
               <div
-                class="rounded-[10px] custom-border-tamkin padding-override-1 w-auto px-[20px] h-[54px] flex items-center justify-center mx-auto"
+                class="rounded-[10px] custom-border-tamkin padding-override-1 w-full md:w-auto px-[20px] h-[54px] flex items-center justify-center mx-auto"
               >
                 <h3 class="">
                   <div
@@ -419,7 +452,8 @@ const finalAmount = computed(() => {
                             {{convertUsdToCryptos(packagesStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
                       {{
                         convertUsdToCrypto(
-                          packagesStore.packagePayload.total - packagesStore.currentDiscount,
+                          packagesStore.packagePayload.total -
+                            packagesStore.currentDiscount,
                           cryptostore.rates,
                           packagesStore.selectedCrypto.title
                         )
@@ -443,10 +477,11 @@ const finalAmount = computed(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between 
-                rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
               >
-                <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
+                <div
+                  class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]"
+                >
                   <input
                     type="text"
                     @input="packagesStore.noDiscount = false"
@@ -454,7 +489,9 @@ const finalAmount = computed(() => {
                     v-model="packagesStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
-                      packagesStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
+                      packagesStore.validPromo
+                        ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                        : '',
                       packagesStore.noDiscount
                         ? '!bg-red-500/10 !text-red-500 !border-red-500'
                         : '',
@@ -466,14 +503,20 @@ const finalAmount = computed(() => {
                     v-if="packagesStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
-                      <span class="text-[#021328] font-[700] dark:text-white">{{ packagesStore.currentDiscount }}%</span>
-                      {{ $t('Discount') }} (-${{ percentageOff }})
+                    <div
+                      class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                    >
+                      <span class="text-[#021328] font-[700] dark:text-white"
+                        >{{ packagesStore.currentDiscount }}%</span
+                      >
+                      {{ $t("Discount") }} (-${{ percentageOff }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
                   </div>
                   <div
-                    v-if="packagesStore.isPromoFilled && !packagesStore.noDiscount"
+                    v-if="
+                      packagesStore.isPromoFilled && !packagesStore.noDiscount
+                    "
                     @click="clearInput"
                     class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
                   >
@@ -485,26 +528,49 @@ const finalAmount = computed(() => {
                   <button
                     class="btn-dashboard hover_tamkin w-full mx-auto text-center"
                     @click="packagesStore.addPromoCode"
-                    :disabled="!packagesStore.promo || packagesStore.loadingPromo"
+                    :disabled="
+                      !packagesStore.promo || packagesStore.loadingPromo
+                    "
                     v-if="!packagesStore.validPromo"
                   >
-                  <div class="flex items-center justify-center">
-                    <div :class="packagesStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2':''" >
-                        {{ $t('Apply code') }}
+                    <div class="flex items-center justify-center">
+                      <div
+                        :class="
+                          packagesStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''
+                        "
+                      >
+                        {{ $t("Apply code") }}
+                      </div>
+
+                      <svg
+                        v-if="packagesStore.loadingPromo"
+                        class="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
                     </div>
-        
-                    <svg  v-if="packagesStore.loadingPromo" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  </div>
                   </button>
                   <button
                     v-else
                     class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
                     @click="packagesStore.removePromoCode"
                   >
-                    {{$t('Remove Code')}}
+                    {{ $t("Remove Code") }}
                   </button>
                 </div>
               </div>
@@ -512,7 +578,7 @@ const finalAmount = computed(() => {
                 v-if="packagesStore.noDiscount"
                 class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
               >
-                {{ $t('Coupon code not found') }}
+                {{ $t("Coupon code not found") }}
               </div>
             </div>
             <table class="min-w-full">
@@ -522,7 +588,7 @@ const finalAmount = computed(() => {
                     class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b dark:border-darkborder dark:text-whiteTamkin text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
                     colspan="12"
                   >
-                    {{$t('Summary')}}
+                    {{ $t("Summary") }}
                   </th>
                 </tr>
               </thead>
@@ -535,32 +601,44 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    {{ $t('Promo Code') + ' : ' +packagesStore.currentDiscount +'%' }}
+                    {{
+                      $t("Promo Code") +
+                      " : " +
+                      packagesStore.currentDiscount +
+                      "%"
+                    }}
                   </td>
                   <td
                     class="py-2 px-5 border-b dark:border-darkborder text-right w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ percentageOff}}
+                    ${{ percentageOff }}
                   </td>
                 </tr>
                 <tr
-                  v-if="packagesStore.validPromo || (packagesStore.selectedCrypto && packagesStore.selectedCrypto.is_featured === 1)"
+                  v-if="
+                    packagesStore.validPromo ||
+                    (packagesStore.selectedCrypto &&
+                      packagesStore.selectedCrypto.is_featured === 1)
+                  "
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
                     class="py-2 pr-4 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    {{ $t('Discount') }}
+                    {{ $t("Discount") }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0)    .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-
+                    ${{
+                      discountAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -571,7 +649,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    {{ $t('Total Crypto') }}
+                    {{ $t("Total Crypto") }}
                   </td>
                   <td
                     class="py-2 px-4 border-b dark:border-darkborder text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
@@ -579,88 +657,126 @@ const finalAmount = computed(() => {
                   >
                     {{
                       convertUsdToCrypto(
-                    finalAmount,
-                    cryptostore.rates,
-                    packagesStore.selectedCrypto.title
-                  ) +
+                        finalAmount,
+                        cryptostore.rates,
+                        packagesStore.selectedCrypto.title
+                      ) +
                       " " +
                       packagesStore.selectedCrypto.title
                     }}
                   </td>
                 </tr>
-                <tr v-if="false"
+                <tr
+                  v-if="false"
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
                     class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    {{ $t('Total') }}
+                    {{ $t("Total") }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                  ${{finalAmount.toFixed(0)    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
-                </td>
+                    ${{
+                      finalAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div v-if="loadingData" class="flex flex-col items-center justify-start space-y-[12px] mt-[24px]  mx-auto w-full 
-          min-h-full">
+          <div
+            v-if="loadingData"
+            class="flex flex-col items-center justify-start space-y-[12px] mt-[24px] mx-auto w-full min-h-full"
+          >
             <!-- Placeholder for Selected Crypto -->
-            <div class="flex flex-col items-center justify-center w-full px-[20px] min-h-full">
-              <div class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey">
+            <div
+              class="flex flex-col items-center justify-center w-full px-[20px] min-h-full"
+            >
+              <div
+                class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey"
+              >
                 <div class="flex items-center justify-between p-[16px]">
-                  <div class="flex items-center rtl:space-x-reverse space-x-[13px]">
-                    <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                  <div
+                    class="flex items-center rtl:space-x-reverse space-x-[13px]"
+                  >
+                    <div
+                      class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                    ></div>
                     <div class="flex flex-col justify-center space-y-[-4px]">
-                      <div class="w-[150px] h-[18px] bg-gray-300 dark:bg-gray-600 rounded mb-[12px]"></div>
-                      <div class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"></div>
+                      <div
+                        class="w-[150px] h-[18px] bg-gray-300 dark:bg-gray-600 rounded mb-[12px]"
+                      ></div>
+                      <div
+                        class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"
+                      ></div>
                     </div>
                   </div>
-                  <div class="w-[22px] h-[22px] bg-gray-300 dark:bg-gray-600 rounded-full border border-tamkin"></div>
+                  <div
+                    class="w-[22px] h-[22px] bg-gray-300 dark:bg-gray-600 rounded-full border border-tamkin"
+                  ></div>
                 </div>
               </div>
             </div>
-        
+
             <!-- Placeholder for Dropdown Button -->
             <div class="flex items-center justify-between w-full px-[20px]">
               <div class="w-full mt-[20px]">
                 <div class="relative w-full">
-                  <button class="w-full bg-gray-200 dark:bg-gray-500 animate-pulse h-[40px] rounded-[10px] flex items-center 
-                  justify-between px-[16px]">
-                    <div class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"></div>
+                  <button
+                    class="w-full bg-gray-200 dark:bg-gray-500 animate-pulse h-[40px] rounded-[10px] flex items-center justify-between px-[16px]"
+                  >
+                    <div
+                      class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"
+                    ></div>
                     <div class="w-[10px] h-[10px] bg-gray-300 rounded"></div>
                   </button>
-                  <div class="absolute z-10 top-[52px] bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[12px]
-                   border-light border-[#C8CFEB] shadow w-full py-[16px]">
+                  <div
+                    class="absolute z-10 top-[52px] bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[12px] border-light border-[#C8CFEB] shadow w-full py-[16px]"
+                  >
                     <ul>
-                      <li class="flex items-center hover:bg-gray-300 dark:hover:bg-gray-500 py-[6px] px-[10px] cursor-pointer">
-                        <div class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-                        <div class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded ml-[10px]"></div>
-                        <div class="ml-auto w-[100px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      <li
+                        class="flex items-center hover:bg-gray-300 dark:hover:bg-gray-500 py-[6px] px-[10px] cursor-pointer"
+                      >
+                        <div
+                          class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                        ></div>
+                        <div
+                          class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded ml-[10px]"
+                        ></div>
+                        <div
+                          class="ml-auto w-[100px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"
+                        ></div>
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
-        
-           
-        
-       
           </div>
-          <div class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full" v-if="!loadingData">
+          <div
+            class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full"
+            v-if="!loadingData"
+          >
             <button
               class="btn-dashboard hover_tamkin !h-[40px] w-full"
               :disabled="!packagesStore.selectedCrypto"
-              @click="navigateTo('crypto_packages_step1', 'packages', 'crypto_packages_step2')"
+              @click="
+                navigateTo(
+                  'crypto_packages_step1',
+                  'packages',
+                  'crypto_packages_step2'
+                )
+              "
             >
-              {{ $t('Continue') }}
+              {{ $t("Continue") }}
             </button>
           </div>
           <!-- <div class="mt-[129px]  mx-auto mb-[34px]">

@@ -1,20 +1,14 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { usePaybyPaypalOrCard } from "@/composables/useAddSite";
-const {locale } = useI18n()
+const { locale } = useI18n();
 
-const { payaddsite,messageData,codeStatus } = usePaybyPaypalOrCard();
+const { payaddsite, messageData, codeStatus } = usePaybyPaypalOrCard();
 const addSiteStore = useAddSiteStore();
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
-const {$toast} = useNuxtApp()
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
+const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
@@ -30,26 +24,23 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
-const redirectTo = computed(()=>{
-return '/add-site'
-})
+const redirectTo = computed(() => {
+  return "/add-site";
+});
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await payaddsite(null,'paypal',redirectTo.value);
-// alert(locale.value)
+  const res = await payaddsite(null, "paypal", redirectTo.value);
+  // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-  
     loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
-  
   }
-
 };
 const props = defineProps({
   showModal: Boolean,
@@ -67,7 +58,7 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = addSiteStore.packagePayload.total;;
+  const cartTotal = addSiteStore.packagePayload.total;
   const discountPercentage = addSiteStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -77,8 +68,6 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
-
-
 </script>
 
 <template>
@@ -107,9 +96,11 @@ const discountAmount = computed(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center mt-[-30px]">
           <div
-            @click="navigateTo('paypal_addsite', 'addSite', 'payment_methods_addsite')"
+            @click="
+              navigateTo('paypal_addsite', 'addSite', 'payment_methods_addsite')
+            "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -156,7 +147,9 @@ const discountAmount = computed(() => {
                   v-model="addSiteStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    addSiteStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
+                    addSiteStore.validPromo
+                      ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                      : '',
                     addSiteStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
@@ -168,8 +161,12 @@ const discountAmount = computed(() => {
                   v-if="addSiteStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
-                  <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
-                    <span class="text-[#021328] font-[700] dark:text-white">{{ addSiteStore.currentDiscount }}%</span>
+                  <div
+                    class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                  >
+                    <span class="text-[#021328] font-[700] dark:text-white"
+                      >{{ addSiteStore.currentDiscount }}%</span
+                    >
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
@@ -191,7 +188,11 @@ const discountAmount = computed(() => {
                   v-if="!addSiteStore.validPromo"
                 >
                   <div class="flex items-center justify-center">
-                    <div :class="addSiteStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    <div
+                      :class="
+                        addSiteStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''
+                      "
+                    >
                       {{ $t("Apply code") }}
                     </div>
 
@@ -260,7 +261,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ addSiteStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      addSiteStore.packagePayload.total
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -277,7 +283,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      discountAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -293,7 +304,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (addSiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      (addSiteStore.packagePayload.total - discountAmount)
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
               </tbody>

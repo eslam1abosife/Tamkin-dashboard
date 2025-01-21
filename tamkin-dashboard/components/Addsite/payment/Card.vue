@@ -243,8 +243,10 @@ onBeforeUnmount(() => {
               />
             </svg>
           </div>
+        </div>
+        <div>
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[60px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:mr-[20px] ltr:ml-[20px] mt-5"
           >
             {{ $t("Payment processes") }}
           </h1>
@@ -286,9 +288,6 @@ onBeforeUnmount(() => {
                   <div
                     class="flex flex-col items-start justify-start relative w-full"
                   >
-                    <div
-                      class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
-                    ></div>
                     <div
                       class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                     >
@@ -340,7 +339,7 @@ onBeforeUnmount(() => {
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
                 >
-                  <div class="w-[44px]">
+                  <div class="w-[44px] hidden sm:flex">
                     <img
                       :src="fullUrl(savedCard.logo)"
                       class="w-[44px] h-[44px]"
@@ -422,7 +421,7 @@ onBeforeUnmount(() => {
             </div>
 
             <div
-              class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]"
+              class="flex items-start flex-col lg:justify-between w-full px-[20px]"
               v-if="!loadingCards"
             >
               <div
@@ -617,7 +616,7 @@ onBeforeUnmount(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[0px] lg:space-x-[24px] w-full px-[20px]"
               >
                 <div
                   class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]"
@@ -664,7 +663,7 @@ onBeforeUnmount(() => {
                   </div>
                 </div>
 
-                <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
+                <div class="text-center mt-[16px] lg:mt-[24px] w-full lg:w-2/6">
                   <button
                     class="btn-dashboard hover_tamkin w-full mx-auto text-center"
                     @click="addSiteStore.addPromoCode"
