@@ -249,7 +249,7 @@ const finalAmount = computed(() => {
             v-if="!loadingData"
           >
             <div
-              class="flex flex-col items-center justify-center w-full px-[20px]"
+              class="flex flex-col items-center justify-center w-full px-4 md:px-[20px]"
             >
               <div
                 v-if="addSiteStore.selectedCrypto"
@@ -315,7 +315,7 @@ const finalAmount = computed(() => {
               </div>
             </div>
 
-            <div class="flex items-center justify-between w-full px-[20px]">
+            <div class="flex items-center justify-between w-full px-4 md:px-[20px]">
               <div class="w-full mt-[20px]">
                 <div class="relative w-full font-[Poppins]">
                   <button
@@ -418,7 +418,7 @@ const finalAmount = computed(() => {
               </div>
             </div>
             <div
-              class="flex flex-col items-start justify-center space-y-[24px] w-full px-[20px]"
+              class="flex flex-col items-start justify-center space-y-[24px] w-full px-4 md:px-[20px]"
               v-if="addSiteStore.selectedCrypto"
             >
               <div
@@ -440,7 +440,7 @@ const finalAmount = computed(() => {
               </div>
 
               <div
-                class="rounded-[10px] custom-border-tamkin padding-override-1 w-full md:w-auto px-[20px] h-[54px] flex items-center justify-center mx-auto"
+                class="rounded-[10px] custom-border-tamkin padding-override-1 w-full md:w-auto px-4 md:px-[20px] h-[54px] flex items-center justify-center mx-auto"
               >
                 <h3 class="">
                   <div
@@ -479,7 +479,7 @@ const finalAmount = computed(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-4 md:px-[20px]"
               >
                 <div
                   class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]"
@@ -487,7 +487,7 @@ const finalAmount = computed(() => {
                   <input
                     type="text"
                     @input="addSiteStore.noDiscount = false"
-                    class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[0px] max-md:flex-1 w-full text-darkGrey dark:text-whiteTamkin max-md: !h-[40px]"
                     v-model="addSiteStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
@@ -501,19 +501,19 @@ const finalAmount = computed(() => {
                   />
 
                   <div
-                    class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
+                    class="absolute w-full top-[-8px] lg:top-[8px] max-md:px-[3px] left-0 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[4px] md:space-x-[10px]"
                     v-if="addSiteStore.validPromo"
                   >
-                    <img src="/assets/imgs/promo_valid.svg" />
+                    <img class="max-md:w-[16px]" src="/assets/imgs/promo_valid.svg" />
                     <div
-                      class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                      class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                     >
                       <span class="text-[#021328] font-[700] dark:text-white"
                         >{{ addSiteStore.currentDiscount }}%</span
                       >
                       {{ $t("Discount") }} (-${{ percentageOff }})
                     </div>
-                    <img src="/assets/imgs/promo_valid_.svg" class="" />
+                    <img class="max-md:w-[18px]" src="/assets/imgs/promo_valid_.svg" />
                   </div>
                   <div
                     v-if="
@@ -526,7 +526,7 @@ const finalAmount = computed(() => {
                   </div>
                 </div>
 
-                <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
+                <div class="text-center mt-[24px] w-auto md:w-2/6">
                   <button
                     class="btn-dashboard hover_tamkin w-full mx-auto text-center"
                     @click="addSiteStore.addPromoCode"
@@ -567,7 +567,7 @@ const finalAmount = computed(() => {
                   </button>
                   <button
                     v-else
-                    class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
+                    class="max-md:text-[13px] btn_bordered_dashboard error w-auto md:w-[140px] mx-auto text-center text-nowrap"
                     @click="addSiteStore.removePromoCode"
                   >
                     {{ $t("Remove Code") }}
@@ -576,7 +576,7 @@ const finalAmount = computed(() => {
               </div>
               <div
                 v-if="addSiteStore.noDiscount"
-                class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
+                class="rtl:ml-auto ltr:!mr-auto px-4 md:px-[20px] !-mt-4 text-[12px] text-red-500"
               >
                 {{ $t("Coupon code not found") }}
               </div>
@@ -688,7 +688,7 @@ const finalAmount = computed(() => {
           >
             <!-- Placeholder for Selected Crypto -->
             <div
-              class="flex flex-col items-center justify-center w-full px-[20px] min-h-full"
+              class="flex flex-col items-center justify-center w-full px-4 md:px-[20px] min-h-full"
             >
               <div
                 class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey"
@@ -717,7 +717,7 @@ const finalAmount = computed(() => {
             </div>
 
             <!-- Placeholder for Dropdown Button -->
-            <div class="flex items-center justify-between w-full px-[20px]">
+            <div class="flex items-center justify-between w-full px-4 md:px-[20px]">
               <div class="w-full mt-[20px]">
                 <div class="relative w-full">
                   <button
@@ -754,7 +754,7 @@ const finalAmount = computed(() => {
             </div>
           </div>
           <div
-            class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full"
+            class="mt-[39px] mx-auto mb-[34px] px-4 md:px-[20px] w-full"
             v-if="!loadingData"
           >
             <button

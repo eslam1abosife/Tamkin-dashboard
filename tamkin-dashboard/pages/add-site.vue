@@ -397,7 +397,7 @@ const sortedPlans = computed(() => {
               ]"
             >
               <div
-                class="absolute bottom-[95px] rtl:right-[24px] ltr:left-[24px]"
+                class="absolute bottom-[95px] md:bottom-[95px] rtl:right-[24px] ltr:left-[24px]"
               >
                 <img
                   :src="runconfig.public.baseImagerUrl + plan.icon"
@@ -557,7 +557,7 @@ const sortedPlans = computed(() => {
     </ClientOnly>
 
     <div
-      class="flex items-center justify-start sm:justify-center lg:justify-start w-full"
+      class="flex items-center justify-start w-full"
       :class="[collapsed ? '!mt-12' : 'mt-12']"
     >
       <h1 class="font-[500] text-[16px] leading-[30px] dark:text-whiteTamkin">

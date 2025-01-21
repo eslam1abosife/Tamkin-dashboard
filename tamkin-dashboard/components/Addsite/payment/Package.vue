@@ -558,7 +558,7 @@ const closeModalPackage = () => {
           </div>
 
           <div
-            class="flex items-center justify-center gap-4 w-full flex-wrap sm:flex-nowrap"
+            class="flex items-center justify-center gap-4 w-full flex-wrap sm:flex-nowrap mt-[35px]"
           >
             <div
               v-if="addSiteStore.currentPackage.trial_days > 0"
@@ -606,7 +606,7 @@ const closeModalPackage = () => {
             </div>
             <div
               v-if="addSiteStore.currentPackage.trial_days === 0"
-              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
               :class="[
                 selectedPackage === 1
                   ? 'custom-border-tamkin'
@@ -653,7 +653,7 @@ const closeModalPackage = () => {
               </div>
             </div>
             <div
-              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
               :class="[
                 selectedPackage === 3
                   ? 'custom-border-tamkin'
@@ -713,7 +713,7 @@ const closeModalPackage = () => {
               </div>
             </div>
             <div
-              class="flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px] mt-[35px]"
+              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
               :class="[
                 selectedPackage === 12
                   ? 'custom-border-tamkin'
