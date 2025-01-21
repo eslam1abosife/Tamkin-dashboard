@@ -487,7 +487,7 @@ const finalAmount = computed(() => {
                   <input
                     type="text"
                     @input="addSiteStore.noDiscount = false"
-                    class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin max-md: !h-[40px]"
                     v-model="addSiteStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
