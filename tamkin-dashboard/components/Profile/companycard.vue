@@ -44,7 +44,7 @@ const profileStore = useProfileStore();
               profileStore.company.agency_name &&
               !profileStore.loadingProfile
             "
-            class="avatar_img h-[60px] dark:text-whiteTamkin w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] ipad-max:text-[24px] lg:text-[32px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+            class="avatar_img h-[60px] dark:text-whiteTamkin w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] text-[32px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
           >
             <span>
               {{ getAvatarLetters(profileStore.company.agency_name) }}

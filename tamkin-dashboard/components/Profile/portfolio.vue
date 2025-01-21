@@ -129,7 +129,7 @@ const { handlers } = toRefs(state);
       v-if="currentMode === 'editing'"
     >
       <div
-        class="w-full"
+        class="w-full flex flex-col gap-[5px]"
         v-if="
           profileStore.company &&
           profileStore.member.social_accounts.length === 0
