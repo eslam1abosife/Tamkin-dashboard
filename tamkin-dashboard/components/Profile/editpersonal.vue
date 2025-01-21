@@ -314,49 +314,51 @@ const resetcancel = () => {
               </p>
             </div>
           </div> -->
-    </div>
-
-    <div
-      class="flex items-end justify-end rtl:flex-row-reverse space-x-[16px] absolute bottom-[24px] rtl:left-[30px] ltr:right-[30px]"
-    >
-      <button class="btn_bordered_dashboard" @click="cancelUpdate">
-        {{ $t("Cancel") }}
-      </button>
-      <button
-        class="btn-dashboard hover_tamkin w-[125px]"
-        :disabled="loadingPersonal || v$.$invalid"
-        @click="updatePersonalInfo"
+      <div
+        class="flex items-end rtl:justify-end rtl:flex-row-reverse space-x-[16px] rtl:left-[30px] ltr:right-[30px]"
       >
-        <div
-          class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+        <button
+          class="btn_bordered_dashboard sm:w-[100px] w-[50%]"
+          @click="cancelUpdate"
         >
-          <div :class="loadingPersonal ? 'rtl:ml-2 ltr:mr-2' : ''">
-            {{ $t("Update") }}
-          </div>
-
-          <svg
-            v-if="loadingPersonal"
-            class="animate-spin h-5 w-5 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
+          {{ $t("Cancel") }}
+        </button>
+        <button
+          class="btn-dashboard hover_tamkin sm:w-[125px] w-[50%]"
+          :disabled="loadingPersonal || v$.$invalid"
+          @click="updatePersonalInfo"
+        >
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        </div>
-      </button>
+            <div :class="loadingPersonal ? 'rtl:ml-2 ltr:mr-2' : ''">
+              {{ $t("Update") }}
+            </div>
+
+            <svg
+              v-if="loadingPersonal"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </template>

@@ -21,8 +21,8 @@ const joiningDate = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 h-full w-full pt-[10px]">
-    <div>
+  <div class="grid grid-cols-1 md:grid-cols-2 h-full w-full py-[10px]">
+    <div class="mb-2 sm:mb-0">
       <!-- Full Name -->
       <div v-if="!profileStore.loadingProfile">
         <h3
@@ -44,12 +44,9 @@ const joiningDate = computed(() => {
       </div>
     </div>
 
-    <div>
+    <div class="mb-2 sm:mb-0">
       <!-- User ID -->
-      <div
-        v-if="!profileStore.loadingProfile"
-        class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]"
-      >
+      <div v-if="!profileStore.loadingProfile" class="">
         <h3
           class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
         >
@@ -69,7 +66,7 @@ const joiningDate = computed(() => {
       </div>
     </div>
 
-    <div>
+    <div class="mb-2 sm:mb-0">
       <!-- Joining Date -->
       <div v-if="!profileStore.loadingProfile">
         <h3
@@ -91,12 +88,9 @@ const joiningDate = computed(() => {
       </div>
     </div>
 
-    <div>
+    <div class="mb-2 sm:mb-0">
       <!-- Email -->
-      <div
-        v-if="!profileStore.loadingProfile"
-        class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]"
-      >
+      <div v-if="!profileStore.loadingProfile" class="">
         <h3
           class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
         >
@@ -116,7 +110,7 @@ const joiningDate = computed(() => {
       </div>
     </div>
 
-    <div>
+    <div class="mb-2 sm:mb-0">
       <!-- Mobile -->
       <div v-if="!profileStore.loadingProfile">
         <h3
@@ -146,10 +140,7 @@ const joiningDate = computed(() => {
 
     <div>
       <!-- Country -->
-      <div
-        v-if="!profileStore.loadingProfile"
-        class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]"
-      >
+      <div v-if="!profileStore.loadingProfile" class="">
         <h3
           class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
         >

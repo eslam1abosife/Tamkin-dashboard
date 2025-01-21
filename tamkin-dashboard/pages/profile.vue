@@ -491,7 +491,7 @@ const runtimeconfig = useRuntimeConfig();
         </div>
 
         <div
-          class="w-full bg-white/60 dark:bg-tamkinDarkPrimary/60 shadow-sm rounded-[10px] md:col-span-8 col-span-12 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary"
+          class="w-full bg-white/60 dark:bg-tamkinDarkPrimary/60 shadow-sm rounded-[10px] md:col-span-8 col-span-12 px-[30px] py-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary mt-[10px]"
         >
           <div class="flex items-start justify-between w-full">
             <!-- Personal Info Tab -->

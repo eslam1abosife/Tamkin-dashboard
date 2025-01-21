@@ -16,7 +16,7 @@ const createdDate = computed(() => {
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 h-full w-full pt-[10px]">
-    <div>
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -33,7 +33,7 @@ const createdDate = computed(() => {
         }}
       </p>
     </div>
-    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] font-medium text-[14px] leading-[24px] dark:text-whiteTamkin"
       >
@@ -45,7 +45,7 @@ const createdDate = computed(() => {
         {{ profileStore.company.name }}
       </p>
     </div>
-    <div>
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -57,7 +57,7 @@ const createdDate = computed(() => {
         {{ createdDate }}
       </p>
     </div>
-    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -73,7 +73,7 @@ const createdDate = computed(() => {
         }}
       </p>
     </div>
-    <div>
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -90,7 +90,7 @@ const createdDate = computed(() => {
         {{ $t("Phone not Added") }}
       </p>
     </div>
-    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -107,7 +107,7 @@ const createdDate = computed(() => {
       </p>
     </div>
 
-    <div>
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
@@ -124,7 +124,7 @@ const createdDate = computed(() => {
         {{ $t("Specialization not Added") }}
       </p>
     </div>
-    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
+    <div class="mb-2 sm:mb-0">
       <h3
         class="text-[#A0AEC0] dark:text-whiteTamkin font-medium text-[14px] leading-[24px]"
       >
