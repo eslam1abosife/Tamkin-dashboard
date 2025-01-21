@@ -6,14 +6,8 @@ const { locale } = useI18n();
 const { paybycorpaypal, messageData, codeStatus } = usePayByCorPaypal();
 const packagesStore = usePackgesStore();
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
@@ -31,22 +25,21 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
-const route = useRoute()
-const localePath = useLocalePath()
+const route = useRoute();
+const localePath = useLocalePath();
 const isLinkActive = (path) => {
-    if (process.client) {
-      const localizedPath = localePath(path); 
-      return route.path === localizedPath;
-    }
-    return false;
-  };
+  if (process.client) {
+    const localizedPath = localePath(path);
+    return route.path === localizedPath;
+  }
+  return false;
+};
 const redirectTo = computed(() => {
   if (packagesStore.currentType.title === "Sign language") {
     return "/packages";
   } else if (packagesStore.currentType.title === "Accessibility") {
     return "/packages/accessibility";
-  }
-  else if (isLinkActive('/translate')) {
+  } else if (isLinkActive("/translate")) {
     return "/translate";
   }
 });
@@ -122,9 +115,15 @@ const discountAmount = computed(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center ">
           <div
-            @click="navigateTo('paypal_packages', 'packages', 'payment_methods_packages')"
+            @click="
+              navigateTo(
+                'paypal_packages',
+                'packages',
+                'payment_methods_packages'
+              )
+            "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -171,7 +170,9 @@ const discountAmount = computed(() => {
                   v-model="packagesStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    packagesStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
+                    packagesStore.validPromo
+                      ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                      : '',
                     packagesStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
@@ -183,7 +184,9 @@ const discountAmount = computed(() => {
                   v-if="packagesStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
-                  <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                  <div
+                    class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                  >
                     <span class="text-[#021328] font-[700] dark:text-white"
                       >{{ packagesStore.currentDiscount }}%</span
                     >
@@ -192,7 +195,9 @@ const discountAmount = computed(() => {
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
                 </div>
                 <div
-                  v-if="packagesStore.isPromoFilled && !packagesStore.noDiscount"
+                  v-if="
+                    packagesStore.isPromoFilled && !packagesStore.noDiscount
+                  "
                   @click="clearInput"
                   class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
                 >
@@ -208,7 +213,11 @@ const discountAmount = computed(() => {
                   v-if="!packagesStore.validPromo"
                 >
                   <div class="flex items-center justify-center">
-                    <div :class="packagesStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    <div
+                      :class="
+                        packagesStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''
+                      "
+                    >
                       {{ $t("Apply code") }}
                     </div>
 

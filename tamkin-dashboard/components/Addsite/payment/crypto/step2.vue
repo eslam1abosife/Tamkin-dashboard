@@ -2,11 +2,11 @@
 import { useGetCryptoList } from "@/composables/useCrypto";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import { usePayByCrypto } from "@/composables/useAddSite";
-import { useClipboard } from '@vueuse/core'
+import { useClipboard } from "@vueuse/core";
 const cryptostore = useCryptoStore();
 const addSiteStore = useAddSiteStore();
-const source = addSiteStore.selectedCrypto.wallet_address
-const { text, copy, copied, isSupported } = useClipboard({ source })
+const source = addSiteStore.selectedCrypto.wallet_address;
+const { text, copy, copied, isSupported } = useClipboard({ source });
 const {
   isOpen: isModalOpen,
   currentView,
@@ -16,7 +16,7 @@ const {
   navigateTo,
 } = useModalManager();
 const { getCryptoList } = useGetCryptoList();
-const {  paywithCrypto,messageData,codeStatus} = usePayByCrypto();
+const { paywithCrypto, messageData, codeStatus } = usePayByCrypto();
 
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
@@ -27,7 +27,7 @@ const state = reactive({
 const rules = {
   TXID: { required },
 };
-const {$toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 const v$ = useVuelidate(rules, state);
 
 const isCryptoMenuOpen = ref(false);
@@ -69,8 +69,10 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
   const rate = rates[addSiteStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0)    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return (usdTotal / rate)
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -108,12 +110,12 @@ const fetchRates = async () => {
     console.error("Error fetching rates:", error);
   }
 };
-const copywallet = ()=>{
-  copy(source)
-  if(copied){
-$toast('Copied to clipboard',{hideIn:4000,type:'success'})
+const copywallet = () => {
+  copy(source);
+  if (copied) {
+    $toast("Copied to clipboard", { hideIn: 4000, type: "success" });
   }
-}
+};
 // Set up the interval
 let intervalId: number | undefined;
 
@@ -129,7 +131,7 @@ onUnmounted(() => {
 /**
  * Pay with selected cryptocurrency
  */
- const finalAmount = computed(() => {
+const finalAmount = computed(() => {
   const cartTotal = addSiteStore.packagePayload.total;
   const cryptoDiscount = addSiteStore.selectedCrypto?.discount || 0;
   const couponDiscount = addSiteStore.currentDiscount;
@@ -144,33 +146,33 @@ onUnmounted(() => {
 });
 const payCrypto = async () => {
   loadingPayment.value = true;
-  await paywithCrypto(state.TXID, 
+  await paywithCrypto(
+    state.TXID,
 
- `${ convertUsdToCrypto(
-  addSiteStore.packagePayload.total - addSiteStore.currentDiscount,
-                    cryptostore.rates,
-                    addSiteStore.selectedCrypto.title
-                  ) + ' '+ addSiteStore.selectedCrypto.title}`,
-                  addSiteStore.selectedCrypto.code
-
+    `${
+      convertUsdToCrypto(
+        addSiteStore.packagePayload.total - addSiteStore.currentDiscount,
+        cryptostore.rates,
+        addSiteStore.selectedCrypto.title
+      ) +
+      " " +
+      addSiteStore.selectedCrypto.title
+    }`,
+    addSiteStore.selectedCrypto.code
   );
   if (codeStatus.value === 200) {
-
-
-
-  navigateTo("crypto_addsite_step2", "addSite", "crypto_addsite_success");
-  loadingPayment.value = false;
-  addSiteStore.urls =[]
-  addSiteStore.currentPackage = ''
-    addSiteStore.packagePayload = ''
-    addSiteStore.tags = []
-    addSiteStore.validatedSites = []
-    addSiteStore.loadingBlock = []
-  // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+    navigateTo("crypto_addsite_step2", "addSite", "crypto_addsite_success");
     loadingPayment.value = false;
-   
+    addSiteStore.urls = [];
+    addSiteStore.currentPackage = "";
+    addSiteStore.packagePayload = "";
+    addSiteStore.tags = [];
+    addSiteStore.validatedSites = [];
+    addSiteStore.loadingBlock = [];
+    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
   }
 };
 const percentageOff = computed(() => {
@@ -182,29 +184,30 @@ const percentageOff = computed(() => {
   }
   return 0;
 });
-const cancelPayment =()=>{
-  addSiteStore.promo = ""
-  addSiteStore.validPromo = false
-  addSiteStore.currentDiscount = 0
-  addSiteStore.selectedCrypto = ""
-  addSiteStore.urls =[]
-  closeModal('crypto_addsite_step2')
-}
+const cancelPayment = () => {
+  addSiteStore.promo = "";
+  addSiteStore.validPromo = false;
+  addSiteStore.currentDiscount = 0;
+  addSiteStore.selectedCrypto = "";
+  addSiteStore.urls = [];
+  closeModal("crypto_addsite_step2");
+};
 </script>
 
 <template>
   <div
-   
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="()=>{
-        closeModal('crypto_addsite_step2')
-          addSiteStore.selectedPaymentMethod = '' 
-        addSiteStore.selectedCrypto = ''
-      }"
+      @click="
+        () => {
+          closeModal('crypto_addsite_step2');
+          addSiteStore.selectedPaymentMethod = '';
+          addSiteStore.selectedCrypto = '';
+        }
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -225,7 +228,13 @@ const cancelPayment =()=>{
         <div class="flex flex-col items-start justify-center w-full relative">
           <div class="flex items-center justify-center">
             <div
-              @click="navigateTo('crypto_addsite_step2', 'marpackagesket', 'crypto_packages_step1')"
+              @click="
+                navigateTo(
+                  'crypto_addsite_step2',
+                  'marpackagesket',
+                  'crypto_packages_step1'
+                )
+              "
               class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
@@ -242,10 +251,12 @@ const cancelPayment =()=>{
                 />
               </svg>
             </div>
+          </div>
+          <div>
             <h1
-              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[30px]"
             >
-              {{$t('Payment processes')}}
+              {{ $t("Payment processes") }}
             </h1>
           </div>
           <div
@@ -255,12 +266,12 @@ const cancelPayment =()=>{
             <h1
               class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
             >
-              {{ $t('Confirm your Payment') }}
+              {{ $t("Confirm your Payment") }}
             </h1>
             <p
               class="ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[29px] mt-[14px] text-darkGrey dark:text-whiteTamkin"
             >
-             {{$t('Please send')}}
+              {{ $t("Please send") }}
               <span class="text-tamkin font-[600]">
                 {{
                   convertUsdToCrypto(
@@ -269,11 +280,13 @@ const cancelPayment =()=>{
                     addSiteStore.selectedCrypto.title
                   )
                 }}
-                {{ addSiteStore.selectedCrypto.title +' '}}
+                {{ addSiteStore.selectedCrypto.title + " " }}
               </span>
-              {{ $t('to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds') }}
-
-           
+              {{
+                $t(
+                  "to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds"
+                )
+              }}
             </p>
 
             <div
@@ -289,24 +302,23 @@ const cancelPayment =()=>{
                 <div
                   class="font-[500] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{$t('You must send money through')}}
+                  {{ $t("You must send money through") }}
                 </div>
               </div>
               <div
                 class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] space-y-[16px] lg:justify-start w-full"
               >
-              
-              <div class="border rounded-lg">
-                <vue-qrcode
-                  :value="addSiteStore.selectedCrypto.wallet_address"
-                  :options="{ width: 115, height: 115 }"
-                ></vue-qrcode>
-              </div>
+                <div class="border rounded-lg">
+                  <vue-qrcode
+                    :value="addSiteStore.selectedCrypto.wallet_address"
+                    :options="{ width: 115, height: 115 }"
+                  ></vue-qrcode>
+                </div>
                 <div class="w-full">
                   <h2
                     class="text-[14px] leading-[24px] font-[600] mb-[18px] dark:text-whiteTamkin"
                   >
-                    {{$t('Send amount')}} :
+                    {{ $t("Send amount") }} :
                     <span class="text-tamkin">
                       {{
                         convertUsdToCrypto(
@@ -319,10 +331,11 @@ const cancelPayment =()=>{
                     >
                   </h2>
                   <div
-                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px]
-                     flex items-center justify-between px-[10px]"
+                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
                   >
-                    <div class="flex items-center rtl:space-x-reverse justify-center space-x-[8px]">
+                    <div
+                      class="flex items-center w-[98%] rtl:space-x-reverse justify-center space-x-[8px]"
+                    >
                       <img
                         :src="`http://tamkin.app/${addSiteStore.selectedCrypto.icon}`"
                         class="w-[20px] h-[20px]"
@@ -332,11 +345,12 @@ const cancelPayment =()=>{
                       >
                         {{ addSiteStore.selectedCrypto.wallet_address }}
                       </div>
+                      <img
+                        @click="copywallet()"
+                        class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
+                        src="/assets/imgs/crypto_methods_icons/copy_code.svg"
+                      />
                     </div>
-                    <img @click="copywallet()"
-                      class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
-                      src="/assets/imgs/crypto_methods_icons/copy_code.svg"
-                    />
                   </div>
                 </div>
               </div>
@@ -345,7 +359,11 @@ const cancelPayment =()=>{
                 <p
                   class="text-[14px] leading-[29px] font-[600] mt-[26px] dark:text-whiteTamkin"
                 >
-                  {{ $t(`To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`) }}
+                  {{
+                    $t(
+                      `To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`
+                    )
+                  }}
                 </p>
               </div>
 
@@ -366,7 +384,9 @@ const cancelPayment =()=>{
                   for="TXID"
                   class="floating_label"
                   :class="[
-                    v$.TXID.$error && v$.TXID.required.$invalid ? '!text-error' : '',
+                    v$.TXID.$error && v$.TXID.required.$invalid
+                      ? '!text-error'
+                      : '',
                   ]"
                 >
                   {{ $t("Insert transaction TXID -HASH*") }}
@@ -421,7 +441,7 @@ const cancelPayment =()=>{
                 class="btn_bordered_dashboard normal_hover mx-auto mt-[18px] w-full"
                 @click="cancelPayment"
               >
-                {{ $t('Cancel') }}
+                {{ $t("Cancel") }}
               </button>
             </div>
           </div>

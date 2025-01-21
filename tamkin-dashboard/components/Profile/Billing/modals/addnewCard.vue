@@ -392,7 +392,7 @@ const countriesC = computed(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col lg:items-start justify-center w-full">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center mt-[35px] mb-[35px] justify-start">
           <div
             v-if="currentView('add_new_card_billing') !== 'billing'"
             @click="gotomodalview"
@@ -412,8 +412,10 @@ const countriesC = computed(() => {
               />
             </svg>
           </div>
+        </div>
+        <div>
           <h1
-            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px]"
           >
             {{ $t("Add New Card") }}
           </h1>
@@ -523,7 +525,7 @@ const countriesC = computed(() => {
             >
               <div
                 ref="cardNumberInp"
-                class="w-full input_floating_label"
+                class="w-full input_floating_label mb-[25px]"
                 :class="{
                   input_error: cardError !== 'valid' && cardError,
                   input_success: cardError === 'valid',
@@ -628,7 +630,7 @@ const countriesC = computed(() => {
                     type="text"
                     placeholder="{{$t('City')}}"
                     id="city"
-                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    class="input_floating_label peer w-full mb-[12.5px] dark:text-whiteTamkin"
                     v-model="v$.city.$model"
                     :class="{
                       input_error: v$.city.$error && v$.city.required.$invalid,
@@ -665,7 +667,7 @@ const countriesC = computed(() => {
                     type="text"
                     placeholder="{{$t('State')}}"
                     id="state"
-                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    class="input_floating_label peer w-full mb-[12.5px] dark:text-whiteTamkin"
                     v-model="v$.state.$model"
                     :class="{
                       input_error:
@@ -708,7 +710,7 @@ const countriesC = computed(() => {
                     type="text"
                     placeholder=""
                     id="zip"
-                    class="input_floating_label peer w-full dark:text-whiteTamkin"
+                    class="input_floating_label peer w-full mb-[12.5px] dark:text-whiteTamkin"
                     v-model="v$.zip.$model"
                     :class="{
                       input_error: v$.zip.$error && v$.zip.required.$invalid,
@@ -768,7 +770,7 @@ const countriesC = computed(() => {
             </div>
           </div>
 
-          <div class="px-[20px] mt-2">
+          <div class="px-[20px] mt-5">
             <label
               for="remember_me"
               class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"
@@ -789,7 +791,7 @@ const countriesC = computed(() => {
           </div>
 
           <div
-            class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
+            class="mt-[39px] mb-[34px] w-full md:w-[50%] flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
           >
             <button class="btn_bordered_dashboard" @click="closeModalCard">
               {{ $t("Cancel") }}

@@ -1,27 +1,20 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { usePayBycOrPPaypal } from "@/composables/useMySite";
-const {locale } = useI18n()
-import { useRenewAll,useGetRenewdetails } from "@/composables/usePackages";
+const { locale } = useI18n();
+import { useRenewAll, useGetRenewdetails } from "@/composables/usePackages";
 
-
-const { renewAllCardorPaypal, messageData ,codeStatus} = useRenewAll();
+const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 
 const subsStore = useSubsStore();
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
-const {$toast} = useNuxtApp()
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
+const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
-const renewDetails = ref()
-const loadingtotal = ref(true)
+const renewDetails = ref();
+const loadingtotal = ref(true);
 const chooseOtherPaymentMethod = ref("");
 watch(subsStore.promo, (ov, nv) => {
   return subsStore.promo.length > 0
@@ -35,35 +28,36 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
-const route = useRoute()
-const localePath = useLocalePath()
+const route = useRoute();
+const localePath = useLocalePath();
 const isLinkActive = (path) => {
-    if (process.client) {
-      const localizedPath = localePath(path); // Assuming you use i18n
-      return route.path === localizedPath;
-    }
-    return false;
-  };
-const redirectTo = computed(()=>{
-return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '/subscriptions' :'/my-site'
-})
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
+const redirectTo = computed(() => {
+  return isLinkActive("/my-site")
+    ? "/my-site"
+    : isLinkActive("/subscriptions")
+    ? "/subscriptions"
+    : "/my-site";
+});
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await renewAllCardorPaypal(null,'paypal',redirectTo.value);
-// alert(locale.value)
+  const res = await renewAllCardorPaypal(null, "paypal", redirectTo.value);
+  // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-  
     loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
-  
   }
-
 };
 const props = defineProps({
   showModal: Boolean,
@@ -91,10 +85,6 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
-
-
-
-
 </script>
 
 <template>
@@ -125,7 +115,9 @@ const discountAmount = computed(() => {
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('paypal_subs', 'mysite', 'payment_methods_mysite')"
+            @click="
+              navigateTo('paypal_subs', 'mysite', 'payment_methods_mysite')
+            "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -172,7 +164,9 @@ const discountAmount = computed(() => {
                   v-model="subsStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    subsStore.validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '',
+                    subsStore.validPromo
+                      ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
+                      : '',
                     subsStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
@@ -184,8 +178,12 @@ const discountAmount = computed(() => {
                   v-if="subsStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
-                  <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
-                    <span class="text-[#021328] font-[700] dark:text-white">{{ subsStore.currentDiscount }}%</span>
+                  <div
+                    class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                  >
+                    <span class="text-[#021328] font-[700] dark:text-white"
+                      >{{ subsStore.currentDiscount }}%</span
+                    >
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
@@ -207,7 +205,9 @@ const discountAmount = computed(() => {
                   v-if="!subsStore.validPromo"
                 >
                   <div class="flex items-center justify-center">
-                    <div :class="subsStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    <div
+                      :class="subsStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''"
+                    >
                       {{ $t("Apply code") }}
                     </div>
 
@@ -253,44 +253,61 @@ const discountAmount = computed(() => {
             <table class="min-w-full">
               <thead>
                 <tr class="px-">
-                    <th
-                      class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
-                      {{ $t('Domain') }}
-                    </th>
-                    <th
-                      class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey
-                       dark:text-whiteTamkin font-[600] text-center">
-                      {{ $t('Package') }}
-                    </th>
-                    <th
-                      class="py-2  border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
-                       text-center ">
-                      {{ $t('Section') }}
-                    </th>
-                    <th
-                      class="py-2 border-b dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
-                      leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center">
-                      {{ $t('Amount') }}
-                    </th>
-                  </tr>
+                  <th
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                  >
+                    {{ $t("Domain") }}
+                  </th>
+                  <th
+                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                  >
+                    {{ $t("Package") }}
+                  </th>
+                  <th
+                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                  >
+                    {{ $t("Section") }}
+                  </th>
+                  <th
+                    class="py-2 border-b dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                  >
+                    {{ $t("Amount") }}
+                  </th>
+                </tr>
               </thead>
               <tbody>
-                <tr v-for="rr in subsStore.totalRenews " :key="rr.name"
-                class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
-                <td class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400] ">
-                  {{ rr.app_type === 'Internal Services' ? $t('Internal Service') : rr.app_domain }}
-                </td>
-                <td class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]">
-                  {{ $t(rr.package_title) }}
-                </td>
-                <td class="text-[14px] py-2  border-b dark:border-darkborder dark:text-whiteTamkin text-center   font-[400]">
-                  <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
-                </td>
-                <td class="text-[14px] py-2  border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]">
-                  ${{ rr.amount.toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-                </td>
-              </tr>
+                <tr
+                  v-for="rr in subsStore.totalRenews"
+                  :key="rr.name"
+                  class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+                >
+                  <td
+                    class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400]"
+                  >
+                    {{
+                      rr.app_type === "Internal Services"
+                        ? $t("Internal Service")
+                        : rr.app_domain
+                    }}
+                  </td>
+                  <td
+                    class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]"
+                  >
+                    {{ $t(rr.package_title) }}
+                  </td>
+                  <td
+                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center font-[400]"
+                  >
+                    <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
+                  </td>
+                  <td
+                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]"
+                  >
+                    ${{
+                      rr.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
+                  </td>
+                </tr>
                 <tr
                   class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   v-if="subsStore.validPromo"
@@ -305,7 +322,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ subsStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      subsStore.packagePayload.total
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -322,23 +344,32 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      discountAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 px-5 border-b dark:border-darkborder  font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b dark:border-darkborder font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t("Total") }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin/80"
+                    class="py-2 px-5 border-b dark:border-darkborder rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (Number(subsStore.packagePayload.total) - discountAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      (Number(subsStore.packagePayload.total) - discountAmount)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
               </tbody>

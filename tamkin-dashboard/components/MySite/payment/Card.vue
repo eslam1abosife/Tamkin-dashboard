@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center ">
           <div
             v-if="!urlPayment"
             @click="

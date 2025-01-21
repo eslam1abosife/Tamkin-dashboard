@@ -72,7 +72,9 @@ const updatePassword = async () => {
   <div class="flex flex-col h-full w-full p-0 md:p-4">
     <!-- Content Section -->
     <div class="flex-grow">
-      <div class="text-[16px] font-[500] leading-[24px] text-[#3D3D3D]">
+      <div
+        class="text-[16px] font-[500] leading-[24px] dark:text-whiteTamkin text-[#3D3D3D]"
+      >
         {{ $t("Change Your Password") }}
       </div>
 
