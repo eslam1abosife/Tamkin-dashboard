@@ -15,14 +15,8 @@ const { getPaymentTypes } = useGetPaymentTypes();
 const config = useRuntimeConfig();
 const baseImageURL = config.public.baseImagerUrl;
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 
 const props = defineProps({
   showModal: Boolean,
@@ -61,23 +55,34 @@ const goToPaymentMethod = (method: any) => {
   if (withdrawStore.selectedPaymentMethod.title === "Bank Account") {
     loadingPayment.value = true;
     setTimeout(() => {
-      withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name;
-      navigateTo("withdraw_paymentmethods", "referrals", "details_bank_withdraw");
+      withdrawStore.paymentMethodName =
+        withdrawStore.selectedPaymentMethod.name;
+      navigateTo(
+        "withdraw_paymentmethods",
+        "referrals",
+        "details_bank_withdraw"
+      );
       loadingPayment.value = false;
     }, 1500);
   }
   if (withdrawStore.selectedPaymentMethod.title === "PayPal") {
     loadingPayment.value = true;
     setTimeout(() => {
-      withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name;
-      navigateTo("withdraw_paymentmethods", "referrals", "paypal_withdraw_step1");
+      withdrawStore.paymentMethodName =
+        withdrawStore.selectedPaymentMethod.name;
+      navigateTo(
+        "withdraw_paymentmethods",
+        "referrals",
+        "paypal_withdraw_step1"
+      );
       loadingPayment.value = false;
     }, 1500);
   }
   if (withdrawStore.selectedPaymentMethod.title === "Crypto currency") {
     loadingPayment.value = true;
     setTimeout(() => {
-      withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name;
+      withdrawStore.paymentMethodName =
+        withdrawStore.selectedPaymentMethod.name;
       navigateTo("withdraw_paymentmethods", "referrals", "crypto_step1");
 
       loadingPayment.value = false;
@@ -94,8 +99,7 @@ const closeModalAndresetPaymentMethods = () => {
 <template>
   <div
     v-if="isOpen('withdraw_paymentmethods')"
-    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]
-     p-[30px] h-auto  lg:w-[640px] ipad-max:top-[20px] w-full"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:h-auto h-[100%] lg:w-[640px] ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- isOpen('withdraw_paymentmethods') -->
@@ -118,17 +122,21 @@ const closeModalAndresetPaymentMethods = () => {
         />
       </svg>
     </div>
-    <div class="h-full mx-auto max-h-[100%]">
+    <div class="h-full mx-auto max-h-[100%] mt-[-20px]">
       <h1
         class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
-        {{$t('Withdraw Money')}}
+        {{ $t("Withdraw Money") }}
       </h1>
       <!-- {{ paymentMethods }} -->
       <p
         class="mt-[16px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]"
       >
-        {{$t('Ensure a smooth, secure, and hassle-free withdrawal by selecting a withdrawal method, which allows you to access your funds quickly and conveniently')}}
+        {{
+          $t(
+            "Ensure a smooth, secure, and hassle-free withdrawal by selecting a withdrawal method, which allows you to access your funds quickly and conveniently"
+          )
+        }}
       </p>
 
       <div
@@ -227,7 +235,6 @@ const closeModalAndresetPaymentMethods = () => {
             
         </div>        -->
 
- 
         <template v-for="method in paymentMethods" :key="method.name">
           <div class="w-full">
             <div
@@ -237,14 +244,16 @@ const closeModalAndresetPaymentMethods = () => {
                   ? 'custom-border-tamkin'
                   : 'border-[1px] ',
               ]"
-              class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary 
-              flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
+              class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-darkborder ltr:pl-[16px] rtl:pr-[16px]"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
               >
                 <div>
-                  <img :src="baseImageURL + method.icon" class="w-[40px] h-[40px]" />
+                  <img
+                    :src="baseImageURL + method.icon"
+                    class="w-[40px] h-[40px]"
+                  />
                 </div>
                 <div
                   class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin rtl:font-[Almarai]"
@@ -276,14 +285,16 @@ const closeModalAndresetPaymentMethods = () => {
         </template>
       </div>
 
-      <div class=" rtl:mr-auto ltr:ml-auto mt-[40px] mb-[10px]">
+      <div class="rtl:mr-auto ltr:ml-auto mt-[40px] mb-[10px]">
         <button
-          class="btn-dashboard hover_tamkin  "
+          class="btn-dashboard hover_tamkin"
           :disabled="!withdrawStore.selectedPaymentMethod || loadingPayment"
           @click="goToPaymentMethod(withdrawStore.selectedPaymentMethod)"
         >
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Continue')}}</div>
+            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
+              {{ $t("Continue") }}
+            </div>
 
             <svg
               v-if="loadingPayment"

@@ -96,7 +96,7 @@ const discountAmount = computed(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
-        <div class="flex items-center justify-center mt-[-30px]">
+        <div class="flex items-center justify-center ">
           <div
             @click="
               navigateTo('paypal_addsite', 'addSite', 'payment_methods_addsite')
