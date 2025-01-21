@@ -183,7 +183,6 @@ onBeforeMount(async () => {
   loadingBlock.value = true
 
  await getSummaryDetailedCode();
-
   currentCode.value = summaryCode || `const foo = 'bar';`;
   code.value = true;
   setTimeout(()=>{
