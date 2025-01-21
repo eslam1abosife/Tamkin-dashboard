@@ -178,7 +178,7 @@ import "vue-loading-overlay/dist/css/index.css";
 
         <div
           v-if="isLinkActive('/auth/login')"
-          class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 rtl:right-[-50%] ltr:right-[50%]"
+          class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 right-0 lg:rtl:right-[-50%] lg:ltr:right-[50%]"
           :class="[
             isLinkActive('/auth/register')
               ? '!bottom-[-50px] ipad-max:!bottom-[-180px]'

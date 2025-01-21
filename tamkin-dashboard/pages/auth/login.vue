@@ -323,6 +323,29 @@ const clearFieldError = (condition) => {
      </svg>
     </div>
       </button>
+      <ul class="flex lg:hidden items-center justify-between rtl:flex-row-reverse text-sm mt-6">
+                <li
+                  class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"
+                >
+                  <a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
+                    $t("Terms of Use")
+                  }}</a>
+                </li>
+                <li
+                  class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"
+                >
+                  <a
+                    href="https://tamkin.app/privacy-policy?_lang=en"
+                    target="_blank"
+                    >{{ $t("Privacy Statement") }}</a
+                  >
+                </li>
+                <li
+                  class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"
+                >
+                  <a href="">{{ $t("Cookie Policy") }}</a>
+                </li>
+              </ul>
     </div>
   </div>
 </template>
