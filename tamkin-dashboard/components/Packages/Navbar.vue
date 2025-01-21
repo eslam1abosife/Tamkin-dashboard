@@ -94,7 +94,7 @@ const slugify = (title) => {
 
 <template>
   <div
-    class="h-[200px] w-full relative flex items-start justify-center"
+    class="h-[200px] w-full relative flex items-start justify-center dark:bg-p_secondary"
     :class="changeColor"
   >
     <!--- SIGN LANG IAMGES-->
@@ -163,7 +163,7 @@ const slugify = (title) => {
 
     <!-- INVESTORS  IMAGES-->
     <div
-      class="absolute left-[-21px]"
+      class="absolute left-[-21px] dark:opacity-5"
       v-if="packagesStore.currentType.title === 'Investors'"
     >
       <img
@@ -315,8 +315,12 @@ const slugify = (title) => {
     </div>
 
     <!--  bundle IMAGES -->
-    <div class="flex items-center justify-center flex-col my-[50px] px-4 md:px-0 z-[2]">
-      <div class="text-[20px] font-[600] leading-[32px] text-white">
+    <div
+      class="flex items-center justify-center flex-col my-[50px] px-4 md:px-0 z-[2]"
+    >
+      <div
+        class="text-[16px] md:text-[20px] font-[600] leading-[32px] text-white"
+      >
         {{ $t("Tamkin the bridge of communication between communities") }}
       </div>
 
