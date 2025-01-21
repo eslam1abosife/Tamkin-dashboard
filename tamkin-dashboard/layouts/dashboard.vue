@@ -1138,7 +1138,7 @@ const isAnyLinkActive = computed(() => {
               isLinkActive('/ar/packages/*') ||
               isLinkActive('/how-to-join')
                 ? ''
-                : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'
+                : 'pt-[20px] px-4 md:px-[40px]'
             "
           >
             <div

@@ -126,7 +126,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-if="isOpen('editMemberPic')"
-    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
+    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-4 md:p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div
@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
 
     <div
       v-bind="getRootProps()"
-      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-[40px] flex items-center justify-center flex-col space-y-[30px]  bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none"
+      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-[40px] flex items-center justify-center flex-col space-y-[30px]  bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
     >
       <input v-bind="getInputProps()"  :disabled="
 
@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
         <img src="/assets/imgs/icons/camera_modal.svg" />
       </div>
 
-      <div class="w-[264px]">
+      <div class="w-[264px] max-w-full">
         <h1
           class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
         >
@@ -198,9 +198,9 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard  group error max-w-[160px]"
+        class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard  group error md:max-w-[160px] max-md:flex-1"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){
@@ -261,7 +261,7 @@ onBeforeUnmount(() => {
         :disabled="
            loadingUpload 
         "
-        class="btn-dashboard hover_tamkin w-1/4"
+        class="btn-dashboard hover_tamkin md:w-1/4 max-md:flex-1"
         @click="submit"
       >
         <div class="flex items-center justify-center">

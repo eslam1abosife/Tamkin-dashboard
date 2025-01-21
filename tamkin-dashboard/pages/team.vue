@@ -310,13 +310,13 @@ const isOwner = computed(() => {
     />
     <div class="space-y-[10px]">
       <h1
-        class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin"
+        class="text-start text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin"
       >
         {{ $t("Team Management") }}
       </h1>
 
       <h2
-        class="ltr:text-left rtl:text-right text-[14px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
+        class="text-start text-[14px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
       >
         {{ $t("Manage your team and their account permissions here") }}
       </h2>
@@ -348,13 +348,13 @@ const isOwner = computed(() => {
                   ? 'cursor-pointer bg-tamkin'
                   : 'cursor-not-allowed bg-light',
               ]"
-              class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] rounded-full flex items-center justify-center"
+              class="w-[55px] h-[55px] rounded-full flex items-center justify-center"
             >
               <svg
                 width="27"
                 height="24"
                 viewBox="0 0 27 24"
-                class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px] ipad-max:w-[15px] ipad-max:h-[15px]"
+                class="w-[32px] h-[32px]"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -685,16 +685,16 @@ const isOwner = computed(() => {
       v-loading="getAllMembersLoading && capacityLoader"
     >
       <div
-        class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
+        class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white dark:bg-tamkinDarkPrimary"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div
           v-if="!getCurrTeamLoading && !capacityLoader"
-          class="flex dark:bg-tamkinDarkPrimary items-center justify-between lg:flex-nowrap flex-wrap w-full"
+          class="flex dark:bg-tamkinDarkPrimary items-center justify-between md:flex-nowrap flex-wrap w-full"
         >
           <div class="p-[16px]">
             <div
-              class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
+              class="text-[16px] font-[600] md:py-[24px] text-[#021328] dark:text-whiteTamkin"
               style="line-height: 30px"
             >
               {{ $t("All Members") }}
@@ -704,7 +704,7 @@ const isOwner = computed(() => {
           <div
             class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]"
           >
-            <div class="py-[17px] search_input">
+            <div class="py-[17px] search_input max-md:w-[57%]">
               <input
                 type="text"
                 class="input_dashboard_search w-full !h-[40px]"
@@ -724,14 +724,14 @@ const isOwner = computed(() => {
                 <img src="/assets/imgs/icons/clear_search.svg" />
               </div>
             </div>
-            <div class="lg:w-[250px] w-2/4">
+            <div class="lg:w-[250px] max-md:ms-4 flex-1">
               <button
                 :disabled="
                   !profileStore.isOwner ||
                   teamstore.maxlimit <= paginatedFilteredTeamMembers.length ||
                   teamstore.maxlimit === 0
                 "
-                class="btn-dashboard hover_tamkin"
+                class="btn-dashboard hover_tamkin text-nowrap"
                 @click="
                   () => {
                     if (profileStore.isOwner) {
@@ -779,7 +779,7 @@ const isOwner = computed(() => {
                 ></div>
               </div>
             </div>
-            <div class="lg:w-[250px] w-2/4">
+            <div class="lg:w-[250px] flex-1">
               <div
                 class="w-[120px] bg-gray-200 dark:bg-p rounded animate-pulse h-[40px]"
               ></div>
@@ -794,23 +794,24 @@ const isOwner = computed(() => {
             !capacityLoader
           "
         >
+        <div class="overflow-y-auto w-full">
           <table
             class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
           >
             <thead class="w-full">
               <tr class="">
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
+                  class="py-3.5 text-start text-[14px] font-[600] ps-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
                 >
                   {{ $t("Name") }}
                 </th>
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Email") }}
                 </th>
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Permissions") }}
                 </th>
@@ -830,7 +831,7 @@ const isOwner = computed(() => {
                 :key="index"
               >
                 <td
-                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pe-0 pe-[100px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] space-x-[16px]"
@@ -1060,6 +1061,7 @@ const isOwner = computed(() => {
               </tr>
             </tbody>
           </table>
+        </div>
         </template>
 
         <div
@@ -1072,21 +1074,21 @@ const isOwner = computed(() => {
             <thead>
               <tr>
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
+                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin ps-[16px] ltr:lg:pl-[16px]"
                 >
                   <div
                     class="w-[100px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="w-[200px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
                   ></div>
                 </th>
                 <th
-                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="w-[150px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
@@ -1106,7 +1108,7 @@ const isOwner = computed(() => {
             >
               <tr v-for="index in 2" :key="index">
                 <td
-                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pe-0 pe-[100px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
@@ -1120,7 +1122,7 @@ const isOwner = computed(() => {
                   </div>
                 </td>
                 <td
-                  class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-4 text-start text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="w-[200px] h-[20px] dark:bg-p bg-gray-300 rounded animate-pulse"
@@ -1155,11 +1157,11 @@ const isOwner = computed(() => {
       </div>
 
       <div
-        class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]"
+        class="flex flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
         <div
-          class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0"
+          class="flex items-center rtl:space-x-reverse space-x-2"
         >
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"

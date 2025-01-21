@@ -259,7 +259,7 @@ const clearFieldError = (condition) => {
         </div>
       </div>
 
-      <div class="mt-[82px] w-2/6 mx-auto">
+      <div class="mt-[44px] w-full md:mt-[82px] md:w-2/6 mx-auto">
         <button
           :disabled="
             v$.email.$invalid ||

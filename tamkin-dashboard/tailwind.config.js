@@ -50,6 +50,7 @@ module.exports = {
         "ipad-min": "768px",
         "ipad-max": { min: "1023px", max: "1024px" },
         "ret-max": { min: "1381px", max: "1382px" },
+        'max-md': { max: '767px' },
         "3xl": { min: "1900px" ,max:"1900px"},
         "4xl": { min: "1920px" },
       },
