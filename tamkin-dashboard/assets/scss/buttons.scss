@@ -222,7 +222,7 @@
 
 .btn_bordered_dashboard {
   @apply border-[1px] border-tamkin text-tamkin bg-white dark:bg-tamkinDarkPrimary h-[40px] ipad-max:!h-[40px] lg:h-[40px]
-   rounded-[10px] p-[6px] text-[10px] lg:text-[15px] 
+   rounded-[10px] p-[6px] text-[15px] 
    flex items-center justify-center cursor-pointer 
     disabled:border-0 disabled:bg-tamkin-disabled disabled:cursor-not-allowed disabled:text-white;
   

@@ -137,13 +137,13 @@ const discountAmount = computed(() => {
             class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
           >
             <div
-              class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+              class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]"
             >
               <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
                 <input
                   type="text"
                   @input="addSiteStore.noDiscount = false"
-                  class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                  class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin max-md:px-0 !h-[40px]"
                   v-model="addSiteStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
