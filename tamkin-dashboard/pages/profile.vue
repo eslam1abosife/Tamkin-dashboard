@@ -185,19 +185,19 @@ const runtimeconfig = useRuntimeConfig();
     <div
       class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
     >
-      <div class="absolute inset-y-auto rtl:left-0 ltr:right-0 top-[29px]">
+      <div class="absolute inset-y-auto end-0 top-[29px]">
         <img src="/imgs/profile_hero.png" class="h-[144px]" alt="" />
       </div>
-      <div class="absolute inset-y-auto left-[140px] top-[-20px]">
+      <div class="absolute inset-y-auto start-[140px] top-[-20px]">
         <img src="/imgs/profile_vector.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute inset-y-auto left-[-40px] top-[-20px]">
+      <div class="absolute inset-y-auto start-[-40px] top-[-20px]">
         <img src="/imgs/profile_vector2.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute inset-y-auto left-[260px] top-[-40px]">
+      <div class="absolute inset-y-auto start-[260px] top-[-40px]">
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute bottom-[22px] rtl:left-[40px] ltr:right-[40px]">
+      <div class="absolute bottom-[22px] end-[40px]">
         <button
           @click="changeMode('editing')"
           class="btn-default border-[1px] dark:border-darkborder dark:text-whiteTamkin dark:bg-tamkinDarkPrimary border-[#C5C5C5] bg-white group hover:border-tamkin"
@@ -493,7 +493,7 @@ const runtimeconfig = useRuntimeConfig();
         <div
           class="w-full bg-white/60 dark:bg-tamkinDarkPrimary/60 shadow-sm rounded-[10px] md:col-span-8 col-span-12 px-[30px] py-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px] dark:bg-tamkinDarkPrimary mt-[10px]"
         >
-          <div class="flex items-start justify-between w-full">
+          <div class="flex items-start justify-between w-full gap-2">
             <!-- Personal Info Tab -->
             <div
               v-if="!profileStore.loadingProfile"

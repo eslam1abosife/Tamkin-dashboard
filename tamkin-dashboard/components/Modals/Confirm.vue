@@ -74,9 +74,8 @@ const translatedSubTitle = computed(() => t(props.subTitle));
 <template>
   <div
     v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12"
+    class="fixed z-[9999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12"
     :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
-    style="left: 50%; transform: translate(-50%, 0)"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"

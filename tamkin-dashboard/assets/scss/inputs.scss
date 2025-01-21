@@ -14,7 +14,7 @@
   }
 
   .floating_label_text_area {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[0] 
+    @apply cursor-text rounded-[10px] absolute rtl:right-[15px] 
     ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[18px] top-[3px] lg:top-[8px] 
     -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];

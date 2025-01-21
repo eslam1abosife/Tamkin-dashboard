@@ -34,8 +34,7 @@ const {
 
 <template>
   <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[400px]  h-[220px] w-10/12" 
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12" 
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('successContact')">
       <svg
@@ -64,7 +63,7 @@ const {
       {{ $t(title) }}
     </h1>
   
-    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-white">
+    <h2 class="text-center text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-white">
 
       {{ $t(subTitle) }}
     </h2>

@@ -210,7 +210,7 @@ const state = reactive({
           </div>
 
           <div class="flex justify-center rtl:space-x-reverse space-x-4">
-            <button class="btn-dashboard hover_tamkin w-2/6" :disabled="v$.$invalid || loadingContact"
+            <button class="btn-dashboard hover_tamkin w-full md:w-2/6" :disabled="v$.$invalid || loadingContact"
                     @click="submitContact">
               <div class="flex items-center justify-center">
                 <div :class="loadingContact ? 'rtl:ml-2 ltr:mr-2':''">
