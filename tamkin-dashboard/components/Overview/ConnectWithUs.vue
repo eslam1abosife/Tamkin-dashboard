@@ -155,7 +155,7 @@ const tgl = ()=>{
                 {{ $t('Would you like to have early access to the platform?') }}
               </h2>
               <button
-                class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
+                class="w-full ipad-max:leading-[18px] h-[40px] bg-white dark:bg-tamkinDarkPrimary text-tamkin rtl:space-x-reverse 
                 space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
                 flex items-center justify-center px-[12px] whitespace-nowrap"
               

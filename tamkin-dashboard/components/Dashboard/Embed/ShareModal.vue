@@ -59,8 +59,8 @@ const submit = async () => {
 
 <template>
   <div v-if="isOpen('shareModal')"
-    class="fixed z-[99999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
-    style="left: 50%; transform: translate(-50%, 0)">
+    class="fixed z-[99999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-4 pt-[calc(24px+1rem)] md:p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
+    >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('shareModal')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +110,7 @@ const submit = async () => {
 
       <button :disabled="v$.email.$invalid || loading"
         :class="[(v$.email.$invalid || loading) && 'btn-inactive', errMsg ? 'mt-[20px]' : 'mt-[40px]']" @click="submit"
-        class="btn-dashboard normal_hover w-[190px] mx-auto">
+        class="btn-dashboard normal_hover w-full md:w-[190px] mx-auto">
         <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> {{ $t('Send Code') }}
       </button>
     </div>

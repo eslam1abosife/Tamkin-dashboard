@@ -157,7 +157,7 @@ const filteredInstallationGuide = computed(() => {
               class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 dark:text-whiteTamkin dark:drop-shadow-xl drop mb-2">
               {{$t('Would you like to have early access to the platform?')}}
             </h2>
-            <button class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse
+            <button class="w-full ipad-max:leading-[18px] h-[40px] bg-white dark:bg-tamkinDarkPrimary text-tamkin rtl:space-x-reverse
             space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px]
             flex items-center justify-center px-[12px] whitespace-nowrap">
               <div class="" @click.prevent="tgl">{{$t('Sign up to keep up with the latest news from us')}}</div>

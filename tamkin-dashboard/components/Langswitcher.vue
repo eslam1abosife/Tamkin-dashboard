@@ -38,7 +38,7 @@ const closeoutside = () => {
 
     <div
       v-if="isMenuOpen"
-      class="absolute dark:bg-tamkinDarkPrimary dark:text-whiteTamkin top-[50px] right-0 drop-shadow-md bg-white rounded-[10px] h-auto w-[128px] flex flex-col items-start justify-start p-[8px]"
+      class="absolute dark:bg-tamkinDarkPrimary dark:text-whiteTamkin top-[50px] ltr:left-0 rtl:right-0 drop-shadow-md bg-white rounded-[10px] h-auto w-[128px] flex flex-col items-start justify-start p-[8px]"
     >
       <NuxtLink
         class="flex items-center justify-center gap-2 w-full"

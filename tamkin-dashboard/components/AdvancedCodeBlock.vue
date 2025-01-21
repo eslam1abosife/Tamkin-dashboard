@@ -31,7 +31,8 @@
                 fill="white" />
           </svg>
         </div>
-        <div>{{$t('Advanced View')}}</div>
+        <div class="hidden md:block">{{$t('Advanced View')}}</div>
+        <div class="block md:hidden">{{$t('Advanced')}}</div>
       </button>
       <button :class="'opacity-100'" @click="openModal('shareModal', 'embed-code')" class="lg:order-2 md:order-2 order-3 cursor-pointer ipad-max:text-[12px] border-[2px]  mx-auto lg:m-0 md:mt-0 mt-4 lg:mt-0 md:w-auto w-full lg:w-auto
               rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
@@ -120,8 +121,6 @@
           style="line-height: 23.4px">
 
           <div v-html="highlightedText"></div>
-         <span class="text-darkGrey">{{$t('')}}</span> 
-         {{ $t('') }}
       </h2>
     </div>
 </div>
@@ -157,7 +156,7 @@ const copyCode = () => {
 const highlightPhrase = (text, phrase) => {
   const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
   const regex = new RegExp(`(${escapedPhrase})`, 'gi')
-  return text.replace(regex, `<span class="text-darkGrey">$1</span>`)
+  return text.replace(regex, `<span class="">$1</span>`)
 }
 const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين'
 const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !')
