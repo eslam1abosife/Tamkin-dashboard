@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useGetJoinPage } from '~/composables/usePackages';
-const { locale,t } = useI18n();
+import { useGetJoinPage } from "~/composables/usePackages";
+const { locale, t } = useI18n();
 
 useHead({
   title: t("How to join - Tamkin Dashboard"),
-})
-const localePath = useLocalePath()
+});
+const localePath = useLocalePath();
 const { getjoinPageData } = useGetJoinPage();
 const {
   isOpen,
@@ -17,13 +17,16 @@ const {
   getData,
 } = useModalManager();
 definePageMeta({
-  layout: 'dashboard',
-  middleware: ['auth', 'permissions'],
+  layout: "dashboard",
+  middleware: ["auth", "permissions"],
 });
 
-const { data, error, refresh } = await useAsyncData('joinPageData', async () => {
-  return await getjoinPageData();
-});
+const { data, error, refresh } = await useAsyncData(
+  "joinPageData",
+  async () => {
+    return await getjoinPageData();
+  }
+);
 
 const loading = ref(true);
 const hasError = ref(false);
@@ -31,15 +34,14 @@ const hasError = ref(false);
 onMounted(() => {
   loading.value = false;
   hasError.value = !!error.value;
-  
 });
-const currentFaq = ref()
+const currentFaq = ref();
 
 const extractAndTranslate = (htmlString) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
   const paragraphs = Array.from(doc.querySelectorAll("p"));
-  return paragraphs.map((p) => t(p.textContent.trim())); 
+  return paragraphs.map((p) => t(p.textContent.trim()));
 };
 
 // const translatedList = ref();
@@ -47,10 +49,10 @@ const extractAndTranslate = (htmlString) => {
 
 <template>
   <div class="relative">
-    <PackagesPaymentModalsJoinInvestorStep1/>
+    <PackagesPaymentModalsJoinInvestorStep1 />
     <div class="relative h-full w-full">
       <div
-        class="custom-shape-divider-bottom-1725380645 transform rtl:skew-y-[4deg] ltr:skew-y-[-4deg]  rotate-[180deg]"
+        class="custom-shape-divider-bottom-1725380645 transform rtl:skew-y-[4deg] ltr:skew-y-[-4deg] rotate-[180deg]"
       >
         <svg
           data-name="Layer 1"
@@ -70,8 +72,7 @@ const extractAndTranslate = (htmlString) => {
       </div>
 
       <div
-        class="relative z-[50] overflow-hidden top-[-60px] h-[350px]
-         bg-gradient-to-t from-[#340E75] to-[#54ECE3] dark:to-[#35968f] rtl:skew-y-[4deg] ltr:skew-y-[-4deg]"
+        class="relative z-[50] overflow-hidden top-[-60px] h-[350px] dark:bg-p bg-gradient-to-t from-[#340E75] to-[#54ECE3] dark:to-[#35968f] rtl:skew-y-[4deg] ltr:skew-y-[-4deg]"
       >
         <div class="absolute left-[46px] top-[36px]">
           <img
@@ -87,52 +88,65 @@ const extractAndTranslate = (htmlString) => {
             alt=""
           />
         </div>
-        <div class="absolute top-[0] left-[35%]">
+        <div class="absolute top-[0] left-[35%] hidden md:block">
           <img src="/imgs/hero_how_to.png" class="w-[347px] h-[347px]" alt="" />
         </div>
 
         <div class="h-[365px] w-full grid grid-cols-2 mt-[30px]">
           <div
-            class="flex items-start justify-center flex-col h-full ipad-max:ml-[40px] px-[20px] 
-            ipad-max:px-[20px] lg:px-[40px] rtl:skew-y-[-4deg] ltr:skew-y-[4deg]"
+            class="flex items-start justify-center flex-col h-full ipad-max:ml-[40px] px-[20px] ipad-max:px-[20px] lg:px-[40px] rtl:skew-y-[-4deg] ltr:skew-y-[4deg]"
           >
-            <div class="text-[32px] font-[700] leading-[32px] text-white w-[306px]">
-              {{$t(data.page_cards_items[0].title)}}
-            </div>
             <div
-              class="text-[16px] font-[400] leading-[24px] text-[#D1D8EE] w-3/4 mt-[10px]"
+              class="text-[20px] md:text-[32px] font-[700] leading-[32px] text-white w-[306px]"
             >
-              {{$t(data.page_cards_items[0].sub_title)}}
+              {{ $t(data.page_cards_items[0].title) }}
             </div>
             <div
-              class="flex items-center justify-start mt-[26px] rtl:space-x-reverse space-x-[32px] relative z-[50]"
+              class="text-[14px] md:text-[16px] font-[400] leading-[24px] text-[#D1D8EE] w-[260px] md:w-3/4 mt-[10px]"
+            >
+              {{ $t(data.page_cards_items[0].sub_title) }}
+            </div>
+            <div
+              class="flex items-center justify-start mb-[10px] mt-[26px] rtl:space-x-reverse space-x-[12px] md:space-x-[32px] relative z-[50]"
             >
               <nuxt-link
-            :to="data.page_cards_items[0].link_1"
-            target="_blank"
-                class="btn-dashboard hover_tamkin !rounded-[19px] !px-[40px] !whitespace-nowrap"
+                :to="data.page_cards_items[0].link_1"
+                target="_blank"
+                class="btn-dashboard hover_tamkin !rounded-[19px] !px-[5px] md:!px-[40px] !text-[12px] md:!text-[15px] !whitespace-nowrap"
               >
-            {{$t(data.page_cards_items[0].link_1_title)}}
-          </nuxt-link>
-              <button @click="openModal('join_to_investor','how-to-join',{})"
-                class="btn-dashboard hover_tamkin !rounded-[19px] !whitespace-nowrap"
+                {{ $t(data.page_cards_items[0].link_1_title) }}
+              </nuxt-link>
+              <button
+                @click="openModal('join_to_investor', 'how-to-join', {})"
+                class="btn-dashboard hover_tamkin !px-[15px] md:!px-[5px] !text-[12px] md:!text-[15px] !rounded-[19px] !whitespace-nowrap"
               >
-               {{ $t('Join To Investor') }}
+                {{ $t("Join To Investor") }}
               </button>
-              <button @click="$router.push({path:localePath('/packages/investors')})"
-                class="btn_bordered_dashboard hover_tamkin !rounded-[19px] w-full !whitespace-nowrap"
+              <button
+                @click="
+                  $router.push({ path: localePath('/packages/investors') })
+                "
+                class="btn_bordered_dashboard hover_tamkin !px-[5px] md:!px-[40px] !text-[12px] md:!text-[15px] !rounded-[19px] w-full !whitespace-nowrap"
               >
-                {{ $t('Back to package') }}
+                {{ $t("Back to package") }}
               </button>
             </div>
           </div>
-          <div class="rtl:skew-y-[-4deg] ltr:skew-y-[4deg] mt-[100px] 2xl:rtl:mr-[160px] 2xl:ml-[160px] 4xl:rtl:mr-[200px] 4xl:ml-[400px] lg:ml-[100px]">
-            <img src="/imgs/investor_man.png" class="w-[266px] h-[253px]" alt="" />
+          <div
+            class="rtl:skew-y-[-4deg] ltr:skew-y-[4deg] -z-10 opacity-30 mt-[100px] 2xl:rtl:mr-[160px] 2xl:ml-[160px] 4xl:rtl:mr-[200px] 4xl:ml-[400px] lg:ml-[100px]"
+          >
+            <img
+              src="/imgs/investor_man.png"
+              class="w-[266px] h-[253px]"
+              alt=""
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="min-h-[800px] top-[0%] w-full bg-[#E1E8FE] dark:bg-tamkinDarkPrimary absolute z-[5]">
+    <div
+      class="min-h-[800px] top-[0%] w-full bg-[#E1E8FE] dark:bg-tamkinDarkPrimary absolute z-[5]"
+    >
       <div class="custom-shape-divider-top-1725435211">
         <svg
           data-name="Layer 1"
@@ -148,123 +162,169 @@ const extractAndTranslate = (htmlString) => {
       </div>
     </div>
     <div class="relative">
-      
-      <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px] relative   z-[50]">
-        <div class="flex items-center justify-between w-full mt-[-1%]">
-          <div class="mt-[-4%]">
-            <img :src="`https://tamkin.app/${data.page_cards_items[1].image}`" class="w-[180px] h-[168px]" alt="" />
+      <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px] relative z-[50]">
+        <div
+          class="flex items-center flex-col md:flex-row justify-between w-full mt-[-1%]"
+        >
+          <div class="mb-[5px] md:mt-[-4%]">
+            <img
+              :src="`https://tamkin.app/${data.page_cards_items[1].image}`"
+              class="w-[180px] h-[168px]"
+              alt=""
+            />
           </div>
 
           <div
-            class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r rounded-[10px] px-[24px] 
-             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%] w-3/4 flex flex-col items-start justify-center"
+            class="h-auto md:h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r rounded-[10px] px-[24px] from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%] w-full p-5 md:w-3/4 flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
-             {{$t(data.page_cards_items[1].title)}}
+            <div
+              class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]"
+            >
+              {{ $t(data.page_cards_items[1].title) }}
             </div>
 
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-           
-            <li class="custom-list-styles dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[1].description) " :key="index">
-              {{ item }}
-            </li>
-            
-          </ul>
+              <li
+                class="custom-list-styles dark:text-white"
+                v-for="(item, index) in extractAndTranslate(
+                  data.page_cards_items[1].description
+                )"
+                :key="index"
+              >
+                {{ item }}
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="flex items-center justify-between w-full mt-[24px] flex-row-reverse">
+        <div
+          class="flex flex-col items-center justify-between w-full mt-[24px] md:flex-row-reverse"
+        >
           <div>
-            <img :src="`https://tamkin.app/${data.page_cards_items[2].image}`" class="w-[180px] h-[168px]" alt="" />
+            <img
+              :src="`https://tamkin.app/${data.page_cards_items[2].image}`"
+              class="w-[180px] h-[168px]"
+              alt=""
+            />
           </div>
 
           <div
-            class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r w-3/4 rounded-[10px] px-[24px] 
-             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
+            class="h-auto dark:bg-tamkinDarkPrimary md:h-[130px] p-5 w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r md:w-3/4 rounded-[10px] px-[24px] from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
-              {{$t(data.page_cards_items[2].title)}}
-
+            <div
+              class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]"
+            >
+              {{ $t(data.page_cards_items[2].title) }}
             </div>
 
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <li class="custom-list-styles dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[2].description) " :key="index">
-              {{ item }}
-            </li>
-
+              <li
+                class="custom-list-styles dark:text-white"
+                v-for="(item, index) in extractAndTranslate(
+                  data.page_cards_items[2].description
+                )"
+                :key="index"
+              >
+                {{ item }}
+              </li>
             </ul>
           </div>
         </div>
 
-        <div class="flex items-center justify-between w-full mt-[24px]">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between w-full mt-[24px]"
+        >
           <div class="mt-[-3%]">
-            <img :src="`https://tamkin.app/${data.page_cards_items[3].image}`" class="w-[122px] h-[109px]" alt="" />
+            <img
+              :src="`https://tamkin.app/${data.page_cards_items[3].image}`"
+              class="w-[122px] h-[109px]"
+              alt=""
+            />
           </div>
 
           <div
-            class="h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r w-3/4 rounded-[10px] px-[24px] 
-             from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
+            class="h-auto p-5 dark:bg-tamkinDarkPrimary md:h-[130px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r w-full md:w-3/4 rounded-[10px] px-[24px] from-white to-white/[10%] dark:from-darkTamkin dark:to-darkTamkin/[10%]/[10%] flex flex-col items-start justify-center"
           >
-            <div class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]">
-              {{$t(data.page_cards_items[3].title)}}
+            <div
+              class="text-[14px] font-[600] leading-[24px] dark:text-white mb-[6px]"
+            >
+              {{ $t(data.page_cards_items[3].title) }}
             </div>
 
             <ul
               class="list-disc px-[20px] text-[14px] font-[400] space-y-[6px] leading-[24px]"
             >
-            <li class="custom-list-styles dark:text-white dark:text-white" v-for="(item, index) in extractAndTranslate(data.page_cards_items[3].description) " :key="index">
-              {{ item }}
-            </li>
-
+              <li
+                class="custom-list-styles dark:text-white dark:text-white"
+                v-for="(item, index) in extractAndTranslate(
+                  data.page_cards_items[3].description
+                )"
+                :key="index"
+              >
+                {{ item }}
+              </li>
             </ul>
           </div>
         </div>
-
-        <div class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] min-h-[450px] w-full my-[64px] px-[30px] py-[30px]">
+        <div class="flex md:hidden justify-center mb-[-50px] mt-5">
+          <img
+            src="/public/imgs/faq_how.png"
+            class="w-[143px] h-[143px]"
+            alt=""
+          />
+        </div>
+        <div
+          class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] min-h-[450px] w-full my-[64px] px-[30px] py-[30px]"
+        >
           <div class="text-[18px] font-[600] leading-[16px] dark:text-white">
-            {{ $t('Frequently Asked Questions') }}
+            {{ $t("Frequently Asked Questions") }}
           </div>
 
-          <div class="flex items-center justify-between w-full mt-[42px] relative">
-            <div class="flex items-start  flex-col justify-start space-y-[14px] w-3/4">
-              <div v-for="question in data.tamkin_faq" :key="question.name"
+          <div
+            class="flex items-center justify-between w-full mt-[42px] relative"
+          >
+            <div
+              class="flex items-start flex-col justify-start space-y-[14px] w-3/4"
+            >
+              <div
+                v-for="question in data.tamkin_faq"
+                :key="question.name"
                 class="flex items-start justify-start flex-col space-y-[20px] w-full"
               >
-                <div 
-                @click="()=>{
-                  currentFaq = currentFaq === question.name ? '' : question.name;
-                }"
+                <div
+                  @click="
+                    () => {
+                      currentFaq =
+                        currentFaq === question.name ? '' : question.name;
+                    }
+                  "
                   class="h-[57px] w-full relative rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#DEE6FF] dark:from-darkGrey hover:from-[#D1F7F4] dark:hover:from-[#707474] cursor-pointer to-white dark:to-tamkinDarkPrimary flex items-center justift-start"
                 >
                   <div
                     class="text-[16px] font-[500] leading-[16px] text-black/[80%] dark:text-white/[80%] px-[30px]"
                   >
-                    {{$t(question.question)}}
+                    {{ $t(question.question) }}
                   </div>
-                
                 </div>
-              
+
                 <transition name="slide-fade" mode="out-in">
                   <div
                     v-show="currentFaq === question.name"
-                    class="rounded-[10px] p-[20px] bg-[#FAFBFF] w-full h-auto mt-[10px]"
+                    class="rounded-[10px] p-[20px] dark:bg-p dark:text-whiteTamkin bg-[#FAFBFF] w-full h-auto mt-[10px]"
                   >
                     {{ $t(question.answer) }}
                   </div>
                 </transition>
               </div>
-             
             </div>
-            <div class="absolute top-[-48px] rtl:left-[14px] ltr:right-[14px]">
-              <img
-                src="/imgs/faq_how.png"
-                class="w-[143px] h-[143px] "
-                alt=""
-              />
+            <div
+              class="absolute md:block hidden top-[-48px] rtl:left-[14px] ltr:right-[14px]"
+            >
+              <img src="/imgs/faq_how.png" class="w-[143px] h-[143px]" alt="" />
             </div>
           </div>
         </div>
@@ -314,7 +374,7 @@ const extractAndTranslate = (htmlString) => {
   fill: #e1e8fe;
 }
 .read-mode p {
-  @apply list-item; 
+  @apply list-item;
 }
 .slide-fade-enter-active {
   transition: all 0.3s ease-out;

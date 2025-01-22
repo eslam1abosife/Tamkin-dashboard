@@ -5,18 +5,18 @@ const { locale } = useI18n();
 const localePath = useLocalePath();
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
-const cryptoStroe = useCryptoStore()
+const cryptoStroe = useCryptoStore();
 const props = defineProps({
   currentType: String,
-})
+});
 function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
 onBeforeMount(async () => {
-  await cryptoStroe.getRates()
+  await cryptoStroe.getRates();
 });
 function convertUsdToCrypto(usdTotal, rates) {
-  const rate = rates['tamkin'];
+  const rate = rates["tamkin"];
   if (rate) {
     return (usdTotal / rate).toFixed(0);
   } else {
@@ -27,17 +27,18 @@ const filteredPackages = computed(() => {
   return packagesStore.packages
     .filter(
       (pkg) =>
-         pkg.type === 'Investors' &&
+        pkg.type === "Investors" &&
         pkg.package_type === "Package" &&
         pkg.package_price_role.some(
           (item) => item.title === packagesStore.views_level
         )
-    ).sort((a, b) => a.sort - b.sort)
+    )
+    .sort((a, b) => a.sort - b.sort)
     .map((pkg) => {
       const priceRole = pkg.package_price_role.find(
         (item) => item.title === packagesStore.views_level
       );
-// console.log('yea man')
+      // console.log('yea man')
       return {
         ...pkg,
         cost_before_month: priceRole.cost_before_month,
@@ -86,7 +87,8 @@ const filteredPackages = computed(() => {
         >
         <div
         :class="[
-          packagesStore.investorUser && packagesStore.investorUser.package === pack.name
+          packagesStore.investorUser &&
+          packagesStore.investorUser.package === pack.name
             ? 'bg-selected'
             : '',
         ]"
@@ -94,61 +96,75 @@ const filteredPackages = computed(() => {
          padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
         style="padding: 16px, 10px, 16px, 10px"
       >
-
-  
-      <div
-      v-if="pack.type_deal !== 'None'"
-       class="absolute flex items-center justify-center text-[13px] leading-[17.76px]
-        font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin 
-        top-[-15px]   rtl:lg:right-[250px] ltr:lg:left-[250px]"
-      style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
-    >
-      <div class=" ">{{$t(pack.type_deal)}}</div>
-    </div>
+        <div
+          v-if="pack.type_deal !== 'None'"
+          class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:lg:right-[250px] ltr:lg:left-[250px]"
+          style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+        >
+          <div class=" ">{{ $t(pack.type_deal) }}</div>
+        </div>
         <div class="absolute top-[-35px] rtl:right-[5px] ltr:left-[5px]">
-          <img class="w-[65px] h-[65px]" :src="`https://tamkin.app/${pack.icon}`" />
+          <img
+            class="w-[65px] h-[65px]"
+            :src="`https://tamkin.app/${pack.icon}`"
+          />
         </div>
 
-        <div class="flex items-center justify-center relative w-full px-[15px] mt-[48px]">
+        <div
+          class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+        >
           <div class="order-2 relative w-full">
-            <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">
+            <h1
+              class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin"
+            >
               {{ $t(pack.title) }}
             </h1>
 
-                <div
-                class="relative  text-black dark:text-whiteTamkin font-[600] text-[20px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+            <div
+              class="relative text-black dark:text-whiteTamkin font-[600] text-[20px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+            >
+              <div
+                class="!font-[400] !text-[#536174] !text-[14px] leading-[19px] dark:!text-whiteTamkin"
               >
-                <div
-                  class="!font-[400] !text-[#536174] !text-[14px] leading-[19px] dark:!text-whiteTamkin"
-                >
-                  {{ $t(pack.sub_title) }}
-                </div>
-  <!-- {{  pack.package_price_role[0] }} -->
-                <div>$ {{ pack.cost_investor .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</div>
+                {{ $t(pack.sub_title) }}
               </div>
+              <!-- {{  pack.package_price_role[0] }} -->
+              <div>
+                $
+                {{
+                  pack.cost_investor
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }}
+              </div>
+            </div>
             <h2
               class="font-[500] my-[16px] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin"
             >
-              {{ $t(pack.description) +' '}} <span class="font-[700]">{{ 
-                cryptoStroe.rates 
-                  ? (convertUsdToCrypto(pack.cost_investor, cryptoStroe.rates) || 0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
-                  : 'loading' 
-              }}
-               TSLT</span> 
+              {{ $t(pack.description) + " " }}
+              <span class="font-[700]"
+                >{{
+                  cryptoStroe.rates
+                    ? (
+                        convertUsdToCrypto(
+                          pack.cost_investor,
+                          cryptoStroe.rates
+                        ) || 0
+                      )
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "loading"
+                }}
+                TSLT</span
+              >
             </h2>
-
-      
-      
           </div>
         </div>
 
         <div
-        v-if="packagesStore.showMoreINInvestors"
+          v-if="packagesStore.showMoreINInvestors"
           class="flex flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4 dark:text-whiteTamkin"
         >
-    
           <div
             v-for="item in pack.package_items
               .filter((k) => k.section === 'Package')
@@ -173,7 +189,9 @@ const filteredPackages = computed(() => {
           </div>
           <div class="flex items-center justify-center mx-auto w-full">
             <button
-              @click="$router.push({ path: localePath({ name: 'how-to-join' }) })"
+              @click="
+                $router.push({ path: localePath({ name: 'how-to-join' }) })
+              "
               :disabled="
                 packagesStore.investorUser &&
                 packagesStore.investorUser.package === pack.name

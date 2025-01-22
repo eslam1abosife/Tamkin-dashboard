@@ -294,7 +294,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
 <template>
   <div
     v-if="isOpen('join_to_investor')"
-    class="fixed z-[9999] lg:top-[0%] 4xl:top-[20%] 3xl:top-[20%] lg:!scale-[0.9] inset-x-auto top-[50px] ipad-max:top-0 ipad-max:!scale-[0.7] lg:translate-x-[-50%] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] h-auto w-10/12"
+    class="fixed z-[9999] lg:top-[0%] w-full h-full top-0 4xl:top-[20%] 3xl:top-[20%] lg:!scale-[0.9] inset-x-auto md:top-[50px] ipad-max:top-0 ipad-max:!scale-[0.7] lg:translate-x-[-50%] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] md:h-auto md:w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div
@@ -330,7 +330,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
     </h1>
 
     <div
-      class="h-[142px] mt-[14px] w-full rounded-[10px] flex flex-col items-center justify-center bg-gradient-to-r relative from-[#E1FFFD] via-[#E6E3FF] to-[#FFD6E7]"
+      class="h-[142px] mt-[14px] dark:bg-p dark:text-whiteTamkin w-full rounded-[10px] flex flex-col items-center justify-center bg-gradient-to-r relative from-[#E1FFFD] via-[#E6E3FF] to-[#FFD6E7]"
     >
       <div class="absolute right-2 top-2 rotate-45 blur-[1.5px]">
         <img src="/imgs/investor_coins.png" class="w-[87px] h-[87px]" alt="" />
@@ -353,7 +353,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
       </div>
 
       <div
-        class="text-[13px] leading-[19px] font-[500] text-darkGrey px-[45px] text-center mt-[14px]"
+        class="text-[13px] dark:text-whiteTamkin leading-[19px] font-[500] text-darkGrey px-[15px] md:px-[45px] text-center mt-[14px]"
       >
         {{
           $t(
