@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
+const { locale } = useI18n();
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const pricingType = inject("pricingType");
@@ -20,27 +21,26 @@ const openBuyModal = (pck) => {
 <template>
   <div class="flex flex-col items-center justify-center w-full">
     <div
-      class="flex items-center xl:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse xl:space-x-[36px] mt-[32px]"
+      class="flex items-center xl:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse xl:space-x-[36px] mt-[32px] pt-5"
     >
       <Splide
         :options="{
           rewind: true,
-          perPage: 1,
-          gap: 10,
           arrows: false,
           direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+          gap: 36,
+          perPage: 3,
           breakpoints: {
-            1500: {
+            768: {
               perPage: 1,
             },
-
-            2500: {
-              perPage: 3,
+            1280: {
+              perPage: 2,
             },
           },
           width: '100%',
         }"
-        class="w-full"
+        class="w-full pb-9 xl:pb-0"
       >
         <SplideSlide
           v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')"

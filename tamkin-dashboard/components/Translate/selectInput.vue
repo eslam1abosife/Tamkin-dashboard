@@ -14,6 +14,7 @@ const props = defineProps({
   disabled: Boolean,
   errorField: Boolean,
   successField: Boolean,
+  classFloating: String,
   currentListValue: [String, Number], // Allow currentListValue to be either name or id
 });
 
@@ -138,6 +139,7 @@ onMounted(() => {
           selectedOption && (selectedOption[nameKey] || selectedOption[idField])
             ? '!text-[#585B5B] font-[400] '
             : 'text-light',
+            classFloating,
         ]"
       >
         <div class="flex items-center justify-start">

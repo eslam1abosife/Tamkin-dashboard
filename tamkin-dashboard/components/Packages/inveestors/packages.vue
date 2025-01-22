@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
+import "@splidejs/vue-splide/css";
+const { locale } = useI18n();
 const localePath = useLocalePath();
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
@@ -57,20 +60,40 @@ const filteredPackages = computed(() => {
 
 <template>
   <div class="flex items-center flex-col justify-center w-full">
-    <div
-      class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
-    >
-      <!-- {{ filteredPackages }} -->
-      <div
+    <Splide
+        :options="{
+          rewind: true,
+          arrows: false,
+          direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+          gap: 36,
+          perPage: 3,
+          breakpoints: {
+            768: {
+              perPage: 1,
+            },
+            1280: {
+              perPage: 2,
+            },
+          },
+          width: '100%',
+        }"
+        class="h-full w-full mt-[32px] pb-9 xl:pb-0"
+      >
+        <SplideSlide
+          v-for="pack in 
+          filteredPackages
+          .sort((a, b) => a.sort - b.sort)"
+          :key="pack.name"
+        >
+        <div
         :class="[
           packagesStore.investorUser &&
           packagesStore.investorUser.package === pack.name
             ? 'bg-selected'
             : '',
         ]"
-        v-for="pack in filteredPackages.sort((a, b) => a.sort - b.sort)"
-        :key="pack.name"
-        class="flex items-center hover:bg-selected hover:dark:bg-p flex-col justify-start custom-border-tamkin padding-override-1 dark:bg-p !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
+        class="flex items-center hover:bg-selected hover:dark:bg-p flex-col justify-start custom-border-tamkin
+         padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
         style="padding: 16px, 10px, 16px, 10px"
       >
         <div
@@ -188,6 +211,9 @@ const filteredPackages = computed(() => {
           </div>
         </div>
       </div>
-    </div>
+        </SplideSlide>
+      </Splide>
+
+
   </div>
 </template>
