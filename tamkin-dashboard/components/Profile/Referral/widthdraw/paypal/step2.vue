@@ -132,7 +132,7 @@ const completeWithDraw = async () => {
       />
     </svg>
   </div>
-<div class=" mx-auto max-h-[100%] w-full">
+<div class=" mx-auto max-h-[100%] w-full ">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
     {{$t('Withdraw Money')}}
 </h1>

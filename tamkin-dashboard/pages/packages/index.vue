@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
+import "@splidejs/vue-splide/css";
 const { locale, t } = useI18n();
 
 useHead({
@@ -76,7 +78,7 @@ onUpdated(() => {
       </div>
 
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-9/12 md:w-7/12 dark:text-whiteTamkin"
+        class="text-[14px] font-[400] w-full leading-[20px] text-[#18181B] text-center dark:text-whiteTamkin"
       >
         {{ $t(packagesStore.getTabDetails().description) }}
       </div>
@@ -115,7 +117,7 @@ onUpdated(() => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] lg:top-[90px] top-[170px] sm:top-[150px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[130px] md:top-[120px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"
@@ -157,7 +159,7 @@ onUpdated(() => {
       </button>
     </div>
 
-    <div class="grid grid-cols-1 w-full relative mt-[60px]">
+    <div class="grid grid-cols-1 w-full relative mt-[40px]">
       <PackagesWebpluginsPricing
         v-if="
           packagesStore.currentTabTitle === 'Plugins' ||
@@ -190,69 +192,94 @@ onUpdated(() => {
           .getAddonsOrExtras('Extra')
           .filter((g) => g.custom_extra_type === 'words').length
       "
-      class="mt-[32px] w-full p-[40px] px-0 grid dark:bg-p gap-[30px] grid-cols-1 md:grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
+      class="mt-[32px] w-full p-[40px] flex justify-center px-0 dark:bg-p gap-[30px] mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
-      <div
-        v-for="addon in packagesStore
-          .getAddonsOrExtras('Extra')
-          .filter((g) => g.custom_extra_type === 'words')
-          .sort((a, b) => a.sort - b.sort)"
-        :key="addon.name"
-        class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      <Splide
+        :options="{
+          rewind: true,
+          perPage: 1,
+          gap: 10,
+          arrows: false,
+          direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+          breakpoints: {
+            1500: {
+              perPage: 1,
+            },
+
+            2500: {
+              perPage: 2,
+            },
+          },
+          width: '100%',
+        }"
+        class="w-full"
+        style="overflow: inherit"
       >
-        <div class="absolute top-[-24.5px]">
-          <img
-            :src="`http://tamkin.app/${addon.icon}`"
-            class="w-auto h-auto"
-            alt=""
-          />
-        </div>
-        <div
-          class="text-[16px] font-[600] dark:text-whiteTamkin leading-[32px] text-[#021328]"
-        >
-          {{ $t(addon.title) }}
-        </div>
-        <div
-          class="text-[13px] leading-[19px] dark:text-whiteTamkin font-[500] text-black text-center"
-        >
-          {{ $t(addon.description) }}
-        </div>
+        <SplideSlide
+          v-for="addon in packagesStore
+            .getAddonsOrExtras('Extra')
+            .filter((g) => g.custom_extra_type === 'words')
+            .sort((a, b) => a.sort - b.sort)"
+          :key="addon.name"
+          style="overflow: inherit"
+          ><div
+            class="relative flex p-[12px] md:p-[30px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin w-full"
+          >
+            <div class="">
+              <img
+                :src="`http://tamkin.app/${addon.icon}`"
+                class="w-auto h-auto"
+                alt=""
+              />
+            </div>
+            <div
+              class="text-[16px] font-[600] dark:text-whiteTamkin leading-[32px] text-[#021328]"
+            >
+              {{ $t(addon.title) }}
+            </div>
+            <div
+              class="text-[13px] leading-[19px] dark:text-whiteTamkin font-[500] text-black text-center"
+            >
+              {{ $t(addon.description) }}
+            </div>
 
-        <div
-          class="my-[14px] text-[16px] font-[700] dark:text-whiteTamkin leading-[32px] text-[#021328]"
-        >
-          {{ $t(addon.sub_title) }}
-        </div>
+            <div
+              class="my-[14px] text-[16px] font-[700] dark:text-whiteTamkin leading-[32px] text-[#021328]"
+            >
+              {{ $t(addon.sub_title) }}
+            </div>
 
-        <div
-          class="text-[15px] font-[600] leading-[29px] dark:text-whiteTamkin text-darkGrey"
-        >
-          $
+            <div
+              class="text-[15px] font-[600] leading-[29px] dark:text-whiteTamkin text-darkGrey"
+            >
+              $
 
-          {{ addon.package_price_role[0].cost_month.toFixed(0) }}
-        </div>
+              {{ addon.package_price_role[0].cost_month.toFixed(0) }}
+            </div>
 
-        <!-- <div  
-        v-if="addon.package_price_role[0].discount_month || addon.package_price_role[0].discount_yearly"
-        class="absolute bottom-[65px] lg:bottom-[75px] ipad-max:bottom-[80px] text-[#EA4335] text-[12px] leading-[18.17px] 
-        font-[400] line-through flex w-full"
+            <!-- <div  
+       v-if="addon.package_price_role[0].discount_month || addon.package_price_role[0].discount_yearly"
+       class="absolute bottom-[65px] lg:bottom-[75px] ipad-max:bottom-[80px] text-[#EA4335] text-[12px] leading-[18.17px] 
+       font-[400] line-through flex w-full"
+     >
+       <div v-if="packagesStore.discountType === 'month' && addon.package_price_role[0].discount_month" class="flex items-center justify-center w-full">
+         <div>{{ `$` + addon.package_price_role[0].cost_before_month }}</div>
+       </div>
+     
+       <div v-if="packagesStore.discountType === 'year' && addon.package_price_role[0].discount_yearly" class="flex items-center justify-center w-full">
+         <div>{{ `$` + addon.package_price_role[0].cost_before_yearly }}</div>
+       </div>
+     </div> -->
+
+            <button
+              @click="openBuyModal(addon)"
+              class="btn_bordered_dashboard absolute bottom-[34px] ipad-max:bottom-[12px]"
+            >
+              {{ $t("Purchase Now") }}
+            </button>
+          </div></SplideSlide
+        ></Splide
       >
-        <div v-if="packagesStore.discountType === 'month' && addon.package_price_role[0].discount_month" class="flex items-center justify-center w-full">
-          <div>{{ `$` + addon.package_price_role[0].cost_before_month }}</div>
-        </div>
-      
-        <div v-if="packagesStore.discountType === 'year' && addon.package_price_role[0].discount_yearly" class="flex items-center justify-center w-full">
-          <div>{{ `$` + addon.package_price_role[0].cost_before_yearly }}</div>
-        </div>
-      </div> -->
-
-        <button
-          @click="openBuyModal(addon)"
-          class="btn_bordered_dashboard absolute bottom-[24px] ipad-max:bottom-[12px]"
-        >
-          {{ $t("Purchase Now") }}
-        </button>
-      </div>
     </div>
 
     <!-- BUY MORE END-->
@@ -398,5 +425,3 @@ onUpdated(() => {
     />
   </div>
 </template>
-
-<style></style>

@@ -265,7 +265,7 @@ const isCurrentRateEmpty = computed(() => {
         >
           {{ $t("Refer a Client, Earn Rewards") }}
         </div>
-        <div class="!font-[500] dark:text-whiteTamkin">
+        <div class="!font-[500] dark:text-whiteTamkin w-full">
           {{
             $t(
               "Share your referral link and get a commission on all purchases made by customers you refer"
@@ -312,7 +312,7 @@ const isCurrentRateEmpty = computed(() => {
               />
             </div>
             <div
-              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
+              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] text-black text-center mt-[10px]"
             >
               {{ $t("Client signed, purchased") }}
               <br />
@@ -332,7 +332,7 @@ const isCurrentRateEmpty = computed(() => {
             </div>
             <div
               id="refer_clients"
-              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
+              class="text-[12px] dark:text-whiteTamkin font-[500] leading-[16px] text-black text-center mt-[10px]"
             >
               {{ $t("Earn Rewards") }}<br />
               {{ $t("Receive rewards from every purchase he completes") }}
@@ -646,27 +646,27 @@ const isCurrentRateEmpty = computed(() => {
             <thead class="bg-gray-50 dark:bg-p">
               <tr>
                 <th
-                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{ $t("Transaction ID") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{ $t("Date") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{ $t("Amount") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{ $t("Withdrawal Method") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-2/4 m px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left dark:text-whiteTamkin rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-2/4 m px-4"
                 >
                   {{ $t("Status") }}
                 </th>
@@ -755,23 +755,23 @@ const isCurrentRateEmpty = computed(() => {
             <thead class="bg-gray-50 dark:bg-p">
               <tr>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
+                  class="py-3 whitespace-nowrap ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
                   {{ $t("Referral Name") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
+                  class="py-3 whitespace-nowrap ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
                   {{ $t("Date") }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
+                  class="py-3 whitespace-nowrap ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4 w-2/6"
                 >
                   {{ $t("Rewards Earned") }}
                 </th>
 
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4"
+                  class="py-3 whitespace-nowrap ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black px-4"
                 >
                   {{ $t("Status") }}
                 </th>

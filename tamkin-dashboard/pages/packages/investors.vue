@@ -68,7 +68,10 @@ const uniqueValues = (items) => {
 </script>
 
 <template>
-  <div class="w-full relative px-4 md:px-[40px]" v-if="packagesStore.loadingData">
+  <div
+    class="w-full relative px-4 md:px-[40px]"
+    v-if="packagesStore.loadingData"
+  >
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <!-- Title Skeleton -->
       <div
@@ -190,7 +193,7 @@ const uniqueValues = (items) => {
       </div>
 
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12 dark:text-whiteTamkin"
+        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-full md:w-7/12 dark:text-whiteTamkin"
       >
         {{ $t(packagesStore.getPackageDetails("Investors", null).description) }}
       </div>
@@ -201,10 +204,10 @@ const uniqueValues = (items) => {
     >
       <!-- Traffic level selection section (first) -->
       <div
-        class="flex items-center mb-2 flex-col md:flex-row w-full md:w-[50%] justify-start p-[4px] order-1"
+        class="flex items-center mb-2 flex-row w-full md:w-[70%] justify-start p-[4px] order-1"
       >
         <div
-          class="text-black mb-2 dark:text-whiteTamkin font-[600] text-[14px] w-3/6"
+          class="text-black mb-2 dark:text-whiteTamkin font-[600] md:text-[14px] text-[12px] w-[77%] sm:w-[50%] md:w-[40%]"
         >
           {{ $t("Choose Traffic level") }} :
         </div>
@@ -215,7 +218,7 @@ const uniqueValues = (items) => {
           :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
           nameKey="name"
           idField="id"
-          class="w-full bg-white dark:bg-p rounded-[10px]"
+          class="!w-[100%] md:!w-[80%] bg-white dark:bg-p rounded-[10px]"
           :currentListValue="packagesStore.views_level"
         />
       </div>

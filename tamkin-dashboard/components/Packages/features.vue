@@ -137,7 +137,7 @@ const openBuyModal = (pck, contact) => {
 ).length > 0 ||  uniqueValues(
   filteredSections['addons'].filter((v) => accessNames.includes(v.parent))
 ).length > 0 -->
-  <div class="w-full relative" v-if="compareg">
+  <div class="w-full relative mt-[23px]" v-if="compareg">
     <div
       v-if="!showAllFeatures"
       class="bg-gradient-to-t dark:from-darkTamkin absolute inset-auto h-full w-full z-[40]"

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from "vue";
 
 // Reactive state for form fields
 const state = reactive({
@@ -29,24 +29,20 @@ const v$ = useVuelidate(rules, state);
 const withdrawloading = ref(false);
 
 // Modal manager
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const withdrawStore = useWithdrawStore();
-const checked = ref('');
-const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
-const amount = ref('');
+const checked = ref("");
+const isInputDisabled = computed(
+  () => Number(withdrawStore.currentAmount) === 0
+);
+const amount = ref("");
 
 const formatAmount = (event) => {
-  let value = event.target.value.replace(/[^0-9.]/g, ''); // Remove all non-numeric and non-decimal characters
+  let value = event.target.value.replace(/[^0-9.]/g, ""); // Remove all non-numeric and non-decimal characters
 
   // Ensure there's only one decimal point
-  const decimalParts = value.split('.');
+  const decimalParts = value.split(".");
   if (decimalParts.length > 2) {
     value = `${decimalParts[0]}.${decimalParts[1]}`; // Keep only the first decimal
   }
@@ -54,7 +50,7 @@ const formatAmount = (event) => {
   // Prevent more than 2 digits after the decimal point
   if (decimalParts[1] && decimalParts[1].length > 2) {
     decimalParts[1] = decimalParts[1].slice(0, 2);
-    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ""}`;
   }
 
   // Limit integer part to 5 digits
@@ -64,12 +60,16 @@ const formatAmount = (event) => {
   // }
 
   // Format the integer part with commas (only when the user types the decimal point)
-  const formattedInteger = parseInt(decimalParts[0] || '0').toLocaleString();
-  const formattedValue = `${formattedInteger}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+  const formattedInteger = parseInt(decimalParts[0] || "0").toLocaleString();
+  const formattedValue = `${formattedInteger}${
+    decimalParts[1] ? `.${decimalParts[1]}` : ""
+  }`;
 
   // Ensure the formatted value does not exceed currentAmount
-  const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
-  const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
+  const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ""));
+  const currentAmountValue = parseFloat(
+    withdrawStore.currentAmount.toString().replace(/,/g, "")
+  );
 
   // if (formattedNumericValue > currentAmountValue) {
   //   amount.value = currentAmountValue.toFixed(2);
@@ -79,10 +79,9 @@ const formatAmount = (event) => {
   //   withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   // }
 
-  
   if (formattedNumericValue > currentAmountValue) {
     // Reset to currentAmountValue, ensuring no unnecessary '.00'
-    const valueToSet = currentAmountValue.toFixed(2).replace(/\.00$/, '');
+    const valueToSet = currentAmountValue.toFixed(2).replace(/\.00$/, "");
     amount.value = valueToSet;
     withdrawStore.withdrawAmount = valueToSet;
   } else {
@@ -92,59 +91,59 @@ const formatAmount = (event) => {
   }
 };
 
-
-
-
 // Watch amount changes to update withdrawAmount in store
 watch(amount, (newValue) => {
-  const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
+  const cleanedValue = newValue.replace("$", "").replace(/,/g, ""); // Remove currency symbol and commas
   withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
 });
 
 // Computed property to check if withdraw button should be disabled
 const isWithdrawDisabled = computed(() => {
   // Extract numeric value from the amount, ensuring only valid numbers are parsed
-  const numericValue = parseFloat(amount.value.replace(/,/g, ''));
+  const numericValue = parseFloat(amount.value.replace(/,/g, ""));
 
   // Check if the numeric value is less than the minimum limit (e.g., 1)
-  return isNaN(numericValue) || numericValue > withdrawStore.currentAmount || numericValue < 1;
+  return (
+    isNaN(numericValue) ||
+    numericValue > withdrawStore.currentAmount ||
+    numericValue < 1
+  );
 });
-
-
 
 // Complete withdrawal
 const completeWithDraw = async () => {
   if (isWithdrawDisabled.value) return; // Prevent withdrawal if conditions are not met
   withdrawloading.value = true;
   await withdrawStore.withDrawBank();
-  navigateTo('bank_account_withdraw', 'referral', 'success_bank_withdraw');
+  navigateTo("bank_account_withdraw", "referral", "success_bank_withdraw");
   withdrawloading.value = false;
-  amount.value = ''; // Reset amount value after successful withdrawal
+  amount.value = ""; // Reset amount value after successful withdrawal
   await withdrawStore.gettotalAmount();
-
 };
 watch(isWithdrawDisabled, (value) => {
-  console.log('Is withdraw disabled:', value);
+  console.log("Is withdraw disabled:", value);
 });
 // Close modal and reset store
 const closeAndreset = () => {
   withdrawStore.transactionDetails = {};
   withdrawStore.bankDetails = {};
-  withdrawStore.withdrawAmount = '0.00'; // Reset withdrawAmount to a string with two decimal places
-  withdrawStore.selectedPaymentMethod = ""
-  closeModal('bank_account_withdraw');
+  withdrawStore.withdrawAmount = "0.00"; // Reset withdrawAmount to a string with two decimal places
+  withdrawStore.selectedPaymentMethod = "";
+  closeModal("bank_account_withdraw");
 };
 </script>
 
-
-
 <template>
-  <div v-if="isOpen('bank_account_withdraw')"
-    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
-  ipad-max:top-[20px] w-full"
+  <div
+    v-if="isOpen('bank_account_withdraw')"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[100%] lg:h-auto 2xl:h-[600px] lg:w-[640px] ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-    <div  style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndreset">
+    <div
+      style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
+      class="close_btn"
+      @click="closeAndreset"
+    >
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -160,52 +159,83 @@ const closeAndreset = () => {
       </svg>
     </div>
 
-    <div class="mx-auto max-h-[100%] w-full">
-      <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        {{ $t('Withdraw Money') }}
+    <div class="mx-auto max-h-[100%] w-full mt-[-20px]">
+      <h1
+        class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+      >
+        {{ $t("Withdraw Money") }}
       </h1>
 
-      <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
+      <div
+        class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1"
+      >
         <!-- Bank Image -->
-        <div class="col-span-1 flex items-center justify-center">
-          <img src="/imgs/bank_img.png" class="w-[39px] h-[39px] object-contain" alt="">
+        <div class="col-span-2 sm:col-span-1 flex items-center justify-center">
+          <img
+            src="/imgs/bank_img.png"
+            class="w-[39px] h-[39px] object-contain"
+            alt=""
+          />
         </div>
-      
+
         <!-- Account Holder and BIC -->
-        <div class="flex items-start justify-start col-span-6 flex-col gap-1">
-          <div class="text-[#021328] dark:text-white text-[12px] font-[500]  w-full" :class="[ withdrawStore.bankDetails.account_holder.length > 30 ? 'truncate' :'']">
+        <div
+          class="flex items-start justify-start col-span-5 sm:col-span-6 flex-col gap-1"
+        >
+          <div
+            class="text-[#021328] dark:text-white text-[12px] font-[500] w-full"
+            :class="[
+              withdrawStore.bankDetails.account_holder.length > 30
+                ? 'truncate'
+                : '',
+            ]"
+          >
             {{ withdrawStore.bankDetails.account_holder }}
           </div>
-          <div class="text-[#021328] dark:text-white text-[10px] font-[500]  w-full">
+          <div
+            class="text-[#021328] dark:text-white text-[10px] font-[500] w-full"
+          >
             {{ withdrawStore.bankDetails.bic }}
           </div>
         </div>
-      
+
         <!-- Bank Name and IBAN -->
-        <div class="flex items-start col-span-5 justify-start flex-col gap-1">
-          <div class="text-[#021328] dark:text-white text-[12px] font-[500]  w-full">
+        <div
+          class="flex items-start col-span-4 sm:col-span-5 justify-start flex-col gap-1"
+        >
+          <div
+            class="text-[#021328] dark:text-white text-[12px] font-[500] w-full"
+          >
             {{ withdrawStore.bankDetails.bank_name }}
           </div>
-          <div class="text-[#021328] dark:text-white text-[10px] font-[500]  w-full">
+          <div
+            class="text-[#021328] dark:text-white text-[10px] font-[500] w-full"
+          >
             {{ withdrawStore.bankDetails.iban }}
           </div>
         </div>
       </div>
-      
-  
 
-      <div class="text-[14px] font-[600] dark:text-white text-[#021328] mt-[14px]">
-        {{ $t('Amount') }}
+      <div
+        class="text-[14px] font-[600] dark:text-white text-[#021328] mt-[14px]"
+      >
+        {{ $t("Amount") }}
       </div>
 
-      <div class="mt-2 text-[13px] font-[500] dark:text-white/80 text-darkGrey leading-[15px]">
-        {{ $t('How much would you like to withdraw?') }}
+      <div
+        class="mt-2 text-[13px] font-[500] dark:text-white/80 text-darkGrey leading-[15px]"
+      >
+        {{ $t("How much would you like to withdraw?") }}
       </div>
 
       <div class="mt-[44px] mx-auto text-center relative">
         <input
           type="text"
-         :class="[Number(withdrawStore.currentAmount) === 0 ? 'text-lightGrey dark:text-white/80 cursor-not-allowed':'']"
+          :class="[
+            Number(withdrawStore.currentAmount) === 0
+              ? 'text-lightGrey dark:text-white/80 cursor-not-allowed'
+              : '',
+          ]"
           v-model="amount"
           :disabled="isInputDisabled"
           @input="formatAmount"
@@ -214,28 +244,52 @@ const closeAndreset = () => {
         />
       </div>
 
-      <div class="text-center text-[14px] font-[600] text-darkGrey dark:text-white/80 mt-3">
-        {{ $t('Available balance') }} <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
+      <div
+        class="text-center text-[14px] font-[600] text-darkGrey dark:text-white/80 mt-3"
+      >
+        {{ $t("Available balance") }}
+        <span class="!font-[500]">${{ withdrawStore.currentAmount }}</span>
       </div>
 
       <div class="lg:mt-[120px] 2xl:mt-[178px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
-          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
-            <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">
-           {{$t('Withdraw')}}
+        <button
+          class="btn-dashboard hover_tamkin"
+          @click="completeWithDraw"
+          :disabled="isWithdrawDisabled || withdrawloading"
+        >
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+          >
+            <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2' : ''">
+              {{ $t("Withdraw") }}
             </div>
-       
-             <svg  v-if="withdrawloading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+
+            <svg
+              v-if="withdrawloading"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
-           </div>
+          </div>
         </button>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
