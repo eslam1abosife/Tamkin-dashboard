@@ -112,13 +112,13 @@ const extractAndTranslate = (htmlString) => {
               <nuxt-link
                 :to="data.page_cards_items[0].link_1"
                 target="_blank"
-                class="btn-dashboard hover_tamkin !rounded-[19px] !px-[5px] md:!px-[40px] !text-[12px] md:!text-[15px] !whitespace-nowrap"
+                class="btn-dashboard hover_tamkin !rounded-[19px] !px-[15px] md:!px-[40px] !text-[12px] md:!text-[15px] !whitespace-nowrap"
               >
                 {{ $t(data.page_cards_items[0].link_1_title) }}
               </nuxt-link>
               <button
                 @click="openModal('join_to_investor', 'how-to-join', {})"
-                class="btn-dashboard hover_tamkin !px-[15px] md:!px-[5px] !text-[12px] md:!text-[15px] !rounded-[19px] !whitespace-nowrap"
+                class="btn-dashboard hover_tamkin !px-[15px] md:!px-[40px] !text-[12px] md:!text-[15px] !rounded-[19px] !whitespace-nowrap"
               >
                 {{ $t("Join To Investor") }}
               </button>
@@ -126,7 +126,7 @@ const extractAndTranslate = (htmlString) => {
                 @click="
                   $router.push({ path: localePath('/packages/investors') })
                 "
-                class="btn_bordered_dashboard hover_tamkin !px-[5px] md:!px-[40px] !text-[12px] md:!text-[15px] !rounded-[19px] w-full !whitespace-nowrap"
+                class="btn_bordered_dashboard hover_tamkin !px-[15px] md:!px-[40px] !text-[12px] md:!text-[15px] !rounded-[19px] w-full !whitespace-nowrap"
               >
                 {{ $t("Back to package") }}
               </button>
@@ -288,7 +288,7 @@ const extractAndTranslate = (htmlString) => {
             class="flex items-center justify-between w-full mt-[42px] relative"
           >
             <div
-              class="flex items-start flex-col justify-start space-y-[14px] w-3/4"
+              class="flex items-start flex-col justify-start space-y-[14px] w-full md:w-3/4"
             >
               <div
                 v-for="question in data.tamkin_faq"
