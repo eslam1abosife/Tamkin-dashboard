@@ -38,7 +38,7 @@ provide("pricingType", pricingType);
       </div>
 
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12 dark:text-whiteTamkin"
+        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-full md:w-7/12 dark:text-whiteTamkin"
       >
         {{
           packagesStore.getPackageDetails(

@@ -154,7 +154,7 @@ onUpdated(() => {});
     </div>
 
     <div
-      class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[26px] dark:bg-tamkinDarkPrimary"
+      class="flex flex-col w-full items-center justify-center bg-white rounded-[10px] mt-[26px] dark:bg-tamkinDarkPrimary"
     >
       <PackagesModalsCustomPackage />
 

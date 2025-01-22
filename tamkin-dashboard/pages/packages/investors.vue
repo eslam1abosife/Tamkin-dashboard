@@ -69,7 +69,7 @@ const uniqueValues = (items) => {
 
 <template>
   <div
-    class="w-full relative px-4 md:px-[40px]"
+    class="w-full relative px-4 md:px-[40px] overflow-hidden"
     v-if="packagesStore.loadingData"
   >
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
@@ -166,7 +166,7 @@ const uniqueValues = (items) => {
     </div>
   </div>
   <div
-    class="w-full relative px-4 md:px-[40px]"
+    class="w-full relative px-4 md:px-[40px] overflow-hidden"
     v-if="
       packagesStore.currentType.title === 'Investors' &&
       !packagesStore.loadingData
@@ -204,10 +204,10 @@ const uniqueValues = (items) => {
     >
       <!-- Traffic level selection section (first) -->
       <div
-        class="flex items-center mb-2 flex-row w-full md:w-[70%] justify-start p-[4px] order-1"
+        class="flex items-center max-md:mb-4 flex-row w-full md:w-auto justify-between md:justify-start py-[4px] order-1 rtl:space-x-reverse space-x-[14px]"
       >
         <div
-          class="text-black mb-2 dark:text-whiteTamkin font-[600] md:text-[14px] text-[12px] w-[77%] sm:w-[50%] md:w-[40%]"
+          class="text-black dark:text-whiteTamkin font-[600] md:text-[14px] text-[12px] text-nowrap"
         >
           {{ $t("Choose Traffic level") }} :
         </div>
@@ -218,14 +218,15 @@ const uniqueValues = (items) => {
           :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
           nameKey="name"
           idField="id"
-          class="!w-[100%] md:!w-[80%] bg-white dark:bg-p rounded-[10px]"
+          class="w-fit z-[41]"
+          :classFloating="'!static flex max-md:max-w-[176px]'"
           :currentListValue="packagesStore.views_level"
         />
       </div>
 
       <!-- What’s included section (second) -->
       <div
-        class="flex items-center mb-2 justify-end rtl:space-x-reverse space-x-[10px] w-4/4 order-2 cursor-pointer"
+        class="max-md:self-end flex items-center mb-2 justify-end rtl:space-x-reverse space-x-[10px] w-4/4 order-2 cursor-pointer"
         @click="
           packagesStore.showMoreINInvestors = !packagesStore.showMoreINInvestors
         "
@@ -250,7 +251,7 @@ const uniqueValues = (items) => {
     </div>
 
     <div
-      class="flex flex-col items-center justify-center dark:bg-p_secondary bg-white rounded-[10px] mt-[26px]"
+      class="flex flex-col items-center justify-center dark:bg-tamkinDarkPrimary bg-white rounded-[10px] mt-[26px]"
     >
       <div class="flex items-center justify-center flex-col w-full px-[18px]">
         <!-- <PackagesInveestorsPackages/> -->

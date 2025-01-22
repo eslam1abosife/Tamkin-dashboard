@@ -60,7 +60,7 @@ const uniqueValues = (items) => {
 
 <template>
   <div
-    class="w-full relative px-4 md:px-[40px]"
+    class="w-full relative px-4 md:px-[40px] overflow-hidden"
     v-if="
       !packagesStore.loadingData &&
       packagesStore.currentType.title === 'Accessibility'
@@ -74,7 +74,7 @@ const uniqueValues = (items) => {
       </div>
       <div
         v-if="packagesStore.getPackageDetails()"
-        class="text-[14px] font-[400] leading-[20px] text-center w-full dark:text-whiteTamkin"
+        class="text-[14px] font-[400] leading-[20px] text-center w-full md:w-7/12 dark:text-whiteTamkin"
       >
         {{
           $t(
@@ -92,10 +92,10 @@ const uniqueValues = (items) => {
       class="flex items-center justify-between flex-col md:flex-row gap-4 mt-4"
     >
       <div
-        class="flex items-center flex-row justify-start w-full p-[4px] rtl:space-x-reverse md:space-x-[14px]"
+        class="flex items-center flex-row w-full md:w-auto justify-between md:justify-start  py-[4px] rtl:space-x-reverse space-x-[14px]"
       >
         <div
-          class="text-black dark:text-whiteTamkin w-[77%] sm:w-[50%] md:w-[40%] lg:w-[30%] font-[600] text-[12px] sm:text-[12px]"
+          class="text-black dark:text-whiteTamkin font-[600] text-[12px] sm:text-[12px] text-nowrap"
         >
           {{ $t("Choose Traffic level") }} :
         </div>
@@ -106,12 +106,13 @@ const uniqueValues = (items) => {
           :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
           nameKey="name"
           idField="id"
-          class="!w-[100%] md:!w-[40%]"
+          class="w-fit z-[41]"
+          :classFloating="'!static flex max-md:max-w-[176px]'"
           :currentListValue="packagesStore.traffic_level"
         />
       </div>
       <div
-        class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-full md:w-auto z-[40] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[4px] border border-gray-300"
+        class="max-md:self-end flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto z-[40] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[4px] border border-gray-300"
       >
         <button
           @click="switchBetweenMonthlyAndAnnual('month')"

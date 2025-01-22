@@ -2,6 +2,8 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 const packagesStore = usePackgesStore();
+const { locale } = useI18n();
+
 const {
   isOpen,
   currentView,
@@ -40,22 +42,21 @@ const openBuyModal = (pck) => {
     <Splide
       :options="{
         rewind: true,
-        perPage: 1,
-        gap: 10,
         arrows: false,
         direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+        gap: 16,
+        perPage: 4,
         breakpoints: {
-          1500: {
+          768: {
             perPage: 1,
           },
-
-          2500: {
-            perPage: 3,
+          1280: {
+            perPage: 2,
           },
         },
         width: '100%',
       }"
-      class="w-full mt-2"
+      class="w-full pb-9 xl:pb-0 mt-[26px] relative z-[5]"
     >
       <SplideSlide
         v-for="addon in packagesStore

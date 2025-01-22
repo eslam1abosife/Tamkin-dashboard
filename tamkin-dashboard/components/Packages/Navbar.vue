@@ -94,7 +94,7 @@ const slugify = (title) => {
 
 <template>
   <div
-    class="h-[200px] w-full relative flex items-start justify-center dark:bg-p_secondary"
+    class="h-[200px] w-full relative flex items-start justify-center dark:bg-p_secondary overflow-hidden"
     :class="changeColor"
   >
     <!--- SIGN LANG IAMGES-->
