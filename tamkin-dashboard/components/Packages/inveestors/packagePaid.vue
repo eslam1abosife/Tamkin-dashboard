@@ -109,7 +109,7 @@ const toggleHashMenu = () => {
             packagesStore.investorUser.status === 'In Review' ||
             packagesStore.investorUser.status === 'Reject'
           "
-          class="w-[70px] h-[30px] rounded-[5px] bg-[#FFCECE]/[64%] flex items-center justify-center"
+          class="w-[70px] h-[30px] dark:bg-tamkinDarkPrimary rounded-[5px] bg-[#FFCECE]/[64%] flex items-center justify-center"
         >
           <div
             class="text-[12px] leading-[19px] font-[600] dark:text-whiteTamkin text-darkGrey"
