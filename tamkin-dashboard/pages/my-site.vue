@@ -633,7 +633,7 @@ const openInvestor = (app, pack) => {
         class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-        <div class="w-full space-y-[16px]">
+        <div class="w-full space-y-[10px]">
           <div>
             <h1
               class="font-[500] text-[16px] leading-[20px] text-darkGrey dark:text-whiteTamkin/90"
@@ -642,11 +642,9 @@ const openInvestor = (app, pack) => {
             </h1>
           </div>
 
-          <div
-            class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between"
-          >
+          <div class="flex flex-col items-start space-y-[10px] justify-between">
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+              class="flex items-center w-full justify-between sm:justify-start rtl:space-x-reverse sm:space-x-[8px]"
             >
               <div
                 v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
@@ -669,14 +667,17 @@ const openInvestor = (app, pack) => {
                 v-if="
                   !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
                 "
+                class="mr-3"
               >
                 <img
                   v-if="defaultApp && defaultApp.favicon"
                   :src="defaultApp.favicon"
-                  class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
+                  class="w-[40px] h-[40px] rounded-full"
                 />
               </div>
-              <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
+              <div
+                class="flex items-center w-full justify-between sm:rtl:space-x-reverse sm:space-x-[16px]"
+              >
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
@@ -729,11 +730,11 @@ const openInvestor = (app, pack) => {
               </div>
             </div>
 
-            <div>
+            <div class="w-[50%] sm:w-[200px] mt-[10px]">
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
                 @click.stop="openModal('selectSite', 'my-site')"
-                class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
+                class="btn_bordered_dashboard w-full text-[14px] leading-[22.5px] font-[500]"
               >
                 {{ $t("Select Site") }}
               </button>
@@ -802,9 +803,11 @@ const openInvestor = (app, pack) => {
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
           <img
-            :src="`/imgs/${navbarStore.isDark ? 'mysite_dark.png' : 'mysite.svg'}`"
+            :src="`/imgs/${
+              navbarStore.isDark ? 'mysite_dark.png' : 'mysite.svg'
+            }`"
             alt=""
-            class="h-full w-[210px] rtl:scale-x-[-1]"
+            class="h-[170px] w-[170px] sm:h-full sm:w-[210px] rtl:scale-x-[-1]"
           />
         </div>
       </div>
@@ -1068,23 +1071,23 @@ const openInvestor = (app, pack) => {
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:pr-[35px] rtl:pl-[35px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Sites URL") }}
                     </th>
                     <th
-                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left ltr:pr-[35px] rtl:pl-[35px] lg:px-0 rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Billing") }}
                     </th>
                     <th
-                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left ltr:pr-[35px] rtl:pl-[35px] lg:px-0 rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Package") }}
                     </th>
                     <th>
                       <div
-                        class="lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="lg:px-0 w-full ltr:pr-[35px] rtl:pl-[35px] flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>{{ $t("Status") }}</div>
                         <div>
@@ -1118,14 +1121,14 @@ const openInvestor = (app, pack) => {
                     </th>
 
                     <th
-                      class="ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="ltr:text-left rtl:text-right ltr:pr-[35px] rtl:pl-[35px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Date") }}
                     </th>
 
                     <th>
                       <div
-                        class="flex items-center lg:px-0 px-[100px] justify-start rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="flex items-center ltr:pr-[35px] rtl:pl-[35px] justify-start rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>{{ $t("Traffic") }}</div>
                         <div>
@@ -1158,7 +1161,7 @@ const openInvestor = (app, pack) => {
                       </div>
                     </th>
                     <th
-                      class="lg:text-[14px] text-center font-[600] lg:leading-[21px] text-[12px] ltr:pr-[50px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:text-[14px] text-center ltr:pr-[35px] rtl:pl-[35px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Action") }}
                     </th>
@@ -1171,27 +1174,18 @@ const openInvestor = (app, pack) => {
                     v-for="(app, index) in paginatedFilteredAppList"
                     :key="index"
                   >
-                  
                     <tr
                       :id="app.name"
                       class="h-[50px] dark:bg-tamkinDarkPrimary dark:border-darkborder"
                       :class="[
                         app.package &&
                         app.package[0] &&
-                        (
-                          (
-                            app.package[0].status === 'not_installed' &&
-                           
-                            app.package[0].type !== 'Investors'
-                          ) ||
-                          (
-                            app.package[0].type === 'Investors' &&
-                            app.package[0].status === 'not_installed'
-                          )
-                        )
+                        ((app.package[0].status === 'not_installed' &&
+                          app.package[0].type !== 'Investors') ||
+                          (app.package[0].type === 'Investors' &&
+                            app.package[0].status === 'not_installed'))
                           ? '!bg-[#FAEBEB] dark:!bg-[#977474]'
                           : '',
-                        
 
                         mysiteStore.selectedApp &&
                         mysiteStore.selectedApp.name === app.name
@@ -1199,13 +1193,13 @@ const openInvestor = (app, pack) => {
                           : 'border-[1px]',
                       ]"
                     >
-                      <td class="w-[25%]">
+                      <td class="pr-[10px]">
                         <div
-                          class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                          class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] text-[12px] sm:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           <div
                             href="#"
-                            class="gap-3 h-[50px] flex items-center justify-start"
+                            class="gap-3 h-[50px] overflow-hidden flex items-center justify-start"
                           >
                             <div
                               class="flex items-center justify-center"
@@ -1213,7 +1207,7 @@ const openInvestor = (app, pack) => {
                             >
                               <img
                                 :src="app.favicon"
-                                class="size-8 ipad-max:hidden lg:block hidden rounded-full"
+                                class="size-8 w-full rounded-full"
                               />
                             </div>
                             <div
@@ -1223,7 +1217,9 @@ const openInvestor = (app, pack) => {
                               {{ getAvatarLetters(app?.title) }}
                             </div>
 
-                            <div class="order-1">{{ app.app_domain }}</div>
+                            <div class="order-1 w-[50%] mr-[40px]">
+                              {{ app.app_domain }}
+                            </div>
                           </div>
                           <div
                             v-if="defaultApp && defaultApp.name === app.name"
@@ -1241,7 +1237,7 @@ const openInvestor = (app, pack) => {
                         </div>
                       </td>
                       <td
-                        class="lg:px-0 w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="lg:px-0 pr-[10px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{
                           app.package.length
@@ -1254,7 +1250,7 @@ const openInvestor = (app, pack) => {
                         }}
                       </td>
                       <td
-                        class="text-left text-[12px] lg:px-0 w-[150px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="text-left pr-[10px] text-[12px] lg:px-0 lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div
                           v-if="app.package.length > 0"
@@ -1288,7 +1284,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="lg:px-0 w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                        class="lg:px-0 pr-[10px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                       >
                         <div v-if="app.package.length > 0">
                           <div
@@ -1348,7 +1344,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="ltr:text-left rtl:text-right pr-[10px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{
                           app.package.length === 0
@@ -1364,12 +1360,12 @@ const openInvestor = (app, pack) => {
                         }}
                       </td>
                       <td
-                        class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="rtl:text-right pr-[10px] ltr:text-left text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{ formatNumber(app.traffic) }}
                       </td>
                       <td
-                        class="text-[14px] w-[150px] font-[400] px-[18px] text-darkGrey"
+                        class="text-[14px] pr-[10px] font-[400] px-[18px] text-darkGrey"
                       >
                         <div
                           class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
@@ -1965,7 +1961,7 @@ const openInvestor = (app, pack) => {
                     class="h-[50px]"
                   >
                     <td
-                      class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] rtl:pr-[18px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       <img
                         v-if="app.favicon"
@@ -2053,9 +2049,9 @@ const openInvestor = (app, pack) => {
                     :key="index"
                     class="h-[50px]"
                   >
-                    <td class="w-[25%]">
+                    <td class="w-[35%]">
                       <div
-                        class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div class="size-10">
                           <img
@@ -2457,12 +2453,10 @@ const openInvestor = (app, pack) => {
       </div>
 
       <div
-        class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]"
+        class="flex flex-col mt-[10px] lg:flex-row md:flex-row justify-between items-center pb-[16px]"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
-        <div
-          class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0"
-        >
+        <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >
@@ -2487,7 +2481,9 @@ const openInvestor = (app, pack) => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-2 mt-2 md:mt-0"
+        >
           <span
             class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
           >
