@@ -103,7 +103,7 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
 <template>
   <div
 
-  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0  ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full
+  class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full
    h-full lg:h-screen lg:overflow-x-hidden"
 >
   <div
@@ -154,7 +154,7 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
 
 
  </div>
- <div class="mt-[16px]  mx-auto mb-[260px] px-[20px]">
+ <div class="mt-[16px] w-full lg:w-auto mx-auto mb-[260px] px-[20px]">
   <button class="btn-dashboard  hover_tamkin  lg:w-[400px] w-full " @click="setDefaultQuery(false)" >
       {{$t('Done')}}   </button>
 

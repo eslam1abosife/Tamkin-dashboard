@@ -177,7 +177,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -337,7 +337,7 @@ onBeforeUnmount(() => {
                       class="flex flex-col items-start justify-start relative w-full"
                     >
                       <div
-                        class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary"
                       >
                         <div class="text-[10px] font-[500] text-white">
@@ -408,11 +408,11 @@ onBeforeUnmount(() => {
             </div>
 
             <div
-              class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]"
+              class="flex items-center justify-between w-full px-[20px]"
               v-if="!loadingCards"
             >
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]"
+                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
                 @click="
                   navigateTo(
                     'cardModal_market',
@@ -429,19 +429,19 @@ onBeforeUnmount(() => {
                   <img v-else src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
                 <div
-                  class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Add New Card") }}
                 </div>
               </div>
 
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
+                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[11px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods"
               >
                 <div class="cursor-pointer">
                   <div
-                    class="text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                    class="text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Show all payment options") }}
                   </div>
@@ -461,7 +461,7 @@ onBeforeUnmount(() => {
             >
               <!-- Left section for adding a new card -->
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]"
+                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
               >
                 <div
                   class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
@@ -473,7 +473,7 @@ onBeforeUnmount(() => {
 
               <!-- Right section for showing more payment options -->
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]"
+                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[11px] mt-[24px]"
               >
                 <div
                   class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
@@ -601,7 +601,7 @@ onBeforeUnmount(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]"
               >
                 <div
                   class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]"
@@ -609,7 +609,7 @@ onBeforeUnmount(() => {
                   <input
                     type="text"
                     @input="subsStore.noDiscount = false"
-                    class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[15px] w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
                     v-model="subsStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
@@ -623,19 +623,19 @@ onBeforeUnmount(() => {
                   />
 
                   <div
-                    class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
+                    class="absolute top-[-8px] lg:top-[8px] right-0 left-0 max-md:px-1 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-1 md:space-x-[10px]"
                     v-if="subsStore.validPromo"
                   >
-                    <img src="/assets/imgs/promo_valid.svg" />
+                    <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]"/>
                     <div
-                      class="text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                      class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                     >
                       <span class="text-[#021328] font-[700] dark:text-white"
                         >{{ subsStore.currentDiscount }}%</span
                       >
                       {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})
                     </div>
-                    <img src="/assets/imgs/promo_valid_.svg" class="" />
+                    <img src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]" />
                   </div>
                   <div
                     v-if="subsStore.isPromoFilled && !subsStore.noDiscount"
@@ -646,9 +646,9 @@ onBeforeUnmount(() => {
                   </div>
                 </div>
 
-                <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
+                <div class="text-center mt-[24px] w-auto md:w-2/6">
                   <button
-                    class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                    class="btn-dashboard max-md:!text-[13px] hover_tamkin w-full mx-auto text-center text-nowrap"
                     @click="subsStore.addPromoCode"
                     :disabled="!subsStore.promo || subsStore.loadingPromo"
                     v-if="!subsStore.validPromo"
@@ -687,7 +687,7 @@ onBeforeUnmount(() => {
                   </button>
                   <button
                     v-else
-                    class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
+                    class="btn_bordered_dashboard max-md:!text-[13px] error text-nowrap w-auto md:w-[140px] mx-auto text-center"
                     @click="subsStore.removePromoCode"
                   >
                     {{ $t("Remove Code") }}

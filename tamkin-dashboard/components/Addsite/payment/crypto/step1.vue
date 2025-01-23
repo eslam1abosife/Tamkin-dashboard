@@ -159,7 +159,7 @@ const finalAmount = computed(() => {
 
 <template>
   <div
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden">
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden">
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full" v-if="isModalOpen('crypto_addsite_step1')">
         <div class="flex items-center justify-between">
@@ -379,10 +379,10 @@ const finalAmount = computed(() => {
 
             <div class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full">
               <div
-                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-4 md:px-[20px]">
+                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]">
                 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
                   <input type="text" @input="addSiteStore.noDiscount = false"
-                    class="input_dashboard_search max-md:!px-[0px] max-md:flex-1 w-full text-darkGrey dark:text-whiteTamkin max-md: !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[15px] max-md:flex-1 w-full text-darkGrey dark:text-whiteTamkin max-md: !h-[40px]"
                     v-model="addSiteStore.promo" :placeholder="$t('Promo Code')" :class="[
                       addSiteStore.validPromo
                         ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
@@ -396,7 +396,7 @@ const finalAmount = computed(() => {
                     class="absolute w-full top-[-8px] lg:top-[8px] max-md:px-[3px] left-0 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[4px] md:space-x-[10px]"
                     v-if="addSiteStore.validPromo">
                     <img class="max-md:w-[16px]" src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <div class="text-[13px] md:text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
                       <span class="text-[#021328] font-[700] dark:text-white">{{ addSiteStore.currentDiscount }}%</span>
                       {{ $t("Discount") }} (-${{ percentageOff }})
                     </div>
@@ -411,7 +411,7 @@ const finalAmount = computed(() => {
                 </div>
 
                 <div class="text-center mt-[24px] w-auto md:w-2/6">
-                  <button class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                  <button class="btn-dashboard max-md:!text-[13px] hover_tamkin w-full mx-auto text-center text-nowrap"
                     @click="addSiteStore.addPromoCode" :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                     v-if="!addSiteStore.validPromo">
                     <div class="flex items-center justify-center">

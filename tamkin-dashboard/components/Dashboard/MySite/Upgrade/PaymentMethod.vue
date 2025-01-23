@@ -32,7 +32,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
 <template>
 
   <div v-if="isOpen('paymentMethods')"
-    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
+    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] px-[16px] py-[30px] lg:px-[30px] 
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
    
   >
@@ -95,7 +95,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
     <p class=" ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey dark:text-whiteTamkin">Choose the payment method you want to complete this payment</p>
         
     
-       <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
+       <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[20px]">
         <div class="w-full">
             <div 
             @click="selectedPaymentMethod = 'by_card'"

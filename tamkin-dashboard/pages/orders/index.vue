@@ -450,7 +450,7 @@ const setPageSize = (size: number) => {
     >
       <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="" />
       <div
-        class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white w-1/4 text-center"
+        class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white md:w-1/4 text-center"
       >
         {{ $t("There are no orders at the moment") }}
       </div>
@@ -458,9 +458,9 @@ const setPageSize = (size: number) => {
 
     <div
       v-if="orders.length > 0"
-      class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px] mt-[16px]"
+      class="flex justify-between items-center pb-[16px] mt-[16px]"
     >
-      <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+      <div class="flex items-center rtl:space-x-reverse space-x-2">
         <span
           class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
         >

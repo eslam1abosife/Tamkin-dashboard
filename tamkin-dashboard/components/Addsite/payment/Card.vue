@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden">
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden">
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex justify-between">
@@ -224,7 +224,7 @@ onBeforeUnmount(() => {
               </div>
             </div>
             <div>
-              <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin">
+              <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin mb-0">
                 {{ $t("Payment processes") }}
               </h1>
             </div>
@@ -288,7 +288,7 @@ onBeforeUnmount(() => {
                   <div class="flex items-center justify-between w-full">
                     <div class="flex flex-col items-start justify-start relative w-full">
                       <div
-                        class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary">
                         <div class="text-[10px] font-[500] text-white">
                           {{ $t("Default") }}
@@ -342,7 +342,7 @@ onBeforeUnmount(() => {
                   <img class="max-md:w-[33px]" v-if="navbarStore.isDark" src="/assets/imgs/payment_methods/new_card_dark.svg" />
                   <img class="max-md:w-[33px]" v-else src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
-                <div class="text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                <div class="text-[13px] md:text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin">
                   {{ $t("Add New Card") }}
                 </div>
               </div>
@@ -350,7 +350,7 @@ onBeforeUnmount(() => {
               <div class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods">
                 <div class="cursor-pointer">
-                  <div class="text-[11px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                  <div class="text-[13px] md:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
                     {{ $t("Show all payment options") }}
                   </div>
                 </div>
@@ -363,13 +363,13 @@ onBeforeUnmount(() => {
             <div v-else
               class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px] animate-pulse">
               <!-- Left section for adding a new card -->
-              <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
+              <div class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
                 <div class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
               </div>
 
               <!-- Right section for showing more payment options -->
-              <div class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]">
+              <div class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[11px] mt-[24px]">
                 <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
                 <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
               </div>
@@ -452,10 +452,10 @@ onBeforeUnmount(() => {
 
             <div class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full">
               <div
-                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:space-x-[24px] w-full px-4 md:px-[20px]">
+                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:space-x-[24px] w-full px-[20px]">
                 <div class="lg:py-[17px] search_input max-md:flex-1 lg:w-3/4 mt-[24px]">
                   <input type="text" @input="addSiteStore.noDiscount = false"
-                    class="input_dashboard_search max-md:!p-0 w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[15px] w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
                     v-model="addSiteStore.promo" :placeholder="$t('Promo Code')" :class="[
                       addSiteStore.validPromo
                         ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
@@ -469,7 +469,7 @@ onBeforeUnmount(() => {
                     class="absolute top-[-8px] lg:top-[8px] rtl:right-[0] ltr:left-[0] p-[16px] w-full max-md:!px-[5px] flex items-center justify-evenly rtl:space-x-reverse space-x-[6px] md:space-x-[10px]"
                     v-if="addSiteStore.validPromo">
                     <img src="/assets/imgs/promo_valid.svg" class="max-md:w-4" />
-                    <div class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <div class="text-[13px] md:text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
                       <span class="text-[#021328] font-[700] dark:text-white">{{ addSiteStore.currentDiscount }}%</span>
                       {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})
                     </div>
@@ -484,7 +484,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="text-center mt-[24px] w-auto md:w-2/6">
-                  <button class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                  <button class="btn-dashboard max-md:!text-[13px] hover_tamkin w-full mx-auto text-center text-nowrap"
                     @click="addSiteStore.addPromoCode" :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                     v-if="!addSiteStore.validPromo">
                     <div class="flex items-center justify-center">

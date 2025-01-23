@@ -480,7 +480,7 @@ const openInvestor = (app, pack) => {
       <div class="flex flex-col items-center justify-center space-y-[10px]">
         <img src="/imgs/no_subs.png" class="w-[71px] h-[71px]" alt="" />
         <div
-          class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white w-1/4 text-center"
+          class="text-[14px] leading-[28px] font-[400] text-darkGrey dark:text-white w-f md:w-1/4 text-center"
         >
           {{
             $t(`You don't have any subscriptions in this list at the moment`)

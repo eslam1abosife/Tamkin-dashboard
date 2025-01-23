@@ -548,7 +548,11 @@ const closeModalPackage = () => {
 
 <template>
   <div
+<<<<<<< HEAD
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-auto sm:h-screen overflow-y-auto lg:overflow-x-hidden"
+=======
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
+>>>>>>> a269ff0c83ebf51a1e5da53bbb9fdfc00b8f5b11
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -580,6 +584,14 @@ const closeModalPackage = () => {
       <div
         class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
       >
+<<<<<<< HEAD
+=======
+        <h1
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0"
+        >
+          {{ $t("Add Package") }}
+        </h1>
+>>>>>>> a269ff0c83ebf51a1e5da53bbb9fdfc00b8f5b11
         <div
           class="flex flex-col items-start justify-start lg:overflow-x-hidden bg-white dark:bg-tamkinDarkPrimary w-full min-h-[70vh] px-[20px] rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -609,7 +621,7 @@ const closeModalPackage = () => {
           </div>
 
           <div
-            class="flex items-center flex-col md:flex-row justify-center gap-4 w-full"
+            class="flex items-center flex-col md:flex-row justify-center gap-4 gap-y-0 w-full"
           >
             <div class="flex items-center justify-center gap-4 w-full">
               <!-- Free Trial -->
@@ -1218,9 +1230,9 @@ const closeModalPackage = () => {
             </tbody>
           </table>
           <!-- {{ webs.length }} -->
-          <div class="my-[26px] rtl:mr-auto ltr:ml-auto">
+          <div class="my-[26px] max-md:w-full md:rtl:mr-auto md:ltr:ml-auto">
             <button
-              class="btn-dashboard hover_tamkin"
+              class="btn-dashboard hover_tamkin max-md:w-full"
               @click="conintuePay"
               :disabled="
                 mysiteStore.urls.length === 0 ||

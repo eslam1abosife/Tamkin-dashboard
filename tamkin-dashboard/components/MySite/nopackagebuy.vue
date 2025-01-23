@@ -105,7 +105,11 @@ const isLinkActive = (path) => {
 
 <template>
   <div
+<<<<<<< HEAD
     class="mysite_bg_modal max-w-full dark:bg-p fixed z-[9999] !top-[-2px] rtl:left-0 ltr:right-0 rounded-[10px] px-4 lg:p-[30px] w-[900px] h-[100%] sm:h-screen overflow-y-auto"
+=======
+    class="mysite_bg_modal max-w-full dark:bg-p fixed z-[9999] !top-[-2px] rtl:left-0 ltr:right-0 rounded-[10px] px-4 px-[16px] py-[30px] lg:px-[30px] w-[900px] h-screen overflow-y-auto"
+>>>>>>> a269ff0c83ebf51a1e5da53bbb9fdfc00b8f5b11
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -132,7 +136,7 @@ const isLinkActive = (path) => {
         class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
       >
         <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0"
         >
           <div
             class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
