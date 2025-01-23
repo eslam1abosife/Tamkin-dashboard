@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 const state = reactive({
@@ -11,91 +11,80 @@ const state = reactive({
   account_curreny: "",
 });
 const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
+  bankName: { required },
+  acc_holder: { required },
+  account_number: { required },
+  iban: { required },
+  bic: { required },
+  account_curreny: { required },
 };
 
 const v$ = useVuelidate(rules, state);
 
+const withDrawStore = useWithdrawStore();
 
-const withDrawStore = useWithdrawStore()
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const checked = ref("");
 
-
-const checked = ref('');
-
-const amount = ref('');
+const amount = ref("");
 
 const formatAmount = (event) => {
-  const value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
-  const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas as thousand separators
-  amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
+  const value = event.target.value.replace(/[^\d]/g, ""); // Remove all non-numeric characters
+  const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Add commas as thousand separators
+  amount.value = `$${formattedValue || "0.00"}`; // Ensure the format is $xxx,xxx or $0.0 if empty
 };
 
-const formatDateOfReward = (dateof)=>{
+const formatDateOfReward = (dateof) => {
   const date = new Date(dateof); // Replace with your date
-const formattedDate = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: '2-digit',
-  year: 'numeric'
-}).format(date);
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  }).format(date);
 
-return formattedDate
-}
+  return formattedDate;
+};
 
-const openSupport = ()=>{
-  if(process.client){
-    window.$chatwoot.toggle()
+const openSupport = () => {
+  if (process.client) {
+    window.$chatwoot.toggle();
   }
-}
+};
 
-const closeModalAndReset = async ()=>{
-  withDrawStore.transactionDetails = {}
+const closeModalAndReset = async () => {
+  withDrawStore.transactionDetails = {};
   withDrawStore.setBankDetails({
-          bank_name: '',
-          account_holder: '',
-          account_number: '',
-          iban: '',
-          bic: '',
-          account_currency: '',
-        });
-  withDrawStore.withdrawAmount = 0
-  withDrawStore.selectedPaymentMethod = ""
+    bank_name: "",
+    account_holder: "",
+    account_number: "",
+    iban: "",
+    bic: "",
+    account_currency: "",
+  });
+  withDrawStore.withdrawAmount = 0;
+  withDrawStore.selectedPaymentMethod = "";
 
-  closeModal('success_bank_withdraw')
-
-}
-const getStatusStyle=(method:number)=> {
-      switch (method) {
-        case 'Pending':
-          return 'text-orange-400';
-        case 'Success':
-          return 'text-tamkin';
-        case 'Rejected':
-          return 'text-red-600';
-        
-      }
-    };
+  closeModal("success_bank_withdraw");
+};
+const getStatusStyle = (method: number) => {
+  switch (method) {
+    case "Pending":
+      return "text-orange-400";
+    case "Success":
+      return "text-tamkin";
+    case "Rejected":
+      return "text-red-600";
+  }
+};
 </script>
 
 <template>
-    <div
+  <div
     v-if="isOpen('success_bank_withdraw')"
-    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] 
-    p-[30px] h-[620px] lg:w-[640px]
-  ipad-max:top-[0] w-full"    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-full lg:h-[620px] lg:w-[640px] ipad-max:top-[0] w-full"
+    style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- Close Button -->
     <div
@@ -117,127 +106,168 @@ const getStatusStyle=(method:number)=> {
         />
       </svg>
     </div>
-  
+
     <!-- Modal Content -->
     <div class="mx-auto max-h-[100%] w-full">
       <div class="flex flex-col items-center justify-start w-full">
-        <div class="bg-[#F1F1F1] w-[70px] h-[70px] my-[4px] rounded-full flex items-center justify-center">
-          <img src="/imgs/success_bank.png" class="w-[60px] h-[50px]" alt="">
+        <div
+          class="bg-[#F1F1F1] w-[70px] h-[70px] my-[4px] rounded-full flex items-center justify-center"
+        >
+          <img src="/imgs/success_bank.png" class="w-[60px] h-[50px]" alt="" />
         </div>
-        <div class=" font-[700] text-[20px] leading-[36px] text-darkGrey">
-          {{$t('Congratulations')}}
+        <div
+          class="font-[700] text-[20px] dark:text-whiteTamkin leading-[36px] text-darkGrey"
+        >
+          {{ $t("Congratulations") }}
         </div>
-  
-        <div class="text-[12px] font-[500] leading-[27px] text-darkGrey text-center">
-          {{ $t('Your withdrawal request will be taken into consideration and your funds will be transferred to your account') }}
+
+        <div
+          class="text-[12px] dark:text-whiteTamkin font-[500] leading-[27px] text-darkGrey text-center"
+        >
+          {{
+            $t(
+              "Your withdrawal request will be taken into consideration and your funds will be transferred to your account"
+            )
+          }}
         </div>
-  
+
         <div class="flex items-center justify-between w-full">
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{formatDateOfReward(withDrawStore.transactionDetails.creation)}}
-
+          <div
+            class="text-[14px] dark:text-whiteTamkin font-[500] text-[#021328]"
+          >
+            {{ formatDateOfReward(withDrawStore.transactionDetails.creation) }}
           </div>
-  
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.amount}} $
+
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ withDrawStore.transactionDetails.amount }} $
           </div>
         </div>
-  
+
         <div class="flex items-center justify-between w-full mt-[4px]">
-          <div class="text-[12px] font-[500] text-darkGrey">
-            {{ $t('Trans ID') }}: {{withDrawStore.transactionDetails.name}}
+          <div
+            class="text-[12px] font-[500] dark:text-whiteTamkin text-darkGrey"
+          >
+            {{ $t("Trans ID") }}: {{ withDrawStore.transactionDetails.name }}
           </div>
-  
-          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
-            {{$t(withDrawStore.transactionDetails.status)}}
+
+          <div
+            class="text-[14px] dark:text-whiteTamkin font-[500]"
+            :class="getStatusStyle(withDrawStore.transactionDetails.status)"
+          >
+            {{ $t(withDrawStore.transactionDetails.status) }}
           </div>
         </div>
-  
+
         <div class="flex items-center justify-between w-full mt-[24px]">
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{ $t('Account details') }}
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ $t("Account details") }}
           </div>
         </div>
-  
-        <div class="flex items-center justify-between w-full mt-[8px]">
-          <div class="text-[12px] font-[500] text-darkGrey">
-            {{$t('Bank')}}
-          </div>
-  
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.bank_name}}
 
+        <div class="flex items-center justify-between w-full mt-[8px]">
+          <div
+            class="text-[12px] font-[500] dark:text-whiteTamkin text-darkGrey"
+          >
+            {{ $t("Bank") }}
+          </div>
+
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ withDrawStore.transactionDetails.bank_name }}
           </div>
         </div>
-  
-        <div class="flex items-center justify-between w-full mt-[8px]">
-          <div class="text-[12px] font-[500] text-darkGrey">
-            {{$t('Account holder')}}
-          </div>
-  
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.account_holder}}
 
+        <div class="flex items-center justify-between w-full mt-[8px]">
+          <div
+            class="text-[12px] font-[500] dark:text-whiteTamkin text-darkGrey"
+          >
+            {{ $t("Account holder") }}
+          </div>
+
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ withDrawStore.transactionDetails.account_holder }}
           </div>
         </div>
-  
-        <div class="flex items-center justify-between w-full mt-[8px]">
-          <div class="text-[12px] font-[500] text-darkGrey">
-            {{ $t('IBAN') }}
-          </div>
-  
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.iban}}
 
+        <div class="flex items-center justify-between w-full mt-[8px]">
+          <div
+            class="text-[12px] font-[500] dark:text-whiteTamkin text-darkGrey"
+          >
+            {{ $t("IBAN") }}
+          </div>
+
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ withDrawStore.transactionDetails.iban }}
           </div>
         </div>
-  
-        <div class="flex items-center justify-between w-full mt-[8px]">
-          <div class="text-[12px] font-[500] text-darkGrey">
-            {{ $t('Swift') }}
-          </div>
-  
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.bic}}
 
+        <div class="flex items-center justify-between w-full mt-[8px]">
+          <div
+            class="text-[12px] font-[500] dark:text-whiteTamkin text-darkGrey"
+          >
+            {{ $t("Swift") }}
+          </div>
+
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ withDrawStore.transactionDetails.bic }}
           </div>
         </div>
       </div>
-  
+
       <div
-        class="h-auto py-[14px] px-[20px] w-full bg-gradient-to-r from-[#11D5C6]/20 to-[#82ABE2]/20 rounded-[10px] mt-[10px] flex flex-col sm:flex-row items-center justify-between"
+        class="h-auto py-[14px] px-[20px] w-full bg-gradient-to-r dark:bg-p from-[#11D5C6]/20 to-[#82ABE2]/20 rounded-[10px] mt-[10px] flex flex-col sm:flex-row items-center justify-between"
       >
         <div class="flex flex-col items-start justify-start">
-          <div class="text-[14px] font-[500] text-[#021328]">
-            {{ $t('Need help?') }}
+          <div
+            class="text-[14px] font-[500] dark:text-whiteTamkin text-[#021328]"
+          >
+            {{ $t("Need help?") }}
           </div>
-          <div class="text-[12px] font-[500] w-full sm:w-3/4 leading-[27px] text-darkGrey">
-           {{ $t('If there is a problem with the transactions, make sure to contact your support') }}
+          <div
+            class="text-[12px] font-[500] w-full dark:text-whiteTamkin sm:w-3/4 leading-[27px] text-darkGrey"
+          >
+            {{
+              $t(
+                "If there is a problem with the transactions, make sure to contact your support"
+              )
+            }}
           </div>
         </div>
-  
+
         <div class="mt-[10px] sm:mt-0 cursor-pointer" @click="openSupport">
-          <div class="w-[110px] h-[37px] rounded-[10px] bg-white  flex items-center justify-center space-x-[10px] rtl:space-x-reverse cursor-pointer">
+          <div
+            class="w-[110px] h-[37px] rounded-[10px] dark:bg-tamkinDarkPrimary bg-white flex items-center justify-center space-x-[10px] rtl:space-x-reverse cursor-pointer"
+          >
             <div>
-              <img src="/imgs/support.svg" class="w-[20px] h-[24px]" alt="">
+              <img src="/imgs/support.svg" class="w-[20px] h-[24px]" alt="" />
             </div>
-            <div class="text-[16px] font-[600] leading-[27px] text-tamkin ">
-              {{ $t('Support') }}
+            <div
+              class="text-[16px] dark:text-whiteTamkin font-[600] leading-[27px] text-tamkin"
+            >
+              {{ $t("Support") }}
             </div>
           </div>
         </div>
       </div>
-  
+
       <div class="mt-[22px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
-          {{$t('Done')}}
+          {{ $t("Done") }}
         </button>
       </div>
     </div>
   </div>
-  
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

@@ -254,7 +254,7 @@ const getStatusStyle = (method: number) => {
 
       <div class="mt-[22px] rtl:mr-auto ltr:ml-auto">
         <button
-          class="btn-dashboard dark:bg-p dark:border-darkborder hover_tamkin"
+          class="btn-dashboard dark:border-darkborder hover_tamkin"
           @click="closeModalAndReset"
         >
           {{ $t("Done") }}
