@@ -29,20 +29,20 @@ const saveFn = () => {
     class="lg:!px-0 fixed z-[140] bottom-0 w-full rtl:right-[50%] ltr:left-[50%] !px-[0] transform rtl:translate-x-[50%] ltr:translate-x-[-50%]"
   >
     <div
-      class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[20px]"
+      class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-auto sm:h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[16px]"
       style="box-shadow: 4px 4px 24px 8px #51459f1a"
     >
       <div
-        class="flex items-center lg:flex-nowrap flex-wrap w-full justify-between ipad-max:px-[40px] lg:px-[40px] py-[16px] h-full"
+        class="flex items-center lg:flex-row flex-col w-full justify-between ipad-max:px-[40px] lg:px-[40px] py-[16px] h-full"
       >
         <div
-          class="flex items-center rtl:space-x-reverse space-x-[10px] rtl:mr-[350px] ipad-max:ltr:ml-[300px] lg:ltr:ml-[300px] mt-2"
+          class="flex items-center rtl:space-x-reverse space-x-[10px] lg:rtl:mr-[350px] lg:ltr:ml-[300px] lg:mt-2"
         >
           <div>
             <img src="/assets/imgs/info.svg" />
           </div>
           <div
-            class="text-[10px] lg:text-[12px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full"
+            class="text-[12px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full"
           >
             {{
               $t("Make sure to save all changes before moving to another page")
@@ -50,14 +50,14 @@ const saveFn = () => {
           </div>
         </div>
         <div
-          class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4"
+          class="flex items-stretch gap-y-[10px] sm:items-center w-full lg:w-auto lg:justify-start justify-center flex-col sm:flex-row gap-x-[10px] lg:gap-x-[32px] lg:mt-0 mt-4"
         >
-          <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn"             :disabled="loadingSave || loadingSavetoAll"
+          <button class="btn_bordered_dashboard hover_tamkin flex-1 lg:flex-[unset] max-md:!px-0" @click="cancelfn"             :disabled="loadingSave || loadingSavetoAll"
           >
             {{ $t("Discard") }}
           </button>
           <button
-            class="btn_bordered_dashboard w-auto"
+            class="btn_bordered_dashboard lg:w-auto flex-1 lg:flex-[unset] max-md:!px-0"
 
             :disabled="loadingSavetoAll || loadingSave || !defaultApp"
             @click="saveToAllSites"
@@ -91,7 +91,7 @@ const saveFn = () => {
             </div>
           </button>
           <button
-            class="btn-dashboard hover_tamkin w-[90px]"
+            class="btn-dashboard hover_tamkin lg:w-[90px] flex-1 lg:flex-[unset] max-md:!px-0"
             :disabled="loadingSave || loadingSavetoAll || !defaultApp"
             @click="saveFn"
           >

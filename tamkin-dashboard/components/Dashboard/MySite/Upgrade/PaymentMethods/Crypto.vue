@@ -324,7 +324,7 @@ const filteredCryptoMethods = computed(() => {
         <div
           class="flex items-center justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
         >
-          <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[10px]">
+          <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
             <input
               type="text"
               class="input_dashboard_search max-md:!px-[15px] w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"

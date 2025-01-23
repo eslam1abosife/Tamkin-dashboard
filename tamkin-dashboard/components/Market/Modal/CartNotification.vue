@@ -15,7 +15,7 @@ onMounted(() => {
 
 <template>
     <div 
-    class="fixed z-[9999] top-[140px] rtl:right-[400px] ltr:right-[110px] rounded-[16px] shadow-xl w-[246px] h-[220px] bg-white dark:bg-tamkinDarkPrimary"
+    class="fixed z-[9999] top-[140px] rtl:right-[106px] ltr:right-[107px] rounded-[16px] shadow-xl w-[246px] h-[220px] bg-white dark:bg-tamkinDarkPrimary"
     >
 <div class="flex items-center justify-evenly flex-col ">
     <div class="absolute shadow-2xl top-[15px]  right-[-15px]">
@@ -31,7 +31,7 @@ onMounted(() => {
         <p class="text-[13px] font-[400] text-darkGrey dark:text-white text-center">{{$t('click on the cart icon to check your items cart')}}</p>
     </div>
     <div>
-        <button class="btn-dashboard hover_tamkin" @click="marketStore.closeCartNotification">
+        <button class="btn-dashboard hover_tamkin max-md:w-full" @click="marketStore.closeCartNotification">
             {{ $t('Done') }}
         </button>
     </div>

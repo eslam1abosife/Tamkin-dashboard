@@ -188,7 +188,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
             
         </div>
        </div>
-       <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto">
         <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
           Continue to Payment
       </button>

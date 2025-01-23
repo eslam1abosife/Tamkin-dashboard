@@ -350,7 +350,7 @@ onBeforeUnmount(() => {
               <div class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods">
                 <div class="cursor-pointer">
-                  <div class="text-[13px] md:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                  <div class="text-[13px] md:ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
                     {{ $t("Show all payment options") }}
                   </div>
                 </div>
@@ -369,7 +369,7 @@ onBeforeUnmount(() => {
               </div>
 
               <!-- Right section for showing more payment options -->
-              <div class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[11px] mt-[24px]">
+              <div class="flex items-center rtl:space-x-reverse space-x-[1px] md:space-x-[11px] mt-[24px]">
                 <div class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"></div>
                 <div class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"></div>
               </div>

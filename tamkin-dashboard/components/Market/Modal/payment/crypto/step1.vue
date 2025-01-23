@@ -475,7 +475,7 @@ const finalAmount = computed(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
               >
                 <div
                   class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]"
@@ -483,7 +483,7 @@ const finalAmount = computed(() => {
                   <input
                     type="text"
                     @input="marketStore.noDiscount = false"
-                    class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[15px] w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
                     v-model="marketStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[

@@ -599,7 +599,7 @@ const settingStore = useSettingsStore();
         </div>
 
         <div
-          class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] rtl:space-x-reverse space-x-[16px]"
+          class="z-[2] flex items-center justify-evenly absolute bottom-[16px] right-[16px] rtl:space-x-reverse space-x-[16px]"
         >
           <div
             class="cursor-pointer w-[35px] h-[35px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-lg flex items-center justify-center"
