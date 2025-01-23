@@ -112,18 +112,18 @@ const translatedSubTitle = computed(() => t(props.subTitle));
     <div
       class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]"
     >
-      <div class="mt-[40px]">
+      <div class="mt-[40px] max-md:flex-1">
         <button
-          class="btn_bordered_dashboard hover_tamkin"
+          class="btn_bordered_dashboard hover_tamkin max-md:w-full"
           @click="controlCancelButton"
         >
           {{ cancelButtonName ? $t(cancelButtonName) : $t("Cancel") }}
         </button>
       </div>
-      <div class="mt-[40px]" v-if="savetoAllSitesBtn">
+      <div class="mt-[40px] max-md:flex-1" v-if="savetoAllSitesBtn">
         <button
           :disabled="saveAllLoading || saveLoading"
-          class="btn_bordered_dashboard hover_tamkin"
+          class="btn_bordered_dashboard hover_tamkin max-md:w-full"
           @click="controlSaveSite"
         >
           {{ $t("Save to All Sites") }}
@@ -150,10 +150,10 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </svg>
         </button>
       </div>
-      <div class="mt-[40px]" v-if="confirmBtnType === 'confirm'">
+      <div class="mt-[40px] max-md:flex-1" v-if="confirmBtnType === 'confirm'">
         <button
           :disabled="cofirmisLoading"
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin max-md:w-full"
           @click="controlConfirmButton"
         >
           <span :class="cofirmisLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
@@ -183,10 +183,10 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </svg>
         </button>
       </div>
-      <div class="mt-[40px]" v-if="confirmBtnType === 'other'">
+      <div class="mt-[40px] max-md:flex-1" v-if="confirmBtnType === 'other'">
         <button
           :disabled="saveLoading || saveAllLoading"
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin max-md:w-full"
           @click="controlOtherBtn"
         >
           <div class="flex items-center justify-center">
@@ -218,10 +218,10 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </div>
         </button>
       </div>
-      <div class="mt-[40px]" v-if="confirmBtnType === 'delete'">
+      <div class="mt-[40px] max-md:flex-1" v-if="confirmBtnType === 'delete'">
         <button
           :disabled="deleteisLoading"
-          class="btn_bordered_dashboard error"
+          class="btn_bordered_dashboard error max-md:w-full"
           @click="controlDeleteButton"
         >
           <div class="flex items-center justify-center">

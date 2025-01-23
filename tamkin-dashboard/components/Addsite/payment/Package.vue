@@ -497,7 +497,7 @@ const closeModalPackage = () => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
     <div class="w-full h-screen">
       <div

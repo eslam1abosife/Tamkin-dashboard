@@ -40,7 +40,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 <template>
   <div class="mysite_bg_modal dark:bg-p fixed  !top-[-2px] 
     lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] 
-    lg:p-[30px] w-[1000px] h-screen overflow-y-auto lg:overflow-x-hidden">
+    px-[16px] py-[30px] lg:px-[30px] w-[1000px] h-screen overflow-y-auto lg:overflow-x-hidden">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalPackage">
@@ -55,7 +55,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
     <div class="w-full h-screen">
       <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden">
         <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]">
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0">
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
             <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]"
               v-if="mySiteStore.currentWebsite?.title === 'Internal Service'" />

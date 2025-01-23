@@ -458,9 +458,9 @@ const setPageSize = (size: number) => {
 
     <div
       v-if="orders.length > 0"
-      class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px] mt-[16px]"
+      class="flex justify-between items-center pb-[16px] mt-[16px]"
     >
-      <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+      <div class="flex items-center rtl:space-x-reverse space-x-2">
         <span
           class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
         >

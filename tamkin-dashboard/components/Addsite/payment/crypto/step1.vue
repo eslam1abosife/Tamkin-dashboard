@@ -396,7 +396,7 @@ const finalAmount = computed(() => {
                     class="absolute w-full top-[-8px] lg:top-[8px] max-md:px-[3px] left-0 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[4px] md:space-x-[10px]"
                     v-if="addSiteStore.validPromo">
                     <img class="max-md:w-[16px]" src="/assets/imgs/promo_valid.svg" />
-                    <div class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
+                    <div class="text-[13px] md:text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
                       <span class="text-[#021328] font-[700] dark:text-white">{{ addSiteStore.currentDiscount }}%</span>
                       {{ $t("Discount") }} (-${{ percentageOff }})
                     </div>
@@ -411,7 +411,7 @@ const finalAmount = computed(() => {
                 </div>
 
                 <div class="text-center mt-[24px] w-auto md:w-2/6">
-                  <button class="btn-dashboard hover_tamkin w-full mx-auto text-center text-nowrap"
+                  <button class="btn-dashboard max-md:!text-[13px] hover_tamkin w-full mx-auto text-center text-nowrap"
                     @click="addSiteStore.addPromoCode" :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                     v-if="!addSiteStore.validPromo">
                     <div class="flex items-center justify-center">

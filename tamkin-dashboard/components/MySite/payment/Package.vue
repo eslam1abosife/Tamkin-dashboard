@@ -548,7 +548,7 @@ const closeModalPackage = () => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -574,7 +574,7 @@ const closeModalPackage = () => {
         class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
       >
         <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0"
         >
           {{ $t("Add Package") }}
         </h1>
@@ -607,7 +607,7 @@ const closeModalPackage = () => {
           </div>
 
           <div
-            class="flex items-center flex-col md:flex-row justify-center gap-4 w-full"
+            class="flex items-center flex-col md:flex-row justify-center gap-4 gap-y-0 w-full"
           >
             <div class="flex items-center justify-center gap-4 w-full">
               <!-- Free Trial -->
@@ -1216,9 +1216,9 @@ const closeModalPackage = () => {
             </tbody>
           </table>
           <!-- {{ webs.length }} -->
-          <div class="my-[26px] rtl:mr-auto ltr:ml-auto">
+          <div class="my-[26px] max-md:w-full md:rtl:mr-auto md:ltr:ml-auto">
             <button
-              class="btn-dashboard hover_tamkin"
+              class="btn-dashboard hover_tamkin max-md:w-full"
               @click="conintuePay"
               :disabled="
                 mysiteStore.urls.length === 0 ||

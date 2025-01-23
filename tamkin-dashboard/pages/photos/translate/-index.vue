@@ -87,7 +87,7 @@ setTimeout(()=>{
   <TranslatephotosProjectProjectsettings/>
 
   <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[24px] rounded-[10px] w-full mb-[16px]">
-    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70 py-[16px]">
+    <div class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70 py-[16px]">
         {{ $t('All Photos') }} 
     </div>
   <TranslatedocsPdfs/>

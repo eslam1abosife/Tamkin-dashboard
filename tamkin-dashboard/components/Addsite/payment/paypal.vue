@@ -120,7 +120,7 @@ const discountAmount = computed(() => {
                 </svg>
               </div>
               <h1
-                class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin mb-0"
               >
                 {{ $t("Payment Process") }}
               </h1>
@@ -166,7 +166,7 @@ const discountAmount = computed(() => {
                 >
                   <img class="max-md:w-[16px]" src="/assets/imgs/promo_valid.svg" />
                   <div
-                    class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
+                    class="text-[13px] md:text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                   >
                     <span class="text-[#021328] font-[700] dark:text-white"
                       >{{ addSiteStore.currentDiscount }}%</span
@@ -186,7 +186,7 @@ const discountAmount = computed(() => {
 
               <div class="text-center mt-[24px] w-auto md:w-2/6">
                 <button
-                  class="btn-dashboard hover_tamkin w-full mx-auto text-center text-nowrap"
+                  class="btn-dashboard max-md:!text-[13px] hover_tamkin w-full mx-auto text-center text-nowrap"
                   @click="addSiteStore.addPromoCode"
                   :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                   v-if="!addSiteStore.validPromo"

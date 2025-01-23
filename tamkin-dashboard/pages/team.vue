@@ -1187,7 +1187,7 @@ const isOwner = computed(() => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
           <span
             class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
           >

@@ -98,7 +98,7 @@ const goToPaymentMethod = async (method: any) => {
           </p>
 
 
-          <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
+          <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[20px]">
             <div class="w-full">
               <div @click="packagesStore.selectedPaymentMethod = 'by_card'"
                 :class="[packagesStore.selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"

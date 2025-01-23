@@ -369,7 +369,7 @@ const countriesC = computed(() => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:left-0 ltr:right-0 rounded-[10px] px-[20px] py-[30px] lg:p-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:left-0 ltr:right-0 rounded-[10px] px-[20px] py-[30px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
   <div class="w-full h-full">
     <div class="flex flex-col lg:items-start justify-center w-full">

@@ -151,17 +151,17 @@ const props = defineProps({
         
     </div>
   <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full  px-[20px]">
-    <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px] ">
+    <div class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px] ">
         <div class="cursor-pointer" @click="navigateTo('cardModal','add-site','newCard')">
             <img  src="/assets/imgs/payment_methods/new_card.svg" />
            </div>
-       <div class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin" >Add New Card</div>
+       <div class="text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin" >Add New Card</div>
       
     </div>
 
     <div class="flex items-center  rtl:space-x-reverse space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
 <div class="cursor-pointer" >
-    <div class="text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">Show all payment options</div>
+    <div class="text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">Show all payment options</div>
 
 </div>
 <div class="cursor-pointer"><img  src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[10px] rtl:rotate-180 " 
@@ -236,7 +236,7 @@ const props = defineProps({
         </div>
   </div>
 </div>
-<div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+<div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]"
 >
 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
   <input
@@ -247,15 +247,15 @@ const props = defineProps({
     :class="[validPromo ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] ' : '']"
   />
   <div
-    class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
+    class="absolute top-[-8px] lg:top-[8px] right-0 left-0 max-md:px-1 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-1 md:space-x-[10px]"
     v-if="validPromo"
   >
     <img  src="/assets/imgs/promo_valid.svg"  />
-    <div class="text-[15px] font-[500] text-darkGrey dark:text-white/70">
+    <div class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70">
       <span class="text-[#021328] font-[700] dark:text-white">12%</span> Discount
       (-$2,444 )
     </div>
-    <img  src="/assets/imgs/promo_valid_.svg" class=""  />
+    <img  src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]"  />
   </div>
   <div
     v-if="isPromoFilled"
@@ -265,7 +265,7 @@ const props = defineProps({
     <img  src="/assets/imgs/close_promo.svg"  />
   </div>
 </div>
-<div class="text-center mt-[16px] lg:mt-[24px]">
+<div class="text-center mt-[24px]">
   <button
     class="btn-dashboard   hover_tamkin w-6/6 mx-auto text-center ]"
     @click="addPromoCode"
