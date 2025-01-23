@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden">
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden">
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex justify-between">
@@ -288,7 +288,7 @@ onBeforeUnmount(() => {
                   <div class="flex items-center justify-between w-full">
                     <div class="flex flex-col items-start justify-start relative w-full">
                       <div
-                        class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary">
                         <div class="text-[10px] font-[500] text-white">
                           {{ $t("Default") }}
@@ -350,7 +350,7 @@ onBeforeUnmount(() => {
               <div class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods">
                 <div class="cursor-pointer">
-                  <div class="text-[11px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                  <div class="text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
                     {{ $t("Show all payment options") }}
                   </div>
                 </div>
@@ -452,10 +452,10 @@ onBeforeUnmount(() => {
 
             <div class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full">
               <div
-                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:space-x-[24px] w-full px-4 md:px-[20px]">
+                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:space-x-[24px] w-full px-[20px]">
                 <div class="lg:py-[17px] search_input max-md:flex-1 lg:w-3/4 mt-[24px]">
                   <input type="text" @input="addSiteStore.noDiscount = false"
-                    class="input_dashboard_search max-md:!p-0 w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+                    class="input_dashboard_search max-md:!px-[15px] w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
                     v-model="addSiteStore.promo" :placeholder="$t('Promo Code')" :class="[
                       addSiteStore.validPromo
                         ? '!bg-[#E8F8F6] dark:!bg-[#170705] !text-[#E8F8F6] dark:!text-[#170705] '
@@ -484,7 +484,7 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="text-center mt-[24px] w-auto md:w-2/6">
-                  <button class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                  <button class="btn-dashboard hover_tamkin w-full mx-auto text-center text-nowrap"
                     @click="addSiteStore.addPromoCode" :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                     v-if="!addSiteStore.validPromo">
                     <div class="flex items-center justify-center">

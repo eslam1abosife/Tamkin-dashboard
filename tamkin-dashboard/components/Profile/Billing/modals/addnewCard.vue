@@ -425,7 +425,7 @@ const countriesC = computed(() => {
           </div>
         </div>
         <div
-          class="flex flex-col items-start lg:pr-0 pr-4 justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
+          class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
@@ -540,9 +540,9 @@ const countriesC = computed(() => {
               </div>
 
               <div
-                class="flex items-center justify-center mt-[14px] w-full space-x-[20px] rtl:space-x-reverse"
+                class="flex items-center max-md:flex-col justify-center mt-[14px] w-full gap-[20px]"
               >
-                <div class="w-2/4 relative">
+                <div class="w-full md:w-2/4 relative">
                   <div
                     ref="cardCvc"
                     class="w-full dark:text-whiteTamkin input_floating_label"
@@ -555,7 +555,7 @@ const countriesC = computed(() => {
                     {{ cvcError !== "valid" && cvcError ? $t(cvcError) : null }}
                   </div>
                 </div>
-                <div class="w-2/4 relative">
+                <div class="w-full md:w-2/4 relative">
                   <div
                     ref="cardExpiry"
                     class="w-full input_floating_label"

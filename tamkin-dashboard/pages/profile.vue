@@ -199,8 +199,9 @@ const runtimeconfig = useRuntimeConfig();
       </div>
       <div class="absolute bottom-[22px] end-[40px]">
         <button
+        :disabled="profileStore.currentTab === 'security'"
           @click="changeMode('editing')"
-          class="btn-default border-[1px] dark:border-darkborder dark:text-whiteTamkin dark:bg-tamkinDarkPrimary border-[#C5C5C5] bg-white group hover:border-tamkin"
+          class="disabled:hover:!text-white disabled:!text-white btn-default border-[1px] dark:border-darkborder dark:text-whiteTamkin dark:bg-tamkinDarkPrimary border-[#C5C5C5] bg-white group hover:border-tamkin"
         >
           <div
             class="group-hover:bg-gradient-to-b group-hover:from-tamkinStart group-hover:to-tamkinEnd group-hover:bg-clip-text group-hover:text-transparent"

@@ -92,7 +92,7 @@ const discountAmount = computed(() => {
 <template>
   <div
     v-if="isOpen('paypal_packages')"
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -207,7 +207,7 @@ const discountAmount = computed(() => {
 
               <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
                 <button
-                  class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                  class="btn-dashboard hover_tamkin w-full mx-auto text-center text-nowrap"
                   @click="packagesStore.addPromoCode"
                   :disabled="!packagesStore.promo || packagesStore.loadingPromo"
                   v-if="!packagesStore.validPromo"

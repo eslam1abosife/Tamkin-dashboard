@@ -17,10 +17,8 @@ onMounted(() => {
 
 <template>
   <div
-    v-if="isVisible"
-
-    class=" fixed inset-0 z-[99999] top-[70px] w-full max-md:left-1/2 max-md:right-0 max-md:!-translate-x-1/2  max-w-[calc(100%-2rem)] md:max-w-[30%] rounded-[5px] max-h-[50px] h-auto flex items-center 
-    justify-start"
+  v-if="isVisible"
+    class="fixed inset-y-0 z-[99999] top-[70px] w-full left-1/2 !-translate-x-1/2 lg:rtl:left-[calc(50%-(231px/2))] lg:ltr:left-[calc(50%+(231px/2))] max-w-[calc(100%-2rem)] md:max-w-[30%] rounded-[5px] max-h-[50px] h-auto flex items-center justify-start"
     :class="[
       type === 'success'
         ? 'bg-[#DAF3F1]'
@@ -31,10 +29,6 @@ onMounted(() => {
         : 'bg-[#DAF3F1]',
 
     ]"
-    :style="{
-      insetInline: props.positionX ? props.positionX : '50%',
-      transform: props.positionX   ? '' : useNuxtApp().$i18n.locale.value === 'ar' ? 'translateX(50%)' : 'translateX(-30%)'
-    }"
   >
     <div class="px-[8px]" v-if="type === 'success' || !type">
       <img src="/assets/imgs/success_toast.svg" />

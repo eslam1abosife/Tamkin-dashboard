@@ -73,7 +73,7 @@ const discountAmount = computed(() => {
 <template>
   <div
     v-if="isOpen('paypal_addsite')"
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
   <div class="w-full h-full">
     <div class="flex flex-col items-start justify-center w-full">
@@ -147,7 +147,7 @@ const discountAmount = computed(() => {
                 <input
                   type="text"
                   @input="addSiteStore.noDiscount = false"
-                  class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin max-md:px-0 !h-[40px]"
+                  class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin max-md:!px-[15px] !h-[40px]"
                   v-model="addSiteStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
@@ -186,7 +186,7 @@ const discountAmount = computed(() => {
 
               <div class="text-center mt-[24px] w-auto md:w-2/6">
                 <button
-                  class="btn-dashboard hover_tamkin w-full mx-auto text-center"
+                  class="btn-dashboard hover_tamkin w-full mx-auto text-center text-nowrap"
                   @click="addSiteStore.addPromoCode"
                   :disabled="!addSiteStore.promo || addSiteStore.loadingPromo"
                   v-if="!addSiteStore.validPromo"
