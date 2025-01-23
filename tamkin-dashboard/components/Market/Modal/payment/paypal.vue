@@ -73,7 +73,7 @@ const discountAmount = computed(() => {
 <template>
   <div
     v-if="isOpen('paypal_market')"
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen max-md:!overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"

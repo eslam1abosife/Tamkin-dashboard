@@ -70,7 +70,7 @@ return formattedDate
 <template>
     <div
     v-if="isOpen('success_paypal_withdraw')"
-    class="fixed z-[9999] ipad-max:top-[20px] top-[50px] h-[620px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[30px]  w-full max-w-[600px] sm:max-w-[90%] md:max-w-[600px] lg:max-w-[600px]"
+    class="fixed z-[9999] top-[0px] lg:top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[100%] lg:h-[513px] w-[100%] lg:w-[600px]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- Close Button -->

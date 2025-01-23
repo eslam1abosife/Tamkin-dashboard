@@ -137,7 +137,7 @@ const closeAndReset = () => {
       </h1>
 
       <div
-        class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1"
+        class="mt-[32px] w-full h-[81px] mb-12 p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1"
       >
         <!-- Icon Column -->
         <div
@@ -151,7 +151,7 @@ const closeAndReset = () => {
         </div>
 
         <!-- Crypto Info Column -->
-        <div class="flex flex-col col-span-4 ltr:ml-4 rtl:mr-4">
+        <div class="flex flex-col col-span-5 md:col-span-4 ms-4">
           <div
             class="text-[#021328] text-[12px] font-[500] dark:text-whiteTamkin"
           >
@@ -166,7 +166,7 @@ const closeAndReset = () => {
         </div>
 
         <!-- Wallet Address Column -->
-        <div class="flex flex-col col-span-7 ltr:ml-4 rtl:mr-4">
+        <div class="flex flex-col col-span-6 md:col-span-7 ms-4">
           <div
             class="text-[#021328] text-[12px] font-[500] break-words dark:text-whiteTamkin"
           >
@@ -187,7 +187,7 @@ const closeAndReset = () => {
         {{ $t("How much would you like to withdraw?") }}
       </div>
 
-      <div class="mt-[44px] mx-auto text-center relative">
+      <div class="mt-4 mx-auto text-center relative">
         <input
           type="text"
           v-model="amount"
@@ -198,7 +198,7 @@ const closeAndReset = () => {
       </div>
 
       <div
-        class="text-center text-[14px] font-[600] dark:text-whiteTamkin text-darkGrey"
+        class="text-center text-[14px] font-[600] dark:text-whiteTamkin text-darkGrey mt-1"
       >
         {{ $t("Available balance") }}
         <span class="!font-[500] dark:text-whiteTamkin"
@@ -208,7 +208,7 @@ const closeAndReset = () => {
 
       <div class="mt-[91px] rtl:mr-auto ltr:ml-auto">
         <button
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin mt-12"
           @click="completeWithDraw"
           :disabled="isWithdrawDisabled || withdrawloading"
         >

@@ -486,15 +486,15 @@ const isCurrentRateEmpty = computed(() => {
               }}
             </div>
             <div
-              class="mt-[12px] border-[1px] dark:bg-tamkinDarkPrimary bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px] rtl:flex-row-reverse"
+              class="mt-[12px] border-[1px] gap-3 dark:bg-tamkinDarkPrimary bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px] rtl:flex-row-reverse"
             >
               <div
-                class="lg:text-[14px] hidden sm:flex text-[12px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px]"
+                class="lg:text-[14px] hidden sm:flex text-[12px] dark:text-whiteTamkin font-[400] leading-[21px] ipad-max:text-[10px] text-nowrap"
               >
                 {{ $t("Referral Link") }}
               </div>
               <div
-                class="flex items-center justify-end space-x-[12px] rtl:flex-row-reverse"
+                class="max-md:w-full max-md:break-all flex items-center justify-end space-x-[12px] rtl:flex-row-reverse"
               >
                 <div
                   class="ml-auto lg:text-[14px] md:text-[12px] text-[10px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[13px] sm:leading-[21px] dark:text-whiteTamkin/70"
@@ -552,7 +552,7 @@ const isCurrentRateEmpty = computed(() => {
             </div>
           </div>
 
-          <div class="w-full mt-2 md:mt-0 md:w-1/4 lg:w-1/4">
+          <div class="w-full mt-4 md:mt-0 md:w-1/4 lg:w-1/4">
             <VueDatePicker
               direction="ltr"
               :enable-time-picker="false"
@@ -573,7 +573,7 @@ const isCurrentRateEmpty = computed(() => {
             >
               <template #action-row="{ closePicker, selectDate }">
                 <div
-                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full rtl:!font-[Almarai]"
+                  class="flex items-center justify-end rtl:space-x-reverse space-x-3 mb-[5px] w-full rtl:!font-[Almarai]"
                 >
                   <button
                     @click="
@@ -582,13 +582,13 @@ const isCurrentRateEmpty = computed(() => {
                         closePicker();
                       }
                     "
-                    class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
+                    class="btn_bordered_dashboard flex items-center flex-1 !py-[6px] !px-3 justify-center"
                   >
                     <div>{{ $t("Clear") }}</div>
                   </button>
                   <button
                     @click="selectDate"
-                    class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
+                    class="btn-dashboard hover_tamkin flex items-center flex-1 !py-[6px] !px-3 justify-center group"
                   >
                     <div>
                       <svg
@@ -635,7 +635,7 @@ const isCurrentRateEmpty = computed(() => {
         </div>
 
         <div
-          class="overflow-x-auto w-full mt-[16px]"
+          class="overflow-x-auto w-full mt-3 md:mt-[16px]"
           v-if="
             currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards
           "

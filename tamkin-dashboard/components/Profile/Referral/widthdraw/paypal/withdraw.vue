@@ -35,7 +35,7 @@ const closeAndreseStt = () => {
 <template>
   <div
     v-if="isOpen('paypal_withdraw_step1')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[400px] w-[600px] max-h-[80vh]"
+    class="fixed z-[9999] top-[0px] lg:top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[100%] lg:h-[400px] w-[100%] lg:w-[600px]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div
@@ -118,7 +118,7 @@ const closeAndreseStt = () => {
         </div>
 
         <p
-          class="w-3/4 mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[12px] leading-[24px]"
+          class="md:w-3/4 mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[12px] leading-[24px]"
         >
           {{
             $t(

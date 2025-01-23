@@ -167,7 +167,7 @@ const closeAndreset = () => {
       </h1>
 
       <div
-        class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1"
+        class="mt-[32px] w-full h-[81px] mb-12 p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1"
       >
         <!-- Bank Image -->
         <div class="col-span-2 sm:col-span-1 flex items-center justify-center">
@@ -228,7 +228,7 @@ const closeAndreset = () => {
         {{ $t("How much would you like to withdraw?") }}
       </div>
 
-      <div class="mt-[44px] mx-auto text-center relative">
+      <div class="mt-4 mx-auto text-center relative">
         <input
           type="text"
           :class="[
@@ -245,7 +245,7 @@ const closeAndreset = () => {
       </div>
 
       <div
-        class="text-center text-[14px] font-[600] text-darkGrey dark:text-white/80 mt-3"
+        class="text-center text-[14px] font-[600] text-darkGrey dark:text-white/80 mt-1"
       >
         {{ $t("Available balance") }}
         <span class="!font-[500]">${{ withdrawStore.currentAmount }}</span>
@@ -253,7 +253,7 @@ const closeAndreset = () => {
 
       <div class="lg:mt-[120px] 2xl:mt-[178px] rtl:mr-auto ltr:ml-auto">
         <button
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin mt-12"
           @click="completeWithDraw"
           :disabled="isWithdrawDisabled || withdrawloading"
         >

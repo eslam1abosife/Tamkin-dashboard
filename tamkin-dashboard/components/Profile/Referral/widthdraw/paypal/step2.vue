@@ -87,6 +87,7 @@ const isWithdrawDisabled = computed(() => {
 watch(amount, (newValue) => {
   const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
   withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
+  console.log(parseFloat(cleanedValue).toFixed(2));
 });
 
 
@@ -112,8 +113,7 @@ const completeWithDraw = async () => {
 
 <template>
   <div  v-if="isOpen('paypal_withdraw_step2')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-[513px] 
-    w-[600px]"
+    class="fixed z-[9999] top-[0px] lg:top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[100%] lg:h-[513px] w-[100%] lg:w-[600px]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <!-- isOpen('withdraw_paymentmethods') -->
@@ -139,8 +139,7 @@ const completeWithDraw = async () => {
 
 
 
-    <div class="mt-[32px] w-full h-[81px] px-[10px] py-[20px] flex items-center justify-start space-x-[100px] rounded-[10px]
-     bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
+    <div class="mt-[32px] w-full h-[81px] mb-12 p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] dark:bg-darkTamkin custom-border-tamkin padding-override-1">
 
 <div class="flex items-center justify-start gap-4">
     <div>
@@ -168,7 +167,7 @@ const completeWithDraw = async () => {
 
   
 
-<div class="mt-[44px] mx-auto text-center relative">
+<div class="mt-4 mx-auto text-center relative">
     <input
       type="text"
       v-model="amount"
@@ -179,7 +178,7 @@ const completeWithDraw = async () => {
   </div>
 
 
-  <div class="text-center text-[14px] font-[600] text-darkGrey dark:text-white mt-3">
+  <div class="text-center text-[14px] font-[600] text-darkGrey dark:text-white mt-1">
 
     {{ $t('Available balance') }}  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
   </div>
@@ -187,7 +186,7 @@ const completeWithDraw = async () => {
   
 
        <div class="mt-[91px]  rtl:mr-auto ltr:ml-auto">
-        <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
+        <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin mt-12"  @click="completeWithDraw">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Withdraw') }}
