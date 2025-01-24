@@ -107,7 +107,7 @@ const goToPaymentMethod = async (method: any) => {
             </svg>
           </div>
           <h1
-            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[0px]"
+            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
           >
             {{ $t("Choose Payment Methods") }}
           </h1>
@@ -301,7 +301,9 @@ const goToPaymentMethod = async (method: any) => {
               </div>
             </div>
           </div>
-          <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
+          <div
+            class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto"
+          >
             <button
               class="btn-dashboard hover_tamkin"
               :disabled="!packagesStore.selectedPaymentMethod"

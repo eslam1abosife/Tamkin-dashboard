@@ -30,7 +30,7 @@ const closeFooter = () => {
     <div v-if="showFooter" class="lg:!px-0 fixed z-[40] 
  bottom-0 w-full rtl:right-[50%] ltr:left-[50%] !px-[0] transform rtl:translate-x-[50%] 
     ltr:translate-x-[-50%]" >
-        <div class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[20px] " 
+        <div class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-auto sm:h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[16px]" 
         style="box-shadow: 4px 4px 24px 8px #51459F1A;">
             <div v-if="!done" class="flex items-center  lg:flex-nowrap flex-wrap w-full justify-between
              ipad-max:px-[40px] 
@@ -43,8 +43,8 @@ const closeFooter = () => {
                         {{ $t('Please wait while we process your request. This may take a few moments') }}
                     </div>
                 </div>
-                <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">{{$t('Cancel')}}</button>
+                <div class="flex items-stretch gap-y-[10px] sm:items-center w-full lg:w-auto lg:justify-start justify-center flex-col sm:flex-row gap-x-[10px] lg:gap-x-[32px] lg:mt-0 mt-4">
+                    <button class="btn_bordered_dashboard hover_tamkin flex-1 lg:flex-[unset] max-md:!px-0" @click="cancelfn">{{$t('Cancel')}}</button>
                 </div>
             </div>
             <div v-else class="flex items-center  lg:flex-nowrap flex-wrap w-full justify-between
@@ -60,8 +60,8 @@ const closeFooter = () => {
                      {{ $t('Processing Complete') }} 
                    </div>
                </div>
-               <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                   <button class="btn_bordered_dashboard hover_tamkin" @click="closeFooter">{{$t('Done')}}</button>
+               <div class="flex items-stretch gap-y-[10px] sm:items-center w-full lg:w-auto lg:justify-start justify-center flex-col sm:flex-row gap-x-[10px] lg:gap-x-[32px] lg:mt-0 mt-4">
+                   <button class="btn_bordered_dashboard hover_tamkin flex-1 lg:flex-[unset] max-md:!px-0" @click="closeFooter">{{$t('Done')}}</button>
                </div>
            </div>
         </div>

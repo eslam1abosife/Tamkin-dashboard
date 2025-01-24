@@ -216,16 +216,16 @@ const confirmOrder = async () => {
 
           <!-- Actions -->
           <div
-            class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] py-3"
+            class="mt-8 flex justify-end gap-y-4 max-md:flex-col-reverse max-md:items-stretch gap-x-[10px] md:gap-x-[20px] py-3"
           >
             <button
-              class="btn_bordered_dashboard"
+              class="btn_bordered_dashboard max-md:flex-1 max-md:px-0"
               @click="closeModal('mycart')"
             >
               {{ $t("Cancel") }}
             </button>
             <button
-              class="btn-dashboard hover_tamkin max-w-[195px]"
+              class="btn-dashboard hover_tamkin md:max-w-[195px] max-md:flex-1 max-md:px-0"
               @click="
                 () => {
                   confirmOrder();

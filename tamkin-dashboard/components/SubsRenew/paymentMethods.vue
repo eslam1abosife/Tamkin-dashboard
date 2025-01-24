@@ -265,6 +265,7 @@ const goToPaymentMethod = async (method: any) => {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
           <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
             <button
               class="btn-dashboard hover_tamkin"
@@ -272,6 +273,11 @@ const goToPaymentMethod = async (method: any) => {
               @click="goToPaymentMethod(subsStore.selectedPaymentMethod)"
             >
               {{ $t("Continue to Payment") }}
+=======
+          <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto">
+            <button class="btn-dashboard hover_tamkin" :disabled="!subsStore.selectedPaymentMethod" @click="goToPaymentMethod(subsStore.selectedPaymentMethod)">
+              {{ $t('Continue to Payment') }}
+>>>>>>> 91f1f9d06e737c0ee3461ff4cab4d59971e81d0f
             </button>
           </div>
         </div>

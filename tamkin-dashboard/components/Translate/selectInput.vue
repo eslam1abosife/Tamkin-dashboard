@@ -225,7 +225,7 @@ onMounted(() => {
         v-if="isListOpen && filteredList.length === 0"
         class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2 dark:bg-darkTamkin dark:border-darkborder dark:text-white"
       >
-        {{ $t("No countries found.") }}
+        {{ $t("Not found.") }}
       </div>
     </div>
   </div>

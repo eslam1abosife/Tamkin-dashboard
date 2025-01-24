@@ -161,7 +161,7 @@ const props = defineProps({
 
     <div class="flex items-center  rtl:space-x-reverse space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
 <div class="cursor-pointer" >
-    <div class="text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">Show all payment options</div>
+    <div class="ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">Show all payment options</div>
 
 </div>
 <div class="cursor-pointer"><img  src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[10px] rtl:rotate-180 " 
