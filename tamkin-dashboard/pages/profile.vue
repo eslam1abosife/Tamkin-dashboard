@@ -258,7 +258,7 @@ const runtimeconfig = useRuntimeConfig();
                 />
               </div>
               <div
-                class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
+                class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D] dark:text-white"
               >
                 {{ $t("Investor member") }}
               </div>
@@ -271,7 +271,7 @@ const runtimeconfig = useRuntimeConfig();
                 class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[8px]"
               >
                 <div
-                  class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
+                  class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/80 text-[12px] leading-[24px]"
                 >
                   {{
                     truncatedString(packagesStore.investorUser.wallet_address)
@@ -291,13 +291,13 @@ const runtimeconfig = useRuntimeConfig();
             >
               <div class="flex items-center justify-between w-full">
                 <div
-                  class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E]"
+                  class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E] dark:text-white"
                 >
                   {{ $t("Token Balance") }}
                 </div>
 
                 <div
-                  class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E]"
+                  class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E] dark:text-white"
                 >
                   {{ packagesStore.investorUser.tslt_amount }} TSLT
                 </div>

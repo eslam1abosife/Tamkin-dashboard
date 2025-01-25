@@ -229,23 +229,12 @@ const goToPaymentMethod = (method: any) => {
               </div>
             </div>
           </div>
-          <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
-            <button
-              class="btn-dashboard hover_tamkin"
-              @click="goToPaymentMethod(selectedPaymentMethod)"
-            >
-              Continue to Payment
-            </button>
-          </div>
-        </div>
-<<<<<<< HEAD
-=======
-       </div>
-       <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto">
+          <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto">
         <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
           Continue to Payment
       </button>
->>>>>>> 91f1f9d06e737c0ee3461ff4cab4d59971e81d0f
+      </div>
+        </div>
       </div>
     </div>
   </div>

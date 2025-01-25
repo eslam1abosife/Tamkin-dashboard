@@ -552,7 +552,7 @@ const isOwner = computed(() => {
             <div>
               <img
                 src="/imgs/total_members.png"
-                class="w-[16px] h-[21px]"
+                class="w-4 md:h-[21px]"
                 alt=""
               />
             </div>
@@ -563,7 +563,7 @@ const isOwner = computed(() => {
                 {{ $t("Total Member") }}
               </div>
               <div
-                class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right"
+                class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px] text-right"
               >
                 {{ teamMembers.length }}
               </div>
@@ -581,7 +581,7 @@ const isOwner = computed(() => {
                 {{ $t("Active") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+            <div class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px] text-right">
               {{ teamMembers.filter((ele) => ele.is_active).length }}
             </div>
           </div>
@@ -595,7 +595,7 @@ const isOwner = computed(() => {
                 {{ $t("Pending") }}
               </div>
             </div>
-            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+            <div class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px]text-right">
               {{ teamMembers.filter((ele) => !ele.is_active).length }}
             </div>
           </div>
@@ -604,7 +604,7 @@ const isOwner = computed(() => {
         <div class="-mt-[45px]">
           <img
             src="/imgs/total_members_hero.png"
-            class="md:w-[203px] md:h-[151px] w-[170px] h-[145px]"
+            class="md:w-[203px] md:h-[151px] w-[135px] h-[140px]"
             alt=""
           />
         </div>
@@ -672,7 +672,7 @@ const isOwner = computed(() => {
         </div>
 
         <!-- Placeholder for the image -->
-        <div class="ps-4 md:ps-[20px]">
+        <div class="ps-4 md:ps-[20px] overflow-hidden">
           <div
             class="max-w-100 w-[203px] h-[70px] dark:bg-p bg-gray-300 rounded animate-pulse"
           ></div>

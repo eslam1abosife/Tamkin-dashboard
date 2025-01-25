@@ -852,7 +852,7 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-            class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
+            class="flex items-center flex-row justify-between w-full gap-2 md:gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
               <input
@@ -860,7 +860,7 @@ const closeModalPackage = () => {
                 type="text"
                 placeholder=""
                 id="newWebsite"
-                class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
+                class="input_floating_label peer focus:outline-0 text-darkGrey flex-1 w-full !h-[40px]"
                 :value="
                   mysiteStore.currentWebsite.title !== 'Internal Service'
                     ? mysiteStore.currentWebsite.app_domain

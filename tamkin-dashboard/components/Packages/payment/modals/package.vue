@@ -903,7 +903,7 @@ const formattedTotal = computed(() => {
             </div>
           </div>
           <div
-            class="flex items-center justify-center gap-4 flex-wrap sm:flex-nowrap"
+            class="flex items-center justify-center gap-x-4 flex-wrap sm:flex-nowrap"
             v-if="
               packagesStore.currentPackage.package_type === 'Addons' ||
               packagesStore.currentPackage.package_type === 'Package'
@@ -1172,7 +1172,7 @@ const formattedTotal = computed(() => {
             type="text"
             placeholder=""
             id="newWebsite"
-            class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px] mt-[24px]"
+            class="input_floating_label peer focus:outline-0 text-darkGrey flex-1 w-full !h-[40px] mt-[24px]"
             :value="$t('Internal Service')"
           />
 
@@ -1184,14 +1184,14 @@ const formattedTotal = computed(() => {
                 packagesStore.currentTab.title === 'Plugins') ||
               packagesStore.currentType.title === 'Accessibility'
             "
-            class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
+            class="flex items-center flex-row justify-between w-full gap-2 md:gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
               <input
                 type="text"
                 placeholder=""
                 id="newWebsite"
-                class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
+                class="input_floating_label peer focus:outline-0 text-darkGrey flex-1 w-full !h-[40px]"
                 v-model="v$.newWebsite.$model"
                 @input="checkforexistingwebsite"
                 :disabled="loadingAddWebsite"
@@ -1250,11 +1250,11 @@ const formattedTotal = computed(() => {
               </div>
             </div>
 
-            <div class="w-[240px] lg:mt-0 mt-[16px]">
+            <div class="md:w-[240px] w-auto">
               <button
                 @click="addWebsite"
                 :disabled="v$.$invalid || loadingAddWebsite || websiteExist"
-                class="w-full btn-dashboard hover_tamkin dark:bg-p dark:text-whiteTamkin flex items-center justify-center"
+                class="w-full btn-dashboard hover_tamkin dark:text-whiteTamkin flex items-center justify-center text-nowrap max-md:px-3"
               >
                 <div class="flex items-center justify-center">
                   <div :class="loadingAddWebsite ? 'rtl:ml-2 ltr:mr-2' : ''">
@@ -1526,67 +1526,66 @@ const formattedTotal = computed(() => {
                       : ''
                   "
                 >
-                  <td
-                    class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
-                  >
-                    <div class="w-[150px] flex items-center h-[40px]">
-                      <div
-                        class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
-                      >
-                        <div>
-                          {{
-                            website.title &&
-                            website.title === "Internal Service"
-                              ? $t(website.title)
-                              : website.app_domain
-                          }}
-                        </div>
-                        <span
-                          v-if="
-                            trafficTooHighApps.includes(website) &&
-                            levelof !== 'Over 1M page views/mo'
-                          "
-                          class="tooltip packages"
-                          :data-tamkin="
-                            $t(
-                              'The selected website exceeds the traffic limit of the chosen package.'
-                            )
-                          "
+                  <td class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[33px]">
+                      <div class="w-[150px] flex items-center h-[40px]">
+                        <div
+                          class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                         >
-                          <svg
-                            width="16"
-                            class="ml-auto"
-                            height="15"
-                            viewBox="0 0 16 15"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                          <div>
+                            {{
+                              website.title &&
+                              website.title === "Internal Service"
+                                ? $t(website.title)
+                                : website.app_domain
+                            }}
+                          </div>
+                          <span
+                            v-if="
+                              trafficTooHighApps.includes(website) &&
+                              levelof !== 'Over 1M page views/mo'
+                            "
+                            class="tooltip packages"
+                            :data-tamkin="
+                              $t(
+                                'The selected website exceeds the traffic limit of the chosen package.'
+                              )
+                            "
                           >
-                            <path
-                              d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
-                              fill="red"
-                            />
-                          </svg>
-                        </span>
+                            <svg
+                              width="16"
+                              class="ml-auto"
+                              height="15"
+                              viewBox="0 0 16 15"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
+                                fill="red"
+                              />
+                            </svg>
+                          </span>
+                        </div>
                       </div>
-                    </div>
-
-                    <div
-                      class="cursor-pointer"
-                      @click="removeWebsiteFromSelectedApps(website.app_domain)"
-                    >
-                      <svg
-                        width="18"
-                        height="17"
-                        viewBox="0 0 18 17"
-                        class="text-[#D9D9D9] hover:text-[#E80902]"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <div
+                        class="cursor-pointer"
+                        @click="removeWebsiteFromSelectedApps(website.app_domain)"
                       >
-                        <path
-                          d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                          fill="currentColor"
-                        />
-                      </svg>
+                        <svg
+                          width="18"
+                          height="17"
+                          viewBox="0 0 18 17"
+                          class="text-[#D9D9D9] hover:text-[#E80902]"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </td>
                   <td
@@ -1817,9 +1816,9 @@ const formattedTotal = computed(() => {
             </table>
           </div>
           <!-- {{ webs.length }} -->
-          <div class="my-[26px] rtl:mr-auto ltr:ml-auto">
+          <div class="my-[26px] rtl:mr-auto ltr:ml-auto max-md:w-full">
             <button
-              class="btn-dashboard hover_tamkin hover:dark:bg-tamkinDarkPrimary dark:bg-p dark:text-whiteTamkin"
+              class="btn-dashboard hover_tamkin hover:dark:bg-tamkinDarkPrimary max-md:w-full dark:text-whiteTamkin"
               @click="conintuePay"
               :disabled="
                 (!getCategory &&

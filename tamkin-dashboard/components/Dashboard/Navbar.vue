@@ -1352,7 +1352,7 @@ watch(
           </div>
           <div class="w-full mx-auto">
             <nuxt-link
-              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
+              class="btn-dashboard hover_tamkin !h-[14px] !p-[13px] w-2/4 !text-[12px] mx-auto"
               :to="localePath('/contact')"
             >
               {{ $t("Contact Sales") }}

@@ -764,14 +764,14 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-            class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
+            class="flex items-center flex-row justify-between w-full gap-2 md:gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
               <input
                 type="text"
                 placeholder=""
                 id="newWebsite"
-                class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
+                class="input_floating_label peer focus:outline-0 text-darkGrey flex-1 w-full !h-[40px]"
                 v-model="v$.newWebsite.$model"
                 @input="checkforexistingwebsite"
                 :class="{
@@ -829,11 +829,11 @@ const closeModalPackage = () => {
               </div>
             </div>
 
-            <div class="md:w-[240px] w-full lg:mt-0 mt-[16px]">
+            <div class="md:w-[240px] w-auto">
               <button
                 @click="addWebsite"
                 :disabled="v$.$invalid || loadingAddWebsite || websiteExist"
-                class="w-full btn-dashboard hover_tamkin flex items-center justify-center"
+                class="w-full btn-dashboard hover_tamkin flex items-center justify-center text-nowrap max-md:px-3"
               >
                 <div class="flex items-center justify-center">
                   <div :class="loadingAddWebsite ? 'rtl:ml-2 ltr:mr-2' : ''">
