@@ -828,7 +828,7 @@ const formattedTotal = computed(() => {
               !packagesStore.openedCurrentSite &&
               packagesStore.currentPackage.package_type === 'Package'
             "
-            class="pt-[24px] flex items-center justify-center rtl:space-x-reverse space-x-[18px] w-full"
+            class="pt-[24px] flex items-left sm:items-center flex-col sm:flex-row justify-center rtl:space-x-reverse space-x-[0px] sm:space-x-[18px] w-full"
           >
             <div>
               <img
@@ -837,28 +837,30 @@ const formattedTotal = computed(() => {
                 alt=""
               />
             </div>
-            <div
-              class="font-[600] dark:text-whiteTamkin text-[16px] leading-[30px] text-black text-center"
-            >
-              {{ $t(packagesStore.currentPackage.title) }}
-            </div>
-            <div
-              class="font-[400] dark:text-whiteTamkin text-[12px] sm:text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
-            >
-              {{
-                packagesStore.currentType.title +
-                  "" +
-                  packagesStore.currentType.title !==
-                "Sign language"
-                  ? $t(packagesStore.currentType.title + " " + "Package")
-                  : ""
-              }}
-              {{
-                packagesStore.currentType.title === "Sign language"
-                  ? "- " +
-                    (getCategory === 0 ? $t("Plugins") : $t(`${getCategory}`))
-                  : ""
-              }}
+            <div class="flex gap-1 sm:gap-10 justify-between">
+              <div
+                class="font-[600] dark:text-whiteTamkin text-[16px] leading-[30px] text-black text-left sm:text-center"
+              >
+                {{ $t(packagesStore.currentPackage.title) }}
+              </div>
+              <div
+                class="font-[400] text-left sm:text-center dark:text-whiteTamkin text-[12px] sm:text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
+              >
+                {{
+                  packagesStore.currentType.title +
+                    "" +
+                    packagesStore.currentType.title !==
+                  "Sign language"
+                    ? $t(packagesStore.currentType.title + " " + "Package")
+                    : ""
+                }}
+                {{
+                  packagesStore.currentType.title === "Sign language"
+                    ? "- " +
+                      (getCategory === 0 ? $t("Plugins") : $t(`${getCategory}`))
+                    : ""
+                }}
+              </div>
             </div>
           </div>
           <div
@@ -875,12 +877,14 @@ const formattedTotal = computed(() => {
                 alt=""
               />
             </div>
-            <div class="text-[16px] font-[600] leading-[24px] dark:text-white">
+            <div
+              class="text-[13px] md:text-[16px] font-[600] leading-[24px] dark:text-white"
+            >
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
 
             <div
-              class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E] dark:text-white/80"
+              class="text-[12px] p-1 md:text-[15px] font-[400] leading-[26px] dark:text-white rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
               v-if="packagesStore.currentPackage.package_type === 'Addons'"
             >
               {{ $t(packagesStore.currentType.title) }} -
@@ -892,7 +896,7 @@ const formattedTotal = computed(() => {
               }}
             </div>
             <div
-              class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
+              class="text-[12px] p-1 md:text-[15px] font-[400] dark:text-white leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
               v-if="packagesStore.currentPackage.package_type === 'Extra'"
             >
               {{ $t(packagesStore.currentPackage.sub_title) }}
@@ -919,7 +923,7 @@ const formattedTotal = computed(() => {
                   <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
                     {{ $t("Free Trial") }}
                   </h1>
-                  <h2 class="font-[500] text-[10px]">
+                  <h2 class="font-[500] text-[10px] dark:text-white">
                     {{ $t("Free trial for") }}
                     {{
                       +" " +
@@ -1130,7 +1134,7 @@ const formattedTotal = computed(() => {
             :deselectLabel="$t('Press enter to remove')"
             :placeholder="$t('Choose sites')"
             label="app_domain"
-            class="mt-[24px]"
+            class="mt-[24px] dark:bg-tamkinDarkPrimary"
             :selected-label="$t('Selected')"
             track-by="app_domain"
             :showNoOptions="false"
@@ -1138,7 +1142,7 @@ const formattedTotal = computed(() => {
           >
             <template #selection="{ values, search, isOpen }" :maxHeight="200">
               <span
-                class="multiselect__single !font-[500] !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
+                class="multiselect__single !font-[500] dark:bg-p dark:!text-whiteTamkin !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
                 v-if="values.length"
                 v-show="!isOpen"
                 >{{ values.length }}
@@ -1250,7 +1254,7 @@ const formattedTotal = computed(() => {
               <button
                 @click="addWebsite"
                 :disabled="v$.$invalid || loadingAddWebsite || websiteExist"
-                class="w-full btn-dashboard hover_tamkin flex items-center justify-center"
+                class="w-full btn-dashboard hover_tamkin dark:bg-p dark:text-whiteTamkin flex items-center justify-center"
               >
                 <div class="flex items-center justify-center">
                   <div :class="loadingAddWebsite ? 'rtl:ml-2 ltr:mr-2' : ''">
@@ -1309,368 +1313,369 @@ const formattedTotal = computed(() => {
               idField="name"
               class="mt-[24px]"
             /> -->
-
-          <table
-            class="min-w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]"
-          >
-            <thead>
-              <tr>
-                <th
-                  class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] ltr:text-left rtl:text-right"
-                >
-                  {{ $t("Website") }}
-                </th>
-                <th
-                  class="py-2 border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] rtl:text-right ltr:text-left"
-                >
-                  {{ $t("Tier") }}
-                </th>
-                <th
-                  class="py-2 border-b text-[16px] text-center leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500]"
-                >
-                  {{ $t("Price") }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(website, index) in packagesStore.urls"
-                :key="index"
-                :class="
-                  trafficTooHighUrls.some((w) => w.title === website.title) &&
-                  levelof !== 'Over 1M page views/mo'
-                    ? 'bg-red-50'
-                    : ''
-                "
-              >
-                <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
-                >
-                  <div class="w-[150px] flex items-center h-[40px]">
-                    <div
-                      class="flex items-center dark:text-whiteTamkin justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
-                    >
-                      <div>{{ website.title }}</div>
-                      <span
-                        v-if="
-                          trafficTooHighUrls.some(
-                            (w) => w.title === website.title
-                          ) && levelof !== 'Over 1M page views/mo'
-                        "
-                        class="tooltip packages"
-                        :data-tamkin="
-                          $t(
-                            'The selected website exceeds the traffic limit of the chosen package.'
-                          )
-                        "
-                      >
-                        <svg
-                          width="16"
-                          class="ml-auto"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
-                            fill="red"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="cursor-pointer"
-                    @click="removeWebsite(website.title)"
+          <div class="overflow-x-auto w-full mt-3 md:mt-[16px]">
+            <table class="w-full dark:bg-tamkinDarkPrimary bg-white mt-[62px]">
+              <thead>
+                <tr>
+                  <th
+                    class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] ltr:text-left rtl:text-right"
                   >
-                    <svg
-                      width="18"
-                      height="17"
-                      viewBox="0 0 18 17"
-                      class="text-[#D9D9D9] hover:text-[#E80902]"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                </td>
-                <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  {{
-                    packagesStore.currentPackage.package_type === "Package" &&
-                    packagesStore.currentPackage.type === "Accessibility"
-                      ? $t(`${website.traffic}`)
-                      : $t("Not applicable")
-                  }}
-                </td>
-
-                <td
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentPackage.type !== 'Accessibility'
+                    {{ $t("Website") }}
+                  </th>
+                  <th
+                    class="py-2 border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] rtl:text-right ltr:text-left"
+                  >
+                    {{ $t("Tier") }}
+                  </th>
+                  <th
+                    class="py-2 border-b text-[16px] text-center leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500]"
+                  >
+                    {{ $t("Price") }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(website, index) in packagesStore.urls"
+                  :key="index"
+                  :class="
+                    trafficTooHighUrls.some((w) => w.title === website.title) &&
+                    levelof !== 'Over 1M page views/mo'
+                      ? 'bg-red-50'
+                      : ''
                   "
-                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-center">
-                    <div v-if="!loadingPriceTraffic">
-                      {{ formattedEstimatedPrice }}
-                    </div>
-
-                    <svg
-                      v-if="loadingPriceTraffic"
-                      class="animate-spin h-5 w-5 text-tamkin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </div>
-                </td>
-
-                <td
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentPackage.type === 'Accessibility'
-                  "
-                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div class="flex items-center justify-center">
-                    <div v-if="!loadingByWebsite[website.url]">
-                      ${{ formattedAccessibilityPrice(website.url) }}
-                    </div>
-
-                    <svg
-                      v-else
-                      class="animate-spin h-5 w-5 text-tamkin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </div>
-                </td>
-                <td
-                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
-                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  ${{
-                    (() => {
-                      const formatNumber = (num) =>
-                        Math.floor(num)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-                      const getPackagePrice = () => {
-                        if (selectedPackage === 1) {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_month;
-                        } else if (selectedPackage === 3) {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_3_month;
-                        } else {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_yearly;
-                        }
-                      };
-
-                      const packagePrice = getPackagePrice();
-
-                      return formatNumber(packagePrice);
-                    })()
-                  }}
-                </td>
-              </tr>
-              <tr
-                v-for="(website, index) in webs"
-                :key="index"
-                :class="
-                  trafficTooHighApps.includes(website) &&
-                  levelof !== 'Over 1M page views/mo'
-                    ? 'bg-red-50'
-                    : ''
-                "
-              >
-                <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
-                >
-                  <div class="w-[150px] flex items-center h-[40px]">
-                    <div
-                      class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
-                    >
-                      <div>
-                        {{
-                          website.title && website.title === "Internal Service"
-                            ? $t(website.title)
-                            : website.app_domain
-                        }}
+                  <td
+                    class="py-2 border-b whitespace-nowrap ltr:pr-[10px] rtl:pl-[10px] ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                  >
+                    <div class="w-[150px] flex items-center h-[40px]">
+                      <div
+                        class="flex items-center dark:text-whiteTamkin justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
+                      >
+                        <div>{{ website.title }}</div>
+                        <span
+                          v-if="
+                            trafficTooHighUrls.some(
+                              (w) => w.title === website.title
+                            ) && levelof !== 'Over 1M page views/mo'
+                          "
+                          class="tooltip packages"
+                          :data-tamkin="
+                            $t(
+                              'The selected website exceeds the traffic limit of the chosen package.'
+                            )
+                          "
+                        >
+                          <svg
+                            width="16"
+                            class="ml-auto"
+                            height="15"
+                            viewBox="0 0 16 15"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
+                              fill="red"
+                            />
+                          </svg>
+                        </span>
                       </div>
-                      <span
-                        v-if="
-                          trafficTooHighApps.includes(website) &&
-                          levelof !== 'Over 1M page views/mo'
-                        "
-                        class="tooltip packages"
-                        :data-tamkin="
-                          $t(
-                            'The selected website exceeds the traffic limit of the chosen package.'
-                          )
-                        "
+                    </div>
+                    <div
+                      class="cursor-pointer"
+                      @click="removeWebsite(website.title)"
+                    >
+                      <svg
+                        width="18"
+                        height="17"
+                        viewBox="0 0 18 17"
+                        class="text-[#D9D9D9] hover:text-[#E80902]"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <svg
-                          width="16"
-                          class="ml-auto"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
-                            fill="red"
-                          />
-                        </svg>
-                      </span>
+                        <path
+                          d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                          fill="currentColor"
+                        />
+                      </svg>
                     </div>
-                  </div>
-
-                  <div
-                    class="cursor-pointer"
-                    @click="removeWebsiteFromSelectedApps(website.app_domain)"
+                  </td>
+                  <td
+                    class="py-2 border-b ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
-                    <svg
-                      width="18"
-                      height="17"
-                      viewBox="0 0 18 17"
-                      class="text-[#D9D9D9] hover:text-[#E80902]"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                </td>
-                <td
-                  class="py-2 border-b text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  {{
-                    packagesStore.currentPackage.package_type !== "Package" ||
-                    !website.app_domain
-                      ? $t("Not applicable")
-                      : website.traffic <= 100000
-                      ? $t("Small")
-                      : website.traffic > 100000 && website.traffic <= 1000000
-                      ? $t("Medium")
-                      : $t("Large")
-                  }}
-                </td>
+                    {{
+                      packagesStore.currentPackage.package_type === "Package" &&
+                      packagesStore.currentPackage.type === "Accessibility"
+                        ? $t(`${website.traffic}`)
+                        : $t("Not applicable")
+                    }}
+                  </td>
 
-                <td
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentType.title !== 'Accessibility'
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentPackage.type !== 'Accessibility'
+                    "
+                    class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div class="flex items-center justify-center">
+                      <div v-if="!loadingPriceTraffic">
+                        {{ formattedEstimatedPrice }}
+                      </div>
+
+                      <svg
+                        v-if="loadingPriceTraffic"
+                        class="animate-spin h-5 w-5 text-tamkin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </td>
+
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentPackage.type === 'Accessibility'
+                    "
+                    class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div class="flex items-center justify-center">
+                      <div v-if="!loadingByWebsite[website.url]">
+                        ${{ formattedAccessibilityPrice(website.url) }}
+                      </div>
+
+                      <svg
+                        v-else
+                        class="animate-spin h-5 w-5 text-tamkin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </td>
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Addons'
+                    "
+                    class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    ${{
+                      (() => {
+                        const formatNumber = (num) =>
+                          Math.floor(num)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                        const getPackagePrice = () => {
+                          if (selectedPackage === 1) {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_month;
+                          } else if (selectedPackage === 3) {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_3_month;
+                          } else {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_yearly;
+                          }
+                        };
+
+                        const packagePrice = getPackagePrice();
+
+                        return formatNumber(packagePrice);
+                      })()
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  v-for="(website, index) in webs"
+                  :key="index"
+                  :class="
+                    trafficTooHighApps.includes(website) &&
+                    levelof !== 'Over 1M page views/mo'
+                      ? 'bg-red-50'
+                      : ''
                   "
-                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-center">
-                    <div v-if="!loadingPriceTraffic">
-                      ${{ formattedEstimatedPrice }}
+                  <td
+                    class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                  >
+                    <div class="w-[150px] flex items-center h-[40px]">
+                      <div
+                        class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
+                      >
+                        <div>
+                          {{
+                            website.title &&
+                            website.title === "Internal Service"
+                              ? $t(website.title)
+                              : website.app_domain
+                          }}
+                        </div>
+                        <span
+                          v-if="
+                            trafficTooHighApps.includes(website) &&
+                            levelof !== 'Over 1M page views/mo'
+                          "
+                          class="tooltip packages"
+                          :data-tamkin="
+                            $t(
+                              'The selected website exceeds the traffic limit of the chosen package.'
+                            )
+                          "
+                        >
+                          <svg
+                            width="16"
+                            class="ml-auto"
+                            height="15"
+                            viewBox="0 0 16 15"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
+                              fill="red"
+                            />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
 
-                    <svg
-                      v-if="loadingPriceTraffic"
-                      class="animate-spin h-5 w-5 text-tamkin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
+                    <div
+                      class="cursor-pointer"
+                      @click="removeWebsiteFromSelectedApps(website.app_domain)"
                     >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </div>
-                </td>
-                <td
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentType.title === 'Accessibility'
-                  "
-                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div class="flex items-center justify-center">
-                    <div v-if="!loadingByWebsite[website.app_domain]">
-                      ${{ formattedAccessibilityPrice(website.app_domain) }}
+                      <svg
+                        width="18"
+                        height="17"
+                        viewBox="0 0 18 17"
+                        class="text-[#D9D9D9] hover:text-[#E80902]"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                          fill="currentColor"
+                        />
+                      </svg>
                     </div>
+                  </td>
+                  <td
+                    class="py-2 px-2 border-b text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{
+                      packagesStore.currentPackage.package_type !== "Package" ||
+                      !website.app_domain
+                        ? $t("Not applicable")
+                        : website.traffic <= 100000
+                        ? $t("Small")
+                        : website.traffic > 100000 && website.traffic <= 1000000
+                        ? $t("Medium")
+                        : $t("Large")
+                    }}
+                  </td>
 
-                    <svg
-                      v-else
-                      class="animate-spin h-5 w-5 text-tamkin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  </div>
-                </td>
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentType.title !== 'Accessibility'
+                    "
+                    class="py-2 px-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div class="flex items-center justify-center">
+                      <div v-if="!loadingPriceTraffic">
+                        ${{ formattedEstimatedPrice }}
+                      </div>
 
-                <!-- <td
+                      <svg
+                        v-if="loadingPriceTraffic"
+                        class="animate-spin h-5 w-5 text-tamkin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </td>
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentType.title === 'Accessibility'
+                    "
+                    class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div class="flex items-center justify-center">
+                      <div v-if="!loadingByWebsite[website.app_domain]">
+                        ${{ formattedAccessibilityPrice(website.app_domain) }}
+                      </div>
+
+                      <svg
+                        v-else
+                        class="animate-spin h-5 w-5 text-tamkin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </td>
+
+                  <!-- <td
                 v-if="
              
                 packagesStore.currentPackage.package_type === 'Extra'
@@ -1692,124 +1697,129 @@ const formattedTotal = computed(() => {
                         )
                   }}
                 </td> -->
-                <td
-                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
-                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  ${{
-                    (() => {
-                      const formatNumber = (num) =>
-                        Math.floor(num)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  <td
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Addons'
+                    "
+                    class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    ${{
+                      (() => {
+                        const formatNumber = (num) =>
+                          Math.floor(num)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-                      const getPackagePrice = () => {
-                        if (selectedPackage === 1) {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_month;
-                        } else if (selectedPackage === 3) {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_3_month;
-                        } else {
-                          return packagesStore.currentPackage
-                            .package_price_role[0].cost_yearly;
-                        }
-                      };
+                        const getPackagePrice = () => {
+                          if (selectedPackage === 1) {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_month;
+                          } else if (selectedPackage === 3) {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_3_month;
+                          } else {
+                            return packagesStore.currentPackage
+                              .package_price_role[0].cost_yearly;
+                          }
+                        };
 
-                      const packagePrice = getPackagePrice();
+                        const packagePrice = getPackagePrice();
 
-                      return formatNumber(packagePrice);
-                    })()
-                  }}
-                </td>
-                <td
-                  v-if="packagesStore.currentPackage.package_type === 'Extra'"
-                  class="py-2 border-b text-[16px] text-center leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        return formatNumber(packagePrice);
+                      })()
+                    }}
+                  </td>
+                  <td
+                    v-if="packagesStore.currentPackage.package_type === 'Extra'"
+                    class="py-2 border-b text-[16px] text-center leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    ${{
+                      packagesStore.currentPackage.package_price_role[0].cost_month
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
-                  ${{
-                    packagesStore.currentPackage.package_price_role[0].cost_month
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                </td>
-              </tr>
-              <tr
-                class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-              >
-                <td
-                  class="py-2 border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  {{ $t("Total") }}
-                </td>
-                <td
-                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentType.title !== 'Accessibility'
-                  "
-                >
-                  ${{
-                    packagesStore.currentPackage.trial_days > 0 &&
-                    selectedPackage === 0
-                      ? "0"
-                      : getCategory !== 0
-                      ? calculateEstimatedPrice
-                          .toFixed(0)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                      : (
-                          calculateEstimatedPrice.toFixed(0) *
-                          (webs.length + packagesStore.urls.length)
-                        )
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                </td>
+                  <td
+                    class="py-2 border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
+                    colspan="2"
+                  >
+                    {{ $t("Total") }}
+                  </td>
+                  <td
+                    class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentType.title !== 'Accessibility'
+                    "
+                  >
+                    ${{
+                      packagesStore.currentPackage.trial_days > 0 &&
+                      selectedPackage === 0
+                        ? "0"
+                        : getCategory !== 0
+                        ? calculateEstimatedPrice
+                            .toFixed(0)
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : (
+                            calculateEstimatedPrice.toFixed(0) *
+                            (webs.length + packagesStore.urls.length)
+                          )
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
+                  </td>
 
-                <td
-                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Package' &&
-                    packagesStore.currentType.title === 'Accessibility'
-                  "
-                >
-                  ${{
-                    packagesStore.currentPackage.trial_days > 0 &&
-                    selectedPackage === 0
-                      ? "0"
-                      : calculateTotalPrice()
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                </td>
-                <td
-                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
-                >
-                  ${{ formattedTotal }}
-                </td>
-                <td
-                  v-if="
-                    !packagesStore.openedCurrentSite &&
-                    packagesStore.currentPackage.package_type === 'Extra'
-                  "
-                  class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  ${{
-                    packagesStore.currentPackage.package_price_role[0]
-                      .cost_month
-                  }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td
+                    class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Package' &&
+                      packagesStore.currentType.title === 'Accessibility'
+                    "
+                  >
+                    ${{
+                      packagesStore.currentPackage.trial_days > 0 &&
+                      selectedPackage === 0
+                        ? "0"
+                        : calculateTotalPrice()
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
+                  </td>
+                  <td
+                    class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                    v-if="
+                      packagesStore.currentPackage.package_type === 'Addons'
+                    "
+                  >
+                    ${{ formattedTotal }}
+                  </td>
+                  <td
+                    v-if="
+                      !packagesStore.openedCurrentSite &&
+                      packagesStore.currentPackage.package_type === 'Extra'
+                    "
+                    class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    ${{
+                      packagesStore.currentPackage.package_price_role[0]
+                        .cost_month
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <!-- {{ webs.length }} -->
           <div class="my-[26px] rtl:mr-auto ltr:ml-auto">
             <button
-              class="btn-dashboard hover_tamkin"
+              class="btn-dashboard hover_tamkin hover:dark:bg-tamkinDarkPrimary dark:bg-p dark:text-whiteTamkin"
               @click="conintuePay"
               :disabled="
                 (!getCategory &&

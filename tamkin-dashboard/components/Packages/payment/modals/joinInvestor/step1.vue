@@ -439,7 +439,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
 
           <label
             for="website_new"
-            class="floating_label"
+            class="floating_label dark:text-whiteTamkin"
             :class="[
               (v$.website_new.$error && v$.website_new.required.$invalid) ||
               blockedError ||
@@ -480,7 +480,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
         </div>
         <div class="w-[150px]">
           <button
-            class="btn-dashboard hover_tamkin w-[150px]"
+            class="btn-dashboard hover_tamkin w-[150px] dark:text-whiteTamkin"
             :disabled="
               blockedError ||
               websiteExists ||
@@ -537,7 +537,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
         />
         <label
           for="email"
-          class="floating_label"
+          class="floating_label dark:text-whiteTamkin"
           :class="[
             v$.walletAddress.$error && v$.walletAddress.required.$invalid
               ? '!text-error'
@@ -575,10 +575,10 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
         />
         <label
           for="amount"
-          class="floating_label"
+          class="floating_label dark:text-whiteTamkin"
           :class="[
             v$.amount.$error && v$.amount.required.$invalid
-              ? '!text-error'
+              ? '!text-error '
               : '',
           ]"
         >
@@ -597,13 +597,15 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
       </div>
 
       <div class="flex items-center justify-between w-full mt-[14px]">
-        <div class="text-darkGrey font-[600] text-[14px] leading-[24x]">
+        <div
+          class="text-darkGrey dark:text-whiteTamkin font-[600] text-[14px] leading-[24x]"
+        >
           {{ $t("Add Hash") }}
         </div>
 
         <div
           @click="addHashAddress"
-          class="bg-gradient-to-br from-tamkinStart cursor-pointer hover:from-[#DAF3F1] hover:to-[#DAF3F1] group to-tamkinEnd h-[26px] w-[26px] rounded-[10px] flex items-center justify-center"
+          class="bg-gradient-to-br dark:bg-p from-tamkinStart cursor-pointer hover:from-[#DAF3F1] hover:to-[#DAF3F1] group to-tamkinEnd h-[26px] w-[26px] rounded-[10px] flex items-center justify-center"
         >
           <svg
             width="13"
@@ -635,7 +637,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
         />
         <label
           for="firstHash"
-          class="floating_label"
+          class="floating_label dark:text-whiteTamkin"
           :class="[
             v$.firstHash.$error && v$.firstHash.required.$invalid
               ? '!text-error'
@@ -664,7 +666,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
         >
           <button
             @click="removeHashAddress(index)"
-            class="text-red-500 dark:text-whiteTamkin hover:bg-[#FFF3F2] absolute rtl:left-[16px] ltr:right-[16px] top-[3.5px] w-[33px] h-[33px] rounded-[5px] flex items-center justify-center"
+            class="text-red-500 hover:dark:text-whiteTamkin hover:dark:bg-p hover:bg-[#FFF3F2] absolute rtl:left-[16px] ltr:right-[16px] top-[3.5px] w-[33px] h-[33px] rounded-[5px] flex items-center justify-center"
           >
             <img src="/assets/imgs/icons/bin.svg" alt="" />
           </button>
@@ -681,7 +683,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
           />
           <label
             :for="'hash_' + hashAddress.hash"
-            class="floating_label"
+            class="floating_label dark:text-whiteTamkin"
             :class="[
               v$.hashAddresses.$model[index].hash.$error ? '!text-error' : '',
             ]"
@@ -719,7 +721,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
             loadingReq
           "
           @click="submitForm"
-          class="btn-dashboard hover_tamkin w-full mx-auto mt-[14px]"
+          class="btn-dashboard hover_tamkin dark:bg-p w-full mx-auto mt-[14px]"
         >
           <div class="flex items-center justify-center">
             <div :class="loadingReq ? 'rtl:ml-2 ltr:mr-2' : ''">

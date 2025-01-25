@@ -134,12 +134,12 @@ onMounted(() => {
       ]"
     >
       <div
-        class="floating_country px-[6px] ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
+        class="floating_country px-[6px] dark:text-whiteTamkin ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
         :class="[
           selectedOption && (selectedOption[nameKey] || selectedOption[idField])
             ? '!text-[#585B5B] font-[400] '
             : 'text-light',
-            classFloating,
+          classFloating,
         ]"
       >
         <div class="flex items-center justify-start">
@@ -209,7 +209,7 @@ onMounted(() => {
               ? '!bg-tamkinLight dark:text-tamkinDarkPrimary'
               : '',
           ]"
-          class="flex items-center px-[16px] py-2 text-[12px] hover:dark:text-tamkinDarkPrimary hover:bg-tamkinLight cursor-pointer"
+          class="flex items-center px-[16px] py-2 text-[12px] hover:dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-p cursor-pointer"
         >
           <img
             :src="listItem[iconKey]"

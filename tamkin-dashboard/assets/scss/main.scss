@@ -138,7 +138,7 @@ input:-webkit-autofill:focus {
     @apply relative rtl:font-[Almarai];
   
     .multiselect__tags {
-      @apply h-[40px] !text-darkGrey rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px]  rtl:font-[Almarai]
+      @apply h-[40px] !text-darkGrey dark:bg-p dark:!text-whiteTamkin rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px]  rtl:font-[Almarai]
       bg-white dark:bg-transparent border-lightGrey  !font-[400] ltr:font-[Poppins]
       md:w-full lg:w-full text-[13px] lg:text-[12px] 2xl:text-[14px]  ipad-max:max-w-full w-full border-[1px]
        focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent
@@ -149,39 +149,44 @@ input:-webkit-autofill:focus {
       }
     }
    
-  
+  .multiselect__content-wrapper{
+    @apply   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin;
+  }
+  .multiselect__option--selected {
+    @apply dark:bg-p dark:text-whiteTamkin;
+  }
     .multiselect__placeholder {
-      @apply cursor-text rounded-[10px] !mb-0 duration-100 ease-linear text-light
+      @apply cursor-text rounded-[10px] !mb-0 duration-100 ease-linear text-light dark:bg-p dark:text-whiteTamkin
        peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px]
         !font-[500] peer-focus:text-[12px] ipad-max:text-[10px] bg-transparent;
     }
   
     .multiselect__input {
-      @apply h-auto !text-darkGrey; 
+      @apply h-auto !text-darkGrey dark:bg-p dark:text-whiteTamkin; 
     }
   
     .multiselect__input:focus {
       outline: none !important;
-      @apply border-0 !ring-0 ring-transparent;
+      @apply border-0 !ring-0 ring-transparent dark:bg-p dark:text-whiteTamkin;
     }
   
     .multiselect__input::placeholder {
-      @apply cursor-text rounded-[10px] duration-100 ease-linear text-light
+      @apply cursor-text rounded-[10px] duration-100 ease-linear text-light dark:bg-p dark:text-whiteTamkin
        peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] 
        ipad-max:text-[10px] ipad-max:peer-focus:text-[12px] bg-transparent
     }
   
     .multiselect__option--highlight {
-      @apply bg-tamkinLight !text-darkGrey;
+      @apply bg-tamkinLight !text-darkGrey dark:bg-tamkinDarkPrimary dark:text-whiteTamkin;
     }
   
     .multiselect__option--highlight::after {
       content: attr(data-select);
-      @apply bg-tamkinLight text-darkGrey;
+      @apply bg-tamkinLight text-darkGrey dark:bg-tamkinDarkPrimary dark:text-whiteTamkin;
     }
   
     .multiselect__tag {
-      @apply bg-tamkinLight text-darkGrey h-auto !rounded-[0px];
+      @apply bg-tamkinLight text-darkGrey h-auto !rounded-[0px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin;
     }
     .multiselect__select::before{
       @apply hidden #{!important};

@@ -49,13 +49,12 @@ const getApps = async () => {
   mySiteStore.loadingApps = false;
 };
 onBeforeMount(async () => {
-// await getApps();
+  // await getApps();
   await packagesStore.getDataPackage();
   await addSiterStore.getPackages();
 
   loadingDataModal.value = false;
-  mySiteStore.currentWebsite= defaultApp.value
-
+  mySiteStore.currentWebsite = defaultApp.value;
 
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]
 });
@@ -102,9 +101,6 @@ const isLinkActive = (path) => {
 
   return regex.test(currentPath);
 };
-
-
-
 </script>
 
 <template>
@@ -234,7 +230,7 @@ const isLinkActive = (path) => {
 
         <div
           v-if="!loadingDataModal"
-          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary  dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
+          class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('month')"
@@ -276,7 +272,12 @@ const isLinkActive = (path) => {
             </div>
           </button>
         </div>
-          <MySitePricingnopackage v-if="!loadingDataModal && addSiteStore.getSortedPackagesAddSite.length > 0"/>
+        <MySitePricingnopackage
+          v-if="
+            !loadingDataModal &&
+            addSiteStore.getSortedPackagesAddSite.length > 0
+          "
+        />
 
         <div
           v-else
@@ -300,11 +301,15 @@ const isLinkActive = (path) => {
                 class="flex items-center justify-center w-full px-[15px] mt-[48px]"
               >
                 <div class="w-full">
-                  <div class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"></div>
+                  <div
+                    class="bg-gray-300 dark:bg-gray-600 h-[30px] rounded mb-[8px]"
+                  ></div>
                   <div
                     class="bg-gray-300 dark:bg-gray-600 h-[20px] w-[150px] rounded mb-[16px]"
                   ></div>
-                  <div class="bg-gray-300 dark:bg-gray-600 h-[29px] w-[100px] rounded"></div>
+                  <div
+                    class="bg-gray-300 dark:bg-gray-600 h-[29px] w-[100px] rounded"
+                  ></div>
                   <div
                     class="bg-gray-200 dark:bg-gray-600 h-[16px] w-[120px] mt-[10px] rounded"
                   ></div>

@@ -3,21 +3,23 @@ import { useMarketStore } from "@/stores/market.js";
 const marketStore = useMarketStore();
 import { usePlayerStore } from "@/stores/player.js";
 const playerStore = usePlayerStore();
-const loadingReset = ref(false)
-const resetAction = async ()=>{
-   loadingReset.value = true
-  await playerStore.resetCharacterSkinsToDefault()
-  loadingReset.value = false
-
-
-}
+const loadingReset = ref(false);
+const resetAction = async () => {
+  loadingReset.value = true;
+  await playerStore.resetCharacterSkinsToDefault();
+  loadingReset.value = false;
+};
 </script>
 
 <template>
-  <div 
-    class="fixed z-[9999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12-[640px]  w-10/12" 
+  <div
+    class="fixed z-[9999] top-0 md:top-[calc(50vh-255px)] bg-white dark:bg-p rounded-[10px] p-[10px] md:p-[30px] lg:w-[640px] h-full md:h-auto w-full md:w-10/12"
   >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="marketStore.openResetModal">
+    <div
+      style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
+      class="close_btn"
+      @click="marketStore.openResetModal"
+    >
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -32,52 +34,90 @@ const resetAction = async ()=>{
         />
       </svg>
     </div>
-    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        {{ $t('Default Mode') }}
+    <h1
+      class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+    >
+      {{ $t("Default Mode") }}
     </h1>
-  
-    <h2 class="text-[14px] font-[500] leading-[33px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
-        {{ $t('Are you sure you want to return to default mode? This action will revert all your recent changes.') }}
 
+    <h2
+      class="text-[14px] font-[500] leading-[33px] text-darkGrey dark:text-whiteTamkin mt-[24px]"
+    >
+      {{
+        $t(
+          "Are you sure you want to return to default mode? This action will revert all your recent changes."
+        )
+      }}
     </h2>
 
-    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] mt-[6px]">
-        <div>
-            <img src="/assets/pngs/market/info.png" alt="">
-        </div>
-        <div class="text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60">
-            {{ $t('Make sure to save any important work before proceeding, as this cannot be undone.') }}
-        </div>
+    <div
+      class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] mt-[6px]"
+    >
+      <div>
+        <img src="/assets/pngs/market/info.png" alt="" />
+      </div>
+      <div
+        class="text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60"
+      >
+        {{
+          $t(
+            "Make sure to save any important work before proceeding, as this cannot be undone."
+          )
+        }}
+      </div>
     </div>
-  <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]">
-  
-  
-    <div class="  mt-[20px] " >
-      <button class="btn_bordered_dashboard hover_tamkin "  @click="()=>{marketStore.resetAll(),marketStore.openResetModal()}">
-        {{ $t('Cancel') }}
-      </button>
-    </div>
-    <div class="  mt-[20px] " >
-      <button class="btn-dashboard hover_tamkin" :disabled="loadingReset" @click="resetAction">
-        <div class="flex items-center justify-center">
-          <div :class="loadingReset ? 'rtl:ml-2 ltr:mr-2':''">
-            {{ $t('Save') }}
-    
-          
-          </div>
-     
-           <svg  v-if="loadingReset" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-         </div>
-      </button>
-    </div>
+    <div
+      class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]"
+    >
+      <div class="mt-[20px]">
+        <button
+          class="btn_bordered_dashboard hover_tamkin"
+          @click="
+            () => {
+              marketStore.resetAll(), marketStore.openResetModal();
+            }
+          "
+        >
+          {{ $t("Cancel") }}
+        </button>
+      </div>
+      <div class="mt-[20px]">
+        <button
+          class="btn-dashboard hover_tamkin"
+          :disabled="loadingReset"
+          @click="resetAction"
+        >
+          <div class="flex items-center justify-center">
+            <div :class="loadingReset ? 'rtl:ml-2 ltr:mr-2' : ''">
+              {{ $t("Save") }}
+            </div>
 
-  </div>
+            <svg
+              v-if="loadingReset"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

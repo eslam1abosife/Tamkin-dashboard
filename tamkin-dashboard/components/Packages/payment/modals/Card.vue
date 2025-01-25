@@ -239,7 +239,7 @@ onBeforeUnmount(() => {
             </svg>
           </div>
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[60px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[0px]"
           >
             {{ $t("Payment processes") }}
           </h1>
@@ -633,7 +633,10 @@ onBeforeUnmount(() => {
                     class="absolute top-[-8px] lg:top-[8px] right-0 left-0 max-md:px-1 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-1 md:space-x-[10px]"
                     v-if="packagesStore.validPromo"
                   >
-                    <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]"/>
+                    <img
+                      src="/assets/imgs/promo_valid.svg"
+                      class="max-md:w-[16px]"
+                    />
                     <div
                       class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                     >
@@ -642,7 +645,10 @@ onBeforeUnmount(() => {
                       >
                       {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})
                     </div>
-                    <img src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]" />
+                    <img
+                      src="/assets/imgs/promo_valid_.svg"
+                      class="max-md:w-[18px]"
+                    />
                   </div>
                   <div
                     v-if="
