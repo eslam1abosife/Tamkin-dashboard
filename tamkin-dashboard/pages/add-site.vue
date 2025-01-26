@@ -372,7 +372,7 @@ const sortedPlans = computed(() => {
       <Splide
         :options="{
           rewind: false,
-          perPage: 3,
+          perPage: 4,
           gap: 10,
           arrows: false,
           direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
@@ -382,6 +382,9 @@ const sortedPlans = computed(() => {
             },
             1024: {
               perPage: 2,
+            },
+            1424: {
+              perPage: 3,
             },
           },
         }"
@@ -397,7 +400,7 @@ const sortedPlans = computed(() => {
               ]"
             >
               <div
-                class="absolute bottom-[95px] md:bottom-[95px] rtl:right-[24px] ltr:left-[24px]"
+                class="absolute bottom-[95px] md:bottom-[83%] rtl:right-[24px] ltr:left-[24px]"
               >
                 <img
                   :src="runconfig.public.baseImagerUrl + plan.icon"
