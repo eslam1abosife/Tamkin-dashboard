@@ -537,7 +537,7 @@ const countriesC = computed(() => {
               ></div>
               <div
                 id="card-errors"
-                class="error_message !bottom-[119px] sm:!bottom-[73px] z-[40]"
+                class="error_message !bottom-[119px] md:!bottom-[73px] z-[40]"
               >
                 {{ cardError !== "valid" && cardError ? cardError : "" }}
               </div>
