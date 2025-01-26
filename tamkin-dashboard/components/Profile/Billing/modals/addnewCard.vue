@@ -371,9 +371,9 @@ const countriesC = computed(() => {
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:left-0 ltr:right-0 rounded-[10px] px-[20px] py-[30px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col lg:items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col lg:items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
@@ -535,7 +535,10 @@ const countriesC = computed(() => {
                   input_success: cardError === 'valid',
                 }"
               ></div>
-              <div id="card-errors" class="error_message !bottom-[55px] z-[40]">
+              <div
+                id="card-errors"
+                class="error_message !bottom-[119px] z-[40]"
+              >
                 {{ cardError !== "valid" && cardError ? cardError : "" }}
               </div>
 
@@ -795,9 +798,12 @@ const countriesC = computed(() => {
           </div>
 
           <div
-          class="mt-[39px] mb-[34px] max-md:w-full flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
+            class="mt-[39px] mb-[34px] max-md:w-full flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
           >
-            <button class="btn_bordered_dashboard max-md:flex-1" @click="closeModalCard">
+            <button
+              class="btn_bordered_dashboard max-md:flex-1"
+              @click="closeModalCard"
+            >
               {{ $t("Cancel") }}
             </button>
             <button
