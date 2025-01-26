@@ -22,6 +22,12 @@ const cardOptions = ref({
   disabled: true,
 });
 
+import { loadStripe } from "@stripe/stripe-js";
+const stripeKey = ref(
+  "pk_test_51Ph2McGBL82z4GvFlZ9QJb913tLp1w6strqfzYtWl9CYEeEDZ4rkfjo2GY15i0SeqZKIc4BDcSSa5otoMwnvlSId00mAcZrsdy"
+);
+const stripe = ref(null);
+
 const {
   isOpen,
   currentView,
@@ -41,7 +47,6 @@ const validPromo = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
 const loadingPayment = ref(false);
-const urlPayment = ref("");
 watch(promo, (ov, nv) => {
   return promo.value.length > 0
     ? (isPromoFilled.value = true)
@@ -92,36 +97,9 @@ const props = defineProps({
   showModal: Boolean,
 });
 const usepaystore = usePaymentStore();
-const handleIframeMessage = (event) => {
-  if (event.data && event.data.event === "paid") {
-    // alert('yea')
-    usepaystore.stateOfPayment = "paid";
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems)
-    navigateTo("cardModal_packages", "packages", "success_pay_package");
-    urlPayment.value = "";
-    loadingPayment.value = false;
-    packagesStore.currentPackage = "";
-    packagesStore.urls = "";
-  } else if (event.data && event.data.event === "faild") {
-    usepaystore.stateOfPayment = "failed";
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems)
 
-    navigateTo("cardModal_packages", "packages", "success_pay_package");
-    urlPayment.value = "";
-    loadingPayment.value = false;
-  }
-};
-/**
- * Called when the iframe has finished loading.
- * Currently just logs a message to the console
- */
-function onIframeLoad() {
-  // console.log('Iframe has loaded');
-}
-const iframe = ref(null);
 const loadingCards = ref(true);
 onMounted(async () => {
-  urlPayment.value = "";
   await getCards();
   loadingCards.value = false;
 
@@ -134,36 +112,52 @@ onMounted(async () => {
     }
   }
 
-  window.addEventListener("message", handleIframeMessage);
-  // window.addEventListener('failed', handleIframeMessage);
+  try {
+    // Load Stripe instance
+    stripe.value = await loadStripe(stripeKey.value);
+    console.log(stripe.value);
+    if (!stripe.value) throw new Error("Failed to load Stripe.");
+  } catch (error) {
+    console.error("Stripe initialization failed:", error);
+  }
+
+  loadingCards.value = false; 
 });
 const continueCheckOut = async () => {
   loadingPayment.value = true;
   const res = await paybycorpaypal(currentCard.value, "Card");
-  // loadingPayment.value = false;
 
-  // return navigateTo('cardModal','add-site','crypto')
-  if (
-    codeStatus.value === 200 &&
-    res !== "A 3-day trial package is configured in the app"
-  ) {
-    const resTheme = colorMode.value === "dark" ? res + "&is_dark=1" : res;
-
-    urlPayment.value = resTheme;
-
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
-    packagesStore.urls = [];
-    packagesStore.promo = "";
-    packagesStore.validPromo = false;
-    packagesStore.currentDiscount = 0;
-  } else if (res === "A 3-day trial package is configured in the app") {
+  if (codeStatus.value !== 200) {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
+    return;
+  }
+  if (res.is_package_free) {
     packagesStore.urls = [];
     usePaymentStore().stateOfPayment = "paid";
     return navigateTo("cardModal_packages", "packages", "success_pay_package");
   } else {
-    $toast(messageData.value, { hideIn: 3000, type: "error" });
-    loadingPayment.value = false;
-    urlPayment.value = "";
+    stripe.value
+      .confirmCardPayment(res.clientsecret, {
+        payment_method: res.payment_method_id,
+      })
+      .then(function (result) {
+        if (result.error) {
+          usepaystore.stateOfPayment = "failed";
+          navigateTo("cardModal_packages", "packages", "success_pay_package");
+          loadingPayment.value = false;
+        } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+          packagesStore.urls = [];
+          packagesStore.promo = "";
+          packagesStore.validPromo = false;
+          packagesStore.currentDiscount = 0;
+          usepaystore.stateOfPayment = "paid";
+          navigateTo("cardModal_packages", "packages", "success_pay_package");
+          loadingPayment.value = false;
+          packagesStore.currentPackage = "";
+          packagesStore.urls = "";
+        }
+      });
   }
 };
 const percentageOff = computed(() => {
@@ -175,10 +169,6 @@ const percentageOff = computed(() => {
   }
   return 0;
 });
-
-onBeforeUnmount(() => {
-  window.removeEventListener("message", handleIframeMessage);
-});
 </script>
 
 <template>
@@ -187,7 +177,6 @@ onBeforeUnmount(() => {
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
-      v-if="!urlPayment"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
       @click="
         () => {
@@ -214,7 +203,6 @@ onBeforeUnmount(() => {
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex items-center justify-center">
           <div
-            v-if="!urlPayment"
             @click="
               navigateTo(
                 'cardModal_packages',
@@ -254,7 +242,6 @@ onBeforeUnmount(() => {
             {{ $t("Cards Payment") }}
           </h1>
           <p
-            v-if="!urlPayment"
             class="rtl:mr-[20px] ltr:ml-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] dark:text-whiteTamkin/80"
           >
             {{
@@ -312,7 +299,6 @@ onBeforeUnmount(() => {
 
           <div
             class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full"
-            v-if="!urlPayment"
           >
             <div
               class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px]"
@@ -805,7 +791,7 @@ onBeforeUnmount(() => {
           </div>
           <div
             class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!urlPayment && !chooseOtherPaymentMethod"
+            v-else-if="!chooseOtherPaymentMethod"
           >
             <button
               class="btn-dashboard hover_tamkin w-full"
@@ -846,14 +832,6 @@ onBeforeUnmount(() => {
             </button>
           </div>
 
-          <div v-if="urlPayment" class="px-[20px] w-full mb-[14px] mt-[14px]">
-            <iframe
-              ref="iframe"
-              :src="urlPayment"
-              @load="onIframeLoad"
-              class="w-full aspect-square"
-            ></iframe>
-          </div>
         </div>
       </div>
     </div>
