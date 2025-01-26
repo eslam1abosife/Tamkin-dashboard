@@ -136,10 +136,6 @@ onMounted(async () => {
     console.log(stripe.value);
     if (!stripe.value) throw new Error("Failed to load Stripe.");
   } catch (error) {
-    usepaystore.stateOfPayment = "failed";
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
-    loadingPayment.value = false;
     console.error("Stripe initialization failed:", error);
   }
   loadingCards.value = false;
@@ -175,6 +171,11 @@ const continueCheckOut = async () => {
   .then(function (result) {
     if (result.error) {
       console.error('Error:', result.error.message);
+      usepaystore.stateOfPayment = "failed";
+    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+
+    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+    loadingPayment.value = false;
     } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
     // alert('yea')
     usepaystore.stateOfPayment = "paid";
