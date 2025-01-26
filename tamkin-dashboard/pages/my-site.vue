@@ -2465,9 +2465,9 @@ const openInvestor = (app, pack) => {
         class="flex justify-between items-center pb-[16px]"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
           <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+            class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Per Page") }}
           </span>
@@ -2481,7 +2481,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
               ]"
               @click.stop="changePerPage(option)"
@@ -2494,7 +2494,7 @@ const openInvestor = (app, pack) => {
           class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
         >
           <span
-            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
+            class="text-darkGrey dark:text-whiteTamkin text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Page") }}
           </span>
@@ -2529,7 +2529,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
               ]"
               @click.stop="goToPage(page)"
