@@ -586,7 +586,7 @@ const closeModalPackage = () => {
                     }}
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="free_trial"
                     type="radio"
@@ -637,7 +637,7 @@ const closeModalPackage = () => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="month"
                     type="radio"
@@ -694,7 +694,7 @@ const closeModalPackage = () => {
                     {{ $t("Discount on the 3 Months Plan") }}
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="3_months"
                     type="radio"
@@ -747,7 +747,7 @@ const closeModalPackage = () => {
                     {{ $t("Discount on the Annual Plan") }}
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="annual"
                     type="radio"
