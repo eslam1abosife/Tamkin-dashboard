@@ -71,7 +71,9 @@ const ifuserhaspermissiontoEdit = computed(() => {
       style="overflow-wrap: break-word"
       v-if="currentMode === 'normal' || !ifuserhaspermissiontoEdit"
     >
-      <p class="text-[12px] leading-[18px] !whitespace-normal text-black">
+      <p
+        class="text-[12px] leading-[18px] dark:text-whiteTamkin !whitespace-normal text-black"
+      >
         {{ profileStore.company.about }}
       </p>
     </div>
