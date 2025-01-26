@@ -410,8 +410,12 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="my-[13px] flex flex-col gap-1 lg:flex-row items-center justify-center w-full">
-        <div class="text-[10px] leading-[12px] font-[500] text-black dark:text-white underline">
+      <div
+        class="my-[13px] flex gap-1 flex-row items-center justify-center w-full"
+      >
+        <div
+          class="text-[10px] leading-[12px] font-[500] text-black dark:text-white underline"
+        >
           <a
             href="https://tamkin.app/privacy-policy?_lang=en"
             target="_blank"
@@ -420,8 +424,14 @@ onMounted(async () => {
             >{{ $t("Privacy Policy") }} </a
           >
         </div>
-        <div class="text-[10px] leading-[12px] font-[500] text-black dark:text-white hidden lg:block">•</div>
-        <div class="text-[10px] leading-[12px] font-[500] text-black dark:text-white underline">
+        <div
+          class="text-[10px] leading-[12px] font-[500] text-black dark:text-white hidden lg:block"
+        >
+          •
+        </div>
+        <div
+          class="text-[10px] leading-[12px] font-[500] text-black dark:text-white underline"
+        >
           <a
             href="https://tamkin.app/terms?_lang=en"
             target="_blank"

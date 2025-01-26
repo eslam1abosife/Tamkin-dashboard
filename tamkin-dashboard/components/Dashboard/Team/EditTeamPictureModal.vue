@@ -2,15 +2,19 @@
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from "@/composables/useModalManager";
 
-import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composables/useTeam";
+import {
+  useUploadTeamImg,
+  useGetCurrentTeam,
+  useDeleteTeamImg,
+} from "@/composables/useTeam";
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 const { deleteTeamImg, loading: deleteLoading } = useDeleteTeamImg();
 const { uploadTeamImg, loading: uploadLoading } = useUploadTeamImg();
-const {t} = useI18n()
+const { t } = useI18n();
 const profileStore = useProfileStore();
 
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
-const isDeleteAction = ref(false)
+const isDeleteAction = ref(false);
 const { isOpen, openModal, closeModal } = useModalManager();
 
 const acceptedFilesRef = ref<File[]>([]);
@@ -21,7 +25,7 @@ const onDrop = (acceptedFiles, rejectedFiles) => {
   console.log(acceptedFiles);
   isDeleteAction.value = false; // Reset deletion state when a new image is added
 };
-const loadingUpload = ref(false)
+const loadingUpload = ref(false);
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 const props = defineProps({
   showModal: Boolean,
@@ -33,84 +37,78 @@ const fileURL = (file) => {
 const loadingDelete = ref(false);
 
 const removeFile = async () => {
-  loadingUpload.value = true
+  loadingUpload.value = true;
 
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await deleteTeamImg();
-  await getCurrentTeam()
-    
+  await getCurrentTeam();
+
   // profileStore.setCompany();
-//  loadingDelete.value = false
-loadingUpload.value = false
-isDeleteAction.value = false
+  //  loadingDelete.value = false
+  loadingUpload.value = false;
+  isDeleteAction.value = false;
 };
 //
-watch(isDeleteAction,(ov,nv)=>{
-//  if( isDeleteAction.value){
-//   acceptedFilesRef.value = []
-//  }else {
-
-//  }
-
-})
-const {$toast} = useNuxtApp()
+watch(isDeleteAction, (ov, nv) => {
+  //  if( isDeleteAction.value){
+  //   acceptedFilesRef.value = []
+  //  }else {
+  //  }
+});
+const { $toast } = useNuxtApp();
 
 const submit = async () => {
-    if(!isDeleteAction.value && acceptedFilesRef.value.length > 0){
-      loadingUpload.value = true
+  if (!isDeleteAction.value && acceptedFilesRef.value.length > 0) {
+    loadingUpload.value = true;
 
-const file = acceptedFilesRef.value[0];
-const reader = new FileReader();
+    const file = acceptedFilesRef.value[0];
+    const reader = new FileReader();
 
-reader.onloadend = async () => {
-  const base64String = (reader.result as string).split(",")[1];
+    reader.onloadend = async () => {
+      const base64String = (reader.result as string).split(",")[1];
 
-  const imgFile = {
-    uid: file.lastModified.toString(),
-    name: file.name,
-    base64: base64String,
-    field: "some_field", // Adjust this as necessary
-    id: 0,
-    doctype: file.type.split("/")[1],
-    isPublic: true,
-    ext: `.${file.name.split(".").pop()}`,
-    size: file.size,
-    path: "/path/to/image", // Optional, if applicable
-    version: 1,
-    mdf: "", // Optionally calculate the MD5 checksum if required
-    mimType: file.type,
-    creator_ID: 1, // Adjust this as necessary
-  };
-  await uploadTeamImg(imgFile);
-  closeModal('editteampic');
-await getCurrentTeam()
-  // await getCurrentTeam();
-  // await profileStore.setCompany();
-  // emit('uploadSuccess');
+      const imgFile = {
+        uid: file.lastModified.toString(),
+        name: file.name,
+        base64: base64String,
+        field: "some_field", // Adjust this as necessary
+        id: 0,
+        doctype: file.type.split("/")[1],
+        isPublic: true,
+        ext: `.${file.name.split(".").pop()}`,
+        size: file.size,
+        path: "/path/to/image", // Optional, if applicable
+        version: 1,
+        mdf: "", // Optionally calculate the MD5 checksum if required
+        mimType: file.type,
+        creator_ID: 1, // Adjust this as necessary
+      };
+      await uploadTeamImg(imgFile);
+      closeModal("editteampic");
+      await getCurrentTeam();
+      // await getCurrentTeam();
+      // await profileStore.setCompany();
+      // emit('uploadSuccess');
 
-$toast(t('Team Image updated successfully'),{hideIn:3000})
+      $toast(t("Team Image updated successfully"), { hideIn: 3000 });
 
-loadingUpload.value = false
+      loadingUpload.value = false;
+    };
+    reader.readAsDataURL(file);
+  } else if (isDeleteAction) {
+    if (acceptedFilesRef.value.length > 0) {
+      isDeleteAction.value = false;
 
-};
-reader.readAsDataURL(file);
-}else if(isDeleteAction){
-  if(acceptedFilesRef.value.length>0){
- isDeleteAction.value = false
+      acceptedFilesRef.value = [];
+      isDeleteAction.value = false;
+    } else if (currTeam.value.team_image.trim()) {
+      removeFile();
+      closeModal("editteampic");
 
-  acceptedFilesRef.value = []
- isDeleteAction.value = false
- }else if(currTeam.value.team_image.trim()) {
-  removeFile()
-closeModal('editteampic');
-
-  $toast(t('Team Image deleted successfully'),{hideIn:3000})
-  
- }
-
+      $toast(t("Team Image deleted successfully"), { hideIn: 3000 });
     }
-
+  }
 };
 
 onBeforeUnmount(() => {
@@ -148,17 +146,14 @@ onBeforeUnmount(() => {
     <h1
       class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      {{$t('Edit Team Picture')}}
+      {{ $t("Edit Team Picture") }}
     </h1>
 
     <div
       v-bind="getRootProps()"
-      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-[40px] flex items-center justify-center flex-col space-y-[30px]  bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
+      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-[40px] flex items-center justify-center flex-col space-y-[30px] bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
     >
-      <input v-bind="getInputProps()"  :disabled="
-
-      loadingUpload
-    "/>
+      <input v-bind="getInputProps()" :disabled="loadingUpload" />
 
       <div
         v-if="acceptedFilesRef.length > 0"
@@ -172,9 +167,14 @@ onBeforeUnmount(() => {
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover"
         />
       </div>
-      <div v-else-if="currTeam.team_image && !isDeleteAction" class="upload-file-item">
-        <img :src="`https://tamkin.app/${currTeam.team_image}`"
-          class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover" />
+      <div
+        v-else-if="currTeam.team_image && !isDeleteAction"
+        class="upload-file-item"
+      >
+        <img
+          :src="`https://tamkin.app/${currTeam.team_image}`"
+          class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover"
+        />
       </div>
       <div v-else>
         <img src="/assets/imgs/icons/camera_modal.svg" />
@@ -184,27 +184,34 @@ onBeforeUnmount(() => {
         <h1
           class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
         >
-          {{ $t('Select a high-quality image to represent your team and') }}
-          <span class="font-[500] text-[#2DADA3]">{{$t('upload it here')}}</span>
+          {{ $t("Select a high-quality image to represent your team and") }}
+          <span class="font-[500] text-[#2DADA3]">{{
+            $t("upload it here")
+          }}</span>
         </h1>
       </div>
     </div>
 
-    <div class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto mt-[40px]">
+    <div
+      class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto mt-[40px]"
+    >
       <button
         class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard error group md:max-w-[160px] max-md:flex-1"
-        @click="()=>{
-          
-          if(acceptedFilesRef.length > 0){
-            isDeleteAction = true 
-            acceptedFilesRef = []
-          isDeleteAction = false 
-           
+        @click="
+          () => {
+            if (acceptedFilesRef.length > 0) {
+              isDeleteAction = true;
+              acceptedFilesRef = [];
+              isDeleteAction = false;
+            }
+            isDeleteAction = !isDeleteAction;
           }
-          isDeleteAction = !isDeleteAction 
-        }"
-        :disabled="loadingUpload || isDeleteAction ||  ( !currTeam?.team_image?.trim() && !acceptedFilesRef.length)"
-
+        "
+        :disabled="
+          loadingUpload ||
+          isDeleteAction ||
+          (!currTeam?.team_image?.trim() && !acceptedFilesRef.length)
+        "
       >
         <div class="w-[18px] h-[18px]">
           <svg
@@ -222,7 +229,7 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <div class="flex items-center justify-center">
-          <div >{{$t('Delete')}}</div>
+          <div>{{ $t("Delete") }}</div>
 
           <!-- <svg
             v-if="loadingdel || loadingDelete"
@@ -248,14 +255,14 @@ onBeforeUnmount(() => {
         </div>
       </button>
       <button
-        :disabled="
-           loadingUpload
-        "
+        :disabled="loadingUpload"
         class="btn-dashboard hover_tamkin md:w-1/4 max-md:flex-1"
         @click="submit"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
+          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">
+            {{ $t("Save") }}
+          </div>
 
           <svg
             v-if="loadingUpload"
