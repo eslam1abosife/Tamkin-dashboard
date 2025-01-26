@@ -411,7 +411,7 @@ onMounted(async () => {
       </div>
 
       <div
-        class="my-[13px] flex gap-1 flex-row items-center justify-center w-full"
+        class="my-[13px] flex gap-x-1 gap-y-2 flex-col md:flex-row md:items-center justify-center w-full"
       >
         <div
           class="text-[10px] leading-[12px] font-[500] text-black dark:text-white underline"

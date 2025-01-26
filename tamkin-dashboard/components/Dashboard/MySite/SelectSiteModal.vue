@@ -92,8 +92,7 @@ const submit = async () => {
 <template>
   <div
     v-if="isOpen('selectSite')"
-    class="fixed z-[9999] top-[calc(50vh-255px)] bg-white dark:bg-p rounded-[10px] p-[30px] lg:w-[640px] h-auto w-10/12"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-[calc(50vh-255px)] left-1/2 -translate-x-1/2 bg-white dark:bg-p rounded-[10px] p-[30px] lg:w-[640px] h-auto w-10/12"
   >
     <div class="flex justify-between">
       <div

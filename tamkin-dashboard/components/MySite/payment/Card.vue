@@ -177,6 +177,7 @@ const percentageOff = computed(() => {
                 closeModal('cardModal_mysite');
                 mysiteStore.selectedPaymentMethod = '';
                 mysiteStore.urls = [];
+                mysiteStore.removePromoCode();
               }
             "
           >
@@ -195,13 +196,8 @@ const percentageOff = computed(() => {
             </svg>
           </div>
           <div class="flex items-center gap-3">
-            <div
-              @click="
-                navigateTo(
-                  'cardModal_mysite',
-                  'mysite',
-                  'payment_methods_mysite'
-                )
+            <div @click="
+              navigateTo('cardModal_mysite', 'mysite', 'payment_methods_mysite'); mysiteStore.removePromoCode();
               "
               class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

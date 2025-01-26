@@ -95,7 +95,7 @@ const discountAmount = computed(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('paypal_subs')"
+      @click="closeModal('paypal_subs'); subsStore.removePromoCode();"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -116,7 +116,7 @@ const discountAmount = computed(() => {
         <div class="flex items-center justify-center">
           <div
             @click="
-              navigateTo('paypal_subs', 'mysite', 'payment_methods_mysite')
+              navigateTo('paypal_subs', 'mysite', 'payment_methods_mysite'); subsStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

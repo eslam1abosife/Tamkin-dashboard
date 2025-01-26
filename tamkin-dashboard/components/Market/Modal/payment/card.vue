@@ -166,6 +166,7 @@ const percentageOff = computed(() => {
       @click="() => {
           closeModal('cardModal_market');
           marketStore.selectedPaymentMethod = '';
+          marketStore.removePromoCode();
         }
         ">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -183,7 +184,8 @@ const percentageOff = computed(() => {
               'cardModal_market',
               'add-site',
               'paymentMethods_market'
-            )
+            );
+            marketStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
