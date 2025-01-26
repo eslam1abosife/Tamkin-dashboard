@@ -998,7 +998,7 @@ const closeModalPackage = () => {
                     </div>
                   </td>
                   <td
-                    class="h- border-b ltr:text-left rtl:text-right text-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="h- border-b ltr:text-left rtl:text-right whitespace-nowrap text-[14px] sm:text-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{
                       mysiteStore.currentPackage.type === "Accessibility"

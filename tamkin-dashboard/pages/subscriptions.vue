@@ -544,7 +544,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 0 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("All") }}
           </div>
@@ -553,7 +553,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 1 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Monthly") }}
           </div>
@@ -562,7 +562,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 3 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("3 Months") }}
           </div>
@@ -571,7 +571,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 12 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Yearly") }}
           </div>
@@ -582,7 +582,7 @@ const openInvestor = (app, pack) => {
                 ? 'bg-tamkinLight dark:!text-black'
                 : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Investor") }}
           </div>
@@ -623,7 +623,7 @@ const openInvestor = (app, pack) => {
           <div class="relative rounded-xl mt-[19px] overflow-y-auto">
             <div class="">
               <table
-                class="table-auto w-full text-sm rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey"
+                class="table-auto w-full text-sm h-[140px] rounded-[10px] bg-[#F5F9FF] dark:bg-darkGrey"
               >
                 <thead>
                   <tr>
@@ -726,7 +726,7 @@ const openInvestor = (app, pack) => {
                       }}
                     </td>
                     <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       {{
                         new Date(sb.from_date).toLocaleDateString(
@@ -740,7 +740,7 @@ const openInvestor = (app, pack) => {
                       }}
                     </td>
                     <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       {{
                         sb.package_type !== "Extra" && sb.type !== "Investors"
@@ -757,7 +757,7 @@ const openInvestor = (app, pack) => {
                     </td>
 
                     <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       <div class="!w-[140px] truncate">
                         {{ $t(sb.mode_of_payment) }}
