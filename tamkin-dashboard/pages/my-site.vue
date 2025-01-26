@@ -630,7 +630,7 @@ const openInvestor = (app, pack) => {
       class="ipad-max:mt-[24px] mt-[44px] flex xl:space-y-0 space-y-[16px] items-center xl:flex-row flex-col justify-center xl:justify-start w-full rtl:space-x-reverse xl:space-x-[24px]"
     >
       <div
-        class="flex items-center xl:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] h-[150px] xl:h-[129px] rounded-[10px]"
+        class="flex items-center xl:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] sm:h-[150px] xl:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -733,11 +733,11 @@ const openInvestor = (app, pack) => {
               </div>
             </div>
 
-            <div>
+            <div class="mt-4 sm:mt-0 w-full sm:w-auto">
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
-                @click.stop="openModal('selectSite', 'my-site')"
-                class="btn_bordered_dashboard text-[14px] w-[110px] leading-[22.5px] font-[500]"
+                @click.stop="openModal('selectSite', 'my-site')" 
+                class="btn_bordered_dashboard text-[14px] w-[110px] leading-[22.5px] font-[500] w-full sm:w-auto"
               >
                 {{ $t("Select Site") }}
               </button>
@@ -2529,7 +2529,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
               ]"
               @click.stop="goToPage(page)"
