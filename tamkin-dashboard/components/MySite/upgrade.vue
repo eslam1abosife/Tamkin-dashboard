@@ -40,7 +40,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 <template>
   <div class="mysite_bg_modal dark:bg-p fixed  !top-[-2px] 
     lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] 
-    px-[16px] py-[30px] lg:px-[30px] w-[1000px] h-screen overflow-y-auto lg:overflow-x-hidden">
+    px-[16px] py-[30px] lg:px-[30px] w-full lg:w-[1000px] h-screen overflow-y-auto lg:overflow-x-hidden">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalPackage">

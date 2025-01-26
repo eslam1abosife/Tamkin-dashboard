@@ -842,7 +842,7 @@ const openInvestor = (app, pack) => {
 
                           <!-- Tooltip -->
                           <div
-                            class="absolute bottom-[-25px] rtl:left-[20%] ltr:right-[20%] w-[100px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200 z-[500]"
+                            class="absolute top-[-25px] rtl:left-[20%] ltr:right-[20%] w-[100px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200 z-[500]"
                           >
                             {{ $t("Upgrade Package") }}
                           </div>
@@ -923,7 +923,7 @@ const openInvestor = (app, pack) => {
 
                           <!-- Tooltip -->
                           <div
-                            class="absolute bottom-[-25px] rtl:left-[10%] ltr:right-[10%] w-[80px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200"
+                            class="absolute top-[-25px] rtl:left-[10%] ltr:right-[10%] w-[80px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200"
                           >
                             {{ $t("Upgrade Plan") }}
                           </div>
@@ -980,7 +980,7 @@ const openInvestor = (app, pack) => {
                             </defs>
                           </svg>
                           <div
-                            class="absolute bottom-[-25px] rtl:left-[10%] ltr:right-[10%] rtl:w-[82px] ltr:w-[110px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200"
+                            class="absolute top-[-25px] rtl:left-[10%] ltr:right-[10%] rtl:w-[82px] ltr:w-[110px] bg-[#747171] text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block transition-opacity duration-200"
                           >
                             {{ $t("Cancel Subscription") }}
                           </div>

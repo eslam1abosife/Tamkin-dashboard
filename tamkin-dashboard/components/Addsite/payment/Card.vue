@@ -244,7 +244,6 @@ const percentageOff = computed(() => {
                     d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
                   />
                 </svg>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima obcaecati, corporis at accusantium voluptas non dolor sint! Officia quasi facilis commodi similique doloremque, non sunt. Beatae eaque vitae enim sequi?
               </div>
             </div>
             <div>

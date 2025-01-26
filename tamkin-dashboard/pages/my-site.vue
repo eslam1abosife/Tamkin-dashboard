@@ -671,7 +671,7 @@ const openInvestor = (app, pack) => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                    <span v-if="defaultApp && defaultApp?.app_domain">
+                    <span v-if="defaultApp && defaultApp?.app_domain" class="max-md:block max-md:w-[9.5rem] max-md:truncate">
                       {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
                     </span>
                     <span v-else>
@@ -737,7 +737,7 @@ const openInvestor = (app, pack) => {
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
                 @click.stop="openModal('selectSite', 'my-site')" 
-                class="btn_bordered_dashboard text-[14px] w-[110px] leading-[22.5px] font-[500] w-full sm:w-auto"
+                class="btn_bordered_dashboard text-[14px] text-nowrap leading-[22.5px] font-[500] w-full sm:w-auto"
               >
                 {{ $t("Select Site") }}
               </button>

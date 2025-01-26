@@ -75,7 +75,7 @@
   }
 
   .error_message {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[10px] ltr:right-[10px];
+    @apply font-[300] text-right text-[10px] text-error absolute bottom-[2px] rtl:left-[10px] ltr:right-[10px];
 
     &.text_area {
       @apply bottom-[8px] !important;
