@@ -17,6 +17,11 @@ const { fullUrl } = useFullUrl();
 const cardOptions = ref({
   disabled: true,
 });
+import { loadStripe } from "@stripe/stripe-js";
+const stripeKey = ref(
+  "pk_test_51Ph2McGBL82z4GvFlZ9QJb913tLp1w6strqfzYtWl9CYEeEDZ4rkfjo2GY15i0SeqZKIc4BDcSSa5otoMwnvlSId00mAcZrsdy"
+);
+const stripe = ref(null);
 
 const { getInviteApps } = useGetAppInvites();
 
@@ -40,7 +45,7 @@ const validPromo = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
 const loadingPayment = ref(false);
-const urlPayment = ref("");
+// const urlPayment = ref("");
 
 const clearInput = () => {
   promo.value = "";
@@ -83,41 +88,39 @@ const props = defineProps({
   showModal: Boolean,
 });
 const usepaystore = usePaymentStore();
-const handleIframeMessage = (event) => {
-  if (event.data && event.data.event === "paid") {
-    // alert('yea')
-    usepaystore.stateOfPayment = "paid";
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
-    urlPayment.value = "";
-    loadingPayment.value = false;
-    addSiteStore.currentPackage = "";
-    addSiteStore.packagePayload = "";
-    addSiteStore.tags = [];
-    addSiteStore.validatedSites = [];
-    addSiteStore.loadingBlock = [];
-  } else if (event.data && event.data.event === "faild") {
-    usepaystore.stateOfPayment = "failed";
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+// const handleIframeMessage = (event) => {
+//   if (event.data && event.data.event === "paid") {
+//     // alert('yea')
+//     usepaystore.stateOfPayment = "paid";
+//     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+//     navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+//     urlPayment.value = "";
+//     loadingPayment.value = false;
+//     addSiteStore.currentPackage = "";
+//     addSiteStore.packagePayload = "";
+//     addSiteStore.tags = [];
+//     addSiteStore.validatedSites = [];
+//     addSiteStore.loadingBlock = [];
+//   } else if (event.data && event.data.event === "faild") {
+//     usepaystore.stateOfPayment = "failed";
+//     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
 
-    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
-    urlPayment.value = "";
-    loadingPayment.value = false;
-  }
-};
+//     navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+//     urlPayment.value = "";
+//     loadingPayment.value = false;
+//   }
+// };
 /**
  * Called when the iframe has finished loading.
  * Currently just logs a message to the console
  */
-function onIframeLoad() {
+// function onIframeLoad() {
   // console.log('Iframe has loaded');
-}
-const iframe = ref(null);
+// }
+// const iframe = ref(null);
 const loadingCards = ref(true);
 onMounted(async () => {
-  urlPayment.value = "";
   await getCards();
-
   if (billingStore.cards.length) {
     const primaryCard = billingStore.cards.find(
       (card) => card.isprimary === true
@@ -126,35 +129,35 @@ onMounted(async () => {
       currentCard.value = primaryCard.id;
     }
   }
-  loadingCards.value = false;
 
-  window.addEventListener("message", handleIframeMessage);
-  // window.addEventListener('failed', handleIframeMessage);
+  try {
+    // Load Stripe instance
+    stripe.value = await loadStripe(stripeKey.value);
+    console.log(stripe.value);
+    if (!stripe.value) throw new Error("Failed to load Stripe.");
+  } catch (error) {
+    usepaystore.stateOfPayment = "failed";
+    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+    loadingPayment.value = false;
+    console.error("Stripe initialization failed:", error);
+  }
+  loadingCards.value = false;
 });
+
+
 const continueCheckOut = async () => {
   loadingPayment.value = true;
+
+  // If Error
   const res = await payaddsite(currentCard.value, "Card", null);
-  // loadingPayment.value = false;
-
-  // return navigateTo('cardModal','add-site','crypto')
-  if (
-    codeStatus.value === 200 &&
-    res !== "A 3-day trial package is configured in the app"
-  ) {
-    const user = JSON.parse(localStorage.getItem("user"));
-    // await getInviteApps({ agency: user.agency });
-    // alert(res)
-    const resTheme = colorMode.value === "dark" ? res + "&is_dark=1" : res;
-
-    urlPayment.value = resTheme;
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
-    // addSiteStore.urls =[]
-    // addSiteStore.promo = ""
-    // addSiteStore.validPromo = false
-    // addSiteStore.currentDiscount = 0
-    // usePaymentStore().stateOfPayment = 'paid'
-    // return navigateTo('cardModal_addsite','addSite','success_pay_addsite')
-  } else if (res === "A 3-day trial package is configured in the app") {
+  const clientSecret = res.clientsecret;
+  if(codeStatus.value !== 200) {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
+    return;
+  }
+  if (res.is_package_free) {
     navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
     addSiteStore.urls = [];
     addSiteStore.promo = "";
@@ -165,11 +168,30 @@ const continueCheckOut = async () => {
     addSiteStore.validatedSites = [];
     usePaymentStore().stateOfPayment = "paid";
   } else {
-    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    stripe.value
+  .confirmCardPayment(clientSecret, {
+    payment_method: res.payment_method_id,
+  })
+  .then(function (result) {
+    if (result.error) {
+      console.error('Error:', result.error.message);
+    } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+    // alert('yea')
+    usepaystore.stateOfPayment = "paid";
+    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
     loadingPayment.value = false;
-    urlPayment.value = "";
+    addSiteStore.currentPackage = "";
+    addSiteStore.packagePayload = "";
+    addSiteStore.tags = [];
+    addSiteStore.validatedSites = [];
+    addSiteStore.loadingBlock = [];
+    }
+  });
+
   }
 };
+
 const percentageOff = computed(() => {
   const cartTotal = addSiteStore.packagePayload.total;
   const discountPercentage = addSiteStore.currentDiscount;
@@ -180,9 +202,9 @@ const percentageOff = computed(() => {
   return 0;
 });
 
-onBeforeUnmount(() => {
-  window.removeEventListener("message", handleIframeMessage);
-});
+// onBeforeUnmount(() => {
+//   window.removeEventListener("message", handleIframeMessage);
+// });
 </script>
 
 <template>
@@ -191,7 +213,7 @@ onBeforeUnmount(() => {
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex justify-between">
-          <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" v-if="!urlPayment"
+          <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
             @click="() => {
                 closeModal('cardModal_addsite');
@@ -208,7 +230,7 @@ onBeforeUnmount(() => {
           </div>
           <div class="flex items-center gap-3">
             <div class="flex items-center justify-center">
-              <div v-if="!urlPayment" @click="
+              <div  @click="
                 navigateTo(
                   'cardModal_addsite',
                   'addSite',
@@ -237,7 +259,7 @@ onBeforeUnmount(() => {
             class="text-[18px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]">
             {{ $t("Cards Payment") }}
           </h1>
-          <p v-if="!urlPayment"
+          <p
             class="rtl:mr-[20px] ltr:ml-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] dark:text-whiteTamkin/80">
             {{
               $t("Choose the payment method you want to complete this payment")
@@ -267,8 +289,7 @@ onBeforeUnmount(() => {
               </div>
             </div>
           </div>
-          <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full"
-            v-if="!urlPayment">
+          <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full">
             <div class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px]" v-if="
               billingStore.cards &&
               billingStore.cards.length !== 0 &&
@@ -591,7 +612,7 @@ onBeforeUnmount(() => {
             </button>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!urlPayment && !chooseOtherPaymentMethod">
+            v-else-if="!chooseOtherPaymentMethod">
             <button class="btn-dashboard hover_tamkin w-full" @click="continueCheckOut" :disabled="!currentCard ||
               billingStore.cards.length === 0 ||
               loadingPayment
@@ -610,10 +631,6 @@ onBeforeUnmount(() => {
                 </svg>
               </div>
             </button>
-          </div>
-
-          <div v-if="urlPayment" class="px-[20px] w-full mb-[14px] mt-[14px]">
-            <iframe ref="iframe" :src="urlPayment" @load="onIframeLoad" class="w-full aspect-square"></iframe>
           </div>
         </div>
       </div>
