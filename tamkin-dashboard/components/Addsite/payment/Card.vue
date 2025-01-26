@@ -5,18 +5,14 @@ import { usePaybyPaypalOrCard } from "@/composables/useAddSite";
 import { useCouponCode } from "@/composables/useMarket";
 import { useGetAppInvites } from "@/composables/useTeam";
 const navbarStore = useNavbarStore();
-const { locale } = useI18n();
 const { payaddsite, messageData, codeStatus } = usePaybyPaypalOrCard();
-const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
 const addSiteStore = useAddSiteStore();
 import { useGetCards } from "@/composables/useBilling";
 const { $toast } = useNuxtApp();
 const { getCards } = useGetCards();
 const { fullUrl } = useFullUrl();
-const cardOptions = ref({
-  disabled: true,
-});
+
 import { loadStripe } from "@stripe/stripe-js";
 const stripeKey = ref(
   "pk_test_51Ph2McGBL82z4GvFlZ9QJb913tLp1w6strqfzYtWl9CYEeEDZ4rkfjo2GY15i0SeqZKIc4BDcSSa5otoMwnvlSId00mAcZrsdy"
@@ -34,8 +30,6 @@ const {
   navigateTo,
   setData,
 } = useModalManager();
-
-const colorMode = useColorMode();
 
 const currentCard = ref("");
 const loading = ref(false);
@@ -110,14 +104,6 @@ const usepaystore = usePaymentStore();
 //     loadingPayment.value = false;
 //   }
 // };
-/**
- * Called when the iframe has finished loading.
- * Currently just logs a message to the console
- */
-// function onIframeLoad() {
-  // console.log('Iframe has loaded');
-// }
-// const iframe = ref(null);
 const loadingCards = ref(true);
 onMounted(async () => {
   await getCards();
@@ -147,8 +133,7 @@ const continueCheckOut = async () => {
 
   // If Error
   const res = await payaddsite(currentCard.value, "Card", null);
-  const clientSecret = res.clientsecret;
-  if(codeStatus.value !== 200) {
+  if (codeStatus.value !== 200) {
     $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
     return;
@@ -165,31 +150,30 @@ const continueCheckOut = async () => {
     usePaymentStore().stateOfPayment = "paid";
   } else {
     stripe.value
-  .confirmCardPayment(clientSecret, {
-    payment_method: res.payment_method_id,
-  })
-  .then(function (result) {
-    if (result.error) {
-      console.error('Error:', result.error.message);
-      usepaystore.stateOfPayment = "failed";
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+      .confirmCardPayment(res.clientsecret, {
+        payment_method: res.payment_method_id,
+      })
+      .then(function (result) {
+        if (result.error) {
+          console.error('Error:', result.error.message);
+          usepaystore.stateOfPayment = "failed";
+          // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
 
-    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
-    loadingPayment.value = false;
-    } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-    // alert('yea')
-    usepaystore.stateOfPayment = "paid";
-    // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-    navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
-    loadingPayment.value = false;
-    addSiteStore.currentPackage = "";
-    addSiteStore.packagePayload = "";
-    addSiteStore.tags = [];
-    addSiteStore.validatedSites = [];
-    addSiteStore.loadingBlock = [];
-    }
-  });
-
+          navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+          loadingPayment.value = false;
+        } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+          // alert('yea')
+          usepaystore.stateOfPayment = "paid";
+          // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
+          navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+          loadingPayment.value = false;
+          addSiteStore.currentPackage = "";
+          addSiteStore.packagePayload = "";
+          addSiteStore.tags = [];
+          addSiteStore.validatedSites = [];
+          addSiteStore.loadingBlock = [];
+        }
+      });
   }
 };
 
@@ -217,10 +201,10 @@ const percentageOff = computed(() => {
           <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
             @click="() => {
-                closeModal('cardModal_addsite');
-                addSiteStore.selectedPaymentMethod = '';
-                addSiteStore.urls = [];
-              }
+              closeModal('cardModal_addsite');
+              addSiteStore.selectedPaymentMethod = '';
+              addSiteStore.urls = [];
+            }
               ">
             <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -231,13 +215,14 @@ const percentageOff = computed(() => {
           </div>
           <div class="flex items-center gap-3">
             <div class="flex items-center justify-center">
-              <div  @click="
+              <div @click="
                 navigateTo(
                   'cardModal_addsite',
                   'addSite',
                   'payment_methods_addsite'
                 )
-                " class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
+                "
+                class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
                 style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
                 <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
                   class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
@@ -353,18 +338,22 @@ const percentageOff = computed(() => {
             </div>
 
             <div class="flex items-center justify-between w-full px-[20px]" v-if="!loadingCards">
-              <div class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px] cursor-pointer" @click="
-                navigateTo(
-                  'cardModal_addsite',
-                  'addSite',
-                  'add_new_card_billing'
-                )
-                ">
+              <div
+                class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px] cursor-pointer"
+                @click="
+                  navigateTo(
+                    'cardModal_addsite',
+                    'addSite',
+                    'add_new_card_billing'
+                  )
+                  ">
                 <div class="cursor-pointer">
-                  <img class="max-md:w-[33px]" v-if="navbarStore.isDark" src="/assets/imgs/payment_methods/new_card_dark.svg" />
+                  <img class="max-md:w-[33px]" v-if="navbarStore.isDark"
+                    src="/assets/imgs/payment_methods/new_card_dark.svg" />
                   <img class="max-md:w-[33px]" v-else src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
-                <div class="text-[13px] md:text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                <div
+                  class="text-[13px] md:text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin">
                   {{ $t("Add New Card") }}
                 </div>
               </div>
@@ -372,7 +361,8 @@ const percentageOff = computed(() => {
               <div class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods">
                 <div class="cursor-pointer">
-                  <div class="text-[13px] md:ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
+                  <div
+                    class="text-[13px] md:ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin">
                     {{ $t("Show all payment options") }}
                   </div>
                 </div>
@@ -525,7 +515,8 @@ const percentageOff = computed(() => {
                       </svg>
                     </div>
                   </button>
-                  <button v-else class="btn_bordered_dashboard max-md:text-[13px] error w-auto md:w-[140px] mx-auto text-center"
+                  <button v-else
+                    class="btn_bordered_dashboard max-md:text-[13px] error w-auto md:w-[140px] mx-auto text-center"
                     @click="addSiteStore.removePromoCode">
                     {{ $t("Remove Code") }}
                   </button>
@@ -612,8 +603,7 @@ const percentageOff = computed(() => {
               {{ $t("Switch Payment Method") }}
             </button>
           </div>
-          <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!chooseOtherPaymentMethod">
+          <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-else-if="!chooseOtherPaymentMethod">
             <button class="btn-dashboard hover_tamkin w-full" @click="continueCheckOut" :disabled="!currentCard ||
               billingStore.cards.length === 0 ||
               loadingPayment
