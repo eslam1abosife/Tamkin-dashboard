@@ -349,7 +349,7 @@ const sortedPlans = computed(() => {
         </h2>
       </div>
       <div
-        class="cursor-pointer flex gap-3 justify-between items-center rtl:space-x-reverse space-x-[10px]"
+        class="cursor-pointer flex py-3 px-2 gap-3 justify-between items-center rtl:space-x-reverse space-x-[10px]"
         @click="collapsed = !collapsed"
       >
         <div>
@@ -359,7 +359,7 @@ const sortedPlans = computed(() => {
             {{ $t("What’s included?") }}
           </h2>
         </div>
-        <div class="cursor-pointer" @click="collapsed = !collapsed">
+        <div>
           <svg
             class="w-[12px] h-[10px] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
             :class="[collapsed ? '!rotate-90 ' : 'rotate-0']"
@@ -381,7 +381,7 @@ const sortedPlans = computed(() => {
       <Splide
         :options="{
           rewind: false,
-          perPage: 4,
+          perPage: 3,
           gap: 10,
           arrows: false,
           direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,

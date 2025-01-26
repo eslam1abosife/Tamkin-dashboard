@@ -175,6 +175,7 @@ const finalAmount = computed(() => {
               closeModal('crypto_packages_step1');
               packagesStore.selectedPaymentMethod = '';
               packagesStore.selectedCrypto = '';
+              packagesStore.removePromoCode();
             }
           "
         >
@@ -199,7 +200,8 @@ const finalAmount = computed(() => {
                   'crypto_packages_step1',
                   'packages',
                   'payment_methods_packages'
-                )
+                );
+                packagesStore.removePromoCode();
               "
               class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

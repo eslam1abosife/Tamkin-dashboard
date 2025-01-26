@@ -78,7 +78,7 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
         <div
-     @click="navigateTo('cardModal','add-site','paymentMethods')"
+     @click="navigateTo('cardModal','add-site','paymentMethods'); removePromoCode();"
 
 
   class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]

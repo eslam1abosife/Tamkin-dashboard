@@ -177,6 +177,7 @@ const percentageOff = computed(() => {
           closeModal('cardModal_subs');
           subsStore.selectedPaymentMethod = '';
           subsStore.urls = [];
+          subsStore.removePromoCode();
         }
       "
     >
@@ -199,7 +200,7 @@ const percentageOff = computed(() => {
         <div class="flex items-center justify-center">
           <div
             @click="
-              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite')
+              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite'); subsStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

@@ -204,6 +204,7 @@ const percentageOff = computed(() => {
               closeModal('cardModal_addsite');
               addSiteStore.selectedPaymentMethod = '';
               addSiteStore.urls = [];
+              addSiteStore.removePromoCode();
             }
               ">
             <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -220,7 +221,8 @@ const percentageOff = computed(() => {
                   'cardModal_addsite',
                   'addSite',
                   'payment_methods_addsite'
-                )
+                );
+                addSiteStore.removePromoCode();
                 "
                 class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
                 style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
@@ -229,6 +231,7 @@ const percentageOff = computed(() => {
                   xmlns="http://www.w3.org/2000/svg">
                   <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
                 </svg>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima obcaecati, corporis at accusantium voluptas non dolor sint! Officia quasi facilis commodi similique doloremque, non sunt. Beatae eaque vitae enim sequi?
               </div>
             </div>
             <div>

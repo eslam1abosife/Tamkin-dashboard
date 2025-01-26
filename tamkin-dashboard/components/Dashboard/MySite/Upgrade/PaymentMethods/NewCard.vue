@@ -184,7 +184,7 @@ const checkInput = (event) => {
   >
     <div class="flex items-center justify-center">
       <div
-        @click="navigateTo('newCard', 'add-site', 'cardModal')"
+        @click="navigateTo('newCard', 'add-site', 'cardModal'); removePromoCode();"
         class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
         style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
       >

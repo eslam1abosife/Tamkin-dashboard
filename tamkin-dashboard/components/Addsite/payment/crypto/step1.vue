@@ -169,6 +169,7 @@ const finalAmount = computed(() => {
                 closeModal('crypto_addsite_step1');
                 addSiteStore.selectedPaymentMethod = '';
                 addSiteStore.selectedCrypto = '';
+                addSiteStore.removePromoCode();
               }
               ">
             <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -185,7 +186,8 @@ const finalAmount = computed(() => {
                 'crypto_addsite_step1',
                 'addSite',
                 'payment_methods_addsite'
-              )
+              );
+              addSiteStore.removePromoCode();
               " class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
               <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
