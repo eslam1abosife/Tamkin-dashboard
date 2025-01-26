@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
-const {t} = useI18n()
+const { t } = useI18n();
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 
@@ -12,7 +12,7 @@ const props = defineProps({
   savetoAllSitesBtn: Boolean,
   cancelButtonName: String,
   deleteButtonName: String,
-  svbtnName:String
+  svbtnName: String,
 });
 
 const emit = defineEmits([
@@ -105,8 +105,7 @@ const translatedSubTitle = computed(() => t(props.subTitle));
     <h2
       class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]"
     >
-      {{ 
-        translatedSubTitle }}
+      {{ translatedSubTitle }}
     </h2>
 
     <div
@@ -114,7 +113,7 @@ const translatedSubTitle = computed(() => t(props.subTitle));
     >
       <div class="mt-[40px] max-md:flex-1">
         <button
-          class="btn_bordered_dashboard hover_tamkin max-md:w-full"
+          class="btn_bordered_dashboard hover_tamkin max-md:w-full text-[13px] md:text-[16px]"
           @click="controlCancelButton"
         >
           {{ cancelButtonName ? $t(cancelButtonName) : $t("Cancel") }}
@@ -186,12 +185,12 @@ const translatedSubTitle = computed(() => t(props.subTitle));
       <div class="mt-[40px] max-md:flex-1" v-if="confirmBtnType === 'other'">
         <button
           :disabled="saveLoading || saveAllLoading"
-          class="btn-dashboard hover_tamkin max-md:w-full"
+          class="btn-dashboard hover_tamkin max-md:w-full text-[13px] md:text-[16px]"
           @click="controlOtherBtn"
         >
           <div class="flex items-center justify-center">
             <div :class="saveLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
-              {{ svbtnName ? $t(svbtnName):$t("Save") }}
+              {{ svbtnName ? $t(svbtnName) : $t("Save") }}
             </div>
 
             <svg
@@ -224,7 +223,9 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           class="btn_bordered_dashboard error max-md:w-full"
           @click="controlDeleteButton"
         >
-          <div class="flex items-center justify-center">
+          <div
+            class="flex items-center justify-center text-[13px] md:text-[16px]"
+          >
             <div :class="deleteisLoading ? 'ltr:mr-3 rtl:ml-3' : ''">
               {{
                 deleteButtonName ? $t(deleteButtonName) : $t("Confirm Delete")

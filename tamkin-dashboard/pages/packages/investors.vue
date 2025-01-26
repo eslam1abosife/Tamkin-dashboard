@@ -204,7 +204,7 @@ const uniqueValues = (items) => {
     >
       <!-- Traffic level selection section (first) -->
       <div
-        class="flex items-center max-md:mb-4 flex-row w-full md:w-auto justify-between md:justify-start py-[4px] order-1 rtl:space-x-reverse space-x-[14px]"
+        class="flex items-center max-md:mb-4 flex-row w-full md:w-auto justify-between md:justify-start py-[4px] order-1 rtl:space-x-reverse space-x-[6px] sm:space-x-[14px]"
       >
         <div
           class="text-black dark:text-whiteTamkin font-[600] md:text-[14px] text-[12px] text-nowrap"

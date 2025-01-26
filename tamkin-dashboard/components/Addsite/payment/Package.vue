@@ -986,7 +986,7 @@ const closeModalPackage = () => {
                     </div>
                   </td>
                   <td
-                    class="py-2 border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="py-2 border-b whitespace-nowrap ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{
                       addSiteStore.currentPackage.type === "Accessibility"

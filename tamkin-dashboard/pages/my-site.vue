@@ -642,39 +642,31 @@ const openInvestor = (app, pack) => {
             </h1>
           </div>
 
-          <div class="flex items-center justify-between">
+          <div
+            class="flex items-end sm:items-center justify-between flex-col sm:flex-row"
+          >
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+              class="flex items-center justify-between sm:justify-start w-full rtl:space-x-reverse space-x-[8px]"
             >
-              <div
-                v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
-                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-              >
-                <!-- <span v-if="!apps.length"> -->
-                <span>
-                  <img
-                    src="/assets/imgs/icons/mysite_select.svg"
-                    class="w-[40px] h-[40px]"
-                  />
-                </span>
-                <!-- <span v-else>
+              <div class="flex items-center justify-between gap-3">
+                <div
+                  v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
+                  class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+                >
+                  <!-- <span v-if="!apps.length"> -->
+                  <span>
+                    <img
+                      src="/assets/imgs/icons/mysite_select.svg"
+                      class="w-[40px] h-[40px]"
+                    />
+                  </span>
+
+                  <!-- <span v-else>
                 {{
                   defaultApp&&  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
                </span> -->
-              </div>
-              <div
-                v-if="
-                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
-                "
-              >
-                <img
-                  v-if="defaultApp && defaultApp.favicon"
-                  :src="defaultApp.favicon"
-                  class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
-                />
-              </div>
-              <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
+                </div>
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
@@ -687,6 +679,20 @@ const openInvestor = (app, pack) => {
                     </span>
                   </h2>
                 </div>
+              </div>
+              <div
+                v-if="
+                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
+                "
+              >
+                <img
+                  v-if="defaultApp && defaultApp.favicon"
+                  :src="defaultApp.favicon"
+                  class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
+                />
+              </div>
+
+              <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <div>
                   <a
                     :href="
@@ -731,7 +737,7 @@ const openInvestor = (app, pack) => {
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
                 @click.stop="openModal('selectSite', 'my-site')"
-                class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
+                class="btn_bordered_dashboard text-[14px] w-[110px] leading-[22.5px] font-[500]"
               >
                 {{ $t("Select Site") }}
               </button>
@@ -920,7 +926,7 @@ const openInvestor = (app, pack) => {
       >
         <div class="inline-block min-w-full align-middle">
           <div
-            class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
             style="box-shadow: 0px 4px 24px 8px #51459f1a"
           >
             <div
@@ -939,7 +945,7 @@ const openInvestor = (app, pack) => {
                         ? 'border-b-[3px] border-tamkin  font-[600] '
                         : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                     ]"
-                    class="text-[13px] md:text-[14px] md:px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
+                    class="text-[12px] md:text-[14px] md:px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                     style="line-height: 21px"
                   >
                     {{ $t("My Sites") }} (
@@ -963,7 +969,7 @@ const openInvestor = (app, pack) => {
                         ? 'border-b-[3px] border-tamkin  font-[600]'
                         : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                     ]"
-                    class="text-[13px] md:text-[14px] md:px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
+                    class="text-[12px] md:text-[14px] md:px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                     style="line-height: 21px"
                   >
                     {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
@@ -1032,7 +1038,7 @@ const openInvestor = (app, pack) => {
                   >
                     <input
                       type="text"
-                      class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset]"
+                      class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset] ltr:!pr-[10px]"
                       v-model="search"
                       :placeholder="`${$t('Search')} ...`"
                     />
@@ -1066,7 +1072,7 @@ const openInvestor = (app, pack) => {
             </div>
             <div class="overflow-x-auto">
               <table
-                class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
+                class="table-auto divide-y w-full divide-gray-200 dark:divide-darkborder"
                 v-if="
                   currentTab === 'saved' &&
                   paginatedFilteredAppList.length > 0 &&

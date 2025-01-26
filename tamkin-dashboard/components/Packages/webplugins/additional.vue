@@ -65,7 +65,7 @@ const openBuyModal = (pck) => {
         :key="addon.name"
         ><div
           style="box-shadow: 0px 4px 4px 0px #00000021"
-          class="h-[250px] w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[14px] items-center justify-start relative z-[10]"
+          class="h-[250px] w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[6px] sm:space-y-[14px] items-center justify-start relative z-[10]"
         >
           <div class="mt-[14px] flex items-center justify-center">
             <img
