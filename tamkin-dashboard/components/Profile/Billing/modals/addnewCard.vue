@@ -371,9 +371,9 @@ const countriesC = computed(() => {
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:left-0 ltr:right-0 rounded-[10px] px-[20px] py-[30px] px-[16px] py-[30px] lg:px-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col lg:items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col lg:items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
@@ -438,7 +438,7 @@ const countriesC = computed(() => {
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[0px] lg:space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[0px] lg:space-x-[10px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="w-full relative">
@@ -535,12 +535,15 @@ const countriesC = computed(() => {
                   input_success: cardError === 'valid',
                 }"
               ></div>
-              <div id="card-errors" class="error_message !bottom-[55px] z-[40]">
+              <div
+                id="card-errors"
+                class="error_message !bottom-[119px] md:!bottom-[73px] z-[40]"
+              >
                 {{ cardError !== "valid" && cardError ? cardError : "" }}
               </div>
 
               <div
-                class="flex items-center max-md:flex-col justify-center mt-[14px] w-full gap-[20px]"
+                class="flex items-center max-md:flex-col justify-center mt-[14px] w-full gap-[10px]"
               >
                 <div class="w-full md:w-2/4 relative">
                   <div
@@ -564,7 +567,7 @@ const countriesC = computed(() => {
                       input_success: expiryError === 'valid',
                     }"
                   ></div>
-                  <div id="expiry-errors" class="error_message">
+                  <div id="expiry-errors" class="error_message rtl:text-[9px] rtl:left-[4.5px]">
                     {{
                       expiryError !== "valid" && expiryError
                         ? $t(expiryError)
@@ -626,7 +629,7 @@ const countriesC = computed(() => {
               </div>
             </div>
             <div
-              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[0px] lg:space-x-[20px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[0px] lg:space-x-[10px] lg:mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -706,7 +709,7 @@ const countriesC = computed(() => {
             </div>
 
             <div
-              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse lg:space-x-[20px] space-x-[0px] lg:mb-[25px] w-full"
+              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse lg:space-x-[10px] space-x-[0px] lg:mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -795,9 +798,12 @@ const countriesC = computed(() => {
           </div>
 
           <div
-          class="mt-[39px] mb-[34px] max-md:w-full flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
+            class="mt-[39px] mb-[34px] max-md:w-full flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]"
           >
-            <button class="btn_bordered_dashboard max-md:flex-1" @click="closeModalCard">
+            <button
+              class="btn_bordered_dashboard max-md:flex-1"
+              @click="closeModalCard"
+            >
               {{ $t("Cancel") }}
             </button>
             <button
@@ -852,7 +858,7 @@ const countriesC = computed(() => {
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[10px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full animate-pulse">
                 <div class="w-full h-10 bg-gray-300 rounded"></div>
@@ -866,7 +872,7 @@ const countriesC = computed(() => {
             </div>
 
             <div
-              class="flex items-center justify-center mt-[14px] space-x-[20px] animate-pulse"
+              class="flex items-center justify-center mt-[14px] space-x-[10px] animate-pulse"
             >
               <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
               <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
@@ -882,7 +888,7 @@ const countriesC = computed(() => {
             </div>
 
             <div
-              class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full animate-pulse"
+              class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[10px] lg:mb-[25px] w-full animate-pulse"
             >
               <div class="w-full h-10 bg-gray-300 rounded"></div>
               <div class="w-full h-10 bg-gray-300 rounded"></div>

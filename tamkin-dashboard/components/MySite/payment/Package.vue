@@ -637,7 +637,7 @@ const closeModalPackage = () => {
                       }}
                     </h2>
                   </div>
-                  <div class="order-1 w-1/4">
+                  <div class="order-1 max-md:pe-4">
                     <input
                       id="free_trial"
                       type="radio"
@@ -702,7 +702,7 @@ const closeModalPackage = () => {
                       }}</span>
                     </h2>
                   </div>
-                  <div class="order-1 w-1/4">
+                  <div class="order-1 max-md:pe-4">
                     <input
                       id="month"
                       type="radio"
@@ -773,7 +773,7 @@ const closeModalPackage = () => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="3month"
                     type="radio"
@@ -835,7 +835,7 @@ const closeModalPackage = () => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="annual"
                     type="radio"
@@ -998,7 +998,7 @@ const closeModalPackage = () => {
                     </div>
                   </td>
                   <td
-                    class="h- border-b ltr:text-left rtl:text-right text-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="h- border-b ltr:text-left rtl:text-right whitespace-nowrap text-[14px] sm:text-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{
                       mysiteStore.currentPackage.type === "Accessibility"

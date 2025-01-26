@@ -133,11 +133,14 @@ const continueCheckOut = async () => {
       })
       .then(function (result) {
         if (result.error) {
-          console.error('Error:', result.error.message);
+          console.error("Error:", result.error.message);
           usepaystore.stateOfPayment = "failed";
           navigateTo("cardModal_subs", "subs", "success_pay_mysite");
           loadingPayment.value = false;
-        } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        } else if (
+          result.paymentIntent &&
+          result.paymentIntent.status === "succeeded"
+        ) {
           subsStore.urls = [];
           subsStore.promo = "";
           subsStore.validPromo = false;
@@ -177,6 +180,7 @@ const percentageOff = computed(() => {
           closeModal('cardModal_subs');
           subsStore.selectedPaymentMethod = '';
           subsStore.urls = [];
+          subsStore.removePromoCode();
         }
       "
     >
@@ -199,7 +203,7 @@ const percentageOff = computed(() => {
         <div class="flex items-center justify-center">
           <div
             @click="
-              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite')
+              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite'); subsStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
@@ -433,11 +437,20 @@ const percentageOff = computed(() => {
                   </div>
                 </div>
                 <div class="cursor-pointer">
-                  <img
-                    src="/assets/imgs/arrow-right.svg"
-                    class="w-[10px] h-[10px] rtl:rotate-180"
-                    :class="[showMoreMethods ? '!rotate-90' : '']"
-                  />
+                  <svg
+                    class="w-[12px] h-[10px] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
+                    :class="[showMoreMethods ? '!rotate-90 ' : 'rotate-0']"
+                    width="7"
+                    height="12"
+                    viewBox="0 0 7 12"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -876,7 +889,6 @@ const percentageOff = computed(() => {
               </div>
             </button>
           </div>
-
         </div>
       </div>
     </div>

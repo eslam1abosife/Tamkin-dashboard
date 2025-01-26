@@ -460,9 +460,9 @@ const setPageSize = (size: number) => {
       v-if="orders.length > 0"
       class="flex justify-between items-center pb-[16px] mt-[16px]"
     >
-      <div class="flex items-center rtl:space-x-reverse space-x-2">
+      <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
         <span
-          class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+          class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
         >
           {{ $t("Per Page") }}
         </span>
@@ -470,7 +470,7 @@ const setPageSize = (size: number) => {
           <!-- Static buttons for per-page options -->
           <button
             :class="[
-              'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+              'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
               {
                 'bg-[#2dada3]': pageSize === 10,
                 'bg-[#A7A7A7]': pageSize !== 10,
@@ -482,7 +482,7 @@ const setPageSize = (size: number) => {
           </button>
           <button
             :class="[
-              'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+              'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
               {
                 'bg-[#2dada3]': pageSize === 20,
                 'bg-[#A7A7A7]': pageSize !== 20,
@@ -494,7 +494,7 @@ const setPageSize = (size: number) => {
           </button>
           <button
             :class="[
-              'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+              'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
               {
                 'bg-[#2dada3]': pageSize === 50,
                 'bg-[#A7A7A7]': pageSize !== 50,
@@ -506,9 +506,9 @@ const setPageSize = (size: number) => {
           </button>
         </div>
       </div>
-      <div class="flex items-center rtl:space-x-reverse space-x-2">
+      <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
         <span
-          class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
+          class="text-darkGrey dark:text-whiteTamkin text-[12px] md:text-[13px] leading-[21px] font-[400]"
         >
           {{ $t("Page") }}
         </span>
@@ -538,13 +538,13 @@ const setPageSize = (size: number) => {
           <button
             v-if="totalPages > 5 && currentPage > 3"
             @click="currentPage = 1"
-            class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             1
           </button>
           <button
             v-if="totalPages > 5 && currentPage > 4"
-            class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             ...
           </button>
@@ -555,7 +555,7 @@ const setPageSize = (size: number) => {
             :key="page"
             @click="currentPage = page"
             :class="[
-              'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center',
+              'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center',
               {
                 'bg-gradient-to-b from-[#2dada3] to-[#71dad2] text-white':
                   currentPage === page,
@@ -569,14 +569,14 @@ const setPageSize = (size: number) => {
           <!-- Always show the last two pages -->
           <button
             v-if="totalPages > 5 && currentPage < totalPages - 3"
-            class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             ...
           </button>
           <button
             v-if="totalPages > 5 && currentPage < totalPages - 2"
             @click="currentPage = totalPages"
-            class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             {{ totalPages }}
           </button>

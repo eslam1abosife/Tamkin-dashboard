@@ -630,7 +630,7 @@ const openInvestor = (app, pack) => {
       class="ipad-max:mt-[24px] mt-[44px] flex xl:space-y-0 space-y-[16px] items-center xl:flex-row flex-col justify-center xl:justify-start w-full rtl:space-x-reverse xl:space-x-[24px]"
     >
       <div
-        class="flex items-center xl:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] h-[150px] xl:h-[129px] rounded-[10px]"
+        class="flex items-center xl:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary md:h-[170px] sm:h-[150px] xl:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -642,26 +642,43 @@ const openInvestor = (app, pack) => {
             </h1>
           </div>
 
-          <div class="flex items-center justify-between">
+          <div
+            class="flex items-end sm:items-center justify-between flex-col sm:flex-row"
+          >
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+              class="flex items-center justify-between sm:justify-start w-full rtl:space-x-reverse space-x-[8px]"
             >
-              <div
-                v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
-                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-              >
-                <!-- <span v-if="!apps.length"> -->
-                <span>
-                  <img
-                    src="/assets/imgs/icons/mysite_select.svg"
-                    class="w-[40px] h-[40px]"
-                  />
-                </span>
-                <!-- <span v-else>
+              <div class="flex items-center justify-between gap-3">
+                <div
+                  v-if="!mysiteStore.loadingApps && !defaultApp?.favicon"
+                  class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+                >
+                  <!-- <span v-if="!apps.length"> -->
+                  <span>
+                    <img
+                      src="/assets/imgs/icons/mysite_select.svg"
+                      class="w-[40px] h-[40px]"
+                    />
+                  </span>
+
+                  <!-- <span v-else>
                 {{
                   defaultApp&&  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
                </span> -->
+                </div>
+                <div>
+                  <h2
+                    class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
+                  >
+                    <span v-if="defaultApp && defaultApp?.app_domain" class="max-md:block max-md:w-[9.5rem] max-md:truncate">
+                      {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
+                    </span>
+                    <span v-else>
+                      {{ $t("No Site Selected!") }}
+                    </span>
+                  </h2>
+                </div>
               </div>
               <div
                 v-if="
@@ -674,19 +691,8 @@ const openInvestor = (app, pack) => {
                   class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
                 />
               </div>
+
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <div>
-                  <h2
-                    class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
-                  >
-                    <span v-if="defaultApp && defaultApp?.app_domain">
-                      {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
-                    </span>
-                    <span v-else>
-                      {{ $t("No Site Selected!") }}
-                    </span>
-                  </h2>
-                </div>
                 <div>
                   <a
                     :href="
@@ -727,11 +733,11 @@ const openInvestor = (app, pack) => {
               </div>
             </div>
 
-            <div>
+            <div class="mt-4 sm:mt-0 w-full sm:w-auto">
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
-                @click.stop="openModal('selectSite', 'my-site')"
-                class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
+                @click.stop="openModal('selectSite', 'my-site')" 
+                class="btn_bordered_dashboard text-[14px] text-nowrap leading-[22.5px] font-[500] w-full sm:w-auto"
               >
                 {{ $t("Select Site") }}
               </button>
@@ -920,7 +926,7 @@ const openInvestor = (app, pack) => {
       >
         <div class="inline-block min-w-full align-middle">
           <div
-            class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
             style="box-shadow: 0px 4px 24px 8px #51459f1a"
           >
             <div
@@ -939,7 +945,7 @@ const openInvestor = (app, pack) => {
                         ? 'border-b-[3px] border-tamkin  font-[600] '
                         : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                     ]"
-                    class="text-[13px] md:text-[14px] md:px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
+                    class="text-[12px] md:text-[14px] md:px-[4px] text-nowrap pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                     style="line-height: 21px"
                   >
                     {{ $t("My Sites") }} (
@@ -963,7 +969,7 @@ const openInvestor = (app, pack) => {
                         ? 'border-b-[3px] border-tamkin  font-[600]'
                         : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                     ]"
-                    class="text-[13px] md:text-[14px] md:px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
+                    class="text-[12px] md:text-[14px] md:px-[4px] text-nowrap font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                     style="line-height: 21px"
                   >
                     {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
@@ -1032,7 +1038,7 @@ const openInvestor = (app, pack) => {
                   >
                     <input
                       type="text"
-                      class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset]"
+                      class="input_dashboard_search w-full !h-[40px] min-w-[107px] md:min-w-[unset] ltr:!pr-[10px]"
                       v-model="search"
                       :placeholder="`${$t('Search')} ...`"
                     />
@@ -1066,7 +1072,7 @@ const openInvestor = (app, pack) => {
             </div>
             <div class="overflow-x-auto">
               <table
-                class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
+                class="table-auto divide-y w-full divide-gray-200 dark:divide-darkborder"
                 v-if="
                   currentTab === 'saved' &&
                   paginatedFilteredAppList.length > 0 &&
@@ -2459,9 +2465,9 @@ const openInvestor = (app, pack) => {
         class="flex justify-between items-center pb-[16px]"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
           <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+            class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Per Page") }}
           </span>
@@ -2475,7 +2481,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
               ]"
               @click.stop="changePerPage(option)"
@@ -2488,7 +2494,7 @@ const openInvestor = (app, pack) => {
           class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
         >
           <span
-            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
+            class="text-darkGrey dark:text-whiteTamkin text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Page") }}
           </span>
@@ -2523,7 +2529,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
               ]"
               @click.stop="goToPage(page)"

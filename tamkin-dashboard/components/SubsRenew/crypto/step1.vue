@@ -172,6 +172,7 @@ const finalAmount = computed(() => {
                 closeModal('crypto_subs_step1');
                 subsStore.selectedPaymentMethod = '';
                 subsStore.selectedCrypto = '';
+                subsStore.removePromoCode();
               }
             "
           >
@@ -192,7 +193,7 @@ const finalAmount = computed(() => {
           <div class="flex items-center gap-3">
             <div
               @click="
-                navigateTo('crypto_subs_step1', 'subs', 'payment_methods_subs')
+                navigateTo('crypto_subs_step1', 'subs', 'payment_methods_subs'); subsStore.removePromoCode();
               "
               class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

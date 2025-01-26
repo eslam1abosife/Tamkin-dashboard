@@ -349,7 +349,7 @@ const sortedPlans = computed(() => {
         </h2>
       </div>
       <div
-        class="cursor-pointer flex items-center rtl:space-x-reverse space-x-[10px]"
+        class="cursor-pointer flex py-3 px-2 gap-3 justify-between items-center rtl:space-x-reverse space-x-[10px]"
         @click="collapsed = !collapsed"
       >
         <div>
@@ -359,12 +359,21 @@ const sortedPlans = computed(() => {
             {{ $t("What’s included?") }}
           </h2>
         </div>
-        <div class="cursor-pointer" @click="collapsed = !collapsed">
-          <img
-            src="/assets/imgs/arrow-right.svg"
-            class="w-[12px] h-[10px] rtl:rotate-180"
+        <div>
+          <svg
+            class="w-[12px] h-[10px] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
             :class="[collapsed ? '!rotate-90 ' : 'rotate-0']"
-          />
+            width="7"
+            height="12"
+            viewBox="0 0 7 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+            />
+          </svg>
         </div>
       </div>
     </div>
@@ -383,6 +392,9 @@ const sortedPlans = computed(() => {
             1024: {
               perPage: 2,
             },
+            1424: {
+              perPage: 3,
+            },
           },
         }"
       >
@@ -397,7 +409,7 @@ const sortedPlans = computed(() => {
               ]"
             >
               <div
-                class="absolute bottom-[95px] md:bottom-[95px] rtl:right-[24px] ltr:left-[24px]"
+                class="absolute bottom-[95px] md:bottom-[83%] rtl:right-[24px] ltr:left-[24px]"
               >
                 <img
                   :src="runconfig.public.baseImagerUrl + plan.icon"

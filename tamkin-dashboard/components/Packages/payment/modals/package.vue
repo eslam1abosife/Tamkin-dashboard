@@ -933,7 +933,7 @@ const formattedTotal = computed(() => {
                     }}
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="free_trial"
                     type="radio"
@@ -987,7 +987,7 @@ const formattedTotal = computed(() => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="month"
                     type="radio"
@@ -1050,7 +1050,7 @@ const formattedTotal = computed(() => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="3month"
                     type="radio"
@@ -1105,7 +1105,7 @@ const formattedTotal = computed(() => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 w-1/4">
+                <div class="order-1 max-md:pe-4">
                   <input
                     id="annual"
                     type="radio"
@@ -1526,8 +1526,12 @@ const formattedTotal = computed(() => {
                       : ''
                   "
                 >
-                  <td class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[33px]">
+                  <td
+                    class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div
+                      class="flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                    >
                       <div class="w-[150px] flex items-center h-[40px]">
                         <div
                           class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
@@ -1570,7 +1574,9 @@ const formattedTotal = computed(() => {
                       </div>
                       <div
                         class="cursor-pointer"
-                        @click="removeWebsiteFromSelectedApps(website.app_domain)"
+                        @click="
+                          removeWebsiteFromSelectedApps(website.app_domain)
+                        "
                       >
                         <svg
                           width="18"

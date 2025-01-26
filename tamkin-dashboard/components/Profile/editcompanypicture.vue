@@ -7,9 +7,9 @@ const { changeCompanyImage, loading } = useChangeCompanyImage();
 const { deleteCompanyImg, loading: loadingdel } = useDeleteCompanyImg();
 
 const profileStore = useProfileStore();
-const {t} = useI18n()
+const { t } = useI18n();
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
-const isDeleteAction = ref(false)
+const isDeleteAction = ref(false);
 const { isOpen, openModal, closeModal } = useModalManager();
 
 const acceptedFilesRef = ref<File[]>([]);
@@ -20,7 +20,7 @@ const onDrop = (acceptedFiles, rejectedFiles) => {
   console.log(acceptedFiles);
   isDeleteAction.value = false; // Reset deletion state when a new image is added
 };
-const loadingUpload = ref(false)
+const loadingUpload = ref(false);
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 const props = defineProps({
   showModal: Boolean,
@@ -32,28 +32,26 @@ const fileURL = (file) => {
 const loadingDelete = ref(false);
 
 const removeFile = async () => {
-  loadingUpload.value = true
+  loadingUpload.value = true;
 
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await deleteCompanyImg();
-  await profileStore.getCurrentTeam() 
-    
+  await profileStore.getCurrentTeam();
+
   // profileStore.setCompany();
-//  loadingDelete.value = false
-loadingUpload.value = false
-isDeleteAction.value = false
+  //  loadingDelete.value = false
+  loadingUpload.value = false;
+  isDeleteAction.value = false;
 };
 //
-watch(isDeleteAction,(ov,nv)=>{
-//  if( isDeleteAction.value){
-//   acceptedFilesRef.value = []
-//  }else {
-
-//  }
-
-})
-const {$toast} = useNuxtApp()
+watch(isDeleteAction, (ov, nv) => {
+  //  if( isDeleteAction.value){
+  //   acceptedFilesRef.value = []
+  //  }else {
+  //  }
+});
+const { $toast } = useNuxtApp();
 
 const submit = async () => {
   if (!isDeleteAction.value && acceptedFilesRef.value.length > 0) {
@@ -82,11 +80,11 @@ const submit = async () => {
         mimType: file.type,
         creator_ID: 1, // Adjust this as necessary
       };
-      
+
       await changeCompanyImage(imgFile);
-      closeModal('edit_company_picture');
+      closeModal("edit_company_picture");
       await profileStore.getCurrentTeam();
-      $toast(t('Company Image updated successfully'), { hideIn: 3000 });
+      $toast(t("Company Image updated successfully"), { hideIn: 3000 });
 
       loadingUpload.value = false;
     };
@@ -101,25 +99,24 @@ const submit = async () => {
     } else if (profileStore.company.agency_image.trim()) {
       // Remove image if one exists
       removeFile();
-      closeModal('edit_company_picture');
-      $toast('Company Image deleted successfully', { hideIn: 3000 });
+      closeModal("edit_company_picture");
+      $toast("Company Image deleted successfully", { hideIn: 3000 });
     }
   } else if (profileStore.company.agency_image.trim()) {
     // Handle case where there's no action but an image exists
     loadingUpload.value = true;
-    closeModal('edit_company_picture');
+    closeModal("edit_company_picture");
     loadingUpload.value = false;
-  }else {
+  } else {
     // Close modal if no action required
-    closeModal('edit_company_picture');
+    closeModal("edit_company_picture");
   }
 };
-const closeModalcmp = ()=>{
-isDeleteAction.value = false
+const closeModalcmp = () => {
+  isDeleteAction.value = false;
 
-  closeModal('edit_company_picture');
-}
-
+  closeModal("edit_company_picture");
+};
 
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
@@ -156,17 +153,14 @@ onBeforeUnmount(() => {
     <h1
       class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      {{ $t('Edit Company Picture') }}
+      {{ $t("Edit Company Picture") }}
     </h1>
 
     <div
       v-bind="getRootProps()"
       class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-4 md:mt-[40px] flex items-center justify-center flex-col space-y-[30px] bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
     >
-      <input v-bind="getInputProps()"  :disabled="
-
-      loadingUpload
-    "/>
+      <input v-bind="getInputProps()" :disabled="loadingUpload" />
 
       <div
         v-if="acceptedFilesRef.length > 0"
@@ -181,7 +175,7 @@ onBeforeUnmount(() => {
         />
       </div>
       <div
-        v-else-if="profileStore.company.agency_image && !isDeleteAction "
+        v-else-if="profileStore.company.agency_image && !isDeleteAction"
         class="upload-file-item"
       >
         <img
@@ -197,32 +191,40 @@ onBeforeUnmount(() => {
         <h1
           class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
         >
-          {{$t('Select a high-quality image to represent your team and')}}
-          <span class="font-[500] text-[#2DADA3]">{{$t('upload it here')}}</span>
+          {{ $t("Select a high-quality image to represent your team and") }}
+          <span class="font-[500] text-[#2DADA3]">{{
+            $t("upload it here")
+          }}</span>
         </h1>
       </div>
     </div>
 
-    <div class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto mt-[40px]">
+    <div
+      class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto mt-[40px]"
+    >
       <button
         class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard group error group md:max-w-[160px] max-md:flex-1"
-        @click="()=>{
-          
-          if(acceptedFilesRef.length > 0){
-            isDeleteAction = true 
-            acceptedFilesRef = []
-          isDeleteAction = false 
-           
+        @click="
+          () => {
+            if (acceptedFilesRef.length > 0) {
+              isDeleteAction = true;
+              acceptedFilesRef = [];
+              isDeleteAction = false;
+            }
+            isDeleteAction = !isDeleteAction;
           }
-          isDeleteAction = !isDeleteAction 
-        }"
-        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.company.agency_image?.trim() && !acceptedFilesRef.length)"
-
+        "
+        :disabled="
+          loadingUpload ||
+          isDeleteAction ||
+          (!profileStore.company.agency_image?.trim() &&
+            !acceptedFilesRef.length)
+        "
       >
         <div class="w-[18px] h-[18px]">
           <svg
-          class="text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40"
-          width="18"
+            class="text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40"
+            width="18"
             height="17"
             viewBox="0 0 18 17"
             fill="none"
@@ -235,7 +237,7 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <div class="flex items-center justify-center">
-          <div >{{$t('Delete')}}</div>
+          <div>{{ $t("Delete") }}</div>
 
           <!-- <svg
             v-if="loadingdel || loadingDelete"
@@ -261,14 +263,14 @@ onBeforeUnmount(() => {
         </div>
       </button>
       <button
-        :disabled="
-           loadingUpload
-        "
+        :disabled="loadingUpload"
         class="btn-dashboard hover_tamkin md:w-1/4 max-md:flex-1"
         @click="submit"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
+          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">
+            {{ $t("Save") }}
+          </div>
 
           <svg
             v-if="loadingUpload"

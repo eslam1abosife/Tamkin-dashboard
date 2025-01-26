@@ -92,8 +92,7 @@ const submit = async () => {
 <template>
   <div
     v-if="isOpen('selectSite')"
-    class="fixed z-[9999] top-0 md:top-[calc(50vh-255px)] bg-white dark:bg-p rounded-[10px] p-[30px] lg:w-[640px] h-full md:h-auto w-full md:w-10/12"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-[calc(50vh-255px)] left-1/2 -translate-x-1/2 bg-white dark:bg-p rounded-[10px] p-[30px] lg:w-[640px] h-auto w-10/12"
   >
     <div class="flex justify-between">
       <div
@@ -117,7 +116,7 @@ const submit = async () => {
       </div>
       <div>
         <h1
-          class="rtl:text-right  ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+          class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
         >
           {{ $t("Select Site") }}
         </h1>
@@ -199,7 +198,7 @@ const submit = async () => {
       </div>
       <div
         v-if="!inviteAppLoading"
-        class="relative h-[400px] md:h-[280px] overflow-y-auto scrollbar-thin"
+        class="relative h-[200px] p-[10px] md:h-[280px] overflow-y-auto scrollbar-thin"
       >
         <table
           v-if="filteredApps.length > 0"
@@ -264,14 +263,14 @@ const submit = async () => {
                     :id="app.name"
                     :value="app.name"
                     class="peer sr-only rtl:mr-auto ltr:ml-auto"
-                    number
                   />
                   <label
                     :for="app.name"
-                    class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
+                    class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked flex items-center justify-center"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                      v-if="checked === app.name"
+                      class="w-4 h-4 text-white dark:text-whiteTamkin"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -299,7 +298,7 @@ const submit = async () => {
       </div>
 
       <div
-        class="flex items-center h-full max-h-[200px] justify-center rtl:space-x-reverse space-x-[30px] mx-auto"
+        class="flex items-center h-[100px] max-h-[200px] justify-center rtl:space-x-reverse space-x-[30px] mx-auto"
       >
         <button
           class="btn_bordered_dashboard normal_hover text-center w-[50%] sm:w-1/6"

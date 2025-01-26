@@ -238,7 +238,7 @@ const runtimeconfig = useRuntimeConfig();
               !profileStore.loadingProfile &&
               !loadingInvestor
             "
-            class="bg-white/60 rounded-[10px] dark:bg-tamkinDarkPrimary/60 backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+            class="bg-white/60 rounded-[10px] dark:bg-tamkinDarkPrimary/60 backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative max-md:overflow-hidden"
           >
             <div
               class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"

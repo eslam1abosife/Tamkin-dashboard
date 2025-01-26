@@ -101,7 +101,7 @@ const discountAmount = computed(() => {
         <div class="flex items-center justify-between">
           <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-            @click="closeModal('paypal_mysite')">
+            @click="closeModal('paypal_mysite');mysiteStore.removePromoCode();">
             <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -111,7 +111,8 @@ const discountAmount = computed(() => {
           </div>
           <div class="flex items-center gap-3">
             <div @click="
-              navigateTo('paypal_mysite', 'mysite', 'payment_methods_mysite')
+              navigateTo('paypal_mysite', 'mysite', 'payment_methods_mysite');
+              mysiteStore.removePromoCode();
               "
               class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1">

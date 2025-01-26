@@ -575,13 +575,14 @@ const isOwner = computed(() => {
                 class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
               ></div>
               <div
-                                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
-
+                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Active") }}
               </div>
             </div>
-            <div class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px] text-right">
+            <div
+              class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px] text-right"
+            >
               {{ teamMembers.filter((ele) => ele.is_active).length }}
             </div>
           </div>
@@ -589,13 +590,14 @@ const isOwner = computed(() => {
             <div class="flex items-center">
               <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
               <div
-                                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
-
+                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
               >
                 {{ $t("Pending") }}
               </div>
             </div>
-            <div class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px]text-right">
+            <div
+              class="md:ltr:ml-[50px] ltr:ml-[10px] md:rtl:mr-[50px] rtl:mr-[10px]text-right"
+            >
               {{ teamMembers.filter((ele) => !ele.is_active).length }}
             </div>
           </div>
@@ -794,274 +796,275 @@ const isOwner = computed(() => {
             !capacityLoader
           "
         >
-        <div class="overflow-x-auto w-full">
-          <table
-            class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
-          >
-            <thead class="w-full">
-              <tr class="">
-                <th
-                  class="py-3.5 text-start text-[14px] font-[600] ps-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
-                >
-                  {{ $t("Name") }}
-                </th>
-                <th
-                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
-                >
-                  {{ $t("Email") }}
-                </th>
-                <th
-                  class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
-                >
-                  {{ $t("Permissions") }}
-                </th>
-                <th
-                  class="py-3.5 px-4 text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
-                >
-                  {{ $t("Action") }}
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full"
+          <div class="overflow-x-auto w-full">
+            <table
+              class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
             >
-              <tr
-                class=""
-                v-for="(member, index) in paginatedFilteredTeamMembers"
-                :key="index"
-              >
-                <td
-                  class="lg:pe-0 pe-[50px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] space-x-[16px]"
+              <thead class="w-full">
+                <tr class="">
+                  <th
+                    class="py-3.5 text-start text-[14px] font-[600] ps-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
                   >
-                    <div class="inline">
-                      <img
-                        v-if="member.user_image"
-                        :src="`https://tamkin.app/${member.user_image}`"
-                        class="h-[30px] hidden lg:block w-[30px] rounded-full"
-                      />
+                    {{ $t("Name") }}
+                  </th>
+                  <th
+                    class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{ $t("Email") }}
+                  </th>
+                  <th
+                    class="py-3.5 text-start text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{ $t("Permissions") }}
+                  </th>
+                  <th
+                    class="py-3.5 px-4 text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{ $t("Action") }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full"
+              >
+                <tr
+                  class=""
+                  v-for="(member, index) in paginatedFilteredTeamMembers"
+                  :key="index"
+                >
+                  <td
+                    class="lg:pe-0 pe-[50px] ps-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div
+                      class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] sm:space-x-[16px]"
+                    >
+                      <div class="inline">
+                        <img
+                          v-if="member.user_image"
+                          :src="`https://tamkin.app/${member.user_image}`"
+                          class="h-[30px] w-[30px] rounded-full"
+                        />
 
-                      <img
-                        v-else-if="
-                          myUser.photoURL &&
-                          member.member_email === myUser?.email
-                        "
-                        :src="myUser.photoURL"
-                        class="h-[30px] hidden lg:block w-[30px] rounded-full"
-                      />
+                        <img
+                          v-else-if="
+                            myUser.photoURL &&
+                            member.member_email === myUser?.email
+                          "
+                          :src="myUser.photoURL"
+                          class="h-[30px] hidden lg:block w-[30px] rounded-full"
+                        />
+
+                        <div
+                          v-else
+                          class="avatar_img h-8 w-8 rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none"
+                        >
+                          <span>
+                            {{
+                              getAvatarLetters(
+                                member.first_name + " " + member.last_name
+                              )
+                            }}
+                          </span>
+                        </div>
+                      </div>
 
                       <div
-                        v-else
-                        class="avatar_img h-8 w-8 rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none"
+                        class="order-1 lg:py-0 whitespace-nowrap max-w-55 truncate"
                       >
-                        <span>
-                          {{
-                            getAvatarLetters(
-                              member.first_name + " " + member.last_name
-                            )
-                          }}
-                        </span>
+                        {{ member.first_name + " " + member.last_name }}
+                      </div>
+                      <div
+                        v-if="isOwner(member)"
+                        class="order-2 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
+                        style="
+                          background: linear-gradient(
+                            180deg,
+                            #2dada3 0%,
+                            #71dad2 100%
+                          );
+                        "
+                      >
+                        {{ $t("Owner") }}
                       </div>
                     </div>
-
-                    <div
-                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap max-w-44 truncate"
-                    >
-                      {{ member.first_name + " " + member.last_name }}
-                    </div>
-                    <div
-                      v-if="isOwner(member)"
-                      class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
-                      style="
-                        background: linear-gradient(
-                          180deg,
-                          #2dada3 0%,
-                          #71dad2 100%
-                        );
-                      "
-                    >
-                      {{ $t("Owner") }}
-                    </div>
-                  </div>
-                </td>
-                <td
-                  class="py-4 ltr:text-left lg:pe-0 pe-[50px] whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <p>{{ member.member_email }}</p>
-                </td>
-                <td
-                  class="py-4 text-center text-[14px] lg:pe-0 pe-[50px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div
-                    class="flex items-center justify-start"
-                    v-if="profileStore.isOwner && !isOwner(member)"
+                  </td>
+                  <td
+                    class="py-4 ltr:text-left lg:pe-0 pe-[50px] whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
-                    <button
-                      :disabled="isOwner(member)"
-                      @click="
-                        () => {
-                          if (profileStore.isOwner) {
-                            openPermissions(member);
+                    <p>{{ member.member_email }}</p>
+                  </td>
+                  <td
+                    class="py-4 text-center text-[14px] lg:pe-0 pe-[50px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div
+                      class="flex items-center justify-start"
+                      v-if="profileStore.isOwner && !isOwner(member)"
+                    >
+                      <button
+                        :disabled="isOwner(member)"
+                        @click="
+                          () => {
+                            if (profileStore.isOwner) {
+                              openPermissions(member);
+                            }
                           }
-                        }
-                      "
-                      :class="
-                        !profileStore.isOwner
-                          ? ' cursor-not-allowed opacity-40'
-                          : 'opacity-100'
-                      "
-                      class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
-                    >
-                      <div>{{ $t("Permissions") }}</div>
-                      <img src="/assets/imgs/icons/arow_down.svg" />
-                    </button>
-                  </div>
-                  <div class="flex items-center justify-start" v-else>-</div>
-                </td>
-
-                <td
-                  class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div
-                    v-if="profileStore.isOwner && !isOwner(member)"
-                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
-                  >
-                    <button
-                      class="flex justify-center w-[40px] !p-0 !m-0 group"
-                      :disabled="
-                        member.is_active ||
-                        !profileStore.isOwner ||
-                        (reInviteLoading &&
-                          currEmail === member.member_email) ||
-                        invitedUsers.includes(member.member_email)
-                      "
-                      :class="[
-                        member.is_active ||
-                        (!profileStore.isOwner && isOwner(member)) ||
-                        (reInviteLoading &&
-                          currEmail === member.member_email) ||
-                        invitedUsers.includes(member.member_email)
-                          ? `opacity-40`
-                          : 'opacity-100',
-                      ]"
-                      @click="reinviteUser(member.member_email)"
-                    >
-                      <svg
-                        v-if="
-                          !(
-                            reInviteLoading && currEmail === member.member_email
-                          )
                         "
-                        width="22"
-                        height="20"
-                        class="text-[#8C8C8C] dark:text-white cursor-pointer group-disabled:cursor-not-allowed"
                         :class="
+                          !profileStore.isOwner
+                            ? ' cursor-not-allowed opacity-40'
+                            : 'opacity-100'
+                        "
+                        class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                      >
+                        <div>{{ $t("Permissions") }}</div>
+                        <img src="/assets/imgs/icons/arow_down.svg" />
+                      </button>
+                    </div>
+                    <div class="flex items-center justify-start" v-else>-</div>
+                  </td>
+
+                  <td
+                    class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    <div
+                      v-if="profileStore.isOwner && !isOwner(member)"
+                      class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
+                    >
+                      <button
+                        class="flex justify-center w-[40px] !p-0 !m-0 group"
+                        :disabled="
                           member.is_active ||
                           !profileStore.isOwner ||
-                          reInviteLoading ||
-                          invitedUsers.findIndex(
-                            (email) => email === member.member_email
-                          ) > -1
-                            ? null
-                            : `hover:text-tamkin`
+                          (reInviteLoading &&
+                            currEmail === member.member_email) ||
+                          invitedUsers.includes(member.member_email)
                         "
-                        viewBox="0 0 22 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                        :class="[
+                          member.is_active ||
+                          (!profileStore.isOwner && isOwner(member)) ||
+                          (reInviteLoading &&
+                            currEmail === member.member_email) ||
+                          invitedUsers.includes(member.member_email)
+                            ? `opacity-40`
+                            : 'opacity-100',
+                        ]"
+                        @click="reinviteUser(member.member_email)"
                       >
-                        <path
-                          d="M2 0.5C0.89 0.5 0 1.39 0 2.5V14.5C0 15.0304 0.210714 15.5391 0.585786 15.9142C0.960859 16.2893 1.46957 16.5 2 16.5H12.5C12.1699 15.7078 12 14.8582 12 14C12 12.2761 12.6848 10.6228 13.9038 9.40381C15.1228 8.18482 16.7761 7.5 18.5 7.5C19.0053 7.50149 19.5087 7.5619 20 7.68V2.5C20 1.96957 19.7893 1.46086 19.4142 1.08579C19.0391 0.710714 18.5304 0.5 18 0.5H2ZM2 2.5L10 7.5L18 2.5V4.5L10 9.5L2 4.5V2.5ZM18 8.5L15.75 10.75L18 13V11.5C18.663 11.5 19.2989 11.7634 19.7678 12.2322C20.2366 12.7011 20.5 13.337 20.5 14C20.5 14.4 20.41 14.78 20.24 15.12L21.33 16.21C21.75 15.58 22 14.82 22 14C22 11.79 20.21 10 18 10V8.5ZM14.67 11.79C14.25 12.42 14 13.18 14 14C14 16.21 15.79 18 18 18V19.5L20.25 17.25L18 15V16.5C17.337 16.5 16.7011 16.2366 16.2322 15.7678C15.7634 15.2989 15.5 14.663 15.5 14C15.5 13.6 15.59 13.22 15.76 12.88L14.67 11.79Z"
-                          fill="currentColor"
+                        <svg
+                          v-if="
+                            !(
+                              reInviteLoading &&
+                              currEmail === member.member_email
+                            )
+                          "
+                          width="22"
+                          height="20"
+                          class="text-[#8C8C8C] dark:text-white cursor-pointer group-disabled:cursor-not-allowed"
+                          :class="
+                            member.is_active ||
+                            !profileStore.isOwner ||
+                            reInviteLoading ||
+                            invitedUsers.findIndex(
+                              (email) => email === member.member_email
+                            ) > -1
+                              ? null
+                              : `hover:text-tamkin`
+                          "
+                          viewBox="0 0 22 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M2 0.5C0.89 0.5 0 1.39 0 2.5V14.5C0 15.0304 0.210714 15.5391 0.585786 15.9142C0.960859 16.2893 1.46957 16.5 2 16.5H12.5C12.1699 15.7078 12 14.8582 12 14C12 12.2761 12.6848 10.6228 13.9038 9.40381C15.1228 8.18482 16.7761 7.5 18.5 7.5C19.0053 7.50149 19.5087 7.5619 20 7.68V2.5C20 1.96957 19.7893 1.46086 19.4142 1.08579C19.0391 0.710714 18.5304 0.5 18 0.5H2ZM2 2.5L10 7.5L18 2.5V4.5L10 9.5L2 4.5V2.5ZM18 8.5L15.75 10.75L18 13V11.5C18.663 11.5 19.2989 11.7634 19.7678 12.2322C20.2366 12.7011 20.5 13.337 20.5 14C20.5 14.4 20.41 14.78 20.24 15.12L21.33 16.21C21.75 15.58 22 14.82 22 14C22 11.79 20.21 10 18 10V8.5ZM14.67 11.79C14.25 12.42 14 13.18 14 14C14 16.21 15.79 18 18 18V19.5L20.25 17.25L18 15V16.5C17.337 16.5 16.7011 16.2366 16.2322 15.7678C15.7634 15.2989 15.5 14.663 15.5 14C15.5 13.6 15.59 13.22 15.76 12.88L14.67 11.79Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                        <img
+                          v-else
+                          class="inline-block mx-2"
+                          src="/assets/imgs/loading-green.svg"
                         />
-                      </svg>
-                      <img
-                        v-else
-                        class="inline-block mx-2"
-                        src="/assets/imgs/loading-green.svg"
-                      />
-                    </button>
-                    <button
-                      class="flex justify-center w-[40px] !p-0 !m-0 group"
-                      :disabled="isOwner(member)"
-                      :class="
-                        !profileStore.isOwner
-                          ? `cursor-not-allowed opacity-40`
-                          : 'opacity-100'
-                      "
-                    >
-                      <svg
-                        width="16"
-                        height="20"
-                        viewBox="0 0 16 20"
-                        fill="none"
-                        class="text-[#8C8C8C]  dark:text-white group-disabled:cursor-not-allowed"
+                      </button>
+                      <button
+                        class="flex justify-center w-[40px] !p-0 !m-0 group"
+                        :disabled="isOwner(member)"
                         :class="
-                          profileStore.isOwner
-                            ? `cursor-pointer hover:text-[#2DADA3]`
-                            : 'cursor-not-allowed'
+                          !profileStore.isOwner
+                            ? `cursor-not-allowed opacity-40`
+                            : 'opacity-100'
+                        "
+                      >
+                        <svg
+                          width="16"
+                          height="20"
+                          viewBox="0 0 16 20"
+                          fill="none"
+                          class="text-[#8C8C8C] dark:text-white group-disabled:cursor-not-allowed"
+                          :class="
+                            profileStore.isOwner
+                              ? `cursor-pointer hover:text-[#2DADA3]`
+                              : 'cursor-not-allowed'
+                          "
+                          @click="
+                            profileStore.isOwner
+                              ? openEditUserModal(member)
+                              : null
+                          "
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M1 18H15C15.2652 18 15.5196 18.1054 15.7071 18.2929C15.8946 18.4804 16 18.7348 16 19C16 19.2652 15.8946 19.5196 15.7071 19.7071C15.5196 19.8946 15.2652 20 15 20H1C0.734784 20 0.48043 19.8946 0.292893 19.7071C0.105357 19.5196 0 19.2652 0 19C0 18.7348 0.105357 18.4804 0.292893 18.2929C0.48043 18.1054 0.734784 18 1 18ZM0 13L10 3L13 6L3 16H0V13ZM11 2L13 0L16 3L13.999 5.001L11 2Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="flex justify-center w-[40px] !p-0 !m-0 group"
+                        :disabled="isOwner(member)"
+                        :class="
+                          !profileStore.isOwner || isOwner(member)
+                            ? `cursor-not-allowed opacity-40 `
+                            : 'opacity-100'
                         "
                         @click="
                           profileStore.isOwner
-                            ? openEditUserModal(member)
+                            ? openDeleteMember(member.member_email)
                             : null
                         "
-                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M1 18H15C15.2652 18 15.5196 18.1054 15.7071 18.2929C15.8946 18.4804 16 18.7348 16 19C16 19.2652 15.8946 19.5196 15.7071 19.7071C15.5196 19.8946 15.2652 20 15 20H1C0.734784 20 0.48043 19.8946 0.292893 19.7071C0.105357 19.5196 0 19.2652 0 19C0 18.7348 0.105357 18.4804 0.292893 18.2929C0.48043 18.1054 0.734784 18 1 18ZM0 13L10 3L13 6L3 16H0V13ZM11 2L13 0L16 3L13.999 5.001L11 2Z"
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
                           fill="currentColor"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      class="flex justify-center w-[40px] !p-0 !m-0 group"
-                      :disabled="isOwner(member)"
-                      :class="
-                        !profileStore.isOwner || isOwner(member)
-                          ? `cursor-not-allowed opacity-40 `
-                          : 'opacity-100'
-                      "
-                      @click="
-                        profileStore.isOwner
-                          ? openDeleteMember(member.member_email)
-                          : null
-                      "
+                          class="text-[#8C8C8C] dark:text-white group-disabled:cursor-not-allowed"
+                          :class="
+                            profileStore.isOwner && !isOwner(member)
+                              ? `cursor-pointer  hover:text-[#E80902]`
+                              : '!cursor-not-allowed'
+                          "
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.52941 4.70588C3.52941 3.4578 4.02521 2.26085 4.90773 1.37832C5.79026 0.495797 6.98722 0 8.23529 0C9.48337 0 10.6803 0.495797 11.5629 1.37832C12.4454 2.26085 12.9412 3.4578 12.9412 4.70588C12.9412 5.95396 12.4454 7.15092 11.5629 8.03344C10.6803 8.91597 9.48337 9.41177 8.23529 9.41177C6.98722 9.41177 5.79026 8.91597 4.90773 8.03344C4.02521 7.15092 3.52941 5.95396 3.52941 4.70588ZM0 12.9412C0 11.6318 1.06235 10.5882 2.36353 10.5882H9.71412C8.75628 11.7465 8.2332 13.2029 8.23529 14.7059C8.23529 16.2388 8.76824 17.6471 9.65882 18.7565C9.19373 18.8012 8.71922 18.8235 8.23529 18.8235C6.05294 18.8235 4.02 18.3694 2.51177 17.4082C0.98 16.4318 0 14.9294 0 12.9412ZM20 14.7059C20 16.11 19.4422 17.4565 18.4494 18.4494C17.4565 19.4422 16.11 20 14.7059 20C13.3018 20 11.9552 19.4422 10.9624 18.4494C9.96954 17.4565 9.41177 16.11 9.41177 14.7059C9.41177 13.3018 9.96954 11.9552 10.9624 10.9624C11.9552 9.96954 13.3018 9.41177 14.7059 9.41177C16.11 9.41177 17.4565 9.96954 18.4494 10.9624C19.4422 11.9552 20 13.3018 20 14.7059ZM16.8871 13.3576C16.9975 13.2472 17.0596 13.0974 17.0596 12.9412C17.0596 12.785 16.9975 12.6352 16.8871 12.5247C16.7766 12.4143 16.6268 12.3522 16.4706 12.3522C16.3144 12.3522 16.1646 12.4143 16.0541 12.5247L14.7059 13.8741L13.3576 12.5247C13.2472 12.4143 13.0974 12.3522 12.9412 12.3522C12.785 12.3522 12.6352 12.4143 12.5247 12.5247C12.4143 12.6352 12.3522 12.785 12.3522 12.9412C12.3522 13.0974 12.4143 13.2472 12.5247 13.3576L13.8741 14.7059L12.5247 16.0541C12.47 16.1088 12.4266 16.1737 12.397 16.2452C12.3674 16.3167 12.3522 16.3932 12.3522 16.4706C12.3522 16.5479 12.3674 16.6245 12.397 16.696C12.4266 16.7674 12.47 16.8324 12.5247 16.8871C12.5794 16.9418 12.6443 16.9851 12.7158 17.0147C12.7872 17.0443 12.8638 17.0596 12.9412 17.0596C13.0185 17.0596 13.0951 17.0443 13.1666 17.0147C13.238 16.9851 13.303 16.9418 13.3576 16.8871L14.7059 15.5376L16.0541 16.8871C16.1088 16.9418 16.1737 16.9851 16.2452 17.0147C16.3167 17.0443 16.3932 17.0596 16.4706 17.0596C16.5479 17.0596 16.6245 17.0443 16.696 17.0147C16.7674 16.9851 16.8324 16.9418 16.8871 16.8871C16.9418 16.8324 16.9851 16.7674 17.0147 16.696C17.0443 16.6245 17.0596 16.5479 17.0596 16.4706C17.0596 16.3932 17.0443 16.3167 17.0147 16.2452C16.9851 16.1737 16.9418 16.1088 16.8871 16.0541L15.5376 14.7059L16.8871 13.3576Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div
+                      class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
+                      v-else
                     >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        class="text-[#8C8C8C]  dark:text-white group-disabled:cursor-not-allowed"
-                        :class="
-                          profileStore.isOwner && !isOwner(member)
-                            ? `cursor-pointer  hover:text-[#E80902]`
-                            : '!cursor-not-allowed'
-                        "
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M3.52941 4.70588C3.52941 3.4578 4.02521 2.26085 4.90773 1.37832C5.79026 0.495797 6.98722 0 8.23529 0C9.48337 0 10.6803 0.495797 11.5629 1.37832C12.4454 2.26085 12.9412 3.4578 12.9412 4.70588C12.9412 5.95396 12.4454 7.15092 11.5629 8.03344C10.6803 8.91597 9.48337 9.41177 8.23529 9.41177C6.98722 9.41177 5.79026 8.91597 4.90773 8.03344C4.02521 7.15092 3.52941 5.95396 3.52941 4.70588ZM0 12.9412C0 11.6318 1.06235 10.5882 2.36353 10.5882H9.71412C8.75628 11.7465 8.2332 13.2029 8.23529 14.7059C8.23529 16.2388 8.76824 17.6471 9.65882 18.7565C9.19373 18.8012 8.71922 18.8235 8.23529 18.8235C6.05294 18.8235 4.02 18.3694 2.51177 17.4082C0.98 16.4318 0 14.9294 0 12.9412ZM20 14.7059C20 16.11 19.4422 17.4565 18.4494 18.4494C17.4565 19.4422 16.11 20 14.7059 20C13.3018 20 11.9552 19.4422 10.9624 18.4494C9.96954 17.4565 9.41177 16.11 9.41177 14.7059C9.41177 13.3018 9.96954 11.9552 10.9624 10.9624C11.9552 9.96954 13.3018 9.41177 14.7059 9.41177C16.11 9.41177 17.4565 9.96954 18.4494 10.9624C19.4422 11.9552 20 13.3018 20 14.7059ZM16.8871 13.3576C16.9975 13.2472 17.0596 13.0974 17.0596 12.9412C17.0596 12.785 16.9975 12.6352 16.8871 12.5247C16.7766 12.4143 16.6268 12.3522 16.4706 12.3522C16.3144 12.3522 16.1646 12.4143 16.0541 12.5247L14.7059 13.8741L13.3576 12.5247C13.2472 12.4143 13.0974 12.3522 12.9412 12.3522C12.785 12.3522 12.6352 12.4143 12.5247 12.5247C12.4143 12.6352 12.3522 12.785 12.3522 12.9412C12.3522 13.0974 12.4143 13.2472 12.5247 13.3576L13.8741 14.7059L12.5247 16.0541C12.47 16.1088 12.4266 16.1737 12.397 16.2452C12.3674 16.3167 12.3522 16.3932 12.3522 16.4706C12.3522 16.5479 12.3674 16.6245 12.397 16.696C12.4266 16.7674 12.47 16.8324 12.5247 16.8871C12.5794 16.9418 12.6443 16.9851 12.7158 17.0147C12.7872 17.0443 12.8638 17.0596 12.9412 17.0596C13.0185 17.0596 13.0951 17.0443 13.1666 17.0147C13.238 16.9851 13.303 16.9418 13.3576 16.8871L14.7059 15.5376L16.0541 16.8871C16.1088 16.9418 16.1737 16.9851 16.2452 17.0147C16.3167 17.0443 16.3932 17.0596 16.4706 17.0596C16.5479 17.0596 16.6245 17.0443 16.696 17.0147C16.7674 16.9851 16.8324 16.9418 16.8871 16.8871C16.9418 16.8324 16.9851 16.7674 17.0147 16.696C17.0443 16.6245 17.0596 16.5479 17.0596 16.4706C17.0596 16.3932 17.0443 16.3167 17.0147 16.2452C16.9851 16.1737 16.9418 16.1088 16.8871 16.0541L15.5376 14.7059L16.8871 13.3576Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div
-                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] pe-4"
-                    v-else
-                  >
-                    -
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                      -
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </template>
 
         <div
@@ -1160,11 +1163,9 @@ const isOwner = computed(() => {
         class="flex flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
-        <div
-          class="flex items-center rtl:space-x-reverse space-x-2"
-        >
+        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
           <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+            class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Per Page") }}
           </span>
@@ -1178,7 +1179,7 @@ const isOwner = computed(() => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
               ]"
               @click="changePerPage(option)"
@@ -1187,9 +1188,11 @@ const isOwner = computed(() => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
+        >
           <span
-            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
+            class="text-darkGrey dark:text-whiteTamkin text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Page") }}
           </span>
@@ -1224,7 +1227,7 @@ const isOwner = computed(() => {
                   : ''
               "
               :class="[
-                'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === i ? 'text-white' : 'hover:bg-light-grey',
               ]"
               @click="goToPage(i)"

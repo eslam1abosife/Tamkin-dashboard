@@ -182,6 +182,7 @@ const percentageOff = computed(() => {
         () => {
           closeModal('cardModal_packages');
           packagesStore.selectedPaymentMethod = '';
+          packagesStore.removePromoCode();
         }
       "
     >
@@ -208,7 +209,8 @@ const percentageOff = computed(() => {
                 'cardModal_packages',
                 'packages',
                 'payment_methods_packages'
-              )
+              );
+              packagesStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"

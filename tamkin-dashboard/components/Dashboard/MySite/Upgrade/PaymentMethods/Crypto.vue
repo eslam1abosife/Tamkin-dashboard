@@ -86,7 +86,7 @@ const filteredCryptoMethods = computed(() => {
   <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
     <div class="flex items-center justify-between gap-3">
             <div
-              @click="navigateTo('crypto', 'add-site', 'paymentMethods')"
+              @click="navigateTo('crypto', 'add-site', 'paymentMethods'); removePromoCode();"
               class="cursor-pointer flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
