@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
-
+const props = defineProps({
+  upgrade: Boolean,
+});
 const {
   getInviteApps,
   defaultApp,
@@ -54,6 +56,8 @@ onBeforeMount(async () => {
   await addSiterStore.getPackages();
 
   loadingDataModal.value = false;
+
+  if(props.upgrade) return;
   mySiteStore.currentWebsite = defaultApp.value;
 
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]

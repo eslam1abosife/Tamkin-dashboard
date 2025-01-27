@@ -524,6 +524,7 @@ const openInvestor = (app, pack) => {
     >
       <MySiteNopackagebuy
         :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        :upgrade="true"
         v-if="isOpen('upgrade_no_package')"
       />
     </transition>
