@@ -156,8 +156,6 @@ const continueCheckOut = async () => {
         if (result.error) {
           console.error("Error:", result.error.message);
           usepaystore.stateOfPayment = "failed";
-          // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-
           navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
           loadingPayment.value = false;
         } else if (
@@ -166,8 +164,8 @@ const continueCheckOut = async () => {
         ) {
           // alert('yea')
           usepaystore.stateOfPayment = "paid";
-          // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
           navigateTo("cardModal_addsite", "addSite", "success_pay_addsite");
+          // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
           loadingPayment.value = false;
           addSiteStore.currentPackage = "";
           addSiteStore.packagePayload = "";
