@@ -290,10 +290,10 @@ function leaveCart(el, done) {
       </div>
     </div>
     <div
-      v-if="billingStore.loadCards"
+    v-if="billingStore.loadCards"
       class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
-      <div class="flex items-center justify-between w-full">
+      <div class="flex items-center justify-between w-full gap-4">
         <div
           class="w-[160px] h-[27px] bg-gray-200 animate-pulse rounded-[10px] dark:bg-p"
         ></div>
@@ -327,7 +327,7 @@ function leaveCart(el, done) {
           {{ $t("Payment Methods") }}
         </div>
         <button
-          class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0 rtl:space-x-reverse w-[159px]"
+          class="btn-dashboard hover_tamkin hidden md:flex items-center !justify-center !p-0 rtl:space-x-reverse w-[159px]"
           @click="openAddNewCardModal"
         >
           <svg
@@ -383,7 +383,7 @@ function leaveCart(el, done) {
       </div>
 
       <div
-        class="flex flex-col items-start justify-start w-full mt-[24px] space-y-[10px]"
+        class="flex flex-col items-start justify-start w-full mt-[24px] space-y-[10px] gap-4"
       >
         <div
           class="flex flex-col items-center justify-start w-full"
@@ -455,6 +455,60 @@ function leaveCart(el, done) {
             </div>
           </div>
         </div>
+        <button
+          class="btn-dashboard hover_tamkin flex md:hidden items-center !justify-center !p-0 rtl:space-x-reverse w-full"
+          @click="openAddNewCardModal"
+        >
+          <svg
+            width="29"
+            height="29"
+            viewBox="0 0 29 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect x="1" y="1" width="27" height="27" rx="13.5" fill="white" />
+            <rect
+              x="1"
+              y="1"
+              width="27"
+              height="27"
+              rx="13.5"
+              stroke="url(#paint0_linear_9024_12875)"
+            />
+            <path
+              d="M8 14.5C8 14.2411 8.10287 13.9927 8.28597 13.8096C8.46908 13.6265 8.71742 13.5236 8.97637 13.5236H13.5236V8.97637C13.5236 8.71742 13.6265 8.46908 13.8096 8.28597C13.9927 8.10287 14.2411 8 14.5 8C14.7589 8 15.0073 8.10287 15.1904 8.28597C15.3735 8.46908 15.4764 8.71742 15.4764 8.97637V13.5236H20.0236C20.2826 13.5236 20.5309 13.6265 20.714 13.8096C20.8971 13.9927 21 14.2411 21 14.5C21 14.7589 20.8971 15.0073 20.714 15.1904C20.5309 15.3735 20.2826 15.4764 20.0236 15.4764H15.4764V20.0236C15.4764 20.2826 15.3735 20.5309 15.1904 20.714C15.0073 20.8971 14.7589 21 14.5 21C14.2411 21 13.9927 20.8971 13.8096 20.714C13.6265 20.5309 13.5236 20.2826 13.5236 20.0236V15.4764H8.97637C8.71742 15.4764 8.46908 15.3735 8.28597 15.1904C8.10287 15.0073 8 14.7589 8 14.5Z"
+              fill="#4FC3BA"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_9024_12875"
+                x1="14.5"
+                y1="0.5"
+                x2="14.5"
+                y2="28.5"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#2DADA3" />
+                <stop offset="1" stop-color="#71DAD2" />
+              </linearGradient>
+              <linearGradient
+                id="paint1_linear_9024_12875"
+                x1="14.5"
+                y1="8"
+                x2="14.5"
+                y2="21"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#2DADA3" />
+                <stop offset="1" stop-color="#71DAD2" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div class="!text-[14px] !leading-[21px] !font-[600]">
+            {{ $t("Add New Card") }}
+          </div>
+        </button>
       </div>
     </div>
 
@@ -478,7 +532,7 @@ function leaveCart(el, done) {
               class="border-t border-b border-gray-200 dark:border-darkborder"
             >
               <td
-                class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] lg:max-w-[600px]"
+                class="py-4 max-md:px-3 text-nowrap space-y-[10px] 2xl:w-[600px] lg:w-[550px] lg:max-w-[600px]"
               >
                 <!-- Spinner icon -->
                 <div
@@ -525,7 +579,7 @@ function leaveCart(el, done) {
                 </div>
               </td>
 
-              <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
+              <td class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-right ltr:text-left">
                 <div
                   class="text-[14px] leading-[19px] text-darkGrey dark:text-white font-[500]"
                 >
@@ -538,7 +592,7 @@ function leaveCart(el, done) {
                 </div>
               </td>
 
-              <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
+              <td class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-left ltr:text-right">
                 <div
                   class="text-darkGrey dark:text-white text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >
@@ -569,7 +623,7 @@ function leaveCart(el, done) {
 
       <button
         :disabled="loadingMoreInvoies"
-        class="btn-dashboard hover_tamkin w-[190px] mt-[16px] rtl:mr-auto ltr:ml-auto"
+        class="btn-dashboard hover_tamkin w-full md:w-[190px] mt-[16px] rtl:mr-auto ltr:ml-auto"
         @click="increaseInvoices"
         v-if="invoicescount != invoicesStore.invoices.length"
       >

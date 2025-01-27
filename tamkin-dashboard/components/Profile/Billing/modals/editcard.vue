@@ -143,8 +143,7 @@ watch(eventCounter, async () => {
 
 <template>
   <div
-    class="md:max-w-[unset] max-w-[97%] flex flex-col items-start justify-center fixed z-[9999] top-1/6 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[24px] w-[700px] lg:h-auto"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="md:max-w-[unset] max-w-[97%] left-1/2 max-md:top-1/2 top-1/6 max-md:-translate-y-1/2 -translate-x-1/2 flex flex-col items-start justify-center fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[24px] w-[700px] lg:h-auto"
     v-if="isModalOpen('edit_card_billing_profile')"
   >
     <!--  -->
