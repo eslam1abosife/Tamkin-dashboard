@@ -56,24 +56,11 @@ export default {
                         label: 'paypal'
                     },
 
-                    createOrder: async (data, actions) => {
+                    createOrder: async () => {
                         const res = await props.clickPay();
-                        console.log(res);
-                        if (!res.id) {
-                            console.error("Error Get Id.");
-                            return;
-                        }
-
-                        return actions.order.create({
-                            purchase_units: [
-                                {
-                                    amount: {
-                                        value: props.amount,
-                                    },
-                                    custom_id: res.id,
-                                },
-                            ],
-                        });
+                        const id = JSON.parse(res.clientsecret).links.find(link => link.rel === 'approval_url').href.split('token=')[1];
+                        console.log(id);
+                        return id;
                     },
                     onApprove: (data, actions) => {
                         return actions.order.capture().then((details) => {
