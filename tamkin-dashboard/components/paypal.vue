@@ -7,7 +7,6 @@
 
 <script>
 import { loadScript } from "@paypal/paypal-js";
-
 export default {
     props: {
         amount: {
