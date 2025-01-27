@@ -25,7 +25,11 @@ export default {
         errorPay: {
             type: Function,
             required: true,
-        }
+        },
+        clickPay: {
+            type: Function,
+            required: true,
+        },
     },
     setup(props) {
         const loading = ref(true);
@@ -52,13 +56,21 @@ export default {
                         label: 'paypal'
                     },
 
-                    createOrder: (data, actions) => {
+                    createOrder: async (data, actions) => {
+                        const res = await props.clickPay();
+                        console.log(res);
+                        if (!res.id) {
+                            console.error("Error Get Id.");
+                            return;
+                        }
+
                         return actions.order.create({
                             purchase_units: [
                                 {
                                     amount: {
                                         value: props.amount,
                                     },
+                                    custom_id: res.id,
                                 },
                             ],
                         });

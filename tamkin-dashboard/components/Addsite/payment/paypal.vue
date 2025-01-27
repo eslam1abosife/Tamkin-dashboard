@@ -26,21 +26,21 @@ const changepaymentMethod = (method: any) => {
 const redirectTo = computed(() => {
   return "/add-site";
 });
-// const continueCheckOut = async () => {
-//   loadingPayment.value = true;
-//   const res = await payaddsite(null, "paypal", redirectTo.value);
-//   // alert(locale.value)
-//   if (codeStatus.value === 200) {
-//     // redirecct to res.data.data is a url
-//     // window.location.href = res;
-//     console.log(res)
+const continueCheckOut = async () => {
+  loadingPayment.value = true;
+  const res = await payaddsite(null, "paypal", redirectTo.value);
+  // alert(locale.value)
+  if (codeStatus.value === 200) {
+    // redirecct to res.data.data is a url
+    // window.location.href = res;
+    console.log(res)
 
-//     loadingPayment.value = false;
-//   } else {
-//     $toast(messageData.value, { hideIn: 3000, type: "error" });
-//     loadingPayment.value = false;
-//   }
-// };
+    loadingPayment.value = false;
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
+  }
+};
 
 const props = defineProps({
   showModal: Boolean,
@@ -95,8 +95,7 @@ const discountAmount = computed(() => {
                   'payment_methods_addsite'
                 );
               addSiteStore.removePromoCode();
-              "
-                class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
+              " class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
                 style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
                 <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
                   class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
@@ -251,19 +250,18 @@ const discountAmount = computed(() => {
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
             <paypal
               :amount='(addSiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")'
-              :successPay='
-                ()=>{
-                  usePaymentStore().stateOfPayment = "paid";
-                  navigateTo("paypal_addsite", "addSite", "success_pay_addsite");
-                }
-              '
-              :errorPay='
-                ()=>{
+              :successPay='() => {
+                usePaymentStore().stateOfPayment = "paid";
+                navigateTo("paypal_addsite", "addSite", "success_pay_addsite");
+              }
+                ' :errorPay='() => {
                   usePaymentStore().stateOfPayment = "failed";
                   navigateTo("paypal_addsite", "addSite", "success_pay_addsite");
                 }
-              '
-            >
+                  ' :clickPay='async () => {
+                  const res = await payaddsite(null, "paypal", redirectTo);
+                  return res;
+                }'>
             </paypal>
             <!-- <button
               class=" btn-dashboard hover_tamkin w-full" @click="continueCheckOut()" :disabled="loadingPayment">
