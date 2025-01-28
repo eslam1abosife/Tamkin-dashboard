@@ -1297,7 +1297,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] lg:px-0 text-nowrap md:w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                        class="px-[30px] text-nowrap md:w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                       >
                         <div v-if="app.package.length > 0">
                           <div
