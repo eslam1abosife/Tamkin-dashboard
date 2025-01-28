@@ -382,7 +382,7 @@ const discountAmount = computed(() => {
             </table>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
-            <button
+            <!-- <button
               class="btn-dashboard hover_tamkin w-full"
               @click="continueCheckOut()"
               :disabled="loadingPayment"
@@ -414,7 +414,21 @@ const discountAmount = computed(() => {
                   ></path>
                 </svg>
               </div>
-            </button>
+            </button> -->
+            <paypal
+              :successPay='() => {
+                usePaymentStore().stateOfPayment = "paid";
+                navigateTo("paypal_subs", "addSite", "success_pay_mysite");
+              }
+                ' :errorPay='() => {
+                  usePaymentStore().stateOfPayment = "failed";
+                  navigateTo("paypal_subs", "addSite", "success_pay_mysite");
+                }
+                  ' :clickPay='async () => {
+                    const res = await renewAllCardorPaypal(null, "paypal", redirectTo);
+                    return res;
+                  }'>
+            </paypal>
           </div>
         </div>
       </div>

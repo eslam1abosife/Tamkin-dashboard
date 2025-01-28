@@ -249,7 +249,6 @@ const discountAmount = computed(() => {
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
             <paypal
-              :amount='(addSiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "")'
               :successPay='() => {
                 usePaymentStore().stateOfPayment = "paid";
                 navigateTo("paypal_addsite", "addSite", "success_pay_addsite");
@@ -259,9 +258,9 @@ const discountAmount = computed(() => {
                   navigateTo("paypal_addsite", "addSite", "success_pay_addsite");
                 }
                   ' :clickPay='async () => {
-                  const res = await payaddsite(null, "paypal", redirectTo);
-                  return res;
-                }'>
+                    const res = await payaddsite(null, "paypal", redirectTo);
+                    return res;
+                  }'>
             </paypal>
             <!-- <button
               class=" btn-dashboard hover_tamkin w-full" @click="continueCheckOut()" :disabled="loadingPayment">

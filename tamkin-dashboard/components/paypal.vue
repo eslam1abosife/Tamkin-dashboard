@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div ref="btn">
+        <div v-show="!loading" ref="btn">
         </div>
+        <div v-show="loading" class="animate-pulse w-full h-[55px] bg-gray-300 dark:bg-gray-600 rounded"></div>
     </div>
 </template>
 
@@ -9,14 +10,6 @@
 import { loadScript } from "@paypal/paypal-js";
 export default {
     props: {
-        amount: {
-            type: String,
-            required: true,
-        },
-        currency: {
-            type: String,
-            default: "USD",
-        },
         successPay: {
             type: Function,
             required: true,
@@ -38,7 +31,6 @@ export default {
             try {
                 const paypal = await loadScript({
                     "client-id": 'AX-2rQp0cxxu4_UqtnE5PNLcpNinAEZoqTNgaCFWaIrjReJVWhdUDNW3HFzn9pAba7KGGpYK9INIf1R0',
-                    currency: props.currency,
                 });
 
                 if (!paypal) {
@@ -57,8 +49,7 @@ export default {
 
                     createOrder: async () => {
                         const res = await props.clickPay();
-                        const id = JSON.parse(res.clientsecret).links.find(link => link.rel === 'approval_url').href.split('token=')[1];
-                        console.log(id);
+                        const id = res.clientsecret;
                         return id;
                     },
                     onApprove: (data, actions) => {

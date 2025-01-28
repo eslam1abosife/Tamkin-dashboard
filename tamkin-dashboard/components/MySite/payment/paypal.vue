@@ -265,7 +265,7 @@ const discountAmount = computed(() => {
             </table>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
-            <button class="btn-dashboard hover_tamkin w-full" @click="continueCheckOut()" :disabled="loadingPayment">
+            <!-- <button class="btn-dashboard hover_tamkin w-full" @click="continueCheckOut()" :disabled="loadingPayment">
               <div class="flex items-center justify-center">
                 <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
                   {{ $t("Confirm Payment") }}
@@ -279,7 +279,21 @@ const discountAmount = computed(() => {
                   </path>
                 </svg>
               </div>
-            </button>
+            </button> -->
+            <paypal
+              :successPay='() => {
+                usePaymentStore().stateOfPayment = "paid";
+                navigateTo("paypal_mysite", "addSite", "success_pay_mysite");
+              }
+                ' :errorPay='() => {
+                  usePaymentStore().stateOfPayment = "failed";
+                  navigateTo("paypal_mysite", "addSite", "success_pay_mysite");
+                }
+                  ' :clickPay='async () => {
+                    const res = await payaddsite(null, "paypal", redirectTo);
+                    return res;
+                  }'>
+            </paypal>
           </div>
         </div>
       </div>

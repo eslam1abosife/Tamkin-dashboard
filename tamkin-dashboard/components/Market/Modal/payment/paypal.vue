@@ -304,7 +304,7 @@ const discountAmount = computed(() => {
             </table>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
-            <button
+            <!-- <button
               class="btn-dashboard hover_tamkin w-full"
               @click="continueCheckOut()"
               :disabled="loadingPayment"
@@ -336,7 +336,22 @@ const discountAmount = computed(() => {
                   ></path>
                 </svg>
               </div>
-            </button>
+            </button> -->
+
+            <paypal
+              :successPay='() => {
+                usePaymentStore().stateOfPayment = "paid";
+                navigateTo("paypal_market", "addSite", "successPayment_market");
+              }
+                ' :errorPay='() => {
+                  usePaymentStore().stateOfPayment = "failed";
+                  navigateTo("paypal_market", "addSite", "successPayment_market");
+                }
+                  ' :clickPay='async () => {
+                    const res = await createOrder("paypal", null, locale);
+                    return res;
+                  }'>
+            </paypal>
           </div>
         </div>
       </div>
