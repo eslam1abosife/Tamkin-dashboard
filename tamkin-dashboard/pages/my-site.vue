@@ -672,7 +672,10 @@ const openInvestor = (app, pack) => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                    <span v-if="defaultApp && defaultApp?.app_domain" class="max-md:block max-md:w-[9.5rem] max-md:truncate">
+                    <span
+                      v-if="defaultApp && defaultApp?.app_domain"
+                      class="max-md:block max-md:w-[9.5rem] max-md:truncate"
+                    >
                       {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
                     </span>
                     <span v-else>
@@ -700,7 +703,7 @@ const openInvestor = (app, pack) => {
                       defaultApp ? formatToUrl(defaultApp.app_domain) : '#'
                     "
                     :target="defaultApp ? '_blank' : ''"
-                    class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
+                    class="text-tamkin whitespace-nowrap font-[500] text-[14px] leading-[24px] flex"
                     :class="[
                       !defaultApp
                         ? '!text-darkGrey/40 dark:!text-white/70 cursor-not-allowed'
@@ -737,7 +740,7 @@ const openInvestor = (app, pack) => {
             <div class="mt-4 sm:mt-0 w-full sm:w-auto">
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
-                @click.stop="openModal('selectSite', 'my-site')" 
+                @click.stop="openModal('selectSite', 'my-site')"
                 class="btn_bordered_dashboard text-[14px] text-nowrap leading-[22.5px] font-[500] w-full sm:w-auto"
               >
                 {{ $t("Select Site") }}
@@ -2466,7 +2469,9 @@ const openInvestor = (app, pack) => {
         class="flex justify-between items-center pb-[16px]"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
+        >
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >

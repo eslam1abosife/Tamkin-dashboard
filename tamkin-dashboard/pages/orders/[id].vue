@@ -338,21 +338,23 @@ function leaveCart(el, done) {
           class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
         >
           <div
-            class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer"
+            class="ipad-max:text-[10px] whitespace-nowrap dark:text-whiteTamkin text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer"
           >
             {{ $t("Order ID") }} :
           </div>
           <button
             @click="GetBase64AndPrint(orderDetails.order_id)"
             :disabled="loadingInvoiceId === orderDetails.order_id"
-            class="text-[14px] font-[500] leading-[19px]"
+            class="text-[14px] font-[500] whitespace-nowrap leading-[19px]"
             :class="
               loadingInvoiceId === orderDetails.order_id
                 ? 'cursor-not-allowed text-light '
                 : 'text-tamkin underline  cursor-pointer'
             "
           >
-            <div class="flex items-start justify-center ipad-max:text-[10px]">
+            <div
+              class="flex items-start justify-center whitespace-nowrap ipad-max:text-[10px]"
+            >
               <div
                 :class="
                   loadingInvoiceId === orderDetails.order_id
@@ -392,7 +394,7 @@ function leaveCart(el, done) {
         <div
           class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
         >
-          <div>{{ $t("Order Date") }} :</div>
+          <div class="whitespace-nowrap">{{ $t("Order Date") }} :</div>
           <div
             class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
           >
@@ -413,7 +415,7 @@ function leaveCart(el, done) {
               />
             </svg>
 
-            <div>
+            <div class="whitespace-nowrap">
               {{ orderDetails.order_date }}
             </div>
           </div>
@@ -449,12 +451,12 @@ function leaveCart(el, done) {
             class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]"
             alt=""
           />
-          <div>{{ $t(orderDetails.status) }}</div>
+          <div class="whitespace-nowrap">{{ $t(orderDetails.status) }}</div>
         </div>
       </div>
 
       <div
-        class="text-[14px] font-[500] leading-[20px] dark:text-whiteTamkin text-[#23262F] mt-[41px]"
+        class="text-[14px] whitespace-nowrap font-[500] leading-[20px] dark:text-whiteTamkin text-[#23262F] mt-[41px]"
       >
         {{ $t("Order Items") }}
       </div>
@@ -494,14 +496,14 @@ function leaveCart(el, done) {
                   </div>
                   <div class="py-2">
                     <h3
-                      class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin"
+                      class="font-[500] whitespace-nowrap text-[#878787] capitalize dark:text-whiteTamkin"
                     >
                       {{ $t(item.type) }}
                     </h3>
                   </div>
                 </div>
                 <p
-                  class="text-darkGrey text-sm font-[500] rtl:text-right ltr:text-left mt-[6px] capitalize dark:text-whiteTamkin"
+                  class="text-darkGrey whitespace-nowrap text-sm font-[500] rtl:text-right ltr:text-left mt-[6px] capitalize dark:text-whiteTamkin"
                 >
                   {{ $t(item.name) }}
                 </p>
@@ -522,7 +524,7 @@ function leaveCart(el, done) {
                   </button>
                   <button
                     v-if="!item.edit"
-                    class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px]"
+                    class="text-tamkin underline whitespace-nowrap font-[500] ipad-max:text-[10px] text-[13px]"
                     @click="
                       openModal('requestmodal_details', 'order-id'),
                         setData({ ...item, currency: orderDetails.Currency })
@@ -531,7 +533,7 @@ function leaveCart(el, done) {
                     {{ $t("View Details") }}
                   </button>
                   <button
-                    class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px]"
+                    class="text-tamkin underline font-[500] whitespace-nowrap ipad-max:text-[10px] text-[13px]"
                     @click="
                       openModal('tracking_custom_order', 'order-id'),
                         setData(item)
