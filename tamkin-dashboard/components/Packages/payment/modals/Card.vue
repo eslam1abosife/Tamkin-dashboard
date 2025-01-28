@@ -274,9 +274,6 @@ const percentageOff = computed(() => {
                     class="flex flex-col items-start justify-start relative w-full"
                   >
                     <div
-                      class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
-                    ></div>
-                    <div
                       class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                     >
                       <div
@@ -467,29 +464,29 @@ const percentageOff = computed(() => {
             </div>
             <div
               v-else
-              class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px] animate-pulse"
+              class="flex items-center flex-col lg:justify-between w-full px-[20px] animate-pulse"
             >
               <!-- Left section for adding a new card -->
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
-              >
-                <div
-                  class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-                <div
-                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-              </div>
-
-              <!-- Right section for showing more payment options -->
-              <div
-                class="flex items-center rtl:space-x-reverse space-x-[1px] md:space-x-[11px] mt-[24px]"
+                class="flex justify-between w-full rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
               >
                 <div
                   class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
                 <div
-                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                  class="w-[70px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+              </div>
+
+              <!-- Right section for showing more payment options -->
+              <div
+                class="flex justify-between w-full rtl:space-x-reverse space-x-[1px] md:space-x-[11px] mt-[24px]"
+              >
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[70px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
               </div>
             </div>
@@ -608,6 +605,7 @@ const percentageOff = computed(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
+                v-if="!loadingCards"
                 class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]"
               >
                 <div
@@ -712,13 +710,13 @@ const percentageOff = computed(() => {
                 </div>
               </div>
               <div
-                v-if="packagesStore.noDiscount"
+                v-if="packagesStore.noDiscount && !loadingCards"
                 class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
               >
                 {{ $t("Coupon code not found") }}
               </div>
             </div>
-            <table class="min-w-full">
+            <table class="min-w-full" v-if="!loadingCards">
               <thead>
                 <tr>
                   <th
@@ -792,58 +790,65 @@ const percentageOff = computed(() => {
             </table>
           </div>
 
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-if="chooseOtherPaymentMethod !== ''"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="gotoPaymentMethod"
+          <div v-if="!loadingCards" class="w-full">
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-if="chooseOtherPaymentMethod !== ''"
             >
-              {{ $t("Switch Payment Method") }}
-            </button>
-          </div>
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!chooseOtherPaymentMethod"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="continueCheckOut"
-              :disabled="
-                !currentCard ||
-                billingStore.cards.length === 0 ||
-                loadingPayment
-              "
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="gotoPaymentMethod"
+              >
+                {{ $t("Switch Payment Method") }}
+              </button>
+            </div>
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-else-if="!chooseOtherPaymentMethod"
             >
-              <div class="flex items-center justify-center">
-                <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
-                  {{ $t("Confirm Payment") }}
-                </div>
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="continueCheckOut"
+                :disabled="
+                  !currentCard ||
+                  billingStore.cards.length === 0 ||
+                  loadingPayment
+                "
+              >
+                <div class="flex items-center justify-center">
+                  <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    {{ $t("Confirm Payment") }}
+                  </div>
 
-                <svg
-                  v-if="loadingPayment"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
+                  <svg
+                    v-if="loadingPayment"
+                    class="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div v-else class="w-[90%] mx-auto my-4">
+            <div
+              class="h-[24px] w-full bg-gray-300 dark:bg-gray-600 rounded-md"
+            ></div>
           </div>
         </div>
       </div>
