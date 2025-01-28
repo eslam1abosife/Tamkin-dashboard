@@ -231,9 +231,9 @@ const submitInviteApp = async () => {
 
       <div
         v-loading="!getAppsLoading"
-        class="max-h-[200px] overflow-y-scroll scrollbar-thin scrollbar-thumb scrollbar-track"
+        class="max-h-[200px] overflow-y-scroll scrollbar-thin"
       >
-        <div v-if="getAppsLoading" class="w-[97%]">
+        <div v-if="getAppsLoading" class="w-[99%]">
           <!-- Placeholder for table rows -->
           <div
             v-for="n in 4"
@@ -252,7 +252,7 @@ const submitInviteApp = async () => {
 
         <table
           v-else-if="filteredPermissions.length > 0"
-          class="min-w-[97%] divide-y divide-gray-200 dark:divide-light"
+          class="min-w-[99%] divide-y divide-gray-200 dark:divide-light"
         >
           <!-- Existing table structure -->
           <thead>
@@ -421,4 +421,10 @@ const submitInviteApp = async () => {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+/* For Firefox */
+.scrollbar-thin {
+  scrollbar-width: thin; /* Use a thin scrollbar */
+  scrollbar-color: #272c35 #383d46; /* Thumb color and track color */
+}
+</style>
