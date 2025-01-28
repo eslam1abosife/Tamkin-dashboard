@@ -319,7 +319,7 @@ const submitInviteApp = async () => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-darkborder">
-              <tr v-for="n in 2" :key="n">
+              <tr v-for="n in 1" :key="n">
                 <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                   <div class="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                   <span class="block h-4 w-1/3 bg-gray-300 dark:bg-gray-600 rounded"></span>
