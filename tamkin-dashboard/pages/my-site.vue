@@ -1285,7 +1285,7 @@ const openInvestor = (app, pack) => {
 
                           <!-- Title Container -->
                           <div
-                            class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24 truncate"
+                            class="inline-block align-middle rtl:mr-2 ltr:ml-2 truncate"
                           >
                             {{
                               app.package[0] && app.package[0].title
@@ -1297,7 +1297,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] lg:px-0 text-nowrap md:w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                        class="xl:px-0 px-[16px] text-nowrap md:w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                       >
                         <div v-if="app.package.length > 0">
                           <div
@@ -1595,7 +1595,7 @@ const openInvestor = (app, pack) => {
 
                             <!-- Title Container -->
                             <div
-                              class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24 truncate"
+                              class="inline-block align-middle rtl:mr-2 ltr:ml-2 truncate"
                             >
                               {{
                                 pack && pack.title

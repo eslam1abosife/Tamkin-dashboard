@@ -637,7 +637,7 @@ const closeModalPackage = () => {
                       }}
                     </h2>
                   </div>
-                  <div class="order-1 max-md:pe-4">
+                  <div class="order-1 rtl:pl-4 ltr:pr-4">
                     <input
                       id="free_trial"
                       type="radio"
@@ -702,7 +702,7 @@ const closeModalPackage = () => {
                       }}</span>
                     </h2>
                   </div>
-                  <div class="order-1 max-md:pe-4">
+                  <div class="order-1 rtl:pl-4 ltr:pr-4">
                     <input
                       id="month"
                       type="radio"
@@ -773,7 +773,7 @@ const closeModalPackage = () => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 max-md:pe-4">
+                <div class="order-1 rtl:pl-4 ltr:pr-4">
                   <input
                     id="3month"
                     type="radio"
@@ -835,7 +835,7 @@ const closeModalPackage = () => {
                     }}</span>
                   </h2>
                 </div>
-                <div class="order-1 max-md:pe-4">
+                <div class="order-1 rtl:pl-4 ltr:pr-4">
                   <input
                     id="annual"
                     type="radio"

@@ -914,10 +914,22 @@ const isOwner = computed(() => {
                             ? ' cursor-not-allowed opacity-40'
                             : 'opacity-100'
                         "
-                        class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                        class="flex items-center gap-x-[10px] bg-transparent underline focus:outline-none"
                       >
                         <div>{{ $t("Permissions") }}</div>
-                        <img src="/assets/imgs/icons/arow_down.svg" />
+                        <svg
+                          class="w-[4.5px] h-auto [transform:rotateZ(90deg)] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
+                          width="7"
+                          height="12"
+                          viewBox="0 0 7 12"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                          />
+                        </svg>
                       </button>
                     </div>
                     <div class="flex items-center justify-start" v-else>-</div>
@@ -1163,7 +1175,9 @@ const isOwner = computed(() => {
         class="flex flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
+        >
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
           >

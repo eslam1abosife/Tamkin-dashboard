@@ -256,7 +256,7 @@ const percentageOff = computed(() => {
                 ></div>
                 <div class="flex items-center justify-between w-full">
                   <div
-                    class="flex flex-col items-start justify-start relative w-full"
+                    class="flex flex-col items-start justify-start relative me-[5px] w-full"
                   >
                     <div
                       class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
@@ -319,7 +319,7 @@ const percentageOff = computed(() => {
                   </div>
                   <div class="flex items-center justify-between w-full">
                     <div
-                      class="flex flex-col items-start justify-start relative w-full"
+                      class="flex flex-col items-start justify-start relative me-[5px] w-full"
                     >
                       <div
                         class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
