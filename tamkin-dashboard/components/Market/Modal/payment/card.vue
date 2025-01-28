@@ -221,7 +221,7 @@ const percentageOff = computed(() => {
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
                 <div class="bg-gray-300 dark:bg-gray-600 rounded-[10px] w-[44px] h-[30px]"></div>
                 <div class="flex items-center justify-between w-full">
-                  <div class="flex flex-col items-start justify-start relative w-full">
+                  <div class="flex flex-col items-start justify-start relative me-[5px] w-full">
                     <div
                       class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600">
                     </div>
@@ -258,7 +258,7 @@ const percentageOff = computed(() => {
                     <img :src="fullUrl(savedCard.logo)" class="w-[44px] h-[44px]" />
                   </div>
                   <div class="flex items-center justify-between w-full">
-                    <div class="flex flex-col items-start justify-start relative w-full">
+                    <div class="flex flex-col items-start justify-start relative me-[5px] w-full">
                       <div
                         class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary">

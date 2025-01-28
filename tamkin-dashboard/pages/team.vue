@@ -914,11 +914,11 @@ const isOwner = computed(() => {
                             ? ' cursor-not-allowed opacity-40'
                             : 'opacity-100'
                         "
-                        class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                        class="flex items-center gap-x-[10px] bg-transparent underline focus:outline-none"
                       >
                         <div>{{ $t("Permissions") }}</div>
                         <svg
-                          class="w-[12px] h-[10px] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
+                          class="w-[4.5px] h-auto [transform:rotateZ(90deg)] rtl:rotate-180 dark:text-whiteTamkin dark:fill-whiteTamkin"
                           width="7"
                           height="12"
                           viewBox="0 0 7 12"
