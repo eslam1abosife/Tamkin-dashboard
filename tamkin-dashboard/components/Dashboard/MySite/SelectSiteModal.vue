@@ -369,6 +369,6 @@ const submit = async () => {
 /* For Firefox */
 .scrollbar-thin {
   scrollbar-width: thin; /* Use a thin scrollbar */
-  scrollbar-color: #a7a7a7 #edf2f7; /* Thumb color and track color */
+  scrollbar-color: #272c35  #383d46; /* Thumb color and track color */
 }
 </style>

@@ -719,14 +719,14 @@ const openInvestor = (app, pack) => {
                           ? 'text-orange-400'
                           : 'text-red-600'
                       "
-                      class="capitalize w-1/6 text-[14px] p-3 leading-[21px] font-[600] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="capitalize w-1/6 whitespace-nowrap text-[14px] p-3 leading-[21px] font-[600] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
                     >
                       {{
                         $t(`${sb.status[0].toUpperCase() + sb.status.slice(1)}`)
                       }}
                     </td>
                     <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
+                      class="w-1/6 p-3 text-[14px] whitespace-nowrap leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       {{
                         new Date(sb.from_date).toLocaleDateString(
@@ -740,7 +740,7 @@ const openInvestor = (app, pack) => {
                       }}
                     </td>
                     <td
-                      class="w-1/6 p-3 text-[14px] leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
+                      class="w-1/6 p-3 text-[14px] leading-[21px] whitespace-nowrap font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       {{
                         sb.package_type !== "Extra" && sb.type !== "Investors"
@@ -774,7 +774,7 @@ const openInvestor = (app, pack) => {
                       </div>
                     </td>
                     <td
-                      class="text-[14px] p-3 leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white"
+                      class="text-[14px] p-3 leading-[21px] font-[500] border-b border-[#D9D9D9] dark:border-darkborder text-black dark:text-white whitespace-nowrap"
                     >
                       <div
                         class="flex items-center justify-center rtl:space-x-reverse space-x-[8px] rtl:pl-[12px] ltr:pr-[12px]"
