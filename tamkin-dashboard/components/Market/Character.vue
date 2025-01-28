@@ -448,11 +448,7 @@ onUnmounted(() => {
       direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
       gap: 10,
       perPage: 2,
-      // breakpoints: {
-      //   600: {
-      //     perPage: 1,
-      //   },
-      // },
+      
       width: '100%',
     }"
     class="max-md:pb-7 bg-white dark:bg-[#344153] pt-4 px-[15px] rounded-b-[10px] relative z-[10]"
