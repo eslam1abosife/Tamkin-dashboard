@@ -389,7 +389,7 @@ const sortedPlans = computed(() => {
             768: {
               perPage: 1,
             },
-            1024: {
+            1107: {
               perPage: 2,
             },
             1424: {
@@ -397,11 +397,11 @@ const sortedPlans = computed(() => {
             },
           },
         }"
+        class="mt-8"
       >
         <SplideSlide v-for="(plan, i) in sortedPlans" :key="i">
-          <div class="flex flex-col mt-8 items-start justify-center">
             <div
-              class="flex items-center justify-start custom-border relative py-[40px] lg:py-[62px] w-full h-[120px] md:h-[149px] !rounded-[10px] mt-[20px] lg:mt-[35px]"
+              class="flex items-center justify-start custom-border relative py-[40px] lg:py-[62px] h-[120px] md:h-[149px] !rounded-[10px] mt-[20px] lg:mt-[35px]"
               :class="[
                 selectedPlan && selectedPlan === plan
                   ? 'bg-selected dark:bg-p'
@@ -428,9 +428,9 @@ const sortedPlans = computed(() => {
                 </div>
               </div>
               <div
-                class="flex items-center justify-start relative w-full rtl:px-5 px-6"
+                class="flex items-center justify-start relative flex-1 rtl:px-5 px-6"
               >
-                <div class="order-2 mt-[22px] relative w-full">
+                <div class="order-2 mt-[22px] relative flex-1">
                   <h1
                     class="font-[500] text-[14px] md:text-[16px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]"
                   >
@@ -492,7 +492,6 @@ const sortedPlans = computed(() => {
                 </div>
               </div>
             </div>
-          </div>
         </SplideSlide>
       </Splide>
 

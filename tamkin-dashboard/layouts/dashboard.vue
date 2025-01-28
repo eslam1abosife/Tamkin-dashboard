@@ -1034,12 +1034,12 @@ const isAnyLinkActive = computed(() => {
       />
 
       <div
-        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] lg:z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-[#3333337a] w-full"
+        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[9999] lg:z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-[#3333337a]"
         :class="[
           sideBarOpenMobile
-            ? 'fixed inset-0 z-[9999] w-full h-screen '
+            ? 'fixed inset-0 z-[9999] w-[280px] h-screen '
             : 'ipad-max:hidden  lg:flex hidden',
-          sideBarOpen ? 'max-w-[280px] h-full' : 'max-w-[75px]',
+          sideBarOpen ? 'w-[280px] h-full' : 'w-[75px]',
         ]"
       >
         <div
@@ -1080,6 +1080,9 @@ const isAnyLinkActive = computed(() => {
 
       <div
         class="flex items-start lg:flex-row flex-col md:justify-between rtl:flex-row-reverse lg:justify-between relative w-full"
+        :class="[
+          sideBarOpen ? 'lg:max-w-[calc(100vw-280px)]' : 'lg:max-w-[calc(100vw-75px)]',
+        ]"
       >
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
