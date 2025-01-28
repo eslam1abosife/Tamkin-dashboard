@@ -537,14 +537,14 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div
-          class="!mx-auto md:!me-0 md:!ms-6 flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[5px] justify-center flex-wrap md:flex-nowrap"
+          class="!mx-auto md:!me-0 md:!ms-6 flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[8px] justify-center flex-wrap md:flex-nowrap"
         >
           <div
             @click="changePeriod(0)"
             :class="[
               filterBYTime === 0 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:dark:!text-black hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("All") }}
           </div>
@@ -553,7 +553,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 1 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] hover:dark:!text-black md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Monthly") }}
           </div>
@@ -562,7 +562,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 3 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:!text-black w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("3 Months") }}
           </div>
@@ -571,7 +571,7 @@ const openInvestor = (app, pack) => {
             :class="[
               filterBYTime === 12 ? 'bg-tamkinLight dark:!text-black' : '',
             ]"
-            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:!text-black w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Yearly") }}
           </div>
@@ -582,7 +582,7 @@ const openInvestor = (app, pack) => {
                 ? 'bg-tamkinLight dark:!text-black'
                 : '',
             ]"
-            class="border-[1px] hover:dark:bg-darkSecondary hover:dark:!text-whiteTamkin w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
+            class="border-[1px] hover:dark:!text-black w-fit min-w-9 px-[0.3rem] py-2 md:px-0 md:py-0 md:w-[82px] md:h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center text-xs md:text-[13px] font-[500] dark:text-whiteTamkin leading-[19.5px]"
           >
             {{ $t("Investor") }}
           </div>

@@ -505,7 +505,7 @@ const closeModalPackage = () => {
       >
         <div class="flex justify-between">
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[31px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 pe-[20px] lg:mt-0 mt-[31px]"
           >
             {{ $t("Add Package") }}
           </h1>

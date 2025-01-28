@@ -55,7 +55,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
     <div class="w-full h-screen">
       <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden">
         <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0">
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 pe-[20px] lg:mt-0">
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
             <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]"
               v-if="mySiteStore.currentWebsite?.title === 'Internal Service'" />

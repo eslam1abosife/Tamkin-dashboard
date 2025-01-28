@@ -574,7 +574,7 @@ const closeModalPackage = () => {
         class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden"
       >
         <h1
-          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0"
+          class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 pe-[20px] lg:mt-0"
         >
           {{ $t("Add Package") }}
         </h1>

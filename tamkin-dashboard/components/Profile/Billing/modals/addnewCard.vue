@@ -438,7 +438,7 @@ const countriesC = computed(() => {
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[0px] lg:space-x-[10px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col gap-x-[10px] gap-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="w-full relative">
@@ -543,7 +543,7 @@ const countriesC = computed(() => {
               </div>
 
               <div
-                class="flex items-center max-md:flex-col justify-center mt-[14px] w-full gap-[10px]"
+                class="flex items-center max-md:flex-col justify-center mt-[14px] w-full gap-y-[25px] gap-x-[10px]"
               >
                 <div class="w-full md:w-2/4 relative">
                   <div
@@ -629,7 +629,7 @@ const countriesC = computed(() => {
               </div>
             </div>
             <div
-              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse space-x-[0px] lg:space-x-[10px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col gap-y-[25px] gap-x-[10px] mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -709,7 +709,7 @@ const countriesC = computed(() => {
             </div>
 
             <div
-              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] rtl:space-x-reverse lg:space-x-[10px] space-x-[0px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col gap-y-[25px] gap-x-[10px] lg:mb-[25px] w-full"
             >
               <div class="w-full">
                 <div class="relative">
@@ -747,7 +747,7 @@ const countriesC = computed(() => {
                   </div>
                 </div>
               </div>
-              <div class="w-full lg:mt-0 mt-[16px]">
+              <div class="w-full lg:mt-0">
                 <TranslateSelectInput
                   @getCurrentSelectedItem="handleSelectedItemProjectName"
                   :enableSearch="true"
