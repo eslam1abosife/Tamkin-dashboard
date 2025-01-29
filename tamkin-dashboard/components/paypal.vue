@@ -54,7 +54,11 @@ export default {
                     },
                     onApprove: (data, actions) => {
                         return actions.order.capture().then((details) => {
-                            props.successPay();
+                            loading.value = true;
+                            setTimeout(() => {
+                                loading.value = false;
+                                props.successPay();
+                            }, 5000);
                         });
                     },
                     onError: (err) => {
