@@ -400,7 +400,7 @@ const percentageOff = computed(() => {
                         class="flex items-center cursor-pointer"
                       >
                         <span
-                          class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                          class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rtl:ml-1 ltr:mr-1 rounded-full border border-tamkin"
                         ></span>
                       </label>
                     </div>
@@ -430,7 +430,7 @@ const percentageOff = computed(() => {
             </div>
 
             <div
-              class="flex items-center justify-between w-full px-[20px]"
+              class="flex items-center gap-2 justify-between w-full px-[20px]"
               v-if="!loadingCards"
             >
               <div
@@ -456,19 +456,19 @@ const percentageOff = computed(() => {
                   />
                 </div>
                 <div
-                  class="text-[13px] md:text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[12px] whitespace-nowrap md:text-[13px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Add New Card") }}
                 </div>
               </div>
 
               <div
-                class="flex items-center rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
+                class="flex items-center flex-start rtl:space-x-reverse space-x-[6px] md:space-x-[10px] mt-[24px]"
                 @click="showMoreMethods = !showMoreMethods"
               >
                 <div class="cursor-pointer">
                   <div
-                    class="text-[13px] md:ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                    class="text-[12px] whitespace-nowrap md:ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Show all payment options") }}
                   </div>
@@ -493,29 +493,25 @@ const percentageOff = computed(() => {
             </div>
             <div
               v-else
-              class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px] animate-pulse"
+              class="flex items-center flex-col lg:justify-between w-full px-[20px] animate-pulse"
             >
               <!-- Left section for adding a new card -->
-              <div
-                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
-              >
-                <div
-                  class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-                <div
-                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-              </div>
-
-              <!-- Right section for showing more payment options -->
-              <div
-                class="flex items-center rtl:space-x-reverse space-x-[1px] md:space-x-[11px] mt-[24px]"
-              >
+              <div class="flex justify-between w-full mt-[24px]">
                 <div
                   class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
                 <div
-                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                  class="cursor-pointer w-[40px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+              </div>
+
+              <!-- Right section for showing more payment options -->
+              <div class="flex justify-between w-full mt-[24px]">
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[40px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
               </div>
             </div>
@@ -570,7 +566,7 @@ const percentageOff = computed(() => {
                   />
                   <label
                     for="radio_crypto"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -625,7 +621,7 @@ const percentageOff = computed(() => {
                   />
                   <label
                     for="radio_paypal"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -748,7 +744,7 @@ const percentageOff = computed(() => {
                 {{ $t("Coupon code not found") }}
               </div>
             </div>
-            <table class="min-w-full">
+            <table v-if="!loadingCards" class="min-w-full">
               <thead>
                 <tr>
                   <th
@@ -831,60 +827,65 @@ const percentageOff = computed(() => {
               </tbody>
             </table>
           </div>
+          <div v-if="!loadingCards" class="w-full">
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-if="chooseOtherPaymentMethod !== ''"
+            >
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="gotoPaymentMethod"
+              >
+                {{ $t("Switch Payment Method") }}
+              </button>
+            </div>
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-else-if="!chooseOtherPaymentMethod"
+            >
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="continueCheckOut"
+                :disabled="
+                  !currentCard ||
+                  billingStore.cards.length === 0 ||
+                  loadingPayment
+                "
+              >
+                <div class="flex items-center justify-center">
+                  <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    {{ $t("Confirm Payment") }}
+                  </div>
 
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-if="chooseOtherPaymentMethod !== ''"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="gotoPaymentMethod"
-            >
-              {{ $t("Switch Payment Method") }}
-            </button>
-          </div>
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!chooseOtherPaymentMethod"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="continueCheckOut"
-              :disabled="
-                !currentCard ||
-                billingStore.cards.length === 0 ||
-                loadingPayment
-              "
-            >
-              <div class="flex items-center justify-center">
-                <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
-                  {{ $t("Confirm Payment") }}
+                  <svg
+                    v-if="loadingPayment"
+                    class="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                 </div>
-
-                <svg
-                  v-if="loadingPayment"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
+              </button>
+            </div>
           </div>
+          <div
+            v-if="loadingCards"
+            class="bg-gray-300 my-4 mx-4 dark:bg-gray-600 rounded-[10px] w-[90%] h-[30px]"
+          ></div>
         </div>
       </div>
     </div>

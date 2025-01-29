@@ -51,9 +51,9 @@ const goToPaymentMethod = async (method: any) => {
     v-if="isOpen('payment_methods_addsite')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
@@ -79,40 +79,40 @@ const goToPaymentMethod = async (method: any) => {
             </svg>
           </div>
           <div class="flex items-center gap-3">
-          <div class="flex items-center justify-center">
-          <div
-            @click="
-              navigateTo(
-                'payment_methods_addsite',
-                'addSite',
-                'add_package_modal_addsite'
-              )
-            "
-            class="cursor-pointer close_sidebar_btn group flex items-center justify-center dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
-            style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
-          >
-            <svg
-              width="9"
-              height="15"
-              viewBox="0 0 9 15"
-              fill="none"
-              class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-              />
-            </svg>
+            <div class="flex items-center justify-center">
+              <div
+                @click="
+                  navigateTo(
+                    'payment_methods_addsite',
+                    'addSite',
+                    'add_package_modal_addsite'
+                  )
+                "
+                class="cursor-pointer close_sidebar_btn group flex items-center justify-center dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
+                style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
+              >
+                <svg
+                  width="9"
+                  height="15"
+                  viewBox="0 0 9 15"
+                  fill="none"
+                  class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h1
+                class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey"
+              >
+                {{ $t("Choose Payment Methods") }}
+              </h1>
+            </div>
           </div>
-        </div>
-        <div>
-          <h1
-            class="text-[16px] lg:text-[18px] rtl:font-[Almarai] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey"
-          >
-            {{ $t("Choose Payment Methods") }}
-          </h1>
-        </div>
-        </div>
         </div>
         <div
           class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
@@ -171,7 +171,7 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio5"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -233,7 +233,7 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio_crypto"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -293,7 +293,7 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio_paypal"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
