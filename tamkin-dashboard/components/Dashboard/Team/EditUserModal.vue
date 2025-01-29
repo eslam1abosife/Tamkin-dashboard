@@ -263,7 +263,7 @@ const submitInviteApp = async () => {
                 {{ $t("Website") }}
               </th>
               <th
-                class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
+                class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px] text-nowrap"
               >
                 <div>{{ $t("Select All") }}</div>
                 <div>
@@ -375,18 +375,18 @@ const submitInviteApp = async () => {
       </h6>
 
       <div
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px]"
+        class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto ipad-max:mt-[10px]"
         :class="[filteredPermissions.length === 0 ? 'mt-[30px] ' : 'mt-[30px]']"
       >
         <button
-          class="btn_bordered_dashboard normal_hover text-center w-1/4"
+          class="btn_bordered_dashboard normal_hover text-center max-md:flex-1 md:w-1/4"
           @click="closeModal('editusermodal')"
         >
           {{ $t("Cancel") }}
         </button>
         <button
           :disabled="checked.length === 0 || submitInviteLoading"
-          class="btn-dashboard hover_tamkin text-center w-1/4"
+          class="btn-dashboard hover_tamkin text-center max-md:flex-1 md:w-1/4"
           @click="submitInviteApp()"
         >
           <div class="flex items-center justify-center">

@@ -115,8 +115,7 @@ const submitInviteApp = async () => {
 <template>
   <div
     v-if="isOpen('invitememberupdate')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 h-auto"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 h-auto top-1/2 md:top-[50px] max-md:-translate-y-1/2 left-1/2 -translate-x-1/2"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -253,7 +252,7 @@ const submitInviteApp = async () => {
                 {{ $t("Website") }}
               </th>
               <th
-                class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
+                class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px] text-nowrap"
               >
                 <div class="">{{ $t("Select All") }}</div>
                 <div>
@@ -382,7 +381,7 @@ const submitInviteApp = async () => {
                   ></div>
                 </th>
                 <th
-                  class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
+                  class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px] text-nowrap"
                 >
                   <div
                     class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/3"
@@ -426,18 +425,18 @@ const submitInviteApp = async () => {
       </h6>
 
       <div
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px]"
+        class="flex items-center justify-center rtl:space-x-reverse  space-x-4 md:space-x-[30px] mx-auto ipad-max:mt-[10px]"
         :class="[filteredPermissions.length === 0 ? 'mt-0' : 'mt-[40px]']"
       >
         <button
-          class="btn_bordered_dashboard normal_hover text-center w-1/4"
+          class="btn_bordered_dashboard normal_hover text-center max-md:flex-1 md:w-1/4"
           @click="closeModal('invitememberupdate')"
         >
           {{ $t("Cancel") }}
         </button>
         <button
           :disabled="checked.length === 0 || submitInviteLoading"
-          class="btn-dashboard hover_tamkin text-center w-1/4"
+          class="btn-dashboard hover_tamkin text-center max-md:flex-1 md:w-1/4"
           @click="submitInviteApp()"
         >
           <div class="flex items-center justify-center">
