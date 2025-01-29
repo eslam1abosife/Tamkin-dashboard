@@ -126,8 +126,7 @@ const savePermission = async () => {
 <template>
   <div
     v-if="isOpen('userpermissions')"
-    class="fixed z-[9999] top-[150px] scrollbar-thin bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[550px] w-10/12 h-auto"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -337,18 +336,18 @@ const savePermission = async () => {
         </div>
 
         <div
-          class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto w-full"
+          class="flex items-center justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto w-full"
           :class="[!errMsg ? '!mt-[51px]' : '!mt-[30px]']"
         >
           <button
-            class="btn_bordered_dashboard normal_hover text-center w-1/6"
+            class="btn_bordered_dashboard normal_hover text-center max-md:flex-1 md:w-1/6"
             @click="closeModal('userpermissions')"
           >
             {{ $t("Cancel") }}
           </button>
           <button
             :disabled="checked.length === 0 || updatePermissonsLoading"
-            class="btn-dashboard hover_tamkin text-center w-1/6"
+            class="btn-dashboard hover_tamkin text-center max-md:flex-1 md:w-1/6"
             @click="savePermission()"
           >
             <div class="flex items-center justify-center">

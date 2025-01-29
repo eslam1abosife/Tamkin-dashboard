@@ -6,6 +6,7 @@ const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
 const mySiteStore = useMySiteStore();
+const { locale } = useI18n();
 const localePath = useLocalePath();
 const navStore = useNavbarStore();
 const isLinkActive = (path) => {
@@ -71,7 +72,7 @@ function convertUsdToCrypto(usdTotal, rates) {
 
 <template>
   <div
-    class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-center w-full mt-[42px] pb-[24px] px-[14px]"
+    class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-center w-full mt-[42px] pb-[0.3rem] px-[14px]"
   >
     <Splide
       :options="{
@@ -91,7 +92,7 @@ function convertUsdToCrypto(usdTotal, rates) {
         pagination: true,
         width: '100%',
       }"
-      class="h-full w-full px-[10px] mt-[32px] pb-9 xl:pb-0"
+      class="h-full w-full px-[10px] mt-[32px] pb-9"
     >
       <SplideSlide
         v-for="pak in packagesStore
