@@ -75,13 +75,16 @@ const discountAmount = computed(() => {
     v-if="isOpen('paypal_market')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-            @click="closeModal('paypal_market'); marketStore.removePromoCode();"
+            @click="
+              closeModal('paypal_market');
+              marketStore.removePromoCode();
+            "
           >
             <svg
               class="w-[12px] h-[12px]"
@@ -100,7 +103,11 @@ const discountAmount = computed(() => {
           <div class="flex items-center gap-3">
             <div
               @click="
-                navigateTo('paypal_market', 'add-site', 'paymentMethods_market');
+                navigateTo(
+                  'paypal_market',
+                  'add-site',
+                  'paymentMethods_market'
+                );
                 marketStore.removePromoCode();
               "
               class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
@@ -163,7 +170,10 @@ const discountAmount = computed(() => {
                   class="absolute top-[-8px] lg:top-[8px] right-0 left-0 max-md:px-1 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-1 md:space-x-[10px]"
                   v-if="marketStore.validPromo"
                 >
-                  <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]"/>
+                  <img
+                    src="/assets/imgs/promo_valid.svg"
+                    class="max-md:w-[16px]"
+                  />
                   <div
                     class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                   >
@@ -172,7 +182,10 @@ const discountAmount = computed(() => {
                     >
                     {{ $t("Discount") }} (-${{ discountAmount }})
                   </div>
-                  <img src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]" />
+                  <img
+                    src="/assets/imgs/promo_valid_.svg"
+                    class="max-md:w-[18px]"
+                  />
                 </div>
                 <div
                   v-if="marketStore.isPromoFilled && !marketStore.noDiscount"
@@ -233,75 +246,77 @@ const discountAmount = computed(() => {
             </div>
             <div
               v-if="marketStore.noDiscount"
-              class="rtl:!ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
+              class="rtl:!ml-auto ltr:!mr-auto px-[20px] text-[12px] text-red-500"
             >
               {{ $t("Coupon code not found") }}
             </div>
 
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
-                    colspan="12"
+            <div class="w-full overflow-y-auto">
+              <table class="min-w-full">
+                <thead>
+                  <tr>
+                    <th
+                      class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                      colspan="12"
+                    >
+                      {{ $t("Summary") }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+                    v-if="marketStore.validPromo"
                   >
-                    {{ $t("Summary") }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="marketStore.validPromo"
-                >
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
-                    colspan="2"
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
+                      colspan="2"
+                    >
+                      {{ $t("Subtotal") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
+                      colspan="2"
+                    >
+                      ${{ marketStore.cartSubtotal }}
+                    </td>
+                  </tr>
+                  <tr
+                    v-if="marketStore.validPromo"
+                    class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Subtotal") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin/80 text-right w-full font-[500]"
-                    colspan="2"
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{ $t("Discount") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
+                      colspan="2"
+                    >
+                      ${{ discountAmount }}
+                    </td>
+                  </tr>
+                  <tr
+                    class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    ${{ marketStore.cartSubtotal }}
-                  </td>
-                </tr>
-                <tr
-                  v-if="marketStore.validPromo"
-                  class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{ $t("Discount") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
-                    colspan="2"
-                  >
-                    ${{ discountAmount }}
-                  </td>
-                </tr>
-                <tr
-                  class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{ $t("Total") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
-                    colspan="2"
-                  >
-                    ${{ marketStore.cartSubtotal - discountAmount }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{ $t("Total") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin/80"
+                      colspan="2"
+                    >
+                      ${{ marketStore.cartSubtotal - discountAmount }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
             <!-- <button
@@ -339,18 +354,33 @@ const discountAmount = computed(() => {
             </button> -->
 
             <paypal
-              :successPay='() => {
-                usePaymentStore().stateOfPayment = "paid";
-                navigateTo("paypal_market", "addSite", "successPayment_market");
-              }
-                ' :errorPay='() => {
-                  usePaymentStore().stateOfPayment = "failed";
-                  navigateTo("paypal_market", "addSite", "successPayment_market");
+              :successPay="
+                () => {
+                  usePaymentStore().stateOfPayment = 'paid';
+                  navigateTo(
+                    'paypal_market',
+                    'addSite',
+                    'successPayment_market'
+                  );
                 }
-                  ' :clickPay='async () => {
-                    const res = await createOrder("paypal", null, locale);
-                    return res;
-                  }'>
+              "
+              :errorPay="
+                () => {
+                  usePaymentStore().stateOfPayment = 'failed';
+                  navigateTo(
+                    'paypal_market',
+                    'addSite',
+                    'successPayment_market'
+                  );
+                }
+              "
+              :clickPay="
+                async () => {
+                  const res = await createOrder('paypal', null, locale);
+                  return res;
+                }
+              "
+            >
             </paypal>
           </div>
         </div>

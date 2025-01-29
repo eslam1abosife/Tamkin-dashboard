@@ -55,9 +55,9 @@ const goToPaymentMethod = async (method: any) => {
     v-if="isOpen('payment_methods_packages')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
@@ -171,10 +171,10 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio5"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -233,10 +233,10 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio_crypto"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -293,10 +293,10 @@ const goToPaymentMethod = async (method: any) => {
                   />
                   <label
                     for="radio_paypal"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>

@@ -685,13 +685,17 @@ const openInvestor = (app, pack) => {
                       <div
                         class="flex items-center space-x-2 rtl:space-x-reverse"
                       >
-                        <img
-                          :src="
-                            configrun.public.baseImagerUrl + sb.package_icon
-                          "
+                        <div
                           class="w-[20px] h-[20px] object-cover rounded-full overflow-hidden"
-                          alt="Image"
-                        />
+                        >
+                          <img
+                            :src="
+                              configrun.public.baseImagerUrl + sb.package_icon
+                            "
+                            class="w-full h-full"
+                            alt="Image"
+                          />
+                        </div>
                         <span class="whitespace-nowrap">
                           {{
                             $t(

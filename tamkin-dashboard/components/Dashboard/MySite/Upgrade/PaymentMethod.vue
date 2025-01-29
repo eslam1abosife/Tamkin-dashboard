@@ -126,10 +126,10 @@ const goToPaymentMethod = (method: any) => {
                   />
                   <label
                     for="radio5"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -173,10 +173,10 @@ const goToPaymentMethod = (method: any) => {
                   />
                   <label
                     for="radio_crypto"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -219,21 +219,26 @@ const goToPaymentMethod = (method: any) => {
                   />
                   <label
                     for="radio_paypal"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
               </div>
             </div>
           </div>
-          <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto">
-        <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
-          Continue to Payment
-      </button>
-      </div>
+          <div
+            class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto w-full md:w-auto"
+          >
+            <button
+              class="btn-dashboard hover_tamkin"
+              @click="goToPaymentMethod(selectedPaymentMethod)"
+            >
+              Continue to Payment
+            </button>
+          </div>
         </div>
       </div>
     </div>

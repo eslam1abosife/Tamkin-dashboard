@@ -111,7 +111,7 @@ const goToPaymentMethod = async (method: any) => {
                     :checked="marketStore.selectedPaymentMethod === 'by_card'" />
                   <label for="radio5" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"></span>
                   </label>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const goToPaymentMethod = async (method: any) => {
                     :checked="marketStore.selectedPaymentMethod === 'by_crypto'" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"></span>
                   </label>
                 </div>
               </div>

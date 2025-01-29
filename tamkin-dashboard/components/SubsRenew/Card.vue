@@ -203,7 +203,8 @@ const percentageOff = computed(() => {
         <div class="flex items-center justify-center">
           <div
             @click="
-              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite'); subsStore.removePromoCode();
+              navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite');
+              subsStore.removePromoCode();
             "
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
@@ -264,9 +265,6 @@ const percentageOff = computed(() => {
                     class="flex flex-col items-start justify-start relative me-[5px] w-full"
                   >
                     <div
-                      class="absolute top-[10px] rtl:right-[50%] md:rtl:right-[250px] ltr:left-[40%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600"
-                    ></div>
-                    <div
                       class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                     >
                       <div
@@ -311,43 +309,45 @@ const percentageOff = computed(() => {
                     ? 'custom-border-tamkin'
                     : 'border-[1px] ',
                 ]"
-                class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary cursor-pointer flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+                class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary cursor-pointer flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[0px]"
               >
                 <div
-                  class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
                 >
-                  <div>
-                    <img
-                      :src="fullUrl(savedCard.logo)"
-                      class="w-[44px] h-[44px]"
-                    />
+                  <div class="w-[44px] h-[44px]">
+                    <img :src="fullUrl(savedCard.logo)" class="w-full h-full" />
                   </div>
                   <div class="flex items-center justify-between w-full">
                     <div
-                      class="flex flex-col items-start justify-start relative me-[5px] w-full"
+                      class="flex items-center justify-between relative me-[5px] w-[85%]"
                     >
                       <div
-                        class="absolute top-[10px] rtl:right-[39%] md:rtl:right-[250px] ltr:left-[39%] md:ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
+                        class="flex justify-between items-center gap-x-2 flex-col sm:flex-row"
+                      >
+                        <div
+                          class="text-[12px] md:text-[14px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-between rtl:space-x-reverse space-x-[8px]"
+                        >
+                          <div class="w-[50%] truncate">
+                            {{ savedCard.holdername }}
+                          </div>
+                          <div>****{{ savedCard.last4 }}</div>
+                        </div>
+                        <div
+                          class="text-darkGrey whitespace-nowrap text-[12px] dark:text-white/70 font-[400] leading-[10px]"
+                        >
+                          {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }}
+                          /
+                          {{ savedCard.expyear }}
+                        </div>
+                      </div>
+
+                      <div
+                        class="w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
                         v-if="savedCard.isprimary"
                       >
                         <div class="text-[10px] font-[500] text-white">
                           {{ $t("Default") }}
                         </div>
-                      </div>
-
-                      <div
-                        class="text-[12px] md:text-[16px]leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
-                      >
-                        <div class="w-36 truncate">
-                          {{ savedCard.holdername }}
-                        </div>
-                        <div>****{{ savedCard.last4 }}</div>
-                      </div>
-                      <div
-                        class="text-darkGrey text-[13px] dark:text-white/70 font-[400] leading-[10px]"
-                      >
-                        {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} /
-                        {{ savedCard.expyear }}
                       </div>
                     </div>
                     <div
@@ -368,7 +368,7 @@ const percentageOff = computed(() => {
                         class="flex items-center cursor-pointer"
                       >
                         <span
-                          class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                          class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                         ></span>
                       </label>
                     </div>
@@ -398,7 +398,7 @@ const percentageOff = computed(() => {
             </div>
 
             <div
-              class="flex items-center justify-between w-full px-[20px]"
+              class="flex items-center justify-between gap-2 w-full px-[20px]"
               v-if="!loadingCards"
             >
               <div
@@ -419,7 +419,7 @@ const percentageOff = computed(() => {
                   <img v-else src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
                 <div
-                  class="text-[13px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] md:text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Add New Card") }}
                 </div>
@@ -431,7 +431,7 @@ const percentageOff = computed(() => {
               >
                 <div class="cursor-pointer">
                   <div
-                    class="ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                    class="whitespace-nowrap ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Show all payment options") }}
                   </div>
@@ -456,29 +456,25 @@ const percentageOff = computed(() => {
             </div>
             <div
               v-else
-              class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px] animate-pulse"
+              class="flex items-center flex-col lg:justify-between w-full px-[20px] animate-pulse"
             >
               <!-- Left section for adding a new card -->
-              <div
-                class="flex items-center rtl:space-x-reverse space-x-[5px] md:space-x-[10px] mt-[24px]"
-              >
-                <div
-                  class="cursor-pointer w-[40px] h-[40px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-                <div
-                  class="h-[24px] w-[150px] bg-gray-300 dark:bg-gray-600 rounded-md"
-                ></div>
-              </div>
-
-              <!-- Right section for showing more payment options -->
-              <div
-                class="flex items-center rtl:space-x-reverse space-x-[1px] md:space-x-[11px] mt-[24px]"
-              >
+              <div class="flex justify-between w-full mt-[24px]">
                 <div
                   class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
                 <div
-                  class="w-[10px] h-[10px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                  class="cursor-pointer w-[40px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+              </div>
+
+              <!-- Right section for showing more payment options -->
+              <div class="flex justify-between w-full mt-[24px]">
+                <div
+                  class="h-[24px] w-[180px] bg-gray-300 dark:bg-gray-600 rounded-md"
+                ></div>
+                <div
+                  class="w-[40px] h-[24px] bg-gray-300 dark:bg-gray-600 rounded-md"
                 ></div>
               </div>
             </div>
@@ -532,10 +528,10 @@ const percentageOff = computed(() => {
                   />
                   <label
                     for="radio_crypto"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -586,10 +582,10 @@ const percentageOff = computed(() => {
                   />
                   <label
                     for="radio_paypal"
-                    class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -597,6 +593,7 @@ const percentageOff = computed(() => {
             </div>
 
             <div
+              v-if="!loadingCards"
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
@@ -706,188 +703,199 @@ const percentageOff = computed(() => {
                 {{ $t("Coupon code not found") }}
               </div>
             </div>
-            <table class="min-w-full">
-              <thead>
-                <tr>
-                  <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
-                  >
-                    {{ $t("Domain") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
-                  >
-                    {{ $t("Package") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
-                  >
-                    {{ $t("Section") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
-                  >
-                    {{ $t("Amount") }}
-                  </th>
-                </tr>
-              </thead>
+            <div class="w-full overflow-y-auto">
+              <table v-if="!loadingCards" class="min-w-full">
+                <thead>
+                  <tr>
+                    <th
+                      class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                    >
+                      {{ $t("Domain") }}
+                    </th>
+                    <th
+                      class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Package") }}
+                    </th>
+                    <th
+                      class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Section") }}
+                    </th>
+                    <th
+                      class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Amount") }}
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                <tr
-                  v-for="rr in subsStore.totalRenews"
-                  :key="rr.name"
-                  class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400]"
+                <tbody>
+                  <tr
+                    v-for="rr in subsStore.totalRenews"
+                    :key="rr.name"
+                    class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{
-                      rr.app_type === "Internal Services"
-                        ? $t("Internal Service")
-                        : rr.app_domain
-                    }}
-                  </td>
-                  <td
-                    class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]"
-                  >
-                    {{ $t(rr.package_title) }}
-                  </td>
-                  <td
-                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-4 truncate font-[400]"
-                  >
-                    <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
-                  </td>
-                  <td
-                    class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]"
-                  >
-                    ${{
-                      rr.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
+                    <td
+                      class="text-[14px] py-2 px-5 truncate border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left font-[400]"
+                    >
+                      {{
+                        rr.app_type === "Internal Services"
+                          ? $t("Internal Service")
+                          : rr.app_domain
+                      }}
+                    </td>
+                    <td
+                      class="text-[14px] py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-full font-[400]"
+                    >
+                      {{ $t(rr.package_title) }}
+                    </td>
+                    <td
+                      class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center w-4 truncate font-[400]"
+                    >
+                      <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
+                    </td>
+                    <td
+                      class="text-[14px] py-2 border-b dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-5 font-[400]"
+                    >
+                      ${{
+                        rr.amount
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
 
-                <!-- Row for Subtotal -->
-                <tr
-                  v-if="percentageOff"
-                  class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    colspan="3"
-                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
+                  <!-- Row for Subtotal -->
+                  <tr
+                    v-if="percentageOff"
+                    class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Subtotal") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right w-full font-[500]"
-                  >
-                    ${{
-                      Number(subsStore.packagePayload.total)
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
+                    <td
+                      colspan="3"
+                      class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right font-[500] w-full"
+                    >
+                      {{ $t("Subtotal") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder dark:text-whiteTamkin text-right w-full font-[500]"
+                    >
+                      ${{
+                        Number(subsStore.packagePayload.total)
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
 
-                <!-- Row for Discount -->
-                <tr
-                  v-if="percentageOff"
-                  class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    colspan="3"
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                  <!-- Row for Discount -->
+                  <tr
+                    v-if="percentageOff"
+                    class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Discount") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
-                  >
-                    ${{
-                      percentageOff
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
+                    <td
+                      colspan="3"
+                      class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                    >
+                      {{ $t("Discount") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
+                    >
+                      ${{
+                        percentageOff
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
 
-                <!-- Row for Total -->
-                <tr
-                  class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    colspan="3"
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                  <!-- Row for Total -->
+                  <tr
+                    class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Total") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
-                  >
-                    ${{
-                      (Number(subsStore.packagePayload.total) - percentageOff)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td
+                      colspan="3"
+                      class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                    >
+                      {{ $t("Total") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b dark:border-darkborder text-right w-full font-[500] dark:text-whiteTamkin"
+                    >
+                      ${{
+                        (Number(subsStore.packagePayload.total) - percentageOff)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-if="chooseOtherPaymentMethod !== ''"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="gotoPaymentMethod"
+          <div v-if="!loadingCards" class="w-full">
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-if="chooseOtherPaymentMethod !== ''"
             >
-              {{ $t("Switch Payment Method") }}
-            </button>
-          </div>
-          <div
-            class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
-            v-else-if="!chooseOtherPaymentMethod"
-          >
-            <button
-              class="btn-dashboard hover_tamkin w-full"
-              @click="continueCheckOut"
-              :disabled="
-                !currentCard ||
-                billingStore.cards.length === 0 ||
-                loadingPayment
-              "
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="gotoPaymentMethod"
+              >
+                {{ $t("Switch Payment Method") }}
+              </button>
+            </div>
+            <div
+              class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]"
+              v-else-if="!chooseOtherPaymentMethod"
             >
-              <div class="flex items-center justify-center">
-                <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
-                  {{ $t("Confirm Payment") }}
+              <button
+                class="btn-dashboard hover_tamkin w-full"
+                @click="continueCheckOut"
+                :disabled="
+                  !currentCard ||
+                  billingStore.cards.length === 0 ||
+                  loadingPayment
+                "
+              >
+                <div class="flex items-center justify-center">
+                  <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    {{ $t("Confirm Payment") }}
+                  </div>
+
+                  <svg
+                    v-if="loadingPayment"
+                    class="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                 </div>
-
-                <svg
-                  v-if="loadingPayment"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
+              </button>
+            </div>
+          </div>
+          <div v-else class="w-[90%] mx-auto my-4">
+            <div
+              class="h-[24px] w-full bg-gray-300 dark:bg-gray-600 rounded-md"
+            ></div>
           </div>
         </div>
       </div>

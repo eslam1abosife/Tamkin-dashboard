@@ -2,12 +2,12 @@
 import { useGetCryptoList } from "@/composables/useCrypto";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import { useCrypto } from "@/composables/useMySite";
-import { useClipboard } from '@vueuse/core'
+import { useClipboard } from "@vueuse/core";
 
 const cryptostore = useCryptoStore();
 const subsStore = useSubsStore();
-const source = subsStore.selectedCrypto.wallet_address
-const { text, copy, copied, isSupported } = useClipboard({ source })
+const source = subsStore.selectedCrypto.wallet_address;
+const { text, copy, copied, isSupported } = useClipboard({ source });
 const {
   isOpen: isModalOpen,
   currentView,
@@ -19,8 +19,7 @@ const {
 const { getCryptoList } = useGetCryptoList();
 import { useRenewAll } from "@/composables/usePackages";
 
-
-const { renewAllCardorPaypal, messageData ,codeStatus} = useRenewAll();
+const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
@@ -31,7 +30,7 @@ const state = reactive({
 const rules = {
   TXID: { required },
 };
-const {$toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 const v$ = useVuelidate(rules, state);
 
 const isCryptoMenuOpen = ref(false);
@@ -73,8 +72,10 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
   const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0).toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return (usdTotal / rate)
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -112,12 +113,12 @@ const fetchRates = async () => {
     console.error("Error fetching rates:", error);
   }
 };
-const copywallet = ()=>{
-  copy(source)
-  if(copied){
-$toast('Copied to clipboard',{hideIn:4000,type:'success'})
+const copywallet = () => {
+  copy(source);
+  if (copied) {
+    $toast("Copied to clipboard", { hideIn: 4000, type: "success" });
   }
-}
+};
 // Set up the interval
 let intervalId: number | undefined;
 
@@ -133,7 +134,7 @@ onUnmounted(() => {
 /**
  * Pay with selected cryptocurrency
  */
- const finalAmount = computed(() => {
+const finalAmount = computed(() => {
   const cartTotal = subsStore.packagePayload.total;
   const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
   const couponDiscount = subsStore.currentDiscount;
@@ -158,33 +159,35 @@ const payCrypto = async () => {
   //         date: amount ? new Date() : null,
   //         amount: amount || null,
   //       };
-  await renewAllCardorPaypal(null,'crypto',state.TXID, 
+  await renewAllCardorPaypal(
+    null,
+    "crypto",
+    state.TXID,
 
- `${ convertUsdToCrypto(
-  subsStore.packagePayload.total - subsStore.currentDiscount,
-                    cryptostore.rates,
-                    subsStore.selectedCrypto.title
-                  ) + ' '+ subsStore.selectedCrypto.title}`,
-                  subsStore.selectedCrypto.code
-
+    `${
+      convertUsdToCrypto(
+        subsStore.packagePayload.total - subsStore.currentDiscount,
+        cryptostore.rates,
+        subsStore.selectedCrypto.title
+      ) +
+      " " +
+      subsStore.selectedCrypto.title
+    }`,
+    subsStore.selectedCrypto.code
   );
   if (codeStatus.value === 200) {
-
-
-
-  navigateTo("crypto_subs_step2", "mysite", "crypto_mysite_success");
-  loadingPayment.value = false;
-  subsStore.urls =[]
-  subsStore.currentPackage = ''
-    subsStore.packagePayload = ''
-    subsStore.tags = []
-    subsStore.validatedSites = []
-    subsStore.loadingBlock = []
-  // subsStore.removeMultipleFromCart(subsStore.cartItems);
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+    navigateTo("crypto_subs_step2", "mysite", "crypto_mysite_success");
     loadingPayment.value = false;
-   
+    subsStore.urls = [];
+    subsStore.currentPackage = "";
+    subsStore.packagePayload = "";
+    subsStore.tags = [];
+    subsStore.validatedSites = [];
+    subsStore.loadingBlock = [];
+    // subsStore.removeMultipleFromCart(subsStore.cartItems);
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
   }
 };
 const percentageOff = computed(() => {
@@ -196,29 +199,30 @@ const percentageOff = computed(() => {
   }
   return 0;
 });
-const cancelPayment =()=>{
-  subsStore.promo = ""
-  subsStore.validPromo = false
-  subsStore.currentDiscount = 0
-  subsStore.selectedCrypto = ""
-  subsStore.urls =[]
-  closeModal('crypto_subs_step2')
-}
+const cancelPayment = () => {
+  subsStore.promo = "";
+  subsStore.validPromo = false;
+  subsStore.currentDiscount = 0;
+  subsStore.selectedCrypto = "";
+  subsStore.urls = [];
+  closeModal("crypto_subs_step2");
+};
 </script>
 
 <template>
   <div
-   
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="()=>{
-        closeModal('crypto_subs_step2')
-          subsStore.selectedPaymentMethod = '' 
-        subsStore.selectedCrypto = ''
-      }"
+      @click="
+        () => {
+          closeModal('crypto_subs_step2');
+          subsStore.selectedPaymentMethod = '';
+          subsStore.selectedCrypto = '';
+        }
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -239,7 +243,9 @@ const cancelPayment =()=>{
         <div class="flex flex-col items-start justify-center w-full relative">
           <div class="flex items-center justify-center">
             <div
-              @click="navigateTo('crypto_subs_step2', 'subs', 'crypto_subs_step1')"
+              @click="
+                navigateTo('crypto_subs_step2', 'subs', 'crypto_subs_step1')
+              "
               class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
@@ -257,9 +263,9 @@ const cancelPayment =()=>{
               </svg>
             </div>
             <h1
-              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px]"
             >
-              {{$t('Payment processes')}}
+              {{ $t("Payment processes") }}
             </h1>
           </div>
           <div
@@ -269,12 +275,12 @@ const cancelPayment =()=>{
             <h1
               class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
             >
-              {{ $t('Confirm your Payment') }}
+              {{ $t("Confirm your Payment") }}
             </h1>
             <p
               class="ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[29px] mt-[14px] text-darkGrey dark:text-whiteTamkin"
             >
-             {{$t('Please send')}}
+              {{ $t("Please send") }}
               <span class="text-tamkin font-[600]">
                 {{
                   convertUsdToCrypto(
@@ -283,11 +289,13 @@ const cancelPayment =()=>{
                     subsStore.selectedCrypto.title
                   )
                 }}
-                {{ subsStore.selectedCrypto.title +' '}}
+                {{ subsStore.selectedCrypto.title + " " }}
               </span>
-              {{ $t('to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds') }}
-
-           
+              {{
+                $t(
+                  "to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds"
+                )
+              }}
             </p>
 
             <div
@@ -303,24 +311,23 @@ const cancelPayment =()=>{
                 <div
                   class="font-[500] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{$t('You must send money through')}}
+                  {{ $t("You must send money through") }}
                 </div>
               </div>
               <div
                 class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] space-y-[16px] lg:justify-start w-full"
               >
-              
-              <div class="border rounded-lg">
-                <vue-qrcode
-                  :value="subsStore.selectedCrypto.wallet_address"
-                  :options="{ width: 115, height: 115 }"
-                ></vue-qrcode>
-              </div>
+                <div class="border rounded-lg">
+                  <vue-qrcode
+                    :value="subsStore.selectedCrypto.wallet_address"
+                    :options="{ width: 115, height: 115 }"
+                  ></vue-qrcode>
+                </div>
                 <div class="w-full">
                   <h2
                     class="text-[14px] leading-[24px] font-[600] mb-[18px] dark:text-whiteTamkin"
                   >
-                    {{$t('Send amount')}} :
+                    {{ $t("Send amount") }} :
                     <span class="text-tamkin">
                       {{
                         convertUsdToCrypto(
@@ -333,24 +340,26 @@ const cancelPayment =()=>{
                     >
                   </h2>
                   <div
-                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px]
-                     flex items-center justify-between px-[10px]"
+                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
                   >
-                    <div class="flex items-center rtl:space-x-reverse justify-center space-x-[8px]">
+                    <div
+                      class="flex items-center w-[98%] rtl:space-x-reverse justify-center space-x-[8px]"
+                    >
                       <img
                         :src="`http://tamkin.app/${subsStore.selectedCrypto.icon}`"
                         class="w-[20px] h-[20px]"
                       />
                       <div
-                        class="text-[#878787] text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
+                        class="text-[#878787] text-[10px] sm:text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
                       >
                         {{ subsStore.selectedCrypto.wallet_address }}
                       </div>
+                      <img
+                        @click="copywallet()"
+                        class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
+                        src="/assets/imgs/crypto_methods_icons/copy_code.svg"
+                      />
                     </div>
-                    <img @click="copywallet()"
-                      class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
-                      src="/assets/imgs/crypto_methods_icons/copy_code.svg"
-                    />
                   </div>
                 </div>
               </div>
@@ -359,7 +368,11 @@ const cancelPayment =()=>{
                 <p
                   class="text-[14px] leading-[29px] font-[600] mt-[26px] dark:text-whiteTamkin"
                 >
-                  {{ $t(`To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`) }}
+                  {{
+                    $t(
+                      `To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`
+                    )
+                  }}
                 </p>
               </div>
 
@@ -380,7 +393,9 @@ const cancelPayment =()=>{
                   for="TXID"
                   class="floating_label"
                   :class="[
-                    v$.TXID.$error && v$.TXID.required.$invalid ? '!text-error' : '',
+                    v$.TXID.$error && v$.TXID.required.$invalid
+                      ? '!text-error'
+                      : '',
                   ]"
                 >
                   {{ $t("Insert transaction TXID -HASH*") }}
@@ -435,7 +450,7 @@ const cancelPayment =()=>{
                 class="btn_bordered_dashboard normal_hover mx-auto mt-[18px] w-full"
                 @click="cancelPayment"
               >
-                {{ $t('Cancel') }}
+                {{ $t("Cancel") }}
               </button>
             </div>
           </div>

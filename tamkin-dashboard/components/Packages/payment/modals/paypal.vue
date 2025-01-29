@@ -97,7 +97,10 @@ const discountAmount = computed(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('paypal_packages'); packagesStore.removePromoCode();"
+      @click="
+        closeModal('paypal_packages');
+        packagesStore.removePromoCode();
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -262,7 +265,7 @@ const discountAmount = computed(() => {
             </div>
             <div
               v-if="packagesStore.noDiscount"
-              class="rtl:!ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
+              class="rtl:!ml-auto ltr:!mr-auto px-[20px] text-[12px] text-red-500"
             >
               {{ $t("Coupon code not found") }}
             </div>
@@ -382,18 +385,33 @@ const discountAmount = computed(() => {
               </div>
             </button> -->
             <paypal
-              :successPay='() => {
-                usePaymentStore().stateOfPayment = "paid";
-                navigateTo("paypal_packages", "addSite", "success_pay_package");
-              }
-                ' :errorPay='() => {
-                  usePaymentStore().stateOfPayment = "failed";
-                  navigateTo("paypal_packages", "addSite", "success_pay_package");
+              :successPay="
+                () => {
+                  usePaymentStore().stateOfPayment = 'paid';
+                  navigateTo(
+                    'paypal_packages',
+                    'addSite',
+                    'success_pay_package'
+                  );
                 }
-                  ' :clickPay='async () => {
-                    const res = await paybycorpaypal(null, "paypal", redirectTo);
-                    return res;
-                  }'>
+              "
+              :errorPay="
+                () => {
+                  usePaymentStore().stateOfPayment = 'failed';
+                  navigateTo(
+                    'paypal_packages',
+                    'addSite',
+                    'success_pay_package'
+                  );
+                }
+              "
+              :clickPay="
+                async () => {
+                  const res = await paybycorpaypal(null, 'paypal', redirectTo);
+                  return res;
+                }
+              "
+            >
             </paypal>
           </div>
         </div>

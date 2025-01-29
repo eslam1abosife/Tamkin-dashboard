@@ -175,10 +175,10 @@ const props = defineProps({
               />
               <label
                 :for="'radio_' + savedCard.id"
-                class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                class="flex items-center cursor-pointer p-1"
               >
                 <span
-                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
                 ></span>
               </label>
             </div>
@@ -209,7 +209,7 @@ const props = defineProps({
           >
             <div class="cursor-pointer">
               <div
-                class="ltr:text-[11px] rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
+                class="ltr:text-[11px] whitespace-nowrap rtl:text-[13px] md:text-[14px] font-[500] underline leading-[24px] text-darkGrey dark:text-whiteTamkin"
               >
                 Show all payment options
               </div>
@@ -273,10 +273,10 @@ const props = defineProps({
               />
               <label
                 for="radio_paypal"
-                class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                class="flex items-center cursor-pointer p-1"
               >
                 <span
-                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
                 ></span>
               </label>
             </div>
@@ -320,16 +320,17 @@ const props = defineProps({
               />
               <label
                 for="radio_crypto"
-                class="flex items-center cursor-pointer ltr:pr-[40px] rtl:pl-[40px]"
+                class="flex items-center cursor-pointer p-1"
               >
                 <span
-                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                  class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
                 ></span>
               </label>
             </div>
           </div>
         </div>
         <div
+        
           class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] md:space-x-[24px] w-full px-[20px]"
         >
           <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
@@ -387,7 +388,7 @@ const props = defineProps({
             </button>
           </div>
         </div>
-        <table class="min-w-full">
+        <table   class="min-w-full">
           <thead>
             <tr>
               <th

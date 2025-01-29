@@ -161,9 +161,9 @@ const finalAmount = computed(() => {
   <div
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col items-start justify-center w-full">
-      <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col items-start justify-center w-full">
+        <div class="flex items-center justify-between">
           <div
             style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
             class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
@@ -193,7 +193,8 @@ const finalAmount = computed(() => {
           <div class="flex items-center gap-3">
             <div
               @click="
-                navigateTo('crypto_subs_step1', 'subs', 'payment_methods_subs'); subsStore.removePromoCode();
+                navigateTo('crypto_subs_step1', 'subs', 'payment_methods_subs');
+                subsStore.removePromoCode();
               "
               class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
@@ -298,7 +299,7 @@ const finalAmount = computed(() => {
                   />
                   <label
                     :for="'radio_' + subsStore.selectedCrypto.name"
-                    class="flex items-center cursor-pointer rtl:pl-[40px] ltr:pr-[40px]"
+                    class="flex items-center cursor-pointer p-1"
                   >
                     <span
                       class="w-[22px] h-[22px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -502,7 +503,10 @@ const finalAmount = computed(() => {
                     class="absolute top-[-8px] lg:top-[8px] right-0 left-0 max-md:px-1 p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-1 md:space-x-[10px]"
                     v-if="subsStore.validPromo"
                   >
-                    <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]"/>
+                    <img
+                      src="/assets/imgs/promo_valid.svg"
+                      class="max-md:w-[16px]"
+                    />
                     <div
                       class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
                     >
@@ -511,7 +515,10 @@ const finalAmount = computed(() => {
                       >
                       {{ $t("Discount") }} (-${{ percentageOff }})
                     </div>
-                    <img src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]" />
+                    <img
+                      src="/assets/imgs/promo_valid_.svg"
+                      class="max-md:w-[18px]"
+                    />
                   </div>
                   <div
                     v-if="subsStore.isPromoFilled && !subsStore.noDiscount"
@@ -577,157 +584,164 @@ const finalAmount = computed(() => {
                 {{ $t("Coupon code not found") }}
               </div>
             </div>
-            <table class="min-w-full">
-              <thead>
-                <tr class="px-">
-                  <th
-                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+            <div class="w-full overflow-y-auto">
+              <table class="min-w-full">
+                <thead>
+                  <tr class="px-">
+                    <th
+                      class="py-2 rtl:pr-[20px] whitespace-nowrap ltr:pl-[20px] border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                    >
+                      {{ $t("Domain") }}
+                    </th>
+                    <th
+                      class="py-2 border-b whitespace-nowrap dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Package") }}
+                    </th>
+                    <th
+                      class="py-2 border-b whitespace-nowrap dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Section") }}
+                    </th>
+                    <th
+                      class="py-2 border-b whitespace-nowrap dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    >
+                      {{ $t("Amount") }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="rr in subsStore.totalRenews"
+                    :key="rr.name"
+                    class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Domain") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    <td
+                      class="py-2 px-5 w-1/6 border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left text-[14px] font-[400] whitespace-nowrap"
+                    >
+                      {{
+                        rr.app_type === "Internal Services"
+                          ? $t("Internal Service")
+                          : rr.app_domain
+                      }}
+                    </td>
+                    <td
+                      class="py-2 px-5 whitespace-nowrap w-1/6 text-[14px] border-b dark:border-darkborder dark:text-whiteTamkin text-center font-[400]"
+                    >
+                      {{ $t(rr.package_title) }}
+                    </td>
+                    <td
+                      class="py-2 w-1/6 whitespace-nowrap border-b text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center font-[400]"
+                    >
+                      <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
+                    </td>
+                    <td
+                      class="py-2 whitespace-nowrap border-b w-1/6 text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-1 rtl:pl-1 font-[400]"
+                    >
+                      ${{
+                        rr.amount
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
+                  <tr
+                    class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+                    v-if="false"
                   >
-                    {{ $t("Package") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    <td
+                      class="py-2 px-5 border-b whitespace-nowrap dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{
+                        $t("Promo Code") +
+                        " : " +
+                        subsStore.currentDiscount +
+                        "%"
+                      }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b whitespace-nowrap dark:border-darkborder text-right w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      ${{
+                        percentageOff
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
+                  <tr
+                    v-if="
+                      subsStore.validPromo ||
+                      (subsStore.selectedCrypto &&
+                        subsStore.selectedCrypto.is_featured === 1)
+                    "
+                    class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Section") }}
-                  </th>
-                  <th
-                    class="py-2 border-b dark:border-darkborder text-[16px] rtl:pl-[20px] ltr:pr-[20px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center"
+                    <td
+                      class="py-2 ltr:pl-[20px] whitespace-nowrap rtl:pr-[20px] border-b font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{ $t("Discount") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 border-b whitespace-nowrap rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      ${{
+                        discountAmount
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </td>
+                  </tr>
+                  <tr
+                    class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+                    v-if="subsStore.selectedCrypto"
                   >
-                    {{ $t("Amount") }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="rr in subsStore.totalRenews"
-                  :key="rr.name"
-                  class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="py-2 px-5 w-1/6 border-b dark:border-darkborder dark:text-whiteTamkin rtl:text-right ltr:text-left text-[14px] font-[400] whitespace-nowrap"
-                  >
-                    {{
-                      rr.app_type === "Internal Services"
-                        ? $t("Internal Service")
-                        : rr.app_domain
-                    }}
-                  </td>
-                  <td
-                    class="py-2 px-5 w-1/6 text-[14px] border-b dark:border-darkborder dark:text-whiteTamkin text-center font-[400]"
-                  >
-                    {{ $t(rr.package_title) }}
-                  </td>
-                  <td
-                    class="py-2 w-1/6 border-b text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center font-[400]"
-                  >
-                    <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
-                  </td>
-                  <td
-                    class="py-2 border-b w-1/6 text-[14px] dark:border-darkborder dark:text-whiteTamkin text-center ltr:pr-1 rtl:pl-1 font-[400]"
-                  >
-                    ${{
-                      rr.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
-                <tr
-                  class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="false"
-                >
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{
-                      $t("Promo Code") + " : " + subsStore.currentDiscount + "%"
-                    }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    ${{
-                      percentageOff
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
-                <tr
-                  v-if="
-                    subsStore.validPromo ||
-                    (subsStore.selectedCrypto &&
-                      subsStore.selectedCrypto.is_featured === 1)
-                  "
-                  class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{ $t("Discount") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    ${{
-                      discountAmount
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                  </td>
-                </tr>
-                <tr
-                  class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="subsStore.selectedCrypto"
-                >
-                  <td
-                    class="py-2 ltr:px-5 border-b font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{ $t("Total Crypto") }}
-                  </td>
-                  <td
-                    class="py-2 px-4 border-b rtl:text-left ltr:text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    {{
-                      convertUsdToCrypto(
-                        finalAmount,
-                        cryptostore.rates,
+                    <td
+                      class="py-2 ltr:px-5 border-b whitespace-nowrap font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{ $t("Total Crypto") }}
+                    </td>
+                    <td
+                      class="py-2 px-4 border-b rtl:text-left ltr:text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{
+                        convertUsdToCrypto(
+                          finalAmount,
+                          cryptostore.rates,
+                          subsStore.selectedCrypto.title
+                        ) +
+                        " " +
                         subsStore.selectedCrypto.title
-                      ) +
-                      " " +
-                      subsStore.selectedCrypto.title
-                    }}
-                  </td>
-                </tr>
-                <tr
-                  v-if="false"
-                  class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                >
-                  <td
-                    class="py-2 px-5 border-b dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
-                    colspan="2"
+                      }}
+                    </td>
+                  </tr>
+                  <tr
+                    v-if="false"
+                    class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   >
-                    {{ $t("Total") }}
-                  </td>
-                  <td
-                    class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
-                    colspan="2"
-                  >
-                    ${{ finalAmount.toFixed(0) }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td
+                      class="py-2 px-5 border-b whitespace-nowrap dark:border-darkborder text-right font-[500] w-full dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      {{ $t("Total") }}
+                    </td>
+                    <td
+                      class="py-2 px-5 whitespace-nowrap border-b text-right w-full font-[500] dark:text-whiteTamkin"
+                      colspan="2"
+                    >
+                      ${{ finalAmount.toFixed(0) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div
@@ -739,26 +753,26 @@ const finalAmount = computed(() => {
               class="flex flex-col items-center justify-center w-full px-[20px] min-h-full"
             >
               <div
-                class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey"
+                class="w-full h-[100px] cursor-pointer bg-gray-200 dark:bg-p dark:border-darkborder animate-pulse rounded-[10px] border-lightGrey"
               >
                 <div class="flex items-center justify-between p-[16px]">
                   <div
                     class="flex items-center rtl:space-x-reverse space-x-[13px]"
                   >
                     <div
-                      class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                      class="w-[25px] h-[25px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-full"
                     ></div>
                     <div class="flex flex-col justify-center space-y-[-4px]">
                       <div
-                        class="w-[150px] h-[18px] bg-gray-300 dark:bg-gray-600 rounded mb-[12px]"
+                        class="w-[150px] h-[18px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded mb-[12px]"
                       ></div>
                       <div
-                        class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"
+                        class="w-[100px] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded mt-[4px]"
                       ></div>
                     </div>
                   </div>
                   <div
-                    class="w-[22px] h-[22px] bg-gray-300 dark:bg-gray-600 rounded-full border border-tamkin"
+                    class="w-[22px] h-[22px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-full border dark:border-darkborder  border-tamkin"
                   ></div>
                 </div>
               </div>
@@ -769,28 +783,30 @@ const finalAmount = computed(() => {
               <div class="w-full mt-[20px]">
                 <div class="relative w-full">
                   <button
-                    class="w-full bg-gray-200 dark:bg-gray-500 animate-pulse h-[40px] rounded-[10px] flex items-center justify-between px-[16px]"
+                    class="w-full bg-gray-200 dark:bg-p animate-pulse h-[40px] rounded-[10px] flex items-center justify-between px-[16px]"
                   >
                     <div
-                      class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"
+                      class="w-[90%] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded"
                     ></div>
-                    <div class="w-[10px] h-[10px] bg-gray-300 rounded"></div>
+                    <div
+                      class="w-[10px] h-[10px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded"
+                    ></div>
                   </button>
                   <div
-                    class="absolute z-10 top-[52px] bg-gray-200 dark:bg-gray-500 dark:border-darkborder animate-pulse rounded-[12px] border-light border-[#C8CFEB] shadow w-full py-[16px]"
+                    class="absolute z-10 top-[52px] bg-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder animate-pulse rounded-[12px] border-light border-[#C8CFEB] shadow w-full py-[16px]"
                   >
-                    <ul>
+                    <ul class="w-full">
                       <li
-                        class="flex items-center hover:bg-gray-300 dark:hover:bg-gray-500 py-[6px] px-[10px] cursor-pointer"
+                        class="flex items-center w-full justify-between hover:bg-gray-300 dark:bg-p dark:hover:bg-p py-[6px] px-[10px] cursor-pointer"
                       >
                         <div
-                          class="w-[25px] h-[25px] bg-gray-300 dark:bg-gray-600 rounded-full"
+                          class="w-[15px] h-[15px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-full"
                         ></div>
                         <div
-                          class="w-[150px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded ml-[10px]"
+                          class="w-[60%] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded mx-[10px]"
                         ></div>
                         <div
-                          class="ml-auto w-[100px] h-[14px] bg-gray-300 dark:bg-gray-600 rounded"
+                          class="ml-auto w-[30%] h-[14px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded"
                         ></div>
                       </li>
                     </ul>
