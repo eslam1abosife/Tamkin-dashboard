@@ -868,7 +868,7 @@ const formattedTotal = computed(() => {
               packagesStore.currentPackage.package_type === 'Addons' ||
               packagesStore.currentPackage.package_type === 'Extra'
             "
-            class="h-[61px] w-full border-b dark:border-darkborder mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF] dark:bg-darkTamkin"
+            class="h-[61px] w-full border-b dark:border-darkborder mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] pe-[9px] bg-[#EFF5FF] dark:bg-darkTamkin"
           >
             <div class="rtl:pr-[5px] ltr:pl-[5px]">
               <img

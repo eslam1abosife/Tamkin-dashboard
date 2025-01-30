@@ -610,7 +610,7 @@ const openInvestor = (app, pack) => {
     >
       <div class="max-md:flex-1">
         <button
-          class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500] max-md:w-ful justify-centerl"
+          class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500] max-md:w-full justify-center"
           @click.stop="$router.push(localePath('/add-site'))"
         >
           {{ $t("Add New Site") }}

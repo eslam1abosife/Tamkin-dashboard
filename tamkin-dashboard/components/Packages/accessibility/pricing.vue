@@ -95,7 +95,7 @@ watch(packagesStore.traffic_level, () => {
         },
       },
       width: '100%',
-    }" class="max-md:pb-6 dark:bg-tamkinDarkPrimary h-full w-full mt-[32px]">
+    }" class="max-md:pb-7 dark:bg-tamkinDarkPrimary h-full w-full mt-[32px]">
       <SplideSlide v-for="pak in filteredPackages" :key="pak">
         <div 
         class="flex items-center flex-col custom-border dark:bg-tamkinDarkPrimary mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"

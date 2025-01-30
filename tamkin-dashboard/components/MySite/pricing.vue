@@ -92,7 +92,7 @@ function convertUsdToCrypto(usdTotal, rates) {
         pagination: true,
         width: '100%',
       }"
-      class="h-full w-full px-[10px] mt-[32px] pb-9"
+      class="h-full w-full px-[10px] mt-[32px] pb-7"
     >
       <SplideSlide
         v-for="pak in packagesStore

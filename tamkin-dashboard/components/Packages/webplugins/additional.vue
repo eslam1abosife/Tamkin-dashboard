@@ -56,7 +56,7 @@ const openBuyModal = (pck) => {
         },
         width: '100%',
       }"
-      class="w-full pb-9 xl:pb-0 mt-[26px] relative z-[5]"
+      class="w-full pb-7 xl:pb-0 mt-[26px] relative z-[5]"
     >
       <SplideSlide
         v-for="addon in packagesStore
@@ -87,7 +87,7 @@ const openBuyModal = (pck) => {
           </div>
 
           <div
-            class="font-[700] text-[14px] text-black absolute bottom-20 dark:text-whiteTamkin 2xl:bottom-16"
+            class="font-[700] text-[14px] text-black absolute bottom-[2.7rem] dark:text-whiteTamkin max-md:bottom-[4.7rem] xl:bottom-[4.7rem]"
           >
             $
             {{
@@ -109,7 +109,7 @@ const openBuyModal = (pck) => {
               addon.package_price_role[0].discount_month ||
               addon.package_price_role[0].discount_yearly
             "
-            class="flex items-center justify-center w-full absolute bottom-[55px]"
+            class="flex items-center justify-center w-full absolute bottom-[1.7rem] max-md:bottom-[3.3rem] xl:bottom-[3.3rem]"
           >
             <!-- Strikethrough price if there's a discount and both costs are non-zero -->
             <div
@@ -142,7 +142,7 @@ const openBuyModal = (pck) => {
 
           <div
             @click="openBuyModal(addon)"
-            class="absolute bottom-7 dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
+            class="absolute bottom-[0.75rem] max-md:bottom-7 xl:bottom-7 dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
           >
             <div>{{ $t("Purchase Now") }}</div>
             <svg

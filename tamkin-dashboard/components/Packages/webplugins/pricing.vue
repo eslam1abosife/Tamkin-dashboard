@@ -40,7 +40,7 @@ const openBuyModal = (pck) => {
           },
           width: '100%',
         }"
-        class="w-full pb-9 xl:pb-0"
+        class="w-full pb-7 xl:pb-0"
       >
         <SplideSlide
           v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')"
