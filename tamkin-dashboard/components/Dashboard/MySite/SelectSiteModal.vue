@@ -298,7 +298,7 @@ const submit = async () => {
       </div>
 
       <div
-        class="flex items-center h-[100px] max-h-[200px] justify-center rtl:space-x-reverse space-x-[30px] mx-auto"
+        class="flex items-center h-[100px] max-h-[200px] justify-center rtl:space-x-reverse space-x-4 md:space-x-[30px] mx-auto"
       >
         <button
           class="btn_bordered_dashboard normal_hover text-center w-[50%] sm:w-1/6"

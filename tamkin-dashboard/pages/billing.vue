@@ -669,9 +669,7 @@ function leaveCart(el, done) {
         <table class="min-w-full dark:bg-p bg-white">
           <tbody class="text-gray-700">
             <!-- Placeholder for invoices -->
-            <tr
-              class="border-t border-b dark:border-darkborder border-gray-200"
-            >
+            <tr>
               <td class="py-4 space-y-[10px]">
                 <div
                   class="bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse w-[200px] h-[20px] rounded"
@@ -709,7 +707,7 @@ function leaveCart(el, done) {
       </div>
 
       <div
-        class="bg-gray-200 dark:bg-p animate-pulse ml-auto h-[40px] w-[190px] mt-[16px] rounded-[10px]"
+        class="bg-gray-200 dark:bg-p animate-pulse ml-auto h-[40px] w-full md:w-[190px] mt-[16px] rounded-[10px]"
       ></div>
       <!-- Placeholder for button text -->
     </div>

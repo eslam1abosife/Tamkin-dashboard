@@ -312,7 +312,7 @@ const percentageOff = computed(() => {
                 class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary cursor-pointer flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[0px]"
               >
                 <div
-                  class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full"
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[8px] ltr:ps-[11px] w-full"
                 >
                   <div class="w-[44px] h-[44px]">
                     <img :src="fullUrl(savedCard.logo)" class="w-full h-full" />

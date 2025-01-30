@@ -122,7 +122,7 @@ const closeModalAndresetPaymentMethods = () => {
         />
       </svg>
     </div>
-    <div class="h-full mx-auto max-h-[100%] mt-[-20px]">
+    <div class="h-full mx-auto max-h-[100%]">
       <h1
         class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >

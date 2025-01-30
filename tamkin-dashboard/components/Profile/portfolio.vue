@@ -204,7 +204,7 @@ const { handlers } = toRefs(state);
       </div>
       <div v-else class="w-full">
         <div
-          class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] my-[10px] w-full"
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] my-[1.3rem] w-full"
           v-for="(handler, index) in profileStore.member.social_accounts"
           :key="index"
         >

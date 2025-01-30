@@ -497,7 +497,7 @@ const closeModalPackage = () => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-auto sm:h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-auto sm:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
     <div class="w-full h-screen">
       <div
@@ -505,7 +505,7 @@ const closeModalPackage = () => {
       >
         <div class="flex justify-between">
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 pe-[20px] lg:mt-0 mt-[31px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin"
           >
             {{ $t("Add Package") }}
           </h1>
@@ -558,7 +558,7 @@ const closeModalPackage = () => {
           </div>
 
           <div
-            class="flex items-center justify-center gap-4 w-full flex-wrap sm:flex-nowrap mt-[35px]"
+            class="flex items-center flex-col md:flex-row justify-center gap-4 gap-y-0 w-full"
           >
             <div
               v-if="addSiteStore.currentPackage.trial_days > 0"
@@ -606,7 +606,7 @@ const closeModalPackage = () => {
             </div>
             <div
               v-if="addSiteStore.currentPackage.trial_days === 0"
-              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               :class="[
                 selectedPackage === 1
                   ? 'custom-border-tamkin'
@@ -653,7 +653,7 @@ const closeModalPackage = () => {
               </div>
             </div>
             <div
-              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               :class="[
                 selectedPackage === 3
                   ? 'custom-border-tamkin'
@@ -713,7 +713,7 @@ const closeModalPackage = () => {
               </div>
             </div>
             <div
-              class="px-4 md:px-0 flex flex-col items-center justify-center bg-selected dark:bg-p relative w-full mx-auto h-[87px] !rounded-[10px]"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               :class="[
                 selectedPackage === 12
                   ? 'custom-border-tamkin'

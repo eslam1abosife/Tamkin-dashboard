@@ -179,7 +179,7 @@ onUpdated(() => {
         gap: 30,
         perPage: 2,
         breakpoints: {
-          1280: {
+          877: {
             perPage: 1,
           },
         },

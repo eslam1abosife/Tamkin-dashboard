@@ -537,7 +537,7 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div
-          class="!mx-auto md:!me-0 md:!ms-6 flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[8px] justify-center flex-wrap md:flex-nowrap"
+          class="!mx-auto md:!me-0 md:!ms-6 flex items-center rtl:space-x-reverse md:space-x-[8px] space-x-[10px] justify-center flex-wrap md:flex-nowrap"
         >
           <div
             @click="changePeriod(0)"
