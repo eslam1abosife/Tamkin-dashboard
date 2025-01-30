@@ -723,7 +723,7 @@ watch(colorcurrentpicker, (newVal) => {
                     >
                       <input
                         type="text"
-                        class="h-[34px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        class="h-[34px] max-md:w-[105px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient"
                         @input="updateGradient"
                       />
@@ -741,7 +741,7 @@ watch(colorcurrentpicker, (newVal) => {
                     >
                       <input
                         type="text"
-                        class="h-[34px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
+                        class="h-[34px] max-md:w-[105px] focus:ring-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin"
                         v-model="inputGradient2"
                         @input="updategradient2"
                         style="background-color: none !important"
@@ -1158,7 +1158,7 @@ watch(colorcurrentpicker, (newVal) => {
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
             <div
-              class="flex items-center justify-start mx-[15px] pt-[24px]"
+              class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
             >
               <div>
                 <h1
@@ -1346,7 +1346,7 @@ watch(colorcurrentpicker, (newVal) => {
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
             <div
-              class="flex items-center justify-start mx-[15px] pt-[24px]"
+              class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
             >
               <div>
                 <h1

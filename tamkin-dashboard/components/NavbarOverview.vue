@@ -75,7 +75,7 @@ watch([() => route.path, () => width.value], () => {
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute gap-[10px] overflow-y-auto z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
+    class="shadow-sm absolute gap-0 md:gap-[10px] overflow-y-auto z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
   >
     <!-- Slider -->
     <div
@@ -85,31 +85,31 @@ watch([() => route.path, () => width.value], () => {
 
     <!-- Links -->
     <nuxt-link
-      class="relative z-[20] w-[100px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[100px] h-[31px] px-[5px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/overview')"
     >
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[100px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[100px] h-[31px] px-[5px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/addons')"
     >
       {{ $t("Addons") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[96px] h-[31px] px-[5px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/statistics')"
     >
       {{ $t("Statistics") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[96px] h-[31px] px-[5px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/customize')"
     >
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] w-[96px] h-[31px] px-[5px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/settings')"
     >
       {{ $t("Settings") }}
