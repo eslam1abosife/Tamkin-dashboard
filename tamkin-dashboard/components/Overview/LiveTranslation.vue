@@ -186,7 +186,7 @@ const navStore = useNavbarStore();
           <div class="flex items-center justify-start pt-[24px]">
             <div>
               <h1
-                class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+                class="text-[14px] lg:text-[18px] font-[500] max-md:mb-3 leading-[30px] dark:text-whiteTamkin"
               >
                 {{ $t("Live Translation Overview") }}
               </h1>
@@ -207,7 +207,7 @@ const navStore = useNavbarStore();
       <div>
         <button
           @click="$router.push('/statistics')"
-          class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+          class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full !p-[10px] lg:order-1 order-2 lg:my-0 my-4"
         >
           {{ $t("View All") }}
         </button>

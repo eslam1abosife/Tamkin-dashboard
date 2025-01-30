@@ -113,7 +113,7 @@ const isLinkActive = (path) => {
         isLinkActive('/my-site')
       " -->
       <div :class="[ !isLinkActive('/sign-language/') ? 'mt-[-6px]':'']"
-        class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
+        class=" flex flex-col items-start justify-center lg:ltr:ml-[15px] lg:rtl:mr-[15px] divide-y"
       >
         <div
           :class="[
@@ -130,7 +130,7 @@ const isLinkActive = (path) => {
           </div>
           <div
             :class="[isOpen('upgrade_no_package') ? 'w-auto' : 'w-[94%] ']"
-            class="font-[400] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey dark:text-whiteTamkin rtl:mr-auto ltr:ml-auto"
+            class="font-[400] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey dark:text-whiteTamkin rtl:mr-auto ltr:ml-auto max-md:!mx-auto"
           >
             {{
               $t(
@@ -154,7 +154,7 @@ const isLinkActive = (path) => {
       <div class="flex items-start justify-between w-full pt-[24px] px-[15px]">
         <div>
           <h1
-            class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin"
+            class="text-[14px] lg:text-[18px] font-[500] max-md:mb-3 lg:leading-[30px] dark:text-whiteTamkin"
           >
             {{ $t("Widget Embed Code") }}
           </h1>

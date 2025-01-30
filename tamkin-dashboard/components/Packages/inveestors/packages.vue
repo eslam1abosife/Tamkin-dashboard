@@ -77,7 +77,7 @@ const filteredPackages = computed(() => {
         },
         width: '100%',
       }"
-      class="h-full w-full mt-[32px] pb-7 xl:pb-0"
+      class="h-full w-full mt-[32px] pb-[0.2rem] xl:pb-0"
     >
       <SplideSlide
         v-for="pack in filteredPackages.sort((a, b) => a.sort - b.sort)"

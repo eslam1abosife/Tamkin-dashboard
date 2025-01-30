@@ -128,7 +128,7 @@ const runtimec = useRuntimeConfig();
       <LanguageServicesNodata v-if="!navStore.defaultappobj" />
       <div v-else-if="settingsStore.loadingdefaultappobj">
         <div
-          class="h-[200px] w-full dark:bg-tamkinDarkPrimary mt-[44px] rounded-md bg-gray-200"
+          class="h-[200px] w-full dark:bg-tamkinDarkPrimary mt-[88px] rounded-md bg-gray-200"
         ></div>
         <div
           class="h-[200px] w-full mt-[20px] dark:bg-tamkinDarkPrimary rounded-md bg-gray-200"
