@@ -219,7 +219,7 @@ const selectApp = (app: any) => {
 
         <div class="flex items-center justify-center gap-2 mt-[20px]">
           <button
-            class="btn_bordered_dashboard normal_hover text-center w-1/4"
+            class="btn_bordered_dashboard normal_hover text-center w-full md:w-1/4"
             @click="
               closeModal('transferstep1');
               settingsStore.selectedApp = null;
@@ -229,7 +229,7 @@ const selectApp = (app: any) => {
           </button>
           <button
             :disabled="!settingsStore.selectedApp"
-            class="btn-dashboard hover_tamkin text-center w-1/4"
+            class="btn-dashboard hover_tamkin text-center w-full md:w-1/4"
             @click="navigateTo('transferstep1', 'settings', 'transferstep2')"
           >
             {{ $t("Continue") }}

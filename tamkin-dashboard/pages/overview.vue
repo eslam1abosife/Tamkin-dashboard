@@ -177,7 +177,7 @@ const runtimec = useRuntimeConfig();
               (p) => p.type === 'Accessibility'
             ).length
           "
-          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start gap-y-[10px] lg:py-0 py-[14px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
           <div class="w-[50px]">
             <img
@@ -191,7 +191,7 @@ const runtimec = useRuntimeConfig();
             />
           </div>
           <div
-            class="flex flex-col items-center lg:items-start justify-center w-full"
+            class="flex flex-col items-center lg:items-start justify-center w-full gap-y-4"
           >
             <div
               class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
@@ -222,11 +222,11 @@ const runtimec = useRuntimeConfig();
               </div>
               <template v-else>
                 <div
-                  class="flex items-center justify-center space-x-[8px] rtl:space-x-reverse"
+                  class="flex items-center justify-center space-x-[16px] rtl:space-x-reverse"
                   key="not-expired"
                 >
                   <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    class="text-[13px] leading-[24px] font-[400] dark:text-whiteTamkin"
                   >
                     {{ $t("Expires on") }}
                   </div>

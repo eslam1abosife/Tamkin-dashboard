@@ -124,7 +124,7 @@ const settingsStore = useSettingsStore();
 
     <div
       v-if="customizeStore.isAccessbilityModeIconsActive"
-      class="flex items-center flex-col sm:flex-row justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      class="flex items-center flex-row justify-between mt-[24px] w-full rtl:space-x-reverse space-x-2 lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       :class="[
         !isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
           ? 'blur-[2px] !cursor-not-allowed'
@@ -133,7 +133,7 @@ const settingsStore = useSettingsStore();
     >
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
-        class="flex items-center justify-center h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-center max-md:flex-1 text-nowrap h-[45px] px-[5px] md:px-[15px] rtl:space-x-reverse space-x-[5px] md:space-x-[10px] cursor-pointer"
         :class="[
           customizeStore.accessibilityMode === 'left'
             ? 'custom-border padding-2'
@@ -154,7 +154,7 @@ const settingsStore = useSettingsStore();
         <div>
           <img
             src="/assets/imgs/customize/left_side.svg"
-            class="w-[25px] h-[25px]"
+            class="md:w-[25px] w-[20px] md:h-[25px] h-[20px]  dark:invert"
           />
         </div>
         <div class="text-[14px]">
@@ -162,36 +162,8 @@ const settingsStore = useSettingsStore();
         </div>
       </div>
       <div
-        v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
-        class="flex items-center justify-center h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-        @click="
-          () => {
-            if (
-              isChecked(
-                'acc-customize-accessibility-mode-move-/-hide-accessibility'
-              )
-            ) {
-              customizeStore.moveHideWidget('right');
-            }
-          }
-        "
-        :class="[
-          customizeStore.accessibilityMode === 'right'
-            ? 'custom-border padding-2'
-            : '',
-        ]"
-      >
-        <div>
-          <img
-            src="/assets/imgs/customize/right_side.svg"
-            class="w-[25px] h-[25px]"
-          />
-        </div>
-        <div class="text-[14px]">{{ $t("Right Side") }}</div>
-      </div>
-      <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
-        class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="md:rtl:mr-auto max-md:flex-1 text-nowrap max-md:justify-center md:ltr:ml-auto flex items-center justify-start h-[45px] px-[5px] md:px-[15px] rtl:space-x-reverse space-x-[5px] md:space-x-[10px] cursor-pointer"
         @click="
           () => {
             if (
@@ -212,10 +184,38 @@ const settingsStore = useSettingsStore();
         <div>
           <img
             src="/assets/imgs/customize/hide.svg"
-            class="w-[25px] h-auto object-cover"
+            class="md:w-[25px] w-[20px] h-auto object-cover dark:invert"
           />
         </div>
         <div class="text-[14px]">{{ $t("Hide") }}</div>
+      </div>
+      <div
+        v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
+        class="flex items-center max-md:flex-1 text-nowrap justify-center h-[45px] px-[5px] md:px-[15px] rtl:space-x-reverse space-x-[5px] md:space-x-[10px] cursor-pointer"
+        @click="
+          () => {
+            if (
+              isChecked(
+                'acc-customize-accessibility-mode-move-/-hide-accessibility'
+              )
+            ) {
+              customizeStore.moveHideWidget('right');
+            }
+          }
+        "
+        :class="[
+          customizeStore.accessibilityMode === 'right'
+            ? 'custom-border padding-2'
+            : '',
+        ]"
+      >
+        <div>
+          <img
+            src="/assets/imgs/customize/right_side.svg"
+            class="md:w-[25px] w-[20px] md:h-[25px] h-[20px]  dark:invert"
+          />
+        </div>
+        <div class="text-[14px]">{{ $t("Right Side") }}</div>
       </div>
     </div>
   </div>
