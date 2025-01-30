@@ -7,11 +7,11 @@ import { useGetAccessaility } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 const mySiteStore = useMySiteStore();
 useHead({
   title: t("Accessibility - Settings - Tamkin Dashboard"),
-})
+});
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const settingsStore = useSettingsStore();
@@ -163,81 +163,80 @@ const componentKey = ref(0);
 
 <template>
   <div class="relative h-full w-full">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
 
     <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteNopackagebuy
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_no_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteUpgrade
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_mysite_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <!-- Modal for adding a package -->
-    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaymentmethods />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
-  </transition>
-
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoSuccess />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaypal />
-  </transition>
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
       :title="$t('Reset All Accessibility Settings')"
@@ -263,7 +262,10 @@ const componentKey = ref(0);
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
-    <SettingsTransferModalStep2 :type="'Accessibility'" :show-modal="isOpen('transferstep2')" />
+    <SettingsTransferModalStep2
+      :type="'Accessibility'"
+      :show-modal="isOpen('transferstep2')"
+    />
 
     <div class="w-full h-full relative">
       <HeaderAccess
@@ -522,12 +524,12 @@ const componentKey = ref(0);
                             <img
                               v-if="isChecked(setting.name)"
                               src="/assets/imgs/addons/active_toggle.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                             <img
                               v-else
                               src="/assets/imgs/addons/toggle.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                           </div>
                         </div>

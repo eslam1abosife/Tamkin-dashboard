@@ -101,9 +101,9 @@ onBeforeMount(() => {
     "deaf-setting-general-settings-player-sound-effects",
   ]);
 
-  if(customizeStore.managePlayerPackages.length <= 0) {
+  if (customizeStore.managePlayerPackages.length <= 0) {
     getPlayerData();
-   }
+  }
   loadingplayerdata.value = false;
 });
 const deleteSite = async () => {
@@ -681,12 +681,12 @@ const getSettingsValue = (name: any) => {
                             <img
                               v-if="isChecked(item.name)"
                               src="/assets/imgs/translatevideo/sign_active.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                             <img
                               v-else
                               src="/assets/imgs/translatevideo/sign_inactive.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                           </div>
                         </div>
