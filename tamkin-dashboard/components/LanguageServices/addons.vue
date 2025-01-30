@@ -285,7 +285,7 @@ const customizeStore = useCustomizeStore();
                     @click="signLangStore.toggleCheckbox(element.checkboxId)"
                   />
                   <div
-                    class="toggle_parent"
+                    class="toggle_parent !w-[58px]"
                     :class="[
                       signLangStore.isChecked(element.checkboxId)
                         ? 'active'

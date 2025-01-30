@@ -749,7 +749,7 @@ input[type=number] {
 
     .toggle_parent {
 
-        @apply w-[58px] relative lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full
+        @apply w-[77px] relative lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full
          peer-checked:bg-green-500 transition-colors duration-200;
 &.small{@apply h-[20px] w-[45px] #{!important};}
 

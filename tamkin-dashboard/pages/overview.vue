@@ -168,7 +168,7 @@ const runtimec = useRuntimeConfig();
         <OverviewLiveTranslation />
 
         <div
-          class="h-[384px] w-full bg-gray-200 rounded-[50px] animate-pulse"
+          class="h-[384px] w-full dark:bg-tamkinDarkPrimary bg-gray-200 rounded-[50px] animate-pulse"
           v-if="statsStore.loadingStats"
         ></div>
         <div

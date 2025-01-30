@@ -103,7 +103,7 @@ const navStore = useNavbarStore();
           <div
             class="flex flex-col items-center justify-center w-full space-y-[6px]"
           >
-            <div class="flex items-center mt-[32px] w-full">
+            <div class="flex items-center justify-between mt-[32px] w-full">
               <div
                 class="lg:w-1/4 h-[16px] bg-gray-300 w-1/2 rounded dark:bg-gray-600"
               ></div>
@@ -113,10 +113,10 @@ const navStore = useNavbarStore();
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
               <div
-                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-600 overflow-hidden"
               >
                 <div
-                  class="bg-[#F3DFD1] h-full rounded-r-full"
+                  class="bg-[#F3DFD1] dark:bg-p h-full rounded-r-full"
                   style="width: 20%"
                 ></div>
               </div>
@@ -136,10 +136,10 @@ const navStore = useNavbarStore();
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
               <div
-                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-600 overflow-hidden"
               >
                 <div
-                  class="bg-[#D7D4F4] h-full rounded-r-full"
+                  class="bg-[#D7D4F4] dark:bg-p h-full rounded-r-full"
                   style="width: 40%"
                 ></div>
               </div>
@@ -159,10 +159,10 @@ const navStore = useNavbarStore();
             </div>
             <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
               <div
-                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400 overflow-hidden"
+                class="bg-gray-200 dark:bg-gray-600 rounded-full h-4 w-full relative overflow-hidden"
               >
                 <div
-                  class="bg-[#CEE5F0] h-full rounded-r-full"
+                  class="bg-[#CEE5F0] dark:bg-p h-full rounded-r-full"
                   style="width: 60%"
                 ></div>
               </div>

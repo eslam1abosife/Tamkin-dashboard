@@ -642,7 +642,7 @@ const getSettingsValue = (name: any) => {
               >
                 <div
                   v-if="item.active == 1"
-                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -667,7 +667,7 @@ const getSettingsValue = (name: any) => {
                           @change="toggleCheckbox(item.name)"
                         />
                         <div
-                          class="toggle_parent"
+                          class="toggle_parent !w-[58px]"
                           :class="[
                             isChecked(item.name) ? 'active' : 'in_active',
                           ]"
@@ -1132,7 +1132,7 @@ const getSettingsValue = (name: any) => {
               />
               <div
                 v-if="settingsStore.transferLicenceItems.features.find((el:any)=> el.name === 'deaf-setting-license-settings-sign-language-transfer-license-to-another-website-transfer-license-sign-language' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[0px]"
               >
                 <div
                   class="flex items-center justify-start space-x-[13px] rtl:space-x-reverse w-full"
@@ -1162,7 +1162,7 @@ const getSettingsValue = (name: any) => {
                   </div>
                   <div class="ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto whitespace-nowrap ipad-max:w-auto !p-[5px] lg:w-2/6 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
                       {{ $t("Transfer License") }}
@@ -1173,7 +1173,7 @@ const getSettingsValue = (name: any) => {
 
               <div
                 v-if="settingsStore.transferLicenceItems.features.find((el:any)=> el.name === 'deaf-setting-license-settings-sign-language-delete-site-permanently-removes-your-profile-and-data-from-the-system-sign-language' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
               >
                 <div class="flex items-center justify-start w-full">
                   <div class="flex flex-col items-start justify-center w-full">
@@ -1201,7 +1201,7 @@ const getSettingsValue = (name: any) => {
                   </div>
                   <div class="ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard error rtl:mr-auto whitespace-nowrap ltr:ml-auto ipad-max:w-auto lg:w-2/6 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                       @click="openModal('deleteModal', 'settings')"
                     >
                       {{ $t("Delete Site") }}

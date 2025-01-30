@@ -483,7 +483,7 @@ const componentKey = ref(0);
               >
                 <div
                   v-if="setting.active == 1"
-                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
                     class="flex items-center justify-start space-x-[13px] w-full"
@@ -510,7 +510,7 @@ const componentKey = ref(0);
                           @change="toggleCheckbox(setting.name)"
                         />
                         <div
-                          class="toggle_parent"
+                          class="toggle_parent !w-[58px]"
                           :class="[
                             isChecked(setting.name) ? 'active' : 'in_active',
                           ]"
@@ -988,7 +988,7 @@ const componentKey = ref(0);
               />
               <div
                 v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-transfer-license-to-another-website-transfer-license' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[0px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -1018,7 +1018,7 @@ const componentKey = ref(0);
                   </div>
                   <div class="rtl:mr-auto ltr:ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto whitespace-nowrap ipad-max:w-auto !p-[5px] lg:w-2/6 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
                       {{ $t("Transfer License") }}
@@ -1029,7 +1029,7 @@ const componentKey = ref(0);
 
               <div
                 v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-delete-site-permanently-removes-your-profile-and-data-from-the-system' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
               >
                 <div class="flex items-center justify-start w-full">
                   <div class="flex flex-col items-start justify-center w-full">
@@ -1057,7 +1057,7 @@ const componentKey = ref(0);
                   </div>
                   <div class="rtl:mr-auto ltr:ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto whitespace-nowrap ipad-max:w-auto lg:w-2/6 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                       @click="openModal('deleteModal', 'settings')"
                     >
                       {{ $t("Delete Site") }}
