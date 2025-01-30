@@ -259,7 +259,7 @@ const getImagePath = (icon) => {
                       "
                     />
                     <div
-                      class="toggle_parent"
+                      class="toggle_parent !w-[58px]"
                       :class="[
                         customizeStore.isChecked(element.checkboxId)
                           ? 'active'
@@ -273,12 +273,12 @@ const getImagePath = (icon) => {
                         <img
                           v-if="isChecked(element.checkboxId)"
                           src="/assets/imgs/translatevideo/sign_active.svg"
-                          class="w-[28px] h-[28px]"
+                          class="w-[28px] absolute left-[0px] h-[28px]"
                         />
                         <img
                           v-else
                           src="/assets/imgs/translatevideo/sign_inactive.svg"
-                          class="w-[28px] h-[28px]"
+                          class="w-[28px] absolute left-[0px] h-[28px]"
                         />
                       </div>
                     </div>

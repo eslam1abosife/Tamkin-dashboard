@@ -56,7 +56,7 @@ const selectApp = (app: any) => {
 <template>
   <div
     v-if="isOpen('transferstep1')"
-    class="fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-auto"
+    class="fixed z-[9999] h-[600px] sm:h-auto bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[10px] md:p-[30px] lg:w-[640px] w-10/12 max-h-auto"
     style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
   >
     <div
@@ -81,7 +81,7 @@ const selectApp = (app: any) => {
         />
       </svg>
     </div>
-    <div class="container mx-auto">
+    <div class="p-5 mx-auto">
       <h1
         class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
@@ -143,7 +143,7 @@ const selectApp = (app: any) => {
 
       <div v-if="filteredApps.length > 0">
         <div
-          class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[200px] overflow-y-auto"
+          class="relative h-[230px] scrollbar-thin 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[200px] overflow-y-auto"
         >
           <table class="min-w-full divide-y divide-gray-200 dark:divide-light">
             <thead>
@@ -219,7 +219,7 @@ const selectApp = (app: any) => {
 
         <div class="flex items-center justify-center gap-2 mt-[20px]">
           <button
-            class="btn_bordered_dashboard normal_hover text-center w-1/4"
+            class="btn_bordered_dashboard normal_hover text-center w-full md:w-1/4"
             @click="
               closeModal('transferstep1');
               settingsStore.selectedApp = null;
@@ -229,7 +229,7 @@ const selectApp = (app: any) => {
           </button>
           <button
             :disabled="!settingsStore.selectedApp"
-            class="btn-dashboard hover_tamkin text-center w-1/4"
+            class="btn-dashboard hover_tamkin text-center w-full md:w-1/4"
             @click="navigateTo('transferstep1', 'settings', 'transferstep2')"
           >
             {{ $t("Continue") }}

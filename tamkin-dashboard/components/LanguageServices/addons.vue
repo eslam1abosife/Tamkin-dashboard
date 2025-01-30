@@ -16,7 +16,7 @@ const getImagePath = (icon) => {
     import.meta.url
   ).href;
 };
-const runtim = useRuntimeConfig()
+const runtim = useRuntimeConfig();
 const customizeStore = useCustomizeStore();
 </script>
 
@@ -42,7 +42,11 @@ const customizeStore = useCustomizeStore();
           class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
         >
           <span v-if="!collapseStore.collapses.includes('webPlugins')">
-            {{ $t('Complete control over the features of the sign language player for easy management of your widgets') }}
+            {{
+              $t(
+                "Complete control over the features of the sign language player for easy management of your widgets"
+              )
+            }}
             <!-- {{
               $t(
                 signLangStore.addonsPlugin.description_on_show
@@ -52,7 +56,11 @@ const customizeStore = useCustomizeStore();
             }} -->
           </span>
           <span v-else>
-            {{ $t('Enjoy full and seamless control over all the features of the sign language player, ensuring effortless and efficient management of your wedgit with maximum flexibility and customization options.') }}
+            {{
+              $t(
+                "Enjoy full and seamless control over all the features of the sign language player, ensuring effortless and efficient management of your wedgit with maximum flexibility and customization options."
+              )
+            }}
             <!-- {{
               $t(
                 signLangStore.addonsPlugin.description_on_hide
@@ -268,7 +276,6 @@ const customizeStore = useCustomizeStore();
                 </div>
               </div>
               <div class="ml-auto">
-             
                 <label :for="element.checkboxId" class="toggle_wrap">
                   <input
                     type="checkbox"
@@ -278,7 +285,7 @@ const customizeStore = useCustomizeStore();
                     @click="signLangStore.toggleCheckbox(element.checkboxId)"
                   />
                   <div
-                    class="toggle_parent"
+                    class="toggle_parent !w-[58px]"
                     :class="[
                       signLangStore.isChecked(element.checkboxId)
                         ? 'active'
@@ -294,12 +301,12 @@ const customizeStore = useCustomizeStore();
                       <img
                         v-if="signLangStore.isChecked(element.checkboxId)"
                         src="/assets/imgs/translatevideo/sign_active.svg"
-                        class="w-[28px] h-[28px]"
+                        class="w-[28px] absolute left-[0px] h-[28px]"
                       />
                       <img
                         v-else
                         src="/assets/imgs/translatevideo/sign_inactive.svg"
-                        class="w-[28px] h-[28px]"
+                        class="w-[28px] absolute left-[0px] h-[28px]"
                       />
                     </div>
                   </div>

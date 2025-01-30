@@ -304,12 +304,12 @@ const copyCode = () => {
                     <img
                       v-if="isChecked('enable_custom_trigger')"
                       src="/assets/imgs/addons/active_toggle.svg"
-                      class="w-[28px] h-[28px]"
+                      class="w-[28px] absolute left-[0px] h-[28px]"
                     />
                     <img
                       v-else
                       src="/assets/imgs/addons/toggle.svg"
-                      class="w-[28px] h-[28px]"
+                      class="w-[28px] absolute left-[0px] h-[28px]"
                     />
                   </div>
                 </div>

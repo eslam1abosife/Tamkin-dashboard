@@ -68,7 +68,7 @@ const manageSites = () => {
 <template>
   <div
     v-if="isOpen('transferstep2')"
-    class="fixed z-[9999] top-1/2 md:top-[50px] max-md:-translate-y-1/2 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[auto]"
+    class="fixed z-[9999] top-1/2 md:top-[50px] max-md:-translate-y-1/2 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[10px] sm:p-[30px] lg:w-[640px] w-11/12 max-h-[auto]"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -109,10 +109,10 @@ const manageSites = () => {
       </p>
 
       <div
-        class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 w-full mx-auto my-4 mt-5"
+        class="flex flex-col items-center justify-center custom-border-tamkin padding-override-3 rounded-22-tamkin p-4 w-full mx-auto my-4 mt-5"
       >
         <div class="flex items-center justify-center mb-2">
-          <div class="text-gray-700 dark:text-whiteTamkin w-[60px]">
+          <div class="text-gray-700 dark:text-whiteTamkin w-[48px] sm:w-[60px]">
             {{ $t("From") }}
           </div>
           <div
@@ -136,11 +136,11 @@ const manageSites = () => {
           <img src="/assets/imgs/settings/arrow-down.svg" />
         </div>
         <div class="flex items-center justify-start">
-          <div class="text-gray-700 w-[60px] dark:text-whiteTamkin">
+          <div class="text-gray-700 w-[48px] sm:w-[60px] dark:text-whiteTamkin">
             {{ $t("To") }}
           </div>
           <div
-            class="flex items-center justify-center gap-2 bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin w-[230px] padding-override-1 rounded-[10px] px-2 py-1 h-[41px]"
+            class="flex items-center justify-center gap-2 bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin w-[230px] padding-override-3 rounded-[10px] px-2 py-1 h-[41px]"
           >
             <img
               :src="
@@ -160,7 +160,7 @@ const manageSites = () => {
 
       <div class="flex items-center justify-center gap-2 mt-[40px]">
         <button
-          class="btn_bordered_dashboard normal_hover text-center w-1/4"
+          class="btn_bordered_dashboard normal_hover text-center w-2/4"
           @click="
             closeModal('transferstep2');
             SuccessStep2Transfer = false;
@@ -171,7 +171,7 @@ const manageSites = () => {
         </button>
         <button
           class="btn-dashboard hover_tamkin text-center p-[0]"
-          :class="loadingTransfer ? 'w-1/3' : 'w-1/4'"
+          :class="loadingTransfer ? 'w-1/3' : 'w-2/4'"
           @click="confirmTransfer"
           :disabled="loadingTransfer"
         >

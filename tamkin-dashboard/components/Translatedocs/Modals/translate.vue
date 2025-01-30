@@ -609,12 +609,12 @@ const compareplan = (type) => {
                   <img
                     v-if="translateStore.translateCheck"
                     src="/assets/imgs/translatevideo/sign_active.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px]  absolute left-0  h-[28px]"
                   />
                   <img
                     v-else
                     src="/assets/imgs/translatevideo/sign_inactive.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px]  absolute left-0  h-[28px]"
                   />
                 </div>
               </div>
@@ -671,12 +671,12 @@ const compareplan = (type) => {
                   <img
                     v-if="translateStore.signLanguageChecked"
                     src="/assets/imgs/translatevideo/sign_active.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px]  absolute left-0  h-[28px]"
                   />
                   <img
                     v-else
                     src="/assets/imgs/translatevideo/sign_inactive.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px]  absolute left-0  h-[28px]"
                   />
                 </div>
               </div>

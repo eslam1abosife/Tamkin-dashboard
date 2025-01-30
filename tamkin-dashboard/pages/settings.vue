@@ -7,11 +7,11 @@ import { useGetAccessaility } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 const mySiteStore = useMySiteStore();
 useHead({
   title: t("Accessibility - Settings - Tamkin Dashboard"),
-})
+});
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const settingsStore = useSettingsStore();
@@ -163,81 +163,80 @@ const componentKey = ref(0);
 
 <template>
   <div class="relative h-full w-full">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
 
     <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteNopackagebuy
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_no_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteUpgrade
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_mysite_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <!-- Modal for adding a package -->
-    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaymentmethods />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
-  </transition>
-
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoSuccess />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaypal />
-  </transition>
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
       :title="$t('Reset All Accessibility Settings')"
@@ -263,7 +262,10 @@ const componentKey = ref(0);
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
-    <SettingsTransferModalStep2 :type="'Accessibility'" :show-modal="isOpen('transferstep2')" />
+    <SettingsTransferModalStep2
+      :type="'Accessibility'"
+      :show-modal="isOpen('transferstep2')"
+    />
 
     <div class="w-full h-full relative">
       <HeaderAccess
@@ -481,7 +483,7 @@ const componentKey = ref(0);
               >
                 <div
                   v-if="setting.active == 1"
-                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
                     class="flex items-center justify-start space-x-[13px] w-full"
@@ -508,7 +510,7 @@ const componentKey = ref(0);
                           @change="toggleCheckbox(setting.name)"
                         />
                         <div
-                          class="toggle_parent"
+                          class="toggle_parent !w-[58px]"
                           :class="[
                             isChecked(setting.name) ? 'active' : 'in_active',
                           ]"
@@ -522,12 +524,12 @@ const componentKey = ref(0);
                             <img
                               v-if="isChecked(setting.name)"
                               src="/assets/imgs/addons/active_toggle.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                             <img
                               v-else
                               src="/assets/imgs/addons/toggle.svg"
-                              class="w-[28px] h-[28px]"
+                              class="w-[28px] absolute left-[0px] h-[28px]"
                             />
                           </div>
                         </div>
@@ -986,7 +988,7 @@ const componentKey = ref(0);
               />
               <div
                 v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-transfer-license-to-another-website-transfer-license' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[0px]"
               >
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -1016,7 +1018,7 @@ const componentKey = ref(0);
                   </div>
                   <div class="rtl:mr-auto ltr:ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto whitespace-nowrap ipad-max:w-auto !p-[5px] lg:w-2/6 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
                       {{ $t("Transfer License") }}
@@ -1027,7 +1029,7 @@ const componentKey = ref(0);
 
               <div
                 v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-delete-site-permanently-removes-your-profile-and-data-from-the-system' ).active == 1"
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
               >
                 <div class="flex items-center justify-start w-full">
                   <div class="flex flex-col items-start justify-center w-full">
@@ -1055,7 +1057,7 @@ const componentKey = ref(0);
                   </div>
                   <div class="rtl:mr-auto ltr:ml-auto w-full">
                     <button
-                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                      class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto whitespace-nowrap ipad-max:w-auto lg:w-2/6 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                       @click="openModal('deleteModal', 'settings')"
                     >
                       {{ $t("Delete Site") }}

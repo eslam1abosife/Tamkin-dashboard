@@ -15,7 +15,6 @@ const toggleDropdown = () => {
   isOpen.value = isOpen.value === true ? null : true;
 };
 
-
 const selectLanguage = (lang: any) => {
   selectedLang.value = lang;
   isOpen.value = false;
@@ -26,8 +25,8 @@ const filterdLanguages = computed(() => {
   );
 });
 const closeDropdown = () => {
-      isOpen.value = false;
-    };
+  isOpen.value = false;
+};
 </script>
 
 <template>
@@ -234,7 +233,7 @@ const closeDropdown = () => {
       </div>
 
       <div
-        class="relative flex flex-col items-start justify-center  mt-[18px] pb-[16px]"
+        class="relative flex flex-col items-start justify-center mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
         :class="
           !customizeStore.managePlayerPackages.find(
@@ -258,10 +257,11 @@ const closeDropdown = () => {
           v-if="customizeStore.islangListEnabled"
           class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
         >
-            
-            <div class="relative w-full lg:w-64"  v-on-click-outside="closeDropdown">
+          <div
+            class="relative w-full lg:w-64"
+            v-on-click-outside="closeDropdown"
+          >
             <button
-
               @click="toggleDropdown"
               class="input_search_country !rounded-[10px] !h-[45px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
               :class="[isOpen ? 'rounded-b-none' : '']"
@@ -294,7 +294,9 @@ const closeDropdown = () => {
                   </div>
                 </div>
                 {{
-                  selectedLang ? $t(`${selectedLang.title}`) : $t("Auto detect Language")
+                  selectedLang
+                    ? $t(`${selectedLang.title}`)
+                    : $t("Auto detect Language")
                 }}
               </div>
 
@@ -306,7 +308,6 @@ const closeDropdown = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
                 class="rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[-15px] ltr:mr-[15px]"
-               
               >
                 <path
                   d="M11.027 8.61302C11.2715 8.81307 11.2715 9.18693 11.027 9.38698L1.31662 17.3319C0.990153 17.599 0.5 17.3667 0.5 16.9449L0.500001 1.05512C0.500001 0.633308 0.990154 0.401035 1.31662 0.668143L11.027 8.61302Z"
@@ -316,7 +317,6 @@ const closeDropdown = () => {
             </button>
             <div
               v-if="isOpen"
-
               class="absolute z-10 top-[52px] w-full lg:w-[330px] max-h-[260px] bg-white dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">
@@ -381,8 +381,7 @@ const closeDropdown = () => {
 
         <div
           v-if="customizeStore.islangHighlightEnabled.active == 1"
-          class="h-[55px] bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px]
-           flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
+          class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
         >
           <div
             class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -453,12 +452,12 @@ const closeDropdown = () => {
                         )
                       "
                       src="/assets/imgs/translatevideo/sign_active.svg"
-                      class="w-[28px] h-[28px]"
+                      class="w-[28px] absolute left-[0px] h-[28px]"
                     />
                     <img
                       v-else
                       src="/assets/imgs/translatevideo/sign_inactive.svg"
-                      class="w-[28px] h-[28px]"
+                      class="w-[28px] absolute left-[0px] h-[28px]"
                     />
                   </div>
                 </div>

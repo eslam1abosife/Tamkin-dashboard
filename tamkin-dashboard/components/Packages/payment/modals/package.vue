@@ -1595,7 +1595,7 @@ const formattedTotal = computed(() => {
                     </div>
                   </td>
                   <td
-                    class="py-2 px-2 border-b text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="py-2 px-2 border-b text-[16px] w leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{
                       packagesStore.currentPackage.package_type !== "Package" ||

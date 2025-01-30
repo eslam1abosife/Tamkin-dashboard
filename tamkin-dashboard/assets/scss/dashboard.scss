@@ -745,11 +745,11 @@ input[type=number] {
 }
 
 .toggle_wrap {
-    @apply relative inline-flex items-center cursor-pointer w-full;
+    @apply relative inline-flex items-center cursor-pointer w-[58px];
 
     .toggle_parent {
 
-        @apply w-[45px] lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full
+        @apply w-[77px] relative lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full
          peer-checked:bg-green-500 transition-colors duration-200;
 &.small{@apply h-[20px] w-[45px] #{!important};}
 
@@ -783,16 +783,16 @@ input[type=number] {
             mask-composite: exclude;
             pointer-events: none;
         }
-
+        
         .toggle_inner {
-            @apply absolute rtl:right-[2px] ltr:left-[4px] inset-y-0 w-[24px] h-[24px]
+            @apply absolute rtl:right-[1px] ltr:left-[1px] top-1/2 translate-y-[-58.5%] w-[24px] h-[24px]
            rounded-full transition-transform duration-200 transform;
 
 &.small{
-    @apply ltr:left-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
+    @apply ltr:left-[1px] rtl:right-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
 }
             &:not(.translate).active {
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[7px] left-[-5px] lg:ltr:left-[8px] #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[8px] ltr:left-[8px] #{!important};
             }
 
             &:not(.translate).in_active {
@@ -801,7 +801,7 @@ input[type=number] {
 
             }
             &:not(.translate).active_small{
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[5px] left-[5px]  #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[8px] ltr:left-[8px]  #{!important};
             }
 
             &:not(.translate).in_active_small {

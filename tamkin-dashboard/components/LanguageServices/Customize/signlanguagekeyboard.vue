@@ -24,7 +24,7 @@ const handleSelectedItemProjectName = (item: any) => {
     class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
   >
     <div
-      class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+      class="flex items-center justify-start mx-[15px] pt-[24px]"
     >
       <div>
         <h1
@@ -315,12 +315,12 @@ const handleSelectedItemProjectName = (item: any) => {
                       )
                     "
                     src="/assets/imgs/translatevideo/sign_active.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px] absolute left-[0px] h-[28px]"
                   />
                   <img
                     v-else
                     src="/assets/imgs/translatevideo/sign_inactive.svg"
-                    class="w-[28px] h-[28px]"
+                    class="w-[28px] absolute left-[0px] h-[28px]"
                   />
                 </div>
               </div>
