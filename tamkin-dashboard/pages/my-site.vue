@@ -608,18 +608,18 @@ const openInvestor = (app, pack) => {
     <div
       class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[16px] md:space-x-[36px]"
     >
-      <div>
+      <div class="max-md:flex-1">
         <button
-          class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
+          class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500] max-md:w-ful justify-centerl"
           @click.stop="$router.push(localePath('/add-site'))"
         >
           {{ $t("Add New Site") }}
         </button>
       </div>
-      <div>
+      <div class="max-md:flex-1">
         <button
           @click.stop="$router.push(localePath('/packages'))"
-          class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500]"
+          class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500] max-md:w-full justify-center"
         >
           {{ $t("Upgrade Plans") }}
         </button>

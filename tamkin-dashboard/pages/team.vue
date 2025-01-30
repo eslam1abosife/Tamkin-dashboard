@@ -763,9 +763,9 @@ const isOwner = computed(() => {
           </div>
 
           <div
-            class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]"
+            class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px] flex-1 lg:flex-[unset]"
           >
-            <div class="py-[17px] search_input relative">
+            <div class="py-[17px] search_input relative max-md:w-[57%]">
               <div
                 class="w-full h-[40px] dark:bg-p bg-gray-200 rounded animate-pulse flex items-center pl-[40px]"
               >
@@ -776,9 +776,6 @@ const isOwner = computed(() => {
               <div
                 class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
               >
-                <div
-                  class="w-[24px] h-[24px] bg-gray-200 dark:bg-tamkinDarkPrimary animate-pulse rounded-full"
-                ></div>
               </div>
             </div>
             <div class="lg:w-[250px] flex-1">

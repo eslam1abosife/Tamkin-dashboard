@@ -341,7 +341,7 @@ const cancelPayment = () => {
                         class="w-[20px] h-[20px]"
                       />
                       <div
-                        class="text-[#878787] text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
+                        class="text-[#878787] text-[10px] sm:text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
                       >
                         {{ addSiteStore.selectedCrypto.wallet_address }}
                       </div>

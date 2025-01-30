@@ -678,17 +678,17 @@ const isCurrentRateEmpty = computed(() => {
                 v-for="reward in filteredWithdraw"
               >
                 <td
-                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                 >
                   {{ reward.name }}
                 </td>
                 <td
-                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                 >
                   {{ formatDateOfReward(reward.modified) }}
                 </td>
                 <td
-                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                 >
                   {{
                     reward.amount +
@@ -703,7 +703,7 @@ const isCurrentRateEmpty = computed(() => {
                   }}
                 </td>
                 <td
-                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                  class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                 >
                   <div
                     :class="[
@@ -784,17 +784,17 @@ const isCurrentRateEmpty = computed(() => {
               >
                 <tr class="border-t border-gray-200 dark:border-darkborder">
                   <td
-                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                   >
                     {{ referral.customer_name }}
                   </td>
                   <td
-                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                   >
                     {{ formatDateOfReward(referral.modified) }}
                   </td>
                   <td
-                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-black"
+                    class="py-4 px-4 text-[14px] font-[500] leading-[19px] dark:text-whiteTamkin text-nowrap text-black"
                   >
                     {{ referral.total_commission }}
                     {{ referral.currency ? referral.currency : "USD" }}

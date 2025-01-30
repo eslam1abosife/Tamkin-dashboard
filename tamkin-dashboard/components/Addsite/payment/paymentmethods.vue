@@ -174,7 +174,7 @@ const goToPaymentMethod = async (method: any) => {
                     class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -236,7 +236,7 @@ const goToPaymentMethod = async (method: any) => {
                     class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -296,7 +296,7 @@ const goToPaymentMethod = async (method: any) => {
                     class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>

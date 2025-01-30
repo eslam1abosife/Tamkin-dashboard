@@ -67,7 +67,7 @@ const resetAction = async () => {
       </div>
     </div>
     <div
-      class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]"
+      class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px]"
     >
       <div class="mt-[20px]">
         <button

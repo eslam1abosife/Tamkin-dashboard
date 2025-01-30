@@ -85,30 +85,33 @@ const filteredCryptoMethods = computed(() => {
 <template>
   <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
     <div class="flex items-center justify-between gap-3">
-            <div
-              @click="navigateTo('crypto', 'add-site', 'paymentMethods'); removePromoCode();"
-              class="cursor-pointer flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
-              style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
-            >
-              <svg
-                width="9"
-                height="15"
-                viewBox="0 0 9 15"
-                fill="none"
-                class="fill-tamkin group-hover:stroke-white group-hover:fill-white dark:stroke-light"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-                />
-              </svg>
-            </div>
-            <h1
-              class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin mb-0"
-            >
-              Payment Methods
-            </h1>
-        </div>
+      <div
+        @click="
+          navigateTo('crypto', 'add-site', 'paymentMethods');
+          removePromoCode();
+        "
+        class="cursor-pointer flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
+        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
+      >
+        <svg
+          width="9"
+          height="15"
+          viewBox="0 0 9 15"
+          fill="none"
+          class="fill-tamkin group-hover:stroke-white group-hover:fill-white dark:stroke-light"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+          />
+        </svg>
+      </div>
+      <h1
+        class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin mb-0"
+      >
+        Payment Methods
+      </h1>
+    </div>
     <div
       class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -180,7 +183,7 @@ const filteredCryptoMethods = computed(() => {
               />
               <label
                 :for="'radio_' + selectedCrypto.id"
-                class="flex items-center cursor-pointer rtl:pl-[40px] ltr:pr-[40px]"
+                class="flex items-center cursor-pointer p-1"
               >
                 <span
                   class="w-[22px] h-[22px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
@@ -340,14 +343,17 @@ const filteredCryptoMethods = computed(() => {
               class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
               v-if="validPromo"
             >
-              <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]"/>
+              <img src="/assets/imgs/promo_valid.svg" class="max-md:w-[16px]" />
               <div
                 class="text-[13px] md:text-[15px] font-[500] text-darkGrey dark:text-white/70"
               >
                 <span class="text-[#021328] font-[700]">12%</span> Discount
                 (-$2,444 )
               </div>
-              <img src="/assets/imgs/promo_valid_.svg" class="max-md:w-[18px]" />
+              <img
+                src="/assets/imgs/promo_valid_.svg"
+                class="max-md:w-[18px]"
+              />
             </div>
             <div
               v-if="isPromoFilled"

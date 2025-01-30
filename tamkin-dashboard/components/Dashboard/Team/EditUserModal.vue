@@ -108,8 +108,7 @@ const submitInviteApp = async () => {
 <template>
   <div
     v-if="isOpen('editusermodal')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-auto w-10/12"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-1/2 md:top-[50px] max-md:-translate-y-1/2 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-auto w-10/12"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -231,12 +230,13 @@ const submitInviteApp = async () => {
 
       <div
         v-loading="!getAppsLoading"
-        class="max-h-[200px] overflow-y-scroll scrollbar-thin"
+        class="max-h-[200px]"
+        :class="!getAppsLoading ? 'overflow-y-scroll scrollbar-thin' : ''"
       >
         <div v-if="getAppsLoading" class="w-[99%]">
           <!-- Placeholder for table rows -->
           <div
-            v-for="n in 4"
+            v-for="n in 3"
             :key="n"
             class="flex items-center justify-between py-4 animate-pulse"
           >
@@ -278,7 +278,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -346,7 +346,7 @@ const submitInviteApp = async () => {
                     class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
                   >
                     <svg
-                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

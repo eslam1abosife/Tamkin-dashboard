@@ -34,7 +34,7 @@ const openBuyModal = (pck) => {
             768: {
               perPage: 1,
             },
-            1280: {
+            877: {
               perPage: 2,
             },
           },

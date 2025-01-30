@@ -196,7 +196,7 @@ const selectApp = (app: any) => {
                         class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-transparent rounded-[4px] peer-checked:bg-gradient-checked"
                       >
                         <svg
-                          class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin dark:text-white"
+                          class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-tamkinDarkPrimary"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"

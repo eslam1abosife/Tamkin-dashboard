@@ -392,7 +392,7 @@ function leaveCart(el, done) {
 
         <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
-          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
+          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center text-nowrap"
         >
           <div class="whitespace-nowrap">{{ $t("Order Date") }} :</div>
           <div
@@ -423,7 +423,7 @@ function leaveCart(el, done) {
 
         <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
-          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
+          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center text-nowrap"
         >
           <img
             v-if="orderDetails"
@@ -438,7 +438,7 @@ function leaveCart(el, done) {
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
-          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center"
+          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center text-nowrap"
         >
           <img
             :class="

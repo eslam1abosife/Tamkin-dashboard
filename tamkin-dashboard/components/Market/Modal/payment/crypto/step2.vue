@@ -2,11 +2,11 @@
 import { useGetCryptoList } from "@/composables/useCrypto";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import { usePayWithCrypto } from "@/composables/useMarket";
-import { useClipboard } from '@vueuse/core'
+import { useClipboard } from "@vueuse/core";
 const cryptostore = useCryptoStore();
 const marketStore = useMarketStore();
-const source = marketStore.selectedCrypto.wallet_address
-const { text, copy, copied, isSupported } = useClipboard({ source })
+const source = marketStore.selectedCrypto.wallet_address;
+const { text, copy, copied, isSupported } = useClipboard({ source });
 const {
   isOpen: isModalOpen,
   currentView,
@@ -16,7 +16,7 @@ const {
   navigateTo,
 } = useModalManager();
 const { getCryptoList } = useGetCryptoList();
-const { paywithCrypto ,messageData,codeStatus} = usePayWithCrypto();
+const { paywithCrypto, messageData, codeStatus } = usePayWithCrypto();
 
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
@@ -27,7 +27,7 @@ const state = reactive({
 const rules = {
   TXID: { required },
 };
-const {$toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 const v$ = useVuelidate(rules, state);
 
 const isCryptoMenuOpen = ref(false);
@@ -107,12 +107,12 @@ const fetchRates = async () => {
     console.error("Error fetching rates:", error);
   }
 };
-const copywallet = ()=>{
-  copy(source)
-  if(copied){
-$toast('Copied to clipboard',{hideIn:4000,type:'success'})
+const copywallet = () => {
+  copy(source);
+  if (copied) {
+    $toast("Copied to clipboard", { hideIn: 4000, type: "success" });
   }
-}
+};
 // Set up the interval
 let intervalId: number | undefined;
 
@@ -128,7 +128,7 @@ onUnmounted(() => {
 /**
  * Pay with selected cryptocurrency
  */
- const finalAmount = computed(() => {
+const finalAmount = computed(() => {
   const cartTotal = marketStore.cartTotal;
   const cryptoDiscount = marketStore.selectedCrypto?.discount || 0;
   const couponDiscount = marketStore.currentDiscount;
@@ -143,28 +143,29 @@ onUnmounted(() => {
 });
 const payCrypto = async () => {
   loadingPayment.value = true;
-  await paywithCrypto(state.TXID, 
+  await paywithCrypto(
+    state.TXID,
 
- `${ convertUsdToCrypto(
-                    marketStore.cartTotal - marketStore.currentDiscount,
-                    cryptostore.rates,
-                    marketStore.selectedCrypto.title
-                  ) + ' '+ marketStore.selectedCrypto.title}`
-
+    `${
+      convertUsdToCrypto(
+        marketStore.cartTotal - marketStore.currentDiscount,
+        cryptostore.rates,
+        marketStore.selectedCrypto.title
+      ) +
+      " " +
+      marketStore.selectedCrypto.title
+    }`
   );
   if (codeStatus.value === 200) {
-
-
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
 
-  navigateTo("crypto_market_step2", "market", "crypto_market_success");
-  marketStore.cartItems = []
+    navigateTo("crypto_market_step2", "market", "crypto_market_success");
+    marketStore.cartItems = [];
 
-  loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
     loadingPayment.value = false;
-   
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
+    loadingPayment.value = false;
   }
 };
 const percentageOff = computed(() => {
@@ -176,13 +177,13 @@ const percentageOff = computed(() => {
   }
   return 0;
 });
-const cancelPayment =()=>{
-  marketStore.promo = ""
-  marketStore.validPromo = false
-  marketStore.currentDiscount = 0
-  marketStore.selectedCrypto = ""
-  closeModal('crypto_market_step2')
-}
+const cancelPayment = () => {
+  marketStore.promo = "";
+  marketStore.validPromo = false;
+  marketStore.currentDiscount = 0;
+  marketStore.selectedCrypto = "";
+  closeModal("crypto_market_step2");
+};
 </script>
 
 <template>
@@ -190,18 +191,20 @@ const cancelPayment =()=>{
     v-if="isModalOpen('crypto_market_step2')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
-  <div class="w-full h-full">
-    <div class="flex flex-col items-start justify-center w-full">
-      <div class="flex flex-col items-start justify-center w-full relative">
-        <div class="flex items-center justify-between">
+    <div class="w-full h-full">
+      <div class="flex flex-col items-start justify-center w-full">
+        <div class="flex flex-col items-start justify-center w-full relative">
+          <div class="flex items-center justify-between">
             <div
               style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
               class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-              @click="()=>{
-                closeModal('crypto_market_step2')
-                  marketStore.selectedPaymentMethod = '' 
-                marketStore.selectedCrypto = ''
-              }"
+              @click="
+                () => {
+                  closeModal('crypto_market_step2');
+                  marketStore.selectedPaymentMethod = '';
+                  marketStore.selectedCrypto = '';
+                }
+              "
             >
               <svg
                 class="w-[12px] h-[12px]"
@@ -217,32 +220,38 @@ const cancelPayment =()=>{
                 />
               </svg>
             </div>
-          <div class="flex items-center gap-3">
-            <div
-              @click="navigateTo('crypto_market_step2', 'market', 'crypto_market_step1')"
-              class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
-              style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
-            >
-              <svg
-                width="9"
-                height="15"
-                viewBox="0 0 9 15"
-                fill="none"
-                class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-                xmlns="http://www.w3.org/2000/svg"
+            <div class="flex items-center gap-3">
+              <div
+                @click="
+                  navigateTo(
+                    'crypto_market_step2',
+                    'market',
+                    'crypto_market_step1'
+                  )
+                "
+                class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
+                style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
               >
-                <path
-                  d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-                />
-              </svg>
+                <svg
+                  width="9"
+                  height="15"
+                  viewBox="0 0 9 15"
+                  fill="none"
+                  class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+                  />
+                </svg>
+              </div>
+              <h1
+                class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin"
+              >
+                {{ $t("Payment processes") }}
+              </h1>
             </div>
-            <h1
-              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin"
-            >
-              {{$t('Payment processes')}}
-            </h1>
           </div>
-        </div>
           <div
             class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[24px]"
             style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -250,12 +259,12 @@ const cancelPayment =()=>{
             <h1
               class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
             >
-              {{ $t('Confirm your Payment') }}
+              {{ $t("Confirm your Payment") }}
             </h1>
             <p
               class="ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[29px] mt-[14px] text-darkGrey dark:text-whiteTamkin"
             >
-             {{$t('Please send')}}
+              {{ $t("Please send") }}
               <span class="text-tamkin font-[600]">
                 {{
                   convertUsdToCrypto(
@@ -264,11 +273,13 @@ const cancelPayment =()=>{
                     marketStore.selectedCrypto.title
                   )
                 }}
-                {{ marketStore.selectedCrypto.title +' '}}
+                {{ marketStore.selectedCrypto.title + " " }}
               </span>
-              {{ $t('to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds') }}
-
-           
+              {{
+                $t(
+                  "to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds"
+                )
+              }}
             </p>
 
             <div
@@ -284,24 +295,23 @@ const cancelPayment =()=>{
                 <div
                   class="font-[500] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{$t('You must send money through')}}
+                  {{ $t("You must send money through") }}
                 </div>
               </div>
               <div
                 class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] space-y-[16px] lg:justify-start w-full"
               >
-              
-              <div class="border rounded-lg">
-                <vue-qrcode
-                  :value="marketStore.selectedCrypto.wallet_address"
-                  :options="{ width: 115, height: 115 }"
-                ></vue-qrcode>
-              </div>
+                <div class="border rounded-lg">
+                  <vue-qrcode
+                    :value="marketStore.selectedCrypto.wallet_address"
+                    :options="{ width: 115, height: 115 }"
+                  ></vue-qrcode>
+                </div>
                 <div class="w-full">
                   <h2
                     class="text-[14px] leading-[24px] font-[600] mb-[18px] dark:text-whiteTamkin"
                   >
-                    {{$t('Send amount')}} :
+                    {{ $t("Send amount") }} :
                     <span class="text-tamkin">
                       {{
                         convertUsdToCrypto(
@@ -314,24 +324,26 @@ const cancelPayment =()=>{
                     >
                   </h2>
                   <div
-                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px]
-                     flex items-center justify-between px-[10px]"
+                    class="border custom-border-tamkin padding-override-1 w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
                   >
-                    <div class="flex items-center rtl:space-x-reverse justify-center space-x-[8px]">
+                    <div
+                      class="flex items-center w-[98%] rtl:space-x-reverse justify-center space-x-[8px]"
+                    >
                       <img
                         :src="`http://tamkin.app/${marketStore.selectedCrypto.icon}`"
                         class="w-[20px] h-[20px]"
                       />
                       <div
-                        class="text-[#878787] text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
+                        class="text-[#878787] text-[10px] sm:text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
                       >
                         {{ marketStore.selectedCrypto.wallet_address }}
                       </div>
+                      <img
+                        @click="copywallet()"
+                        class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
+                        src="/assets/imgs/crypto_methods_icons/copy_code.svg"
+                      />
                     </div>
-                    <img @click="copywallet()"
-                      class="rtl:mr-auto ltr:ml-auto cursor-pointer h-[20px]"
-                      src="/assets/imgs/crypto_methods_icons/copy_code.svg"
-                    />
                   </div>
                 </div>
               </div>
@@ -340,7 +352,11 @@ const cancelPayment =()=>{
                 <p
                   class="text-[14px] leading-[29px] font-[600] mt-[26px] dark:text-whiteTamkin"
                 >
-                  {{ $t(`To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`) }}
+                  {{
+                    $t(
+                      `To expedite verification, please provide the HASH or TXID of the transaction used to transfer the amount to our address`
+                    )
+                  }}
                 </p>
               </div>
 
@@ -361,7 +377,9 @@ const cancelPayment =()=>{
                   for="TXID"
                   class="floating_label"
                   :class="[
-                    v$.TXID.$error && v$.TXID.required.$invalid ? '!text-error' : '',
+                    v$.TXID.$error && v$.TXID.required.$invalid
+                      ? '!text-error'
+                      : '',
                   ]"
                 >
                   {{ $t("Insert transaction TXID -HASH*") }}
@@ -416,7 +434,7 @@ const cancelPayment =()=>{
                 class="btn_bordered_dashboard normal_hover mx-auto mt-[18px] w-full"
                 @click="cancelPayment"
               >
-                {{ $t('Cancel') }}
+                {{ $t("Cancel") }}
               </button>
             </div>
           </div>

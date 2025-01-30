@@ -201,8 +201,9 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 
             <div class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden">
               <img
-              :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
-              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]" :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
+                :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
+                class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
+                :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
             </div>
           </div>
 
@@ -225,16 +226,17 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 
               <!-- Placeholder for the Plan Information -->
               <div
-                class="h-[55px] px-[20px] bg-gray-400 dark:bg-gray-600 rounded-[41px] space-x-[42px] flex items-center justify-between w-auto p-2 mt-[24px]">
+                class="h-[55px] px-[20px] bg-white dark:bg-gray-600 rounded-[41px] gap-x-[42px] flex items-center justify-between w-auto p-2 mt-[24px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
                   <!-- Icon Placeholder -->
-                  <div class="h-[22px] w-[22px] lg:h-[10px] lg:w-[10px] bg-gray-500 rounded-full"></div>
+                  <div class="h-[22px] w-[22px] lg:h-[10px] lg:w-[10px] bg-gray-300 dark:bg-darkTamkin rounded-full">
+                  </div>
                   <!-- Text Placeholder -->
-                  <div class="h-[22px] w-[150px] bg-gray-400 dark:bg-gray-500 rounded-md"></div>
+                  <div class="h-[22px] w-[150px] bg-gray-300 dark:bg-darkTamkin rounded-md"></div>
                 </div>
 
                 <!-- Status Placeholder -->
-                <div class="h-[25px] lg:w-[88px] bg-gray-500 rounded-[17px]"></div>
+                <div class="h-[25px] lg:w-[88px] bg-gray-300 dark:bg-darkTamkin rounded-[17px]"></div>
               </div>
             </div>
 
@@ -245,8 +247,11 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             <div class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full 
           gap-2  mt-[32px]">
               <!-- Placeholder for each package item -->
-              <div v-for="n in 3" :key="n" class="flex items-center flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white dark:bg-gray-600
-            rounded-t-[10px] relative mt-[35px] w-full ">
+              <div
+                v-for="n in 3" :key="n"
+                class="flex items-center flex-col border-[1px] dark:border-darkborder mx-auto justify-start bg-white dark:bg-gray-600 rounded-t-[10px] relative mt-[35px] w-full"
+                :class="[n === 1 ? ' hidden md:block' : '', n === 2 ? ' hidden lg:block' : '']"
+              >
                 <div
                   class="bg-gray-300  dark:bg-darkTamkin w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]">
                 </div>
