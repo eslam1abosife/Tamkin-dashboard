@@ -758,7 +758,7 @@ const sortedPlans = computed(() => {
       </div>
     </div>
 
-    <div class="mt-[36px] flex items-center justify-center lg:justify-start">
+    <div class="mt-[36px] flex items-center justify-start">
       <div
         class="w-[200px] h-[24px] bg-gray-300 dark:bg-gray-700 rounded"
       ></div>
@@ -769,10 +769,10 @@ const sortedPlans = computed(() => {
     ></div>
 
     <div
-      class="flex items-center justify-center lg:justify-start w-full mt-[36px]"
+      class="flex items-center justify-center md:justify-end w-full mt-[36px]"
     >
       <div
-        class="w-[220px] h-[48px] bg-gray-300 dark:bg-gray-700 rounded"
+        class="w-full md:w-[220px] h-[48px] bg-gray-300 dark:bg-gray-700 rounded"
       ></div>
     </div>
   </div>

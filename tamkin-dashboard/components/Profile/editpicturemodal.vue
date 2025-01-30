@@ -127,7 +127,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-if="isOpen('editMemberPic')"
-    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] left-[50%] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-4 md:p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
+    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] left-[50%] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] w-10/12"
     style="transform: translate(-50%, 0)"
   >
     <div
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
 
     <div
       v-bind="getRootProps()"
-      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-[40px] flex items-center justify-center flex-col space-y-[30px] bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
+      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-darkborder mt-4 md:mt-[20px] flex items-center justify-center flex-col space-y-[30px] bg-[linear-gradient(180deg,#fefefe_0%,#eef5ff_47.07%,#f6f3fc_72.04%,#fef5f6_100%)] dark:bg-darkTamkin dark:bg-none px-4"
     >
       <input v-bind="getInputProps()" :disabled="loadingUpload" />
 

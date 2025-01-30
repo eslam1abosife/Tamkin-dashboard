@@ -220,14 +220,14 @@ const filteredInstallationGuide = computed(() => {
                 class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary"
                 style="box-shadow: 0px 4px 24px 8px #51459F1A;">
 
-                <div class="flex items-center jutify-between">
-                  <div class="w-2/4">
-                    <div class="text-[16px] font-[600] p-[16px] dark:text-whiteTamkin" style="line-height: 16px">
+                <div class="flex md:items-center jutify-between flex-col md:flex-row">
+                  <div class="md:w-2/4">
+                    <div class="text-[16px] font-[600] p-[16px] max-md:pb-0 dark:text-whiteTamkin" style="line-height: 16px">
                       {{$t('Installation Guides')}}
                     </div>
                   </div>
 
-                  <div class="w-full lg:w-3/6 p-[16px]">
+                  <div class="w-full md:w-3/6 p-[16px] max-md:pt-0">
                     <div class="py-[17px] search_input">
                       <input type="text" class="input_dashboard_search w-full" v-model="search"
                         :placeholder="`${$t('Search')} ...`" />

@@ -68,8 +68,7 @@ const manageSites = () => {
 <template>
   <div
     v-if="isOpen('transferstep2')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[auto]"
-    style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    class="fixed z-[9999] top-1/2 md:top-[50px] max-md:-translate-y-1/2 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[auto]"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"

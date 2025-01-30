@@ -247,7 +247,7 @@ const changeplayerback = ()=>{
         <div
         class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 ">
       
-        <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full">
+        <div class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px] w-full">
 
 
             <button class="btn-default   !h-[30px]"

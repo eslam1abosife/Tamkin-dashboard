@@ -74,8 +74,7 @@ const translatedSubTitle = computed(() => t(props.subTitle));
 <template>
   <div
     v-if="showModal"
-    class="fixed z-[9999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12"
-    :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
+    class="fixed z-[9999] -translate-y-1/2 md:translate-y-[unset] top-1/2 md:top-1/4 left-1/2 -translate-x-1/2 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[20px] md:p-[30px] lg:w-[640px] w-[90%]"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -109,7 +108,7 @@ const translatedSubTitle = computed(() => t(props.subTitle));
     </h2>
 
     <div
-      class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]"
+      class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px]"
     >
       <div class="mt-[40px] max-md:flex-1">
         <button

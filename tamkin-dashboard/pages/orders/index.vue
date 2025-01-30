@@ -253,22 +253,22 @@ const setPageSize = (size: number) => {
             class="bg-white dark:bg-tamkinDarkPrimary border-b text-[12px] leading-[18px] text-[#999999]"
           >
             <tr>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
                 {{ $t("Order ID") }}
               </th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
                 {{ $t("Order items") }}
               </th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
                 {{ $t("Payment Method") }}
               </th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
                 {{ $t("Price") }}
               </th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
-                {{ $t("order_status") }}
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
+                {{ $t("Order Status") }}
               </th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
                 {{ $t("Date Order") }}
               </th>
             </tr>
@@ -285,19 +285,19 @@ const setPageSize = (size: number) => {
               >
                 <div class="h-4 dark:bg-p bg-gray-200 rounded"></div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="h-4 dark:bg-p bg-gray-200 rounded w-3/4"></div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="h-4 dark:bg-p bg-gray-200 rounded w-1/2"></div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="h-4 dark:bg-p bg-gray-200 rounded w-1/4"></div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="h-4 dark:bg-p bg-gray-200 rounded w-2/4"></div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="h-4 dark:bg-p bg-gray-200 rounded w-1/3"></div>
               </td>
             </tr>
@@ -313,22 +313,22 @@ const setPageSize = (size: number) => {
           class="bg-white dark:bg-tamkinDarkPrimary border-b text-[12px] leading-[18px] text-[#999999] dark:border-darkborder"
         >
           <tr>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
               {{ $t("Order ID") }}
             </th>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
               {{ $t("Order items") }}
             </th>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
               {{ $t("Payment Method") }}
             </th>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
               {{ $t("Price") }}
             </th>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
-              {{ $t("order_status") }}
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
+              {{ $t("Order Status") }}
             </th>
-            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">
+            <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500] text-nowrap">
               {{ $t("Date Order") }}
             </th>
           </tr>
@@ -342,12 +342,12 @@ const setPageSize = (size: number) => {
               @click="$router.push(localePath('/orders/' + order.name))"
             >
               <td
-                class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap"
+                class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap text-nowrap"
               >
                 <!-- <span>#CM9801</span> -->
                 <span>{{ order.name }}</span>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div
                   class="flex items-center rtl:space-x-reverse space-x-[8px]"
                 >
@@ -365,7 +365,7 @@ const setPageSize = (size: number) => {
                   <span class="w-20 truncate">{{ $t(order.orderitems) }}</span>
                 </div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div class="flex items-center">
                   <img
                     :src="getPaymentImage(order.payment_method)"
@@ -376,7 +376,7 @@ const setPageSize = (size: number) => {
                   <span>{{ $t(order.payment_method) }}</span>
                 </div>
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left uppercase">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left uppercase text-nowrap">
                 <span
                   >{{ order.price }}
                   <span>{{
@@ -384,7 +384,7 @@ const setPageSize = (size: number) => {
                   }}</span></span
                 >
               </td>
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div
                   class="flex items-center ml-1 rtl:space-x-reverse space-x-[8px]"
                 >
@@ -413,7 +413,7 @@ const setPageSize = (size: number) => {
                 </div>
               </td>
 
-              <td class="px-6 py-3 rtl:text-right ltr:text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left text-nowrap">
                 <div
                   class="flex items-center rtl:space-x-reverse space-x-[8px]"
                 >

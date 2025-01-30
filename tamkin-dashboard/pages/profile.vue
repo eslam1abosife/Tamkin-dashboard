@@ -331,15 +331,15 @@ const runtimeconfig = useRuntimeConfig();
               </div>
             </div>
 
-            <div>
+            <div class="max-w-full">
               <div
-                class="animate-pulse dark:bg-p bg-gray-300 rounded h-4 w-48 my-2"
+                class="animate-pulse dark:bg-p bg-gray-300 rounded h-4 w-48 my-2 max-w-full"
               ></div>
               <div
-                class="animate-pulse dark:bg-p bg-gray-300 rounded h-5 w-64 my-2"
+                class="animate-pulse dark:bg-p bg-gray-300 rounded h-5 w-64 my-2 max-w-full"
               ></div>
               <div
-                class="animate-pulse dark:bg-p bg-gray-300 rounded h-8 w-[160px] my-2"
+                class="animate-pulse dark:bg-p bg-gray-300 rounded h-8 w-[160px] my-2 max-w-full"
               ></div>
             </div>
           </div>
@@ -455,7 +455,7 @@ const runtimeconfig = useRuntimeConfig();
 
           <div
             v-if="profileStore.loadingProfile"
-            class="bg-white/60 dark:bg-tamkinDarkPrimary shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+            class="bg-white/60 dark:bg-tamkinDarkPrimary/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
           >
             <div class="w-full">
               <div class="animate-pulse flex flex-col space-y-[10px]">

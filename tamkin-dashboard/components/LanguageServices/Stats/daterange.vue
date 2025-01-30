@@ -707,7 +707,7 @@ const loadscountSummary = computed(
               >
                 <template #action-row="{ closePicker, selectDate }">
                   <div
-                    class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+                    class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px] w-full"
                   >
                     <button
                       @click="
