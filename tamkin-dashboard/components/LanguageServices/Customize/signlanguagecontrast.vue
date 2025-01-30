@@ -12,7 +12,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
     class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
   >
     <div
-      class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+      class="flex items-center justify-start mx-[15px] pt-[24px]"
     >
       <div>
         <h1
@@ -318,7 +318,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
       <div
         v-if="customizeStore.contrastData.active == 1"
-        class="flex items-center justify-between mt-[24px] px-[15px] w-full rtl:space-x-reverse dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+        class="flex items-center justify-between mt-[24px] w-full rtl:space-x-reverse dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
         :class="[
           !isChecked(
             'deaf-customize-sign-language-player-contrast-sign-language-contrast'

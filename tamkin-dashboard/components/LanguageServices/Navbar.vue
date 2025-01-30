@@ -85,31 +85,31 @@ watch([() => route.path, () => width.value], () => {
 
     <!-- Links -->
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] px-[5px] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/overview')"
     >
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] px-[5px] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/addons')"
     >
       {{ $t("Addons") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] px-[5px] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/statistics')"
     >
       {{ $t("Statistics") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] px-[5px] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/customize')"
     >
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
+      class="relative z-[20] px-[5px] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/sign-language/settings')"
     >
       {{ $t("Settings") }}

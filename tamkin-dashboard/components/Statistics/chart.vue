@@ -759,7 +759,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           >
             <template #action-row="{ closePicker, selectDate }">
               <div
-                class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px] w-full"
+                class="flex items-center justify-end rtl:space-x-reverse space-x-[10px] md:space-x-[16px] w-full"
               >
                 <button
                   @click="
@@ -769,19 +769,19 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                     }
                   "
                   :disabled="!dateF"
-                  class="btn_bordered_dashboard rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
+                  class="btn_bordered_dashboard rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group max-md:!p-4"
                 >
                   <div>{{ $t("Clear") }}</div>
                 </button>
                 <button
                   @click="closePicker"
-                  class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center"
+                  class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center max-md:!p-4"
                 >
                   <div>{{ $t("Cancel") }}</div>
                 </button>
                 <button
                   @click="selectDate"
-                  class="btn-dashboard hover_tamkin rtl:!font-[Almarai] flex items-center h-[19px] w-2/6 justify-center group"
+                  class="btn-dashboard hover_tamkin rtl:!font-[Almarai] flex items-center h-[19px] w-2/6 justify-center group max-md:!p-4"
                 >
                   <div>
                     <svg
@@ -942,7 +942,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           </div>
         </div>
       </div>
-      <div class="lg:mr-[-15px] lg:px-[15px]">
+      <div class="lg:mr-[-15px] lg:px-[15px] max-md:w-full">
         <div
           v-if="statsStore.loadingStats"
           class="bg-gray-200 animate-pulse dark:bg-p w-[160px] h-[32px] rounded-[13px]"
@@ -954,7 +954,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           ).length > 0"
           @click="downloadCSV"
           :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
-          class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px]"
+          class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-full md:w-[160px]"
         >
           <div class="flex items-center justify-center">
             <div :class="loadingDownload ? 'rtl:ml-2 ltr:mr-2' : ''">

@@ -241,7 +241,7 @@ const uniqueValues = (items) => {
         <div class="cursor-pointer">
           <img
             src="/assets/imgs/arrow-right.svg"
-            class="w-[12px] h-[10px] rtl:rotate-180 cursor-pointer"
+            class="w-[12px] h-[10px] rtl:rotate-180 cursor-pointer dark:[filter:brightness(10)]"
             :class="[
               packagesStore.showMoreINInvestors ? '!rotate-90 ' : 'rotate-0',
             ]"

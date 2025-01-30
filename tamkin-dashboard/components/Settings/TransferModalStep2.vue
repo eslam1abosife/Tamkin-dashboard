@@ -112,7 +112,7 @@ const manageSites = () => {
         class="flex flex-col items-center justify-center custom-border-tamkin padding-override-3 rounded-22-tamkin p-4 w-full mx-auto my-4 mt-5"
       >
         <div class="flex items-center justify-center mb-2">
-          <div class="text-gray-700 dark:text-whiteTamkin w-[30px] sm:w-[60px]">
+          <div class="text-gray-700 dark:text-whiteTamkin w-[48px] sm:w-[60px]">
             {{ $t("From") }}
           </div>
           <div
@@ -136,7 +136,7 @@ const manageSites = () => {
           <img src="/assets/imgs/settings/arrow-down.svg" />
         </div>
         <div class="flex items-center justify-start">
-          <div class="text-gray-700 w-[30px] sm:w-[60px] dark:text-whiteTamkin">
+          <div class="text-gray-700 w-[48px] sm:w-[60px] dark:text-whiteTamkin">
             {{ $t("To") }}
           </div>
           <div

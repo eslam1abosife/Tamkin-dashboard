@@ -438,7 +438,7 @@ const percentageOff = computed(() => {
                 <div class="cursor-pointer">
                   <img
                     src="/assets/imgs/arrow-right.svg"
-                    class="w-[10px] h-[10px] rtl:rotate-180"
+                    class="w-[10px] h-[10px] rtl:rotate-180 dark:[filter:brightness(10)]"
                     :class="[showMoreMethods ? '!rotate-90' : '']"
                   />
                 </div>
