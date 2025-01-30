@@ -56,7 +56,7 @@ const openBuyModal = (pck) => {
         },
         width: '100%',
       }"
-      class="w-full pb-9 xl:pb-0 mt-[26px] relative z-[5]"
+      class="w-full pb-7 xl:pb-0 mt-[26px] relative z-[5]"
     >
       <SplideSlide
         v-for="addon in packagesStore

@@ -39,7 +39,7 @@ const openModalCustom = async (pk) => {
         },
       },
       width: '100%',
-    }" class="pb-9 px-[20px] mt-[32px]">
+    }" class="pb-7 px-[20px] mt-[32px]">
       <SplideSlide v-for="pak in packagesStore
         .getPackageByTypeAndCategory('Package')
         .sort((a, b) => a.sort - b.sort)">

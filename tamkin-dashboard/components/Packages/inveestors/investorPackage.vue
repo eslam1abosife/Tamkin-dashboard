@@ -13,15 +13,15 @@ const {
 
 <template>
   <div
-    class="w-full mx-auto flex flex-col md:flex-row p-6 bg-gradient-to-t from-white to-[#8EE6DF] rounded-xl mt-[32px] flex items-center rtl:space-x-reverse space-x-4 relative"
+    class="w-full mx-auto flex flex-col md:flex-row p-6 bg-gradient-to-t from-white dark:from-[#2D333D] dark:to-[#4b7e7a] to-[#8EE6DF] rounded-xl mt-[32px] items-center rtl:space-x-reverse space-x-4 relative"
     style="box-shadow: 1px 1px 26.4px 0px #71dad269"
   >
     <div>
-      <h2 class="text-xl font-bold mb-2 h-[41px]">
+      <h2 class="text-xl font-bold mb-2 h-[41px] dark:text-white">
         {{ $t("Investor Package") }}
       </h2>
       <p
-        class="text-black text-[14px] font-[400] leading-[21px] mb-4 w-3/4 text-darkGrey"
+        class="text-[14px] font-[400] leading-[21px] mb-4 w-3/4 text-darkGrey dark:text-white/80"
       >
         {{
           $t(

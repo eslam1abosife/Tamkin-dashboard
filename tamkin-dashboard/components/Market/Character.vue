@@ -451,7 +451,7 @@ onUnmounted(() => {
       
       width: '100%',
     }"
-    class="max-md:pb-7 bg-white dark:bg-[#344153] pt-4 px-[15px] rounded-b-[10px] relative z-[10]"
+    class="max-md:pb-2 bg-white dark:bg-[#344153] pt-4 px-[15px] rounded-b-[10px] relative z-[10]"
   >
     <SplideSlide>
       <div
