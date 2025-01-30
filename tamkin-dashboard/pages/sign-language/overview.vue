@@ -153,7 +153,7 @@ const runtimec = useRuntimeConfig();
     <LanguageServicesNodata v-if="!settingsStore.defaultappobj" />
     <div v-else-if="settingsStore.loadingdefaultappobj ">
       <div
-        class="h-[200px] w-full mt-[44px] rounded-md bg-gray-200 dark:bg-tamkinDarkPrimary"
+        class="h-[200px] w-full mt-[88px] rounded-md bg-gray-200 dark:bg-tamkinDarkPrimary"
       ></div>
       <div
         class="h-[200px] w-full mt-[20px] rounded-md bg-gray-200 dark:bg-tamkinDarkPrimary"

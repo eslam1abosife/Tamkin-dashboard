@@ -32,7 +32,7 @@ const tgl = ()=>{
     <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] relative"       >
         <div class="flex items-start justify-start px-[15px] pt-[24px]">
           <div class="">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">{{$t('Connect with us')}}</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] max-md:mb-3 lg:leading-[30px] dark:text-whiteTamkin">{{$t('Connect with us')}}</h1>
   
             <p class="text-[12px] lg:text-[14px] lg:w-auto w-[290px] lg:leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
              {{ $t('Connect with us to stay updated and receive support for all your accessibility needs') }}

@@ -72,7 +72,7 @@ function convertUsdToCrypto(usdTotal, rates) {
 
 <template>
   <div
-    class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-center w-full mt-[42px] pb-[0.3rem] px-[14px]"
+    class="flex flex-col dark:bg-tamkinDarkPrimary items-center justify-center w-full mt-[42px] pb-[2rem] px-[14px]"
   >
     <Splide
       :options="{
@@ -92,7 +92,7 @@ function convertUsdToCrypto(usdTotal, rates) {
         pagination: true,
         width: '100%',
       }"
-      class="h-full w-full px-[10px] mt-[32px] pb-7"
+      class="h-full w-full px-[10px] mt-[32px] pb-[0.2rem]"
     >
       <SplideSlide
         v-for="pak in packagesStore
