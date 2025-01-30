@@ -259,7 +259,7 @@ const getImagePath = (icon) => {
                       "
                     />
                     <div
-                      class="toggle_parent"
+                      class="toggle_parent !w-[58px]"
                       :class="[
                         customizeStore.isChecked(element.checkboxId)
                           ? 'active'

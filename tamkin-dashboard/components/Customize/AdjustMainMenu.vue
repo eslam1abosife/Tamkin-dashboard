@@ -470,7 +470,7 @@ const getImagePath = (icon) => {
                       "
                     />
                     <div
-                      class="toggle_parent"
+                      class="toggle_parent !w-[58px]"
                       :class="[
                         isChecked(element.checkboxId) && element.is_enabled
                           ? 'active'

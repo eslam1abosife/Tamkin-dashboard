@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 useHead({
   title: t("Accessibility - Addons - Tamkin Dashboard"),
-})
+});
 const {
   getInviteApps,
   defaultApp,
@@ -90,7 +90,7 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 const { $toast } = useNuxtApp();
 
 onMounted(async () => {
-  if(!packagesStore.checkFetchtDataPackage) {
+  if (!packagesStore.checkFetchtDataPackage) {
     await packagesStore.getDataPackage();
   }
   const targetId = route.query.package;
@@ -232,79 +232,79 @@ const runtimec = useRuntimeConfig();
 <template>
   <div class="relative h-full w-full">
     <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteNopackagebuy
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_no_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteUpgrade
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_mysite_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <!-- Modal for adding a package -->
-    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaymentmethods />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
-  </transition>
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
 
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoSuccess />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaypal />
-  </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <div class="w-full h-full relative">
       <HeaderAccess
         :section-title="$t('Addons')"
@@ -357,7 +357,7 @@ const runtimec = useRuntimeConfig();
                 </h1>
 
                 <p
-                  class="xs:text-[10px] text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
+                  class="xs:text-[10px] text-[12px] lg:text-[14px] ltr:pr-[10px] rtl:pl-[10px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
                 >
                   {{
                     $t(
@@ -571,7 +571,7 @@ const runtimec = useRuntimeConfig();
             </div>
 
             <div
-              class="f lg:px-[25px] mt-[64px] md:px-[25px]"
+              class="f lg:px-[25px] mt-[64px] md:px-[25px] p-[17px]"
               v-if="
                 horizontalView &&
                 !collapseStore.collapses.includes('LiveTranslationAddonsCard')

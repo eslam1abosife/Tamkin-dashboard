@@ -295,7 +295,7 @@ const settingsStore = useSettingsStore();
                     "
                   />
                   <div
-                    class="toggle_parent"
+                    class="toggle_parent !w-[58px]"
                     :class="[
                       checkboxStore.isChecked(element.checkboxId) &&
                       element.is_enabled
