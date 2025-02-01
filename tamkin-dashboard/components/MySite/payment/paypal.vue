@@ -5,7 +5,6 @@ const { locale } = useI18n();
 
 const { payaddsite, messageData, codeStatus } = usePayBycOrPPaypal();
 const mysiteStore = useMySiteStore();
-
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const { $toast } = useNuxtApp();
@@ -24,6 +23,8 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
+const paymentStore = usePaymentStore();
+
 const route = useRoute();
 const localePath = useLocalePath();
 /**
@@ -163,6 +164,7 @@ const discountAmount = computed(() => {
           </h1>
 
           <div
+            v-if="!paymentStore.loadingPaypal"
             class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
           >
             <div

@@ -162,7 +162,7 @@ const props = defineProps({
                 {{ savedCard.number }}
               </div>
             </div>
-            <div class="order-1 mx-[4px]">
+            <div class="order-1 mx-[30px]">
               <input
                 :id="'radio_' + savedCard.id"
                 type="radio"
@@ -261,7 +261,7 @@ const props = defineProps({
                 Pay Via PayPal
               </div>
             </div>
-            <div class="order-1 mx-[4px]">
+            <div class="order-1 mx-[30px]">
               <input
                 id="radio_paypal"
                 type="radio"
@@ -308,7 +308,7 @@ const props = defineProps({
                 Pay Via Crypto currency
               </div>
             </div>
-            <div class="order-1 mx-[4px]">
+            <div class="order-1 mx-[30px]">
               <input
                 id="radio_crypto"
                 type="radio"

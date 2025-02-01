@@ -8,11 +8,13 @@ export const usePaymentStore = defineStore('payment', {
    */
 
   state: () => ({
-    stateOfPayment:''
-
+    stateOfPayment:'',
+    loadingPaypal:false,
   }),
   actions: {
-  
+    setLoadingPaypal(value) {
+      this.loadingPaypal = value;
+    }
   }
 });
 

@@ -9,8 +9,8 @@ const { payaddsite, messageData, codeStatus } = usePaybyPaypalOrCard();
 const billingStore = useBillingStore();
 const addSiteStore = useAddSiteStore();
 import { useGetCards } from "@/composables/useBilling";
-const { $toast } = useNuxtApp();
 const { getCards } = useGetCards();
+const { $toast } = useNuxtApp();
 const { fullUrl } = useFullUrl();
 
 import { loadStripe } from "@stripe/stripe-js";
@@ -550,7 +550,7 @@ const percentageOff = computed(() => {
                     {{ $t("Pay Via Crypto") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_crypto"
                     :class="[
@@ -605,7 +605,7 @@ const percentageOff = computed(() => {
                     {{ $t("Pay Via PayPal") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_paypal"
                     :class="[

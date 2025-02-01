@@ -7,7 +7,6 @@ import { useRenewAll, useGetRenewdetails } from "@/composables/usePackages";
 const { renewAllCardorPaypal, messageData, codeStatus } = useRenewAll();
 
 const subsStore = useSubsStore();
-
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const { $toast } = useNuxtApp();
@@ -25,6 +24,7 @@ const clearInput = () => {
   subsStore.promo = "";
   subsStore.validPromo = false;
 };
+const paymentStore = usePaymentStore();
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
@@ -155,6 +155,7 @@ const discountAmount = computed(() => {
           </h1>
 
           <div
+            v-if="!paymentStore.loadingPaypal"
             class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
           >
             <div

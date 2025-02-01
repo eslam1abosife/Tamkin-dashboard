@@ -298,7 +298,7 @@ const finalAmount = computed(() => {
                   </div>
                 </div>
 
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     :id="'radio_' + addSiteStore.selectedCrypto.name"
                     type="radio"

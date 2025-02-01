@@ -286,7 +286,7 @@ const finalAmount = computed(() => {
                   </div>
                 </div>
 
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     :id="'radio_' + subsStore.selectedCrypto.name"
                     type="radio"
@@ -772,7 +772,7 @@ const finalAmount = computed(() => {
                     </div>
                   </div>
                   <div
-                    class="w-[22px] h-[22px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-full border dark:border-darkborder  border-tamkin"
+                    class="w-[22px] h-[22px] bg-gray-300 dark:bg-tamkinDarkPrimary rounded-full border dark:border-darkborder border-tamkin"
                   ></div>
                 </div>
               </div>

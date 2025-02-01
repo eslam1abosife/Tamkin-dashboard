@@ -114,7 +114,7 @@ const goToPaymentMethod = (method: any) => {
                     Pay Via Card
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio5"
                     type="radio"
@@ -161,7 +161,7 @@ const goToPaymentMethod = (method: any) => {
                     Pay Via Crypto currency
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_crypto"
                     type="radio"
@@ -176,7 +176,7 @@ const goToPaymentMethod = (method: any) => {
                     class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
@@ -207,7 +207,7 @@ const goToPaymentMethod = (method: any) => {
                     Pay Via PayPal
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_paypal"
                     type="radio"
@@ -222,7 +222,7 @@ const goToPaymentMethod = (method: any) => {
                     class="flex items-center cursor-pointer p-1"
                   >
                     <span
-                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block  rounded-full border border-tamkin"
+                      class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block rounded-full border border-tamkin"
                     ></span>
                   </label>
                 </div>
