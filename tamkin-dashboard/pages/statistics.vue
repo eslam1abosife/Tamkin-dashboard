@@ -182,10 +182,10 @@ const navStore = useNavbarStore();
         <!-- <StatisticsEnablegoogleanalytics /> -->
 
         <StatisticsLivetranslation />
-        </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style lang="scss">
