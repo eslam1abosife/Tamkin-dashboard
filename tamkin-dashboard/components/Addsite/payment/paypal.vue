@@ -68,6 +68,7 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
+const paymentStore = usePaymentStore();
 </script>
 
 <template>
@@ -146,6 +147,7 @@ const discountAmount = computed(() => {
           </h1>
 
           <div
+            v-if="!paymentStore.loadingPaypal"
             class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
           >
             <div
@@ -384,5 +386,4 @@ const discountAmount = computed(() => {
       </div>
     </div>
   </div>
-  
 </template>

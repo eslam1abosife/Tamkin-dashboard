@@ -193,7 +193,7 @@ const percentageOff = computed(() => {
 </script>
 
 <template>
-  <div 
+  <div
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
     <div class="w-full h-full">
@@ -550,7 +550,7 @@ const percentageOff = computed(() => {
                     {{ $t("Pay Via Crypto") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_crypto"
                     :class="[
@@ -605,7 +605,7 @@ const percentageOff = computed(() => {
                     {{ $t("Pay Via PayPal") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_paypal"
                     :class="[

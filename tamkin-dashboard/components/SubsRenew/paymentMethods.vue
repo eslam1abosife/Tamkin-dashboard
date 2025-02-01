@@ -121,7 +121,7 @@ const goToPaymentMethod = async (method: any) => {
                     {{ $t("Pay Via Card") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio5"
                     type="radio"
@@ -179,7 +179,7 @@ const goToPaymentMethod = async (method: any) => {
                     {{ $t("Pay Via Crypto") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_crypto"
                     type="radio"
@@ -239,7 +239,7 @@ const goToPaymentMethod = async (method: any) => {
                     {{ $t("Pay Via PayPal") }}
                   </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                   <input
                     id="radio_paypal"
                     type="radio"

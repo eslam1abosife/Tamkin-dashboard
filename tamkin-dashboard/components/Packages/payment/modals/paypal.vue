@@ -2,10 +2,8 @@
 import { useModalManager } from "@/composables/useModalManager";
 import { usePayByCorPaypal } from "@/composables/usePackages";
 const { locale } = useI18n();
-
 const { paybycorpaypal, messageData, codeStatus } = usePayByCorPaypal();
 const packagesStore = usePackgesStore();
-
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
 const { $toast } = useNuxtApp();
@@ -64,7 +62,7 @@ const continueCheckOut = async () => {
 const props = defineProps({
   showModal: Boolean,
 });
-
+const paymentStore = usePaymentStore();
 const percentageOff = computed(() => {
   const cartTotal = packagesStore.packagePayload.total;
   const discountAmount = packagesStore.currentDiscount;
@@ -153,7 +151,6 @@ const loadingCards = ref(true);
           </h1>
         </div>
         <div
-          v-if="loadingCards"
           class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
@@ -162,8 +159,8 @@ const loadingCards = ref(true);
           >
             {{ $t("Paypal Payment") }}
           </h1>
-
           <div
+            v-if="!paymentStore.loadingPaypal"
             class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
           >
             <div
@@ -353,6 +350,7 @@ const loadingCards = ref(true);
               </tbody>
             </table>
           </div>
+
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]">
             <!-- <button
               class="btn-dashboard hover_tamkin w-full"
@@ -417,9 +415,6 @@ const loadingCards = ref(true);
             >
             </paypal>
           </div>
-        </div>
-        <div v-if="!loadingCards" class="loading-container">
-          <p>جاري التحميل...</p>
         </div>
       </div>
     </div>

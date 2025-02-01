@@ -153,7 +153,7 @@ const closeModalAndresetPaymentMethods = () => {
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin" >
                         Bank Account </div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                     <input
                       id="radio5"
                       type="radio"
@@ -184,7 +184,7 @@ const closeModalAndresetPaymentMethods = () => {
                     <div><img  src="/assets/imgs/payment_methods/crypto.svg"  class="w-[40px] h-[40px]"/></div>
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">Crypto currency</div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                     <input
                       id="radio_crypto"
                       type="radio"
@@ -214,7 +214,7 @@ const closeModalAndresetPaymentMethods = () => {
                     <div><img  src="/assets/imgs/payment_methods/paypal.svg"  class="w-[40px] h-[40px]"/></div>
                     <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">PayPal</div>
                 </div>
-                <div class="order-1 mx-[4px]">
+                <div class="order-1 mx-[30px]">
                     <input
                       id="radio_paypal"
                       type="radio"
@@ -261,7 +261,7 @@ const closeModalAndresetPaymentMethods = () => {
                   {{ $t(method.title) }}
                 </div>
               </div>
-              <div class="order-1 mx-[4px]">
+              <div class="order-1 mx-[30px]">
                 <input
                   :id="'radio_' + method.title"
                   type="radio"
