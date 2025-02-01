@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
+import "@splidejs/vue-splide/css";
 const { locale, t } = useI18n();
 
 useHead({
@@ -571,21 +573,39 @@ const runtimec = useRuntimeConfig();
             </div>
 
             <div
-              class="f lg:px-[25px] mt-[64px] md:px-[25px] p-[17px]"
+              class="lg:px-[25px] mt-[64px] md:px-[25px] p-[17px]"
               v-if="
                 horizontalView &&
                 !collapseStore.collapses.includes('LiveTranslationAddonsCard')
               "
             >
               <!-- -->
-
-              <div
-                class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14 md:flex-nowrap"
-                v-if="navStore.defaultappobj"
-              >
-                <div
-                  v-for="pak in livePackages"
-                  :key="pak.name"
+              <Splide
+              v-if="navStore.defaultappobj"
+        :options="{
+          rewind: true,
+          arrows: false,
+          direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
+          gap: 36,
+          perPage: 3,
+          breakpoints: {
+            768: {
+              perPage: 1,
+            },
+            877: {
+              perPage: 2,
+            },
+          },
+          width: '100%',
+        }"
+        class="w-full"
+      >
+        <SplideSlide
+           v-for="pak in livePackages"
+          :key="pak.name"
+          class="!mt-[34px]"
+        >
+        <div
                   :class="[
                     navStore.defaultappobj?.package?.find(
                       (t) => t.type === 'Live Translation'
@@ -685,7 +705,8 @@ const runtimec = useRuntimeConfig();
                     <img :src="runtimec.public.baseImagerUrl + pak.icon" />
                   </div>
                 </div>
-              </div>
+        </SplideSlide>
+      </Splide>
             </div>
 
             <div
