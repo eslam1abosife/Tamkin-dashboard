@@ -87,6 +87,8 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
+
+const loadingCards = ref(true);
 </script>
 
 <template>
@@ -151,6 +153,7 @@ const discountAmount = computed(() => {
           </h1>
         </div>
         <div
+          v-if="loadingCards"
           class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
@@ -414,6 +417,9 @@ const discountAmount = computed(() => {
             >
             </paypal>
           </div>
+        </div>
+        <div v-if="!loadingCards" class="loading-container">
+          <p>جاري التحميل...</p>
         </div>
       </div>
     </div>

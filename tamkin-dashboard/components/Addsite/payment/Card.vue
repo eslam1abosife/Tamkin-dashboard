@@ -9,8 +9,8 @@ const { payaddsite, messageData, codeStatus } = usePaybyPaypalOrCard();
 const billingStore = useBillingStore();
 const addSiteStore = useAddSiteStore();
 import { useGetCards } from "@/composables/useBilling";
-const { $toast } = useNuxtApp();
 const { getCards } = useGetCards();
+const { $toast } = useNuxtApp();
 const { fullUrl } = useFullUrl();
 
 import { loadStripe } from "@stripe/stripe-js";
@@ -193,7 +193,7 @@ const percentageOff = computed(() => {
 </script>
 
 <template>
-  <div
+  <div 
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] left-0 rtl:lg:left-0 ltr:lg:left-auto ltr:lg:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen !overflow-y-auto lg:overflow-x-hidden"
   >
     <div class="w-full h-full">
