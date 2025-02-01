@@ -2466,18 +2466,18 @@ const openInvestor = (app, pack) => {
       </div>
 
       <div
-        class="flex justify-between items-center pb-[16px]"
+        class="flex flex-col md:flex-row justify-between items-center py-[16px] gap-y-3"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
         <div
-          class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
+          class="flex items-center rtl:space-x-reverse max-md:w-full space-x-2"
         >
           <span
-            class="dark:text-whiteTamkin text-darkGrey text-[12px] md:text-[13px] leading-[21px] font-[400]"
+            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Per Page") }}
           </span>
-          <div class="flex space-x-1 md:space-x-2 rtl:space-x-reverse">
+          <div class="flex space-x-2 rtl:space-x-reverse">
             <button
               v-for="option in perPageOptions"
               :key="option"
@@ -2487,7 +2487,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-2 md:px-3 py-0 md:py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
               ]"
               @click.stop="changePerPage(option)"
@@ -2497,10 +2497,10 @@ const openInvestor = (app, pack) => {
           </div>
         </div>
         <div
-          class="flex items-center rtl:space-x-reverse space-x-1 md:space-x-2"
+          class="flex items-center rtl:space-x-reverse max-md:w-full max-md:justify-between max-md:gap-2 md:space-x-2"
         >
           <span
-            class="text-darkGrey dark:text-whiteTamkin text-[12px] md:text-[13px] leading-[21px] font-[400]"
+            class="text-darkGrey dark:text-whiteTamkin max-md:hidden text-[13px] leading-[21px] font-[400]"
           >
             {{ $t("Page") }}
           </span>
@@ -2535,7 +2535,7 @@ const openInvestor = (app, pack) => {
                   : ''
               "
               :class="[
-                'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                'px-3 py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
               ]"
               @click.stop="goToPage(page)"
