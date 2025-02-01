@@ -53,7 +53,15 @@ const listOfApps = computed(() => {
   const category = getCategory.value;
   const currentTypeTitle = packagesStore.currentType.title;
   // Pre-filter apps by removing deleted ones
-  const validApps = apps.value.filter((app) => app.status !== "deleted");
+  let validApps = apps.value.filter((app) => app.status !== "deleted");
+
+  // Filter Free Package
+  if (selectedPackage.value === 0) {
+    validApps = validApps.filter(app =>
+    !app.package.some(pkg => pkg.billing_duration === "Free Trial")
+  );
+}
+
 
   // Optimize logic based on conditions
   if (category === 0 && currentTypeTitle === "Sign language") {
@@ -79,7 +87,7 @@ const listOfApps = computed(() => {
   if (!category && currentTypeTitle !== "Sign language") {
     // Return apps with non-null domains for non-'Sign language' types
     // return validApps.filter((app) => app.app_domain !== null);
-    return apps.value.filter(
+    return validApps.filter(
       (app) =>
         app.app_domain !== null &&
         app.package &&
@@ -117,6 +125,7 @@ const selectedPackage = ref(
 
 const selectPackage = (plan: any) => {
   selectedPackage.value = plan;
+  webs.value = [];
 };
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
