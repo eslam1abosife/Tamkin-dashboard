@@ -296,6 +296,7 @@ const isLinkActive = (path) => {
               v-for="n in 3"
               :key="n"
               class="flex items-center dark:bg-tamkinDarkPrimary flex-col border-[1px] mx-auto justify-start bg-white rounded-t-[10px] relative mt-[35px] w-full dark:border-darkGrey"
+              :class="(n === 1 || n === 2) ? 'hidden md:flex' : ''"
             >
               <div
                 class="bg-gray-300 dark:bg-gray-600 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"

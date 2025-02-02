@@ -5,7 +5,7 @@
     class="mt-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] flex items-center justify-center pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div
-      class="flex flex-col items-center justify-center p-[100px] space-y-[16px]"
+      class="flex flex-col items-center max-md:text-center py-[100px] px-[20px] md:justify-center p-[100px] space-y-[16px]"
     >
       <div>
         <img
