@@ -730,7 +730,7 @@ const isOwner = computed(() => {
               <button
                 :disabled="
                   !profileStore.isOwner ||
-                  teamstore.maxlimit <= paginatedFilteredTeamMembers.length ||
+                  teamstore.maxlimit <= teamMembers.length ||
                   teamstore.maxlimit === 0
                 "
                 class="btn-dashboard hover_tamkin text-nowrap"
