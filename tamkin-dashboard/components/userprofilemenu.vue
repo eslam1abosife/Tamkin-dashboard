@@ -160,7 +160,7 @@ onMounted(async () => {
       class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]"
     >
       <div class="flex items-center justify-start w-full space-x-[14px]">
-        <div class="w-2/4 rtl:ml-2 ltr:mr-2">
+        <div class=" rtl:ml-3 ltr:mr-3">
           <UserAvatar :member="profileStore.member" />
         </div>
         <div class="flex flex-col items-start justify-center w-full !mx-0">
