@@ -562,7 +562,7 @@ const closeModalPackage = () => {
           >
             <div
               v-if="addSiteStore.currentPackage.trial_days > 0"
-              class="flex items-center justify-start bg-selected px-1.5 dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px]"
+              class="flex items-center justify-start bg-selected px-1.5 dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               :class="[
                 selectedPackage === 0
                   ? 'custom-border-tamkin'
