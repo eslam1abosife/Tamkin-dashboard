@@ -238,7 +238,7 @@ watch(
         :to="localePath('/team')"
       >
         <img
-          src="/assets//imgs/logo.png"
+          src="/assets/imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
         />
       </nuxt-link>
@@ -248,7 +248,7 @@ watch(
         v-else
       >
         <img
-          src="/assets//imgs/icons/tamkin_small.svg"
+          src="/assets/imgs/icons/tamkin_small.svg"
           class="w-[28px] h-[28px]"
         />
       </nuxt-link>

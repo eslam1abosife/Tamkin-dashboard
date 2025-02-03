@@ -48,13 +48,13 @@ onMounted(async () => {
     </div>
     <div class="self-start" :class="[sideBarOpenMobile ? '' : 'mx-auto']">
       <img 
-        src="/assets//imgs/logo.png"
+        src="/assets/imgs/logo.png"
         class="min-h-[60px] w-[120px]"
         
         v-if="sideBarOpenMobile "
       />
       <img 
-        src="/assets//imgs/icons/tamkin_small.svg"
+        src="/assets/imgs/icons/tamkin_small.svg"
         class="pb-[32px] pt-[16px] mx-auto"
         
         v-else
