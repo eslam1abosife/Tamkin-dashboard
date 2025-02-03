@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     v-if="isOpen('edit_company_picture')"
-    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] w-10/12"
+    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] left-[50%] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div

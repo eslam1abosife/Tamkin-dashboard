@@ -937,7 +937,7 @@ const openInvestor = (app, pack) => {
               class="flex items-start justify-start lg:justify-between flex-row"
             >
               <div
-                class="flex items-start rtl:space-x-reverse space-x-[8px] md:space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
+                class="flex items-start rtl:space-x-reverse space-x-[8px] md:space-x-[16px] lg:w-auto w-full"
               >
                 <div
                   class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] p cursor-pointer"
@@ -1086,23 +1086,23 @@ const openInvestor = (app, pack) => {
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="text-nowrap ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="!pe-[60px] ps-[18px] text-nowrap h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Sites URL") }}
                     </th>
                     <th
-                      class="text-nowrap ltr:text-left xl:px-0 px-[16px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="!pe-[60px] text-nowrap ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Billing") }}
                     </th>
                     <th
-                      class="text-nowrap ltr:text-left xl:px-0 px-[16px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="!pe-[60px] text-nowrap ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Package") }}
                     </th>
                     <th>
                       <div
-                        class="text-nowrap xl:px-0 px-[16px] w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="!pe-[60px] text-nowrap w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>{{ $t("Status") }}</div>
                         <div>
@@ -1136,14 +1136,14 @@ const openInvestor = (app, pack) => {
                     </th>
 
                     <th
-                      class="text-nowrap ltr:text-left xl:px-0 px-[16px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="!pe-[60px] text-nowrap ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Date") }}
                     </th>
 
                     <th>
                       <div
-                        class="text-nowrap flex items-center xl:px-0 px-[16px] justify-start rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="!pe-[60px] text-nowrap flex items-center justify-start rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>{{ $t("Traffic") }}</div>
                         <div>
@@ -1176,7 +1176,7 @@ const openInvestor = (app, pack) => {
                       </div>
                     </th>
                     <th
-                      class="text-nowrap lg:text-[14px] text-center font-[600] lg:leading-[21px] text-[12px] ltr:pr-[50px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="pe-[18px] text-nowrap lg:text-[14px] text-center font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Action") }}
                     </th>
@@ -1208,7 +1208,7 @@ const openInvestor = (app, pack) => {
                           : 'border-[1px]',
                       ]"
                     >
-                      <td class="md:w-[25%] text-nowrap">
+                      <td class="!pe-[60px] text-nowrap">
                         <div
                           class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
@@ -1250,7 +1250,7 @@ const openInvestor = (app, pack) => {
                         </div>
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] lg:px-0 text-nowrap md:w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="text-nowrap !pe-[60px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{
                           app.package.length
@@ -1263,7 +1263,7 @@ const openInvestor = (app, pack) => {
                         }}
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] text-left text-nowrap text-[12px] lg:px-0 md:w-[150px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="text-left text-nowrap text-[12px] lg:px-0 !pe-[60px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div
                           v-if="app.package.length > 0"
@@ -1297,7 +1297,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] text-nowrap md:w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                        class="text-nowrap !pe-[60px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                       >
                         <div v-if="app.package.length > 0">
                           <div
@@ -1357,7 +1357,7 @@ const openInvestor = (app, pack) => {
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] ltr:text-left text-nowrap rtl:text-right md:w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="ltr:text-left text-nowrap rtl:text-right !pe-[60px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{
                           app.package.length === 0
@@ -1373,12 +1373,12 @@ const openInvestor = (app, pack) => {
                         }}
                       </td>
                       <td
-                        class="xl:px-0 px-[16px] rtl:text-right text-nowrap ltr:text-left md:w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="rtl:text-right text-nowrap ltr:text-left !pe-[60px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         {{ formatNumber(app.traffic) }}
                       </td>
                       <td
-                        class="text-[14px] text-nowrap md:w-[150px] font-[400] px-[18px] text-darkGrey"
+                        class="pe-[18px] text-[14px] text-nowrap font-[400] text-darkGrey"
                       >
                         <div
                           class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
@@ -1523,9 +1523,9 @@ const openInvestor = (app, pack) => {
                         ) in mysiteStore.selectedApp.package.slice(1)"
                         :key="i"
                       >
-                        <td class="w-[25%]">
+                        <td class="ps-[18px] pe-[60px]">
                           <div
-                            class="relative h-[50px] flex items-center justify-start ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                            class="relative h-[50px] flex items-center justify-start lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                           >
                             <a
                               href="#"
@@ -1567,7 +1567,7 @@ const openInvestor = (app, pack) => {
                           </div>
                         </td>
                         <td
-                          class="lg:px-0 w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                          class="pe-[60px] w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           {{
                             mysiteStore.selectedApp.package.length
@@ -1576,7 +1576,7 @@ const openInvestor = (app, pack) => {
                           }}
                         </td>
                         <td
-                          class="ltr:text-left rtl:text-right text-[12px] lg:px-0 w-[150px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                          class="ltr:text-left rtl:text-right text-[12px] pe-[60px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           <div v-if="pack" class="">
                             <!-- Image Container -->
@@ -1610,7 +1610,7 @@ const openInvestor = (app, pack) => {
                           </div>
                         </td>
                         <td
-                          class="lg:px-0 w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                          class="pe-[60px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                         >
                           <div
                             v-if="mysiteStore.selectedApp.package.length > 0"
@@ -1661,7 +1661,7 @@ const openInvestor = (app, pack) => {
                           <div class="text-center" v-else>-</div>
                         </td>
                         <td
-                          class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                          class="ltr:text-left rtl:text-right pe-[60px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           {{
                             new Date(
@@ -1677,12 +1677,12 @@ const openInvestor = (app, pack) => {
                           }}
                         </td>
                         <td
-                          class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                          class="rtl:text-right ltr:text-left pe-[60px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           {{ formatNumber(mysiteStore.selectedApp.traffic) }}
                         </td>
                         <td
-                          class="text-[14px] w-[150px] font-[400] text-darkGrey"
+                          class="text-[14px] pe-[18px] font-[400] text-darkGrey"
                         >
                           <div
                             class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
@@ -2021,7 +2021,7 @@ const openInvestor = (app, pack) => {
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Package") }}
                     </th>
