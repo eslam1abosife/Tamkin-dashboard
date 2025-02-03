@@ -742,7 +742,7 @@ watch(
           v-bind="getRootProps()"
           class="w-full h-auto rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-center justify-center flex-col relative p-[10px]"
         >
-          <input v-bind="getInputProps()" />
+          <input v-bind="getInputProps()" accept=".jpg, .jpeg, .png, .webp, .svg"/>
           <div
             class="flex flex-row items-start md:items-center justify-between w-full space-y-[10px] md:space-y-0 rtl:space-x-reverse space-x-[16px]"
             v-if="acceptedFilesRef.length > 0"

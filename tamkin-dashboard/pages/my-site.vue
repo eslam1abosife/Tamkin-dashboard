@@ -1176,7 +1176,7 @@ const openInvestor = (app, pack) => {
                       </div>
                     </th>
                     <th
-                      class="pe-[18px] text-nowrap lg:text-[14px] text-center font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="pe-[18px] text-nowrap lg:text-[14px] text-start font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Action") }}
                     </th>
@@ -1381,7 +1381,7 @@ const openInvestor = (app, pack) => {
                         class="pe-[18px] text-[14px] text-nowrap font-[400] text-darkGrey"
                       >
                         <div
-                          class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
+                          class="flex items-center rtl:space-x-reverse space-x-[16px] relative"
                         >
                           <button
                             :disabled="
@@ -1685,7 +1685,7 @@ const openInvestor = (app, pack) => {
                           class="text-[14px] pe-[18px] font-[400] text-darkGrey"
                         >
                           <div
-                            class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
+                            class="flex items-center rtl:space-x-reverse space-x-[16px] relative"
                           >
                             <button
                               :disabled="
@@ -1959,7 +1959,7 @@ const openInvestor = (app, pack) => {
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="px-4 h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="px-[18px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       {{ $t("Sites URL") }}
                     </th>
@@ -2162,7 +2162,7 @@ const openInvestor = (app, pack) => {
 
                     <td class="text-[14px] font-[400] text-darkGrey">
                       <div
-                        class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
+                        class="flex items-center rtl:space-x-reverse space-x-[16px] relative"
                       >
                         <button
                           :disabled="

@@ -417,7 +417,7 @@ watchEffect(() => {
             v-bind="getRootProps()"
             class="w-full h-auto p-[10px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-darkborder mt-[16px] flex items-center justify-center flex-col space-y-[10px]"
           >
-            <input v-bind="getInputProps()" />
+            <input v-bind="getInputProps()" accept=".jpg, .jpeg, .png, .webp, .svg"/>
             <div
               class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px]"
               v-if="acceptedFilesRef.length > 0"
