@@ -1,6 +1,8 @@
+<script>
+</script>
 <template>
     <div>
-      <NuxtPage />
+      <slot />
     </div>
   </template>
   
