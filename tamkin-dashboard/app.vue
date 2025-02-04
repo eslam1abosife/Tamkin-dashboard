@@ -4,6 +4,7 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 const config = useRuntimeConfig();
 const { locale, setLocaleMessage } = useI18n();
+const router = useRouter();
 const profileStore = useProfileStore();
 const isLoading = ref(true);
 // Fetch Translations
@@ -32,6 +33,11 @@ watch(locale, fetchTranslations);
 
 onMounted(() => {
   fetchTranslations();
+});
+router.afterEach(async(to, from) => {
+  if(from.path !== '/auth/login' && from.path !== '/auth/login?logout=true') {
+    await profileStore.fetchMember();
+  }
 });
 </script>
 

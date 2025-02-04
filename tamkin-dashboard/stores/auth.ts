@@ -53,8 +53,9 @@ export const useUserStore = defineStore('user', {
     
       useCookie('user').value = '';
       useCookie('user').maxAge = -1;
-
-
+    
+      useCookie('permissions').value = null;
+      useCookie('permissions').maxAge = -1;
     }
   },
 });

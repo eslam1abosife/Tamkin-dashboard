@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useCookie } from '#app';
 import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
 
 
@@ -17,7 +18,7 @@ export const useProfileStore = defineStore("profile", {
     currentTeam: '',
     updateProfilePayload:'',
     updatedCompanyPayload:'',
-    permissions:[],
+    permissions: useCookie('permissions').value || null,
     countries:[],
     social_platforms: [
       {
@@ -96,19 +97,23 @@ export const useProfileStore = defineStore("profile", {
 
 
     },
+
     async fetchMember() {
-    
         this.loadingProfile = true;
-        // ths.isLoading = true;
     
       try {
         const { getMember, member } = useGetMember();
         await getMember();
-        this.member = member.value
-this.permissions = member.value.permission
-        // const userAllowDashboard = useCookie('ei_s', { expires: 0 });
-        // userAllowDashboard.value = JSON.stringify(this.member.name)
-        // alert('is cookie set')
+
+        this.member = member.value;
+
+        this.permissions = member.value.permission;
+        const permissionsCookie = useCookie('permissions', {
+          maxAge: 60 * 60 * 24 * 7
+        });
+        permissionsCookie.value = filterArrayObjects(member.value.permission,['tamkin_roles']);
+
+        console.log(useCookie('permissions').value || null);
 
         const userStore = useUserStore()
         const roleProfileName = userStore.user?.role_profile_name;
@@ -123,15 +128,6 @@ this.permissions = member.value.permission
   
       }
     },
-    
-
-    async setMember() {
-      await getMember();
-      this.member = member.value;
-      // console.log(this.member)
-    },
-
-
 
     setAbout(about: string) {
       this.profileAbout = about;

@@ -4,19 +4,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const userS = useUserStore()
   if (import.meta.client  && userS.isLoggedIn) {
     const profileStore = useProfileStore();
-    const profileCookie = useCookie('profile');
-    const userCookie = useCookie('user');
     
-    
-
-    
-    if (!profileStore.member || !profileStore.member.permission) {
-      
+    if (!profileStore.permissions) {
       await profileStore.fetchMember();
     }
     
     
-    const permissions = profileStore.member.permission || [];
+    const permissions = profileStore.permissions || [];
     
     
     
@@ -51,6 +45,4 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       });
     }
   }
-
-  
 });
