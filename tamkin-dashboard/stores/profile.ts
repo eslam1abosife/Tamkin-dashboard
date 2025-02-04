@@ -113,8 +113,6 @@ export const useProfileStore = defineStore("profile", {
         });
         permissionsCookie.value = filterArrayObjects(member.value.permission,['tamkin_roles']);
 
-        console.log(useCookie('permissions').value || null);
-
         const userStore = useUserStore()
         const roleProfileName = userStore.user?.role_profile_name;
         this.isOwner = roleProfileName === 'Owner of Agency';
