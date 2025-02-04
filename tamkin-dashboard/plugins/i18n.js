@@ -24,14 +24,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       code: 'en',
       name: 'English - EN',
       file: 'en.ts',
-      iso: 'en-US',
+      language: 'en-US',
       dir: 'ltr'
     },
     {
       code: 'ar',
       name: 'العربية - AR',
       file: 'ar.ts',
-      iso: 'ar-SA',
+      language: 'ar-SA',
       dir: 'rtl'
     }
   ]);

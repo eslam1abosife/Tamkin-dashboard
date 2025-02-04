@@ -235,14 +235,14 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
-        iso: "en-US",
+        language: "en-US",
         name: "English",
         file: "en.ts",
         dir: "ltr",
       },
       {
         code: "ar",
-        iso: "ar-SA",
+        language: "ar-SA",
         name: "Arabic",
         file: "ar.ts",
         dir: "rtl",
