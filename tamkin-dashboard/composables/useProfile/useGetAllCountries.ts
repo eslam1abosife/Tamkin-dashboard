@@ -20,7 +20,7 @@ export default function() {
       // foreach through countries and add "https://tamkin.app/" to image url at beginning
 
       countries.value.forEach((country: any) => {
-        country.image = "https://tamkin.app/" + country.image;
+        country.image = "https://tamkin.app/" + country.custom_image;
       })
 
     }catch (error) {
