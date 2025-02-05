@@ -343,7 +343,7 @@ const sortedPlans = computed(() => {
     <div class="mt-[18px] flex items-center justify-between mt-[32px]">
       <div>
         <h2
-          class="text-[14px] lg:text-[16px] font-[600] leading-[30px] text-[#151515] dark:text-whiteTamkin"
+          class="whitespace-nowrap text-[14px] lg:text-[16px] font-[600] leading-[30px] text-[#151515] dark:text-whiteTamkin"
         >
           {{ $t("Select Your package") }}
         </h2>
@@ -354,7 +354,7 @@ const sortedPlans = computed(() => {
       >
         <div>
           <h2
-            class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin"
+            class="whitespace-nowrap underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin"
           >
             {{ $t("What’s included?") }}
           </h2>
@@ -400,98 +400,98 @@ const sortedPlans = computed(() => {
         class="mt-8"
       >
         <SplideSlide v-for="(plan, i) in sortedPlans" :key="i">
+          <div
+            class="flex items-center justify-start custom-border relative py-[40px] lg:py-[62px] h-[120px] md:h-[149px] !rounded-[10px] mt-[20px] lg:mt-[35px]"
+            :class="[
+              selectedPlan && selectedPlan === plan
+                ? 'bg-selected dark:bg-p'
+                : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
+            ]"
+          >
             <div
-              class="flex items-center justify-start custom-border relative py-[40px] lg:py-[62px] h-[120px] md:h-[149px] !rounded-[10px] mt-[20px] lg:mt-[35px]"
-              :class="[
-                selectedPlan && selectedPlan === plan
-                  ? 'bg-selected dark:bg-p'
-                  : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
-              ]"
+              class="absolute bottom-[95px] md:bottom-[83%] rtl:right-[24px] ltr:left-[24px]"
             >
-              <div
-                class="absolute bottom-[95px] md:bottom-[83%] rtl:right-[24px] ltr:left-[24px]"
-              >
-                <img
-                  :src="runconfig.public.baseImagerUrl + plan.icon"
-                  class="w-[50px] h-[50px]"
+              <img
+                :src="runconfig.public.baseImagerUrl + plan.icon"
+                class="w-[50px] h-[50px]"
+              />
+            </div>
+            <div
+              v-if="plan.type_deal !== 'None'"
+              class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-2/4 ltr:left-2/4"
+              style="
+                background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+              "
+            >
+              <div class=" ">
+                {{ $t(plan.type_deal) }}
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-start relative flex-1 rtl:px-5 px-6"
+            >
+              <div class="order-2 mt-[22px] relative flex-1">
+                <h1
+                  class="font-[500] text-[14px] md:text-[16px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]"
+                >
+                  {{ $t(plan.title) }} -
+                  <span class="!font-[300] !text-[16px]">{{
+                    $t(plan.type)
+                  }}</span>
+                </h1>
+                <h2
+                  class="font-[400] rtl:text-right ltr:text-left text-[14px] leading-[21.86px] text-[#536174] w-3/4 dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]"
+                >
+                  {{ $t(plan.sub_title) }}
+                </h2>
+              </div>
+              <div class="order-1 ltr:pr-2 rtl:pl-2">
+                <input
+                  :id="'plan_' + plan.name"
+                  type="radio"
+                  name="plans_radio"
+                  class="hidden"
+                  @click.stop="selectPlan(plan)"
+                  :value="plan.name"
+                  :checked="selectedPlan === plan"
                 />
-              </div>
-              <div
-                v-if="plan.type_deal !== 'None'"
-                class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-2/4 ltr:left-2/4"
-                style="
-                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                "
-              >
-                <div class=" ">
-                  {{ $t(plan.type_deal) }}
-                </div>
-              </div>
-              <div
-                class="flex items-center justify-start relative flex-1 rtl:px-5 px-6"
-              >
-                <div class="order-2 mt-[22px] relative flex-1">
-                  <h1
-                    class="font-[500] text-[14px] md:text-[16px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]"
-                  >
-                    {{ $t(plan.title) }} -
-                    <span class="!font-[300] !text-[16px]">{{
-                      $t(plan.type)
-                    }}</span>
-                  </h1>
-                  <h2
-                    class="font-[400] rtl:text-right ltr:text-left text-[14px] leading-[21.86px] text-[#536174] w-3/4 dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]"
-                  >
-                    {{ $t(plan.sub_title) }}
-                  </h2>
-                </div>
-                <div class="order-1 ltr:pr-2 rtl:pl-2">
-                  <input
-                    :id="'plan_' + plan.name"
-                    type="radio"
-                    name="plans_radio"
-                    class="hidden"
-                    @click.stop="selectPlan(plan)"
-                    :value="plan.name"
-                    :checked="selectedPlan === plan"
-                  />
-                  <label
-                    :for="'plan_' + plan.name"
-                    class="flex items-center cursor-pointer"
-                  >
-                    <span class="radio-tamkin"></span>
-                  </label>
-                </div>
+                <label
+                  :for="'plan_' + plan.name"
+                  class="flex items-center cursor-pointer"
+                >
+                  <span class="radio-tamkin"></span>
+                </label>
               </div>
             </div>
+          </div>
+          <div
+            v-if="collapsed"
+            class="flex flex-col items-start justify-center space-y-[12px] mt-[-10px] z-[200] h-auto w-full custom-border-collapse rounded-t-none rounded-[10px] p-4"
+            :class="[
+              selectedPlan && selectedPlan === plan
+                ? 'bg-selected dark:bg-p'
+                : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
+            ]"
+          >
             <div
-              v-if="collapsed"
-              class="flex flex-col items-start justify-center space-y-[12px] mt-[-10px] z-[200] h-auto w-full custom-border-collapse rounded-t-none rounded-[10px] p-4"
-              :class="[
-                selectedPlan && selectedPlan === plan
-                  ? 'bg-selected dark:bg-p'
-                  : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
-              ]"
+              v-for="pf in plan.package_items.sort((a, b) => a.idx - b.idx)"
+              :key="pf.name"
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin"
             >
-              <div
-                v-for="pf in plan.package_items.sort((a, b) => a.idx - b.idx)"
-                :key="pf.name"
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/checked_list_active.svg"
-                    v-if="pf.is_available"
-                  />
-                  <img src="/assets/imgs/checked_list_inactive.svg" v-else />
-                </div>
-                <div>
-                  <h3 class="text-[14px] font-[400] leading-[20px]">
-                    {{ $t(pf.title) }}
-                  </h3>
-                </div>
+              <div>
+                <img
+                  src="/assets/imgs/checked_list_active.svg"
+                  v-if="pf.is_available"
+                />
+                <img src="/assets/imgs/checked_list_inactive.svg" v-else />
+              </div>
+              <div>
+                <h3 class="text-[14px] font-[400] leading-[20px]">
+                  {{ $t(pf.title) }}
+                </h3>
               </div>
             </div>
+          </div>
         </SplideSlide>
       </Splide>
 
