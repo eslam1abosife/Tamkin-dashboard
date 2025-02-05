@@ -937,7 +937,7 @@ const openInvestor = (app, pack) => {
               class="flex items-start justify-start lg:justify-between flex-row"
             >
               <div
-                class="ltr:ml-5 rtl:mr-5 flex items-start rtl:space-x-reverse space-x-[8px] md:space-x-[16px] lg:w-auto w-full"
+                class="ltr:ml-4 rtl:mr-4 flex items-start rtl:space-x-reverse space-x-[8px] md:space-x-[16px] lg:w-auto w-full"
               >
                 <div
                   class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] p cursor-pointer"
