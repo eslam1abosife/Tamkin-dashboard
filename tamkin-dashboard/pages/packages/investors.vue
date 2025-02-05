@@ -233,7 +233,7 @@ const uniqueValues = (items) => {
       >
         <div>
           <h2
-            class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin"
+            class="whitespace-nowrap underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin"
           >
             {{ $t("What’s included?") }}
           </h2>

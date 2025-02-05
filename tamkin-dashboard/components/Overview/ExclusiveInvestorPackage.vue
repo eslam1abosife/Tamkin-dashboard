@@ -25,7 +25,7 @@ onMounted(async ()=>{
         </div>
         <div class="flex items-center justify-end rtl:space-x-reverse space-x-[10px] mt-4 px-[15px] order-2 cursor-pointer" @click="packagesStore.showMoreINInvestors = !packagesStore.showMoreINInvestors">
           <div>
-            <h2 class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin">
+            <h2 class=" whitespace-nowrap underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin">
               {{$t('What’s included?')}}
             </h2>
           </div>
