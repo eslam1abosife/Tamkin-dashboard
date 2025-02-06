@@ -59,7 +59,7 @@ const openBuyModal = (pck) => {
                   ? 'bg-gradient-to-br from-[#2dada3] to-[#71dad2]'
                   : 'bg-[#5E4352]',
               ]"
-              class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-whiteTamkin top-[-15px] rtl:lg:right-[250px] ltr:lg:left-[250px]"
+              class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-whiteTamkin top-[-15px] rtl:lg:right-[50%] ltr:lg:left-[50%]"
             >
               <div class=" ">{{ $t(pak.type_deal) }}</div>
             </div>
@@ -80,7 +80,7 @@ const openBuyModal = (pck) => {
                   {{ $t(pak.title) }}
                 </h1>
                 <h2
-                  class="font-[400] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
+                  class="h-[30px] font-[400] text-[12px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
                 >
                   {{ $t(pak.sub_title) }}
                 </h2>
@@ -165,10 +165,11 @@ const openBuyModal = (pck) => {
                   .filter((k) => k.section === 'Package')
                   .sort((a, b) => a.idx - b.idx)"
                 :key="item.name"
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
               >
-                <div>
+                <div class="w-[25px] h-[25px]">
                   <img
+                    class="w-full h-full"
                     :src="
                       item.is_available
                         ? '/assets/imgs/checked_list_active.svg'
@@ -177,7 +178,9 @@ const openBuyModal = (pck) => {
                   />
                 </div>
                 <div>
-                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                  <h3
+                    class="text-[12px] whitespace-nowrap overflow-hidden font-[400] leading-[20px]"
+                  >
                     {{ $t(item.title) }}
                   </h3>
                 </div>
