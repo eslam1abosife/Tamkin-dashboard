@@ -71,6 +71,7 @@ const loadingCats = ref(true);
 const toggleExpandHeader = () => {
   expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 2;
   expandedHeader.value = expandedHeaderStep.value !== 1;
+  playerStore.toggleCamera();
 };
 
 const { GetCustomCharacterCost } = useEditCustomerCharacter();
@@ -139,13 +140,13 @@ onMounted(async () => {
   loadingCats.value = true;
 
   await getFullDataFormated();
+  playerStore.characters = characters.value;
+  let activeChar = playerStore.backendActiveChar;
+  playerStore.activeCharacter = activeChar;
   GetCustomCharacterCost();
   getCartItems();
   await addScripts(scriptSources);
   // await window.mountAll()
-  playerStore.characters = characters.value;
-  let activeChar = playerStore.backendActiveChar;
-  playerStore.activeCharacter = activeChar;
 
   // playerStore.changeCharacter(activeChar, true);
   if (
