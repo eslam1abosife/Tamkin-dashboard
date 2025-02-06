@@ -13,7 +13,7 @@ const resetAction = async () => {
 
 <template>
   <div
-    class="fixed z-[9999] top-0 md:top-[calc(50vh-255px)] bg-white dark:bg-p rounded-[10px] p-[10px] md:p-[30px] lg:w-[640px] h-full md:h-auto w-full md:w-10/12"
+    class="fixed z-[9999] top-0 md:top-[calc(50vh-255px)] bg-white dark:bg-p rounded-[10px] p-[10px] md:p-[30px] lg:w-[640px] h-full md:h-auto w-full md:w-10/12 right-0 md:right-[10%] lg:right-[33%]"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -67,11 +67,11 @@ const resetAction = async () => {
       </div>
     </div>
     <div
-      class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px]"
+      class="w-full flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px]"
     >
-      <div class="mt-[20px]">
+      <div class="mt-[20px] w-[50%]">
         <button
-          class="btn_bordered_dashboard hover_tamkin"
+          class="btn_bordered_dashboard hover_tamkin w-full"
           @click="
             () => {
               marketStore.resetAll(), marketStore.openResetModal();
@@ -81,9 +81,9 @@ const resetAction = async () => {
           {{ $t("Cancel") }}
         </button>
       </div>
-      <div class="mt-[20px]">
+      <div class="mt-[20px] w-[50%]">
         <button
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin w-full"
           :disabled="loadingReset"
           @click="resetAction"
         >
