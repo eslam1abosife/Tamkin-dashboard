@@ -83,7 +83,7 @@ const {
 } = useGetCategoriesWithSkinItems();
 const playerStore = usePlayerStore();
 const stripeKey = ref(
-  "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
+  "pk_live_51Ph2McGBL82z4GvFODBWUlagN6yODJ6PZ5CrGziXqjoHujlyi6lRbam3JJ6zM3ToBIqBA5sUNYk1YC07Sm3zc5d000QeWgsu30"
 );
 // const { data, status, error, refresh, clear } = await useFetch(
 //   'fulldataformattedmarket',

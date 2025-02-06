@@ -2,7 +2,7 @@
 import { loadStripe } from '@stripe/stripe-js';
 import { ref, onMounted } from 'vue';
 
-const stripeKey = ref('pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM'); 
+const stripeKey = ref('pk_live_51Ph2McGBL82z4GvFODBWUlagN6yODJ6PZ5CrGziXqjoHujlyi6lRbam3JJ6zM3ToBIqBA5sUNYk1YC07Sm3zc5d000QeWgsu30'); 
 const stripeLoaded = ref(false);
 const cardElement = ref(null);
 let stripe = null;

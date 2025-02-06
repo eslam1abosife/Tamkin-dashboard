@@ -56,7 +56,7 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const stripeKey = ref(
-  "pk_test_51Ph2McGBL82z4GvFlZ9QJb913tLp1w6strqfzYtWl9CYEeEDZ4rkfjo2GY15i0SeqZKIc4BDcSSa5otoMwnvlSId00mAcZrsdy"
+  "pk_live_51Ph2McGBL82z4GvFODBWUlagN6yODJ6PZ5CrGziXqjoHujlyi6lRbam3JJ6zM3ToBIqBA5sUNYk1YC07Sm3zc5d000QeWgsu30"
 );
 const stripeLoaded = ref(true);
 const cardOptions = ref({
