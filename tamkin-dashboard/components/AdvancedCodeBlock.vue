@@ -120,7 +120,10 @@
       <h2 class="rtl:text-right ltr:text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
           style="line-height: 23.4px">
 
-          <div v-html="highlightedText"></div>
+          <!-- <div v-html="highlightedText"></div> -->
+           <div>
+            {{ $t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !') }}
+           </div>
       </h2>
     </div>
 </div>
@@ -153,14 +156,15 @@ let copyCodeP = inject('copyP')
 const copyCode = () => {
   copyDone.value = true;
 };
-const highlightPhrase = (text, phrase) => {
-  const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  const regex = new RegExp(`(${escapedPhrase})`, 'gi')
-  return text.replace(regex, `<span class="">$1</span>`)
-}
-const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين'
-const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !')
-const highlightedText = computed(() => highlightPhrase(trn, phraseToHighlight))
+// const highlightPhrase = (text, phrase) => {
+//   const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+//   const regex = new RegExp(`(${escapedPhrase})`, 'gi')
+//   return text.replace(regex, `<span class="">$1</span>`)
+// }
+// const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين';
+// const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !');
+// const highlightedText = computed(() => highlightPhrase(trn, phraseToHighlight));
+
 const {
         isOpen,
         currentView,
