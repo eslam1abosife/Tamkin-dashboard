@@ -12,7 +12,7 @@ export const usePlayerStore = defineStore("player", {
     // player
     characterLoaded: false,
     isFullscreen: false,
-    cameraPosition: 2,
+    cameraPosition: 1,
     userSelectedClothes: {},
     skinCategoryItems: {},
     characters: [],
@@ -477,8 +477,10 @@ export const usePlayerStore = defineStore("player", {
       // return true;
     },
     toggleCamera() {
-      // this.cameraPosition = this.cameraPosition == 1 ? 2 : 1;
-      window.adjustCameraBasedOnCharacter(this.cameraPosition, 250, 500);
+      this.cameraPosition = this.cameraPosition === 1 ? 2 : 1;
+      const pos1 = this.cameraPosition === 1 ? 250 : 600;
+      const pos2 = this.cameraPosition === 1 ? 500 : 650;
+      window.adjustCameraBasedOnCharacter(this.cameraPosition, pos1, pos2);
     },
     toggleFullscreen() {
       // Toggle the full screen state
