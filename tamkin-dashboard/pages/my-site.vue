@@ -932,7 +932,7 @@ const openInvestor = (app, pack) => {
       >
         <div class="inline-block min-w-full align-middle">
           <div
-            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
             style="box-shadow: 0px 4px 24px 8px #51459f1a"
           >
             <div
