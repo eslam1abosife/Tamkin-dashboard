@@ -697,7 +697,9 @@ const openInvestor = (app, pack) => {
               </div>
 
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <div>
+                <div
+                  class="rtl:mr-[-20px] sm:rtl:mr-0 ltr:ml-[-10px] ltr:sm:ml-0"
+                >
                   <a
                     :href="
                       defaultApp ? formatToUrl(defaultApp.app_domain) : '#'

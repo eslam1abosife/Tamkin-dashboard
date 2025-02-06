@@ -156,7 +156,7 @@ onMounted(async () => {
       class="cursor-pointer dark:bg-tamkinDarkPrimary dark:border-darkborder relative flex items-center justify-between space-x-[14px] w-full bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]"
     >
       <div class="flex items-center justify-start w-full space-x-[14px]">
-        <div class=" rtl:ml-3 ltr:mr-3">
+        <div class="rtl:ml-3 ltr:mr-3">
           <UserAvatar :member="profileStore.member" />
         </div>
         <div class="flex flex-col items-start justify-center w-full !mx-0">
@@ -176,7 +176,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="rtl:!mr-0 ltr:!ml-0">
+      <div class="rtl:!mr-[-5px] ltr:!ml-[-5px]">
         <svg
           :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
           width="6"

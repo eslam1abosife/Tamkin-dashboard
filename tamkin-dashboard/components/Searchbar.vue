@@ -162,7 +162,7 @@ const mysiteStore = useMySiteStore();
     <div
       v-if="isSearchfilled"
       @click="clearInput"
-      class="absolute top-[40%] rtl:left-0 cursor-pointer ltr:right-0 lg:top-[16px] lg:p-[16px]"
+      class="absolute top-[40%] rtl:left-[10px] cursor-pointer ltr:right-[10px] lg:top-[16px] lg:p-[16px]"
     >
       <img src="/assets/imgs/icons/clear_search.svg" />
     </div>
