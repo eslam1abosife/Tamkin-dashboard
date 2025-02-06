@@ -927,11 +927,11 @@ const closeModalPackage = () => {
                   "
                 >
                   <td
-                    class="py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                    class="flex justify-between ltr:pr-2 rtl:pl-2 py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin items-center rtl:space-x-reverse space-x-[33px]"
                   >
                     <div class="w-[130px] flex items-center h-[48px]">
                       <div
-                        class="flex items-center justify-between text-[12px] sm:text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
+                        class="flex items-center overflow-y-hidden w-full overflow-x-auto justify-between text-[12px] sm:text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
                       >
                         <div>{{ website.title }}</div>
                         <span

@@ -386,10 +386,10 @@ const sortedPlans = computed(() => {
           arrows: false,
           direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
           breakpoints: {
-            768: {
+            568: {
               perPage: 1,
             },
-            1107: {
+            1170: {
               perPage: 2,
             },
             1424: {
@@ -428,11 +428,11 @@ const sortedPlans = computed(() => {
               </div>
             </div>
             <div
-              class="flex items-center justify-start relative flex-1 rtl:px-5 px-6"
+              class="flex items-center justify-start relative flex-1 ltr:px-[14px] px-[10px]"
             >
               <div class="order-2 mt-[22px] relative flex-1">
                 <h1
-                  class="font-[500] text-[14px] md:text-[16px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]"
+                  class="font-[500] whitespace-nowrap text-[14px] md:text-[16px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]"
                 >
                   {{ $t(plan.title) }} -
                   <span class="!font-[300] !text-[16px]">{{
@@ -440,7 +440,7 @@ const sortedPlans = computed(() => {
                   }}</span>
                 </h1>
                 <h2
-                  class="font-[400] rtl:text-right ltr:text-left text-[14px] leading-[21.86px] text-[#536174] w-3/4 dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]"
+                  class="font-[400] rtl:text-right ltr:text-left text-[13px] leading-[21.86px] text-[#536174] w-full dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]"
                 >
                   {{ $t(plan.sub_title) }}
                 </h2>
