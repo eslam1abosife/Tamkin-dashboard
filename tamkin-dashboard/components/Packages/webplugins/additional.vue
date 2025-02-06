@@ -68,7 +68,7 @@ const openBuyModal = (pck) => {
         :key="addon.name"
         ><div
           style="box-shadow: 0px 4px 4px 0px #00000021"
-          class="h-[200px] p-2 w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[6px] sm:space-y-[7px] items-center justify-start relative z-[10]"
+          class="h-full p-2 pb-4 w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[6px] sm:space-y-[7px] items-center justify-start relative z-[10]"
         >
           <div class="flex items-center justify-center">
             <img
@@ -84,12 +84,13 @@ const openBuyModal = (pck) => {
             {{ $t(addon.title) }}
           </div>
           <div
-            class="text-[#2A285B] h-[30px] overflow-hidden font-[400] text-[10px] text-center w-full dark:text-whiteTamkin"
+            class="text-[#2A285B] font-[400] text-[10px] text-center w-full dark:text-whiteTamkin"
           >
             {{ $t(addon.description) }}
           </div>
 
-          <div class="font-[700] text-[14px] text-black dark:text-whiteTamkin">
+          <div class="!mt-auto">
+            <div class="font-[700] text-[14px] text-black dark:text-whiteTamkin !mt-2">
             $
             {{
               packagesStore.discountType === "month"
@@ -159,7 +160,9 @@ const openBuyModal = (pck) => {
                 class="fill-[#021328] group-hover:fill-white dark:fill-whiteTamkin"
               />
             </svg>
-          </div></div></SplideSlide
+          </div></div>
+          </div>
+          </SplideSlide
     ></Splide>
   </div>
 </template>

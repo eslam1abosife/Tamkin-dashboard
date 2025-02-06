@@ -143,7 +143,7 @@ onUnmounted(() => {
         },
         width: '100%',
       }"
-      class="max-md:pb-7 relative z-50 !mt-0"
+      class="pb-8 relative z-50 !mt-0"
     >
       <SplideSlide
         v-for="addon in packagesStore
@@ -152,7 +152,7 @@ onUnmounted(() => {
         :key="addon.name"
       >
         <div
-          class="h-[300px] w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white relative rounded-tl-[2px] rounded-br-[2px] p-[16px] rounded-tr-[22px] rounded-bl-[22px] flex flex-col items-center justify-start"
+          class="h-full w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white relative rounded-tl-[2px] rounded-br-[2px] p-[16px] rounded-tr-[22px] rounded-bl-[22px] flex flex-col items-center justify-start"
           style="box-shadow: 0px 4px 4px 0px #00000021"
         >
           <div class="flex flex-col items-center justify-start w-full">
@@ -179,8 +179,8 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <div class="flex flex-col items-center justify-center w-full">
-            <div class="absolute bottom-[60px]">
+          <div class="!mt-auto flex flex-col items-center justify-center w-full">
+            <div class=" bottom-[60px]">
               <div class="dark:text-whiteTamkin">
                 <span class="text-[16px] leading-[18px] font-[700]">
                   $
@@ -237,7 +237,7 @@ onUnmounted(() => {
             </div>
             <div
               @click="openBuyModal(addon)"
-              class="absolute bottom-[18px] dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
+              class=" bottom-[18px] dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
             >
               <div class="dark:text-whiteTamkin">{{ $t("Purchase Now") }}</div>
               <svg
