@@ -1056,7 +1056,7 @@ const openInvestor = (app, pack) => {
                     <div
                       v-if="isSearchfilled"
                       @click.stop="clearInput"
-                      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+                      class="absolute top-1/2 -translate-y-1/2 rtl:left-0 ltr:right-[0] p-2 md:p-[16px] cursor-pointer"
                     >
                       <img src="/assets/imgs/icons/clear_search.svg" />
                     </div>
@@ -2425,7 +2425,7 @@ const openInvestor = (app, pack) => {
                     <div
                       v-if="isSearchfilled"
                       @click.stop="clearInput"
-                      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+                      class="absolute top-1/2 -translate-y-1/2 rtl:left-0 ltr:right-[0] p-2 md:p-[16px] cursor-pointer"
                     >
                       <img src="/assets/imgs/icons/clear_search.svg" />
                     </div>
