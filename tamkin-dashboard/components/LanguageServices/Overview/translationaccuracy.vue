@@ -408,7 +408,7 @@ const options = ref({
       </div>
     </div>
   </div>
-  <div velse
+  <div v-else
   class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
 >
   <div class="flex items-center justify-start">
