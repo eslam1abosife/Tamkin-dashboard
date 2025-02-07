@@ -44,31 +44,31 @@ const getNavLinkIndex = (path) => {
 };
 
 // Watch route changes and update slider position
-watchEffect(() => {
-  currentRoute.value = route.path;
-  nextTick(() => {
-    // Ensure layout is fully rendered before moving the slider
-    moveSlider(currentRoute.value);
-  });
-});
+// watchEffect(() => {
+//   currentRoute.value = route.path;
+//   nextTick(() => {
+//     // Ensure layout is fully rendered before moving the slider
+//     moveSlider(currentRoute.value);
+//   });
+// });
 
-onMounted(() => {
-  slider.value.style.transition = "none"; // Disable transition on mount
-  setTimeout(() => {
+// onMounted(() => {
+//   slider.value.style.transition = "none"; // Disable transition on mount
+//   setTimeout(() => {
 
-  nextTick(() => {
-  moveSlider(currentRoute.value);
+//   nextTick(() => {
+//   moveSlider(currentRoute.value);
 
-    slider.value.style.transition = "transform 0.1s ease-in-out, width 0.1s ease-in-out"; // Enable transition after layout
-  });
-}, 0); // Add a slight delay to ensure the layout is fully calculated
+//     slider.value.style.transition = "transform 0.1s ease-in-out, width 0.1s ease-in-out"; // Enable transition after layout
+//   });
+// }, 0); // Add a slight delay to ensure the layout is fully calculated
 
 
-});
+// });
 
-watch([() => route.path, () => width.value], () => {
-  moveSlider(currentRoute.value);
-});
+// watch([() => route.path, () => width.value], () => {
+//   moveSlider(currentRoute.value);
+// });
 
 </script>
 
@@ -78,10 +78,10 @@ watch([() => route.path, () => width.value], () => {
     class="shadow-sm absolute gap-0 md:gap-[10px] overflow-y-auto z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
   >
     <!-- Slider -->
-    <div
+    <!-- <div
       ref="slider"
       class="absolute border-[1px] border-black top-[6px] left-0 bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar w-0 h-[31px] rounded-[22px] transition-all ease-in-out"
-    ></div>
+    ></div> -->
 
     <!-- Links -->
     <nuxt-link
@@ -135,6 +135,10 @@ a {
 /* Slider Transition */
 .slider {
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.router-link-active {
+  @apply border-[1px] rounded-[20px] border-black bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar;
 }
 
 /* Add hover effect */
