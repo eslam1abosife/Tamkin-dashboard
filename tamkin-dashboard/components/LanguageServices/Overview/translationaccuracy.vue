@@ -307,7 +307,7 @@ const options = ref({
             </div>
           </div>
           <div
-            class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
+            class="text-[17px] md:text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
           >
             {{ statsStore.sign_languageStats.total }}
           </div>
@@ -327,7 +327,7 @@ const options = ref({
             </div>
           </div>
           <div
-            class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
+            class="text-[17px] md:text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
           >
             {{ statsStore.sign_languageStats.used }}
           </div>
@@ -347,7 +347,7 @@ const options = ref({
             </div>
           </div>
           <div
-            class="text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
+            class="text-[17px] md:text-[24px] leading-[16px] font-[600] text-darkGrey dark:text-white/80"
           >
             {{
               Number(statsStore.sign_languageStats.total) -
@@ -372,7 +372,7 @@ const options = ref({
                   {{ $t("Translated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{ statsStore.translation_quality.translated_content }}
                   {{ $t("Words") }}
@@ -401,7 +401,7 @@ const options = ref({
                   {{ $t("Untranslated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{ statsStore.translation_quality.untranslated_content }}
                   {{ $t("Words") }}
