@@ -39,7 +39,7 @@ const customizeStore = useCustomizeStore();
         </h1>
 
         <h2
-          class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
+          class="rtl:text-right lrt:text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
         >
           <span v-if="!collapseStore.collapses.includes('webPlugins')">
             {{
