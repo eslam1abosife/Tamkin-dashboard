@@ -665,7 +665,7 @@ const loadscountSummary = computed(
 
     <div
       v-if="!collapseStore.collapses.includes('select_date_range_card')"
-      class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-x-hidden "
+      class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg"
     >
       <MessagesLockedFeature
         v-if="

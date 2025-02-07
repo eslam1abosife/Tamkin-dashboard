@@ -155,8 +155,8 @@ function calculatePercentage(total, usage) {
                     !collapseStore.collapses.includes(
                       "live_translation_stats_card"
                     )
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -202,14 +202,15 @@ function calculatePercentage(total, usage) {
           "
           class="overflow-x-hidden"
         >
-        <!-- start code collabse -->
-        <MessagesLockedFeature
-          v-if="
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Accessibility'
-            ).length === 0
-          "
-        /></div>
+          <!-- start code collabse -->
+          <MessagesLockedFeature
+            v-if="
+              navStore.defaultappobj?.package?.filter(
+                (p) => p.type === 'Accessibility'
+              ).length === 0
+            "
+          />
+        </div>
 
         <div
           v-if="

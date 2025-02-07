@@ -166,8 +166,8 @@ const handleSelectedItemProjectName = (item: any) => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("sign_keyboard_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                ? $t("Minisize")
+                : $t("Maxsize")
               }}
             </div>
           </div>

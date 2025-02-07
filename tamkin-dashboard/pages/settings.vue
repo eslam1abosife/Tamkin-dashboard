@@ -545,7 +545,7 @@ const componentKey = ref(0);
 
           <div
             v-if="customizeStore.isAccessibilityResetActive"
-            class="mt-[30px] pb-[15px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+            class="mt-[30px] pb-[19px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
           >
             <div class="flex items-start justify-start">
               <div class="">
