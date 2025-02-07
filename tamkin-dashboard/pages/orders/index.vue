@@ -544,7 +544,7 @@ const setPageSize = (size: number) => {
           </button>
           <button
             v-if="totalPages > 5 && currentPage > 4"
-            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-3 py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             ...
           </button>
@@ -555,7 +555,7 @@ const setPageSize = (size: number) => {
             :key="page"
             @click="currentPage = page"
             :class="[
-              'px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center',
+              'px-3 py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center',
               {
                 'bg-gradient-to-b from-[#2dada3] to-[#71dad2] text-white':
                   currentPage === page,
@@ -569,14 +569,14 @@ const setPageSize = (size: number) => {
           <!-- Always show the last two pages -->
           <button
             v-if="totalPages > 5 && currentPage < totalPages - 3"
-            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-3 py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             ...
           </button>
           <button
             v-if="totalPages > 5 && currentPage < totalPages - 2"
             @click="currentPage = totalPages"
-            class="px-2 md:px-3 py-0 md:py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
+            class="px-3 py-1 rounded-md w-auto md:w-[28px] h-auto md:h-[28px] max-md:text-[12px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey"
           >
             {{ totalPages }}
           </button>

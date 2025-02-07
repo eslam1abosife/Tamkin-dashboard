@@ -486,7 +486,7 @@ const componentKey = ref(0);
                   class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
-                    class="flex items-center justify-start space-x-[13px] w-full"
+                    class="flex items-center justify-start gap-x-[13px] w-full"
                   >
                     <div
                       class="flex flex-col items-start justify-center w-full"
@@ -500,7 +500,7 @@ const componentKey = ref(0);
                         }}</span>
                       </div>
                     </div>
-                    <div class="ml-auto">
+                    <div class="ms-auto">
                       <label :for="setting.name" class="toggle_wrap">
                         <input
                           type="checkbox"
