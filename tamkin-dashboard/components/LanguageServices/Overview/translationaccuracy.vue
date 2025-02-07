@@ -357,7 +357,7 @@ const options = ref({
         </div>
       </div>
 
-      <div class="flex items-center justify-between w-full mt-[66px]">
+      <div class="flex items-center justify-between gap-1 w-full mt-[66px]">
         <div class="grid grid-cols-12 w-full">
           <div
             class="rounded-[10px] col-span-12 dark:bg-tamkinDarkPrimary lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
@@ -367,12 +367,12 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] dark:text-whiteTamkin font-[500] text-darkGrey"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px] leading-[20px] dark:text-whiteTamkin font-[500] text-darkGrey"
                 >
                   {{ $t("Translated content") }}
                 </h2>
                 <h1
-                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[14px] whitespace-nowrap md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{ statsStore.translation_quality.translated_content }}
                   {{ $t("Words") }}
@@ -396,12 +396,12 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Untranslated content") }}
                 </h2>
                 <h1
-                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[14px] whitespace-nowrap md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{ statsStore.translation_quality.untranslated_content }}
                   {{ $t("Words") }}
@@ -433,7 +433,7 @@ const options = ref({
             />
           </div>
           <div
-            class="text-[18px] dark:text-whiteTamkin leading-[28px] mt-[14px] font-[500] text-[#021328]"
+            class="whitespace-nowrap text-[12px] sm:text-[16px] dark:text-whiteTamkin leading-[28px] mt-[14px] font-[500] text-[#021328]"
           >
             {{ $t("Translation Accuracy") }}
           </div>

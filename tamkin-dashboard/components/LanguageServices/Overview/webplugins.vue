@@ -363,12 +363,8 @@ watchEffect(() => {
       ]"
     >
       <!-- Skeleton loader for the header -->
-      <div
-        class="flex items-center justify-start dark:bg-p pt-[16px] animate-pulse"
-      >
-        <div
-          class="h-4 bg-gray-300 dark:bg-tamkinDarkPrimary rounded w-1/2"
-        ></div>
+      <div class="flex items-center justify-start pt-[16px] animate-pulse">
+        <div class="h-4 bg-gray-300 dark:bg-p rounded w-1/2"></div>
 
         <div class="space-y-2">
           <div

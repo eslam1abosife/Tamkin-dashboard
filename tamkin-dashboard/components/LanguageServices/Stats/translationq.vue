@@ -374,7 +374,7 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px]] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Translated content") }}
                 </h2>
@@ -405,7 +405,7 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Untranslated content") }}
                 </h2>

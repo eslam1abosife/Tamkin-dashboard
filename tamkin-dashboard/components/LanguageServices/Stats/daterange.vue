@@ -895,7 +895,7 @@ const loadscountSummary = computed(
               </div>
             </div>
           </div>
-          <div class="lg:mr-[-15px] lg:px-[15px] max-md:w-full">
+          <div class=" max-md:w-full">
             <div
               v-if="statsStore.loadingStats"
               class="bg-gray-200 dark:bg-p animate-pulse w-[160px] h-[32px] rounded-[13px]"
