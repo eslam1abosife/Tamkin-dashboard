@@ -535,23 +535,23 @@ const closeModalPackage = () => {
         >
           <div class="flex items-center justify-between w-full pt-[24px]">
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px]"
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px] md:space-x-[12px]"
             >
               <div>
                 <img
                   :src="`https://tamkin.app/${addSiteStore.currentPackage.icon}`"
-                  class="w-[32px] h-[32px]"
+                  class="w-[28px] h-[28px] md:w-[32px] md:h-[32px]"
                   alt=""
                 />
               </div>
               <div
-                class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center"
+                class="font-[600] text-[13px] md:text-[16px] leading-[30px] text-black dark:text-white text-center"
               >
                 {{ $t(addSiteStore.currentPackage.title) }}
               </div>
             </div>
             <div
-              class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center"
+              class="font-[400] text-[13px] md:text-[16px] leading-[30px] text-black dark:text-white text-center"
             >
               {{ $t(addSiteStore.currentPackage.type) }}
             </div>
@@ -927,11 +927,11 @@ const closeModalPackage = () => {
                   "
                 >
                   <td
-                    class="py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                    class="flex ltr:pr-2 gap-1 rtl:pl-2 py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin items-center rtl:space-x-reverse space-x-[33px]"
                   >
-                    <div class="w-[130px] flex items-center h-[48px]">
+                    <div class="truncate max-w-[130px] w-fit flex items-center h-[48px]">
                       <div
-                        class="flex items-center justify-between text-[12px] sm:text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
+                        class="flex items-center overflow-y-hidden w-full overflow-x-auto justify-between text-[12px] sm:text-[14px] leading-[12px] text-[#18181B] dark:text-white font-[500] whitespace-nowrap"
                       >
                         <div>{{ website.title }}</div>
                         <span
@@ -967,7 +967,7 @@ const closeModalPackage = () => {
                       </div>
                     </div>
                     <div
-                      class="cursor-pointer"
+                      class="cursor-pointer !m-0"
                       @click="removeWebsite(website.title)"
                     >
                       <svg

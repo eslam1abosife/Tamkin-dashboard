@@ -497,7 +497,7 @@ const percentageOff = computed(() => {
                     />
                   </div>
                   <div
-                    class="text-[16px] leading-[44px] rtl:font-[Almarai] ltr:font-[Poppins] font-[600] text-darkGrey dark:text-whiteTamkin"
+                    class="whitespace-nowrap text-[16px] leading-[44px] rtl:font-[Almarai] ltr:font-[Poppins] font-[600] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Pay Via Crypto") }}
                   </div>
@@ -543,7 +543,7 @@ const percentageOff = computed(() => {
                     />
                   </div>
                   <div
-                    class="text-[16px] leading-[44px] rtl:font-[Almarai] font-[600] text-darkGrey dark:text-whiteTamkin"
+                    class="whitespace-nowrap text-[16px] leading-[44px] rtl:font-[Almarai] font-[600] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Pay Via PayPal") }}
                   </div>

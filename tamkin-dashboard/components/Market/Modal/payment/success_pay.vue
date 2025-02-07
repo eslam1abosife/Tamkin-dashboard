@@ -3,6 +3,7 @@ const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
+const marketStore = useMarketStore();
 import {
   useGetCategoriesWithSkinItems,
   useCart,
@@ -36,6 +37,7 @@ return navigateTo('successPayment_market', 'market', 'paymentMethods_market')
   })
    
   closeModal('successPayment_market')
+  marketStore.cartItems = [];
   await getFullDataFormated();
   await getCartItems();
   playerStore.characters = characters.value;

@@ -95,7 +95,7 @@ const filteredPackages = computed(() => {
         >
           <div
             v-if="pack.type_deal !== 'None'"
-            class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:lg:right-[250px] ltr:lg:left-[250px]"
+            class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:lg:right-[50%] ltr:lg:left-[50%]"
             style="
               background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
             "

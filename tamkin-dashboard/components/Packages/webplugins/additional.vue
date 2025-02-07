@@ -47,11 +47,14 @@ const openBuyModal = (pck) => {
         gap: 16,
         perPage: 4,
         breakpoints: {
-          768: {
+          568: {
             perPage: 1,
           },
           877: {
             perPage: 2,
+          },
+          1000: {
+            perPage: 3,
           },
         },
         width: '100%',
@@ -65,9 +68,9 @@ const openBuyModal = (pck) => {
         :key="addon.name"
         ><div
           style="box-shadow: 0px 4px 4px 0px #00000021"
-          class="h-[250px] w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[6px] sm:space-y-[14px] items-center justify-start relative z-[10]"
+          class="h-full p-2 pb-4 w-full dark:bg-tamkinDarkPrimary dark:text-whiteTamkin bg-white rounded-[10px] flex flex-col space-y-[6px] sm:space-y-[7px] items-center justify-start relative z-[10]"
         >
-          <div class="mt-[14px] flex items-center justify-center">
+          <div class="flex items-center justify-center">
             <img
               :src="`https://tamkin.app/${addon.icon}`"
               class="w-[42px] h-[42px]"
@@ -81,14 +84,13 @@ const openBuyModal = (pck) => {
             {{ $t(addon.title) }}
           </div>
           <div
-            class="text-[#2A285B] font-[400] text-[10px] text-center w-3/4 dark:text-whiteTamkin"
+            class="text-[#2A285B] font-[400] text-[10px] text-center w-full dark:text-whiteTamkin"
           >
             {{ $t(addon.description) }}
           </div>
 
-          <div
-            class="font-[700] text-[14px] text-black absolute bottom-[2.7rem] dark:text-whiteTamkin max-md:bottom-[4.7rem] xl:bottom-[4.7rem]"
-          >
+          <div class="!mt-auto">
+            <div class="font-[700] text-[14px] text-black dark:text-whiteTamkin !mt-2">
             $
             {{
               packagesStore.discountType === "month"
@@ -109,7 +111,7 @@ const openBuyModal = (pck) => {
               addon.package_price_role[0].discount_month ||
               addon.package_price_role[0].discount_yearly
             "
-            class="flex items-center justify-center w-full absolute bottom-[1.7rem] max-md:bottom-[3.3rem] xl:bottom-[3.3rem]"
+            class="flex items-center justify-center w-full"
           >
             <!-- Strikethrough price if there's a discount and both costs are non-zero -->
             <div
@@ -142,7 +144,7 @@ const openBuyModal = (pck) => {
 
           <div
             @click="openBuyModal(addon)"
-            class="absolute bottom-[0.75rem] max-md:bottom-7 xl:bottom-7 dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
+            class="dark:text-whiteTamkin text-[#18191F] text-[11px] font-[600] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
           >
             <div>{{ $t("Purchase Now") }}</div>
             <svg
@@ -158,7 +160,9 @@ const openBuyModal = (pck) => {
                 class="fill-[#021328] group-hover:fill-white dark:fill-whiteTamkin"
               />
             </svg>
-          </div></div></SplideSlide
+          </div></div>
+          </div>
+          </SplideSlide
     ></Splide>
   </div>
 </template>

@@ -170,26 +170,26 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 
                   </div>
                 </div>
-                <div v-if="mySiteStore.currentPackage.status === 'not_installed'" class="bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-[17px]  flex items-center justify-center 
+                <div v-if="mySiteStore.currentPackage.status === 'not_installed'" class="bg-gradient-to-r px-3 from-yellow-600 to-yellow-400 rounded-[17px]  flex items-center justify-center 
                     h-[25px] w-full max-w-[100px] text-white text-[12px] leading-[18px]">
                   {{ $t(`Not Installed`) }}
                 </div>
-                <div v-if="mySiteStore.currentPackage.status === 'Expired'" class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+                <div v-if="mySiteStore.currentPackage.status === 'Expired'" class="bg-gradient-to-r px-3 from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
                     h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]">
                   {{ $t(`Expired`) }}
                 </div>
 
-                <div v-if="mySiteStore.currentPackage.status === 'Active'" class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
+                <div v-if="mySiteStore.currentPackage.status === 'Active'" class="bg-gradient-to-r px-3 from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
                   h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]">
                   {{ $t(`Active`) }}
                 </div>
                 <div
                   v-if="mySiteStore.currentWebsite.status === 'Rejected' || mySiteStore.currentPackage.status === 'Rejected' || mySiteStore.currentPackage.status === 'Cancelled'"
-                  class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+                  class="bg-gradient-to-r px-3 from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
                   h-[25px]  w-[100px] text-white text-[12px] leading-[18px]">
                   {{ $t(`Rejected`) }}
                 </div>
-                <div v-if="mySiteStore.currentPackage.status === 'Pending'" class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+                <div v-if="mySiteStore.currentPackage.status === 'Pending'" class="bg-gradient-to-r px-3 from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
                     h-[25px] max-w-[150px] w-3/4 text-white text-[12px] leading-[18px]">
                   {{ mySiteStore.currentPackage.status === 'Pending' ? $t('Under Review') :
                     $t(`${mySiteStore.currentPackage.status}`) }}

@@ -265,7 +265,9 @@ html {
 .v3ti .v3ti-new-tag {
     @apply mt-[23px] focus:outline-none focus:ring-0;
 }
-
+.v3ti-tag {
+    @apply max-md:!max-w-[85%] max-md:!overflow-x-auto;
+}
 .v3ti .v3ti-tag .v3ti-remove-tag {
     color: transparent;
     transition: color .3s;

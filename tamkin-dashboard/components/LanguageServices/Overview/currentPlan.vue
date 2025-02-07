@@ -147,7 +147,7 @@ const getCurrentAccessPackage = computed(() => {
           </button>
         </div>
         <div
-          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-[#26687945]/[27%] t"
+          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-tamkinEnd lg:to-[#c8fdf9] dark:to-[#26687945]/[27%] "
         >
           <div
             class="flex flex-col items-start justify-center w-full px-[15px]"
@@ -254,12 +254,16 @@ const getCurrentAccessPackage = computed(() => {
           </div>
 
           <div
-            class="rtl:mr-auto rtl:scale-x-[-1] ltr:ml-auto h-full w-full md:block hidden"
+            class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden"
           >
             <!-- <img
               src="/imgs/vector_plan.png"
               class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
             /> -->
+            <img
+                :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
+                class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
+                :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
           </div>
         </div>
 

@@ -458,11 +458,11 @@ const setPageSize = (size: number) => {
 
     <div
       v-if="orders.length > 0"
-      class="flex flex-col md:flex-row justify-between items-center py-[16px] gap-y-3"
+      class="flex flex-row justify-between items-center py-[16px] gap-1"
     >
       <div class="flex items-center rtl:space-x-reverse max-md:w-full space-x-2">
         <span
-          class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+          class="dark:text-whiteTamkin text-darkGrey text-[11px] whitespace-nowrap leading-[21px] font-[400]"
         >
           {{ $t("Per Page") }}
         </span>

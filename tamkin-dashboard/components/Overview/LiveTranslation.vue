@@ -291,8 +291,8 @@ const navStore = useNavbarStore();
                   !collapseStore.collapses.includes(
                     "livetranslation_overview_card"
                   )
-                    ? "Minisize"
-                    : "Maxsize"
+                    ? $t("Minisize")
+                    : $t("Maxsize")
                 }}
               </div>
             </div>

@@ -9,7 +9,7 @@ import {
 } from "@/composables/useMarket";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-const { locale,t } = useI18n();
+const { locale, t } = useI18n();
 
 const { getAvatarLetters } = useGetAvatarLetters();
 const {
@@ -364,8 +364,7 @@ function leaveNotification(el, done) {
 const handleScriptLoad = async () => {};
 useHead({
   title: t("Market - Tamkin Dashboard"),
-
-})
+});
 //  useHead({
 //   script: [
 //     {
@@ -477,20 +476,24 @@ const settingStore = useSettingsStore();
         <div
           v-else
           class="mb-[10px] space-x-[8px] h-[41px] flex items-center justify-start rtl:space-x-reverse rounded-[5px] -shadow-y-1"
-        >
+        >  <div
+            class="text-[12px] font-[500] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ defaultApp ? defaultApp.app_domain : $t("No Site Selected!") }}
+          </div>
           <div>
             <div
               v-if="!defaultApp?.favicon"
               class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
             >
-              <span v-if="defaultApp">
-                {{ defaultApp ? getAvatarLetters(defaultApp?.title) : "" }}
-              </span>
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
-                v-else
+                v-if="!defaultApp"
               />
+              <span v-else>
+                {{ defaultApp ? getAvatarLetters(defaultApp?.title) : "" }}
+              </span>
             </div>
             <div v-if="defaultApp?.favicon">
               <img
@@ -500,11 +503,7 @@ const settingStore = useSettingsStore();
               />
             </div>
           </div>
-          <div
-            class="text-[12px] font-[500] text-darkGrey dark:text-whiteTamkin"
-          >
-            {{ defaultApp ? defaultApp.app_domain : $t("No Site Selected!") }}
-          </div>
+         
         </div>
       </div>
 

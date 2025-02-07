@@ -65,7 +65,7 @@ const settingsStore = useSettingsStore();
               ? 'active_notification !text-darkGrey'
               : '',
           ]"
-          class="menu_button_control"
+          class="menu_button_control mt-[-8px]"
         >
           <svg
             width="18"
@@ -240,12 +240,12 @@ const settingsStore = useSettingsStore();
                       <img
                         v-if="isChecked(item.name)"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-[28px]  absolute left-0  h-[28px]"
+                        class="w-[28px] absolute left-0 h-[28px]"
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-[28px]  absolute left-0  h-[28px]"
+                        class="w-[28px] absolute left-0 h-[28px]"
                       />
                     </div>
                   </div>

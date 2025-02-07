@@ -295,8 +295,8 @@ const componentKey = ref(0);
             class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('general_settings_card')
-                ? 'pb-[24px]'
-                : 'pb-[20px]',
+                ? 'pb-[19px]'
+                : 'pb-[15px]',
             ]"
           >
             <div class="flex items-center justify-start">
@@ -545,7 +545,7 @@ const componentKey = ref(0);
 
           <div
             v-if="customizeStore.isAccessibilityResetActive"
-            class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+            class="mt-[30px] pb-[19px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
           >
             <div class="flex items-start justify-start">
               <div class="">
@@ -790,8 +790,8 @@ const componentKey = ref(0);
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative"
             :class="[
               collapseStore.collapses.includes('license_settings_card')
-                ? 'pb-[24px]'
-                : 'pb-[20px]',
+                ? 'pb-[19px]'
+                : 'pb-[15px]',
             ]"
           >
             <div class="flex items-start justify-start pt-[24px]">

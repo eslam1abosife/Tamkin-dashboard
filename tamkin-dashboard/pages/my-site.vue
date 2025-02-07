@@ -668,6 +668,17 @@ const openInvestor = (app, pack) => {
                 }}
                </span> -->
                 </div>
+                <div
+                v-if="
+                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
+                "
+              >
+                <img
+                  v-if="defaultApp && defaultApp.favicon"
+                  :src="defaultApp.favicon"
+                  class="w-[40px] h-[40px] rounded-full block"
+                />
+              </div>
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
@@ -684,20 +695,12 @@ const openInvestor = (app, pack) => {
                   </h2>
                 </div>
               </div>
-              <div
-                v-if="
-                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
-                "
-              >
-                <img
-                  v-if="defaultApp && defaultApp.favicon"
-                  :src="defaultApp.favicon"
-                  class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
-                />
-              </div>
+              
 
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <div>
+                <div
+                  class="rtl:mr-[-20px] sm:rtl:mr-0 ltr:ml-[-10px] ltr:sm:ml-0"
+                >
                   <a
                     :href="
                       defaultApp ? formatToUrl(defaultApp.app_domain) : '#'
@@ -930,7 +933,7 @@ const openInvestor = (app, pack) => {
       >
         <div class="inline-block min-w-full align-middle">
           <div
-            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+            class="flex flex-col justify-start overflow-y-auto rounded-[10px] pt-[12px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
             style="box-shadow: 0px 4px 24px 8px #51459f1a"
           >
             <div
@@ -1054,7 +1057,7 @@ const openInvestor = (app, pack) => {
                     <div
                       v-if="isSearchfilled"
                       @click.stop="clearInput"
-                      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+                      class="absolute top-1/2 -translate-y-1/2 rtl:left-0 ltr:right-[0] p-2 md:p-[16px] cursor-pointer"
                     >
                       <img src="/assets/imgs/icons/clear_search.svg" />
                     </div>
@@ -2423,7 +2426,7 @@ const openInvestor = (app, pack) => {
                     <div
                       v-if="isSearchfilled"
                       @click.stop="clearInput"
-                      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+                      class="absolute top-1/2 -translate-y-1/2 rtl:left-0 ltr:right-[0] p-2 md:p-[16px] cursor-pointer"
                     >
                       <img src="/assets/imgs/icons/clear_search.svg" />
                     </div>
@@ -2466,14 +2469,14 @@ const openInvestor = (app, pack) => {
       </div>
 
       <div
-        class="flex flex-col md:flex-row justify-between items-center py-[16px] gap-y-3"
+        class="flex flex-row justify-between items-center py-[16px] gap-1"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
         <div
           class="flex items-center rtl:space-x-reverse max-md:w-full space-x-2"
         >
           <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+            class="dark:text-whiteTamkin text-darkGrey text-[11px] whitespace-nowrap leading-[21px] font-[400]"
           >
             {{ $t("Per Page") }}
           </span>

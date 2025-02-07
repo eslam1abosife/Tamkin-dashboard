@@ -13,9 +13,10 @@ const levelTraffic = ref("");
 const switchBetweenMonthlyAndAnnual = (v: any) => {
   packagesStore.discountType = v;
 };
-
+const keySlider = ref(0);
 const geteFilterInfo = (level: any) => {
   packagesStore.traffic_level = level.name;
+  keySlider.value += 1;
 };
 
 onUpdated(async () => {
@@ -159,7 +160,7 @@ const uniqueValues = (items) => {
       class="flex flex-col items-center justify-center w-full bg-white mt-5 md:mt-[85px] dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin"
     >
       <div class="w-full flex flex-col items-center justify-center px-[18px]">
-        <PackagesAccessibilityPricing />
+        <PackagesAccessibilityPricing :key="keySlider"/>
       </div>
 
       <PackagesAccessibilityWidgetcard

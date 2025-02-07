@@ -584,23 +584,23 @@ const closeModalPackage = () => {
         >
           <div class="flex items-center justify-between w-full pt-[24px]">
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px]"
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px] md:space-x-[12px]"
             >
               <div>
                 <img
                   :src="`https://tamkin.app/${mysiteStore.currentPackage.icon}`"
-                  class="w-[32px] h-[32px]"
+                  class="w-[28px] h-[28px] md:w-[32px] md:h-[32px]"
                   alt=""
                 />
               </div>
               <div
-                class="font-[600] text-[16px] leading-[30px] text-black dark:text-white text-center"
+                class="font-[600] text-[13px] md:text-[16px] leading-[30px] text-black dark:text-white text-center"
               >
                 {{ $t(mysiteStore.currentPackage.title) }}
               </div>
             </div>
             <div
-              class="font-[400] text-[16px] leading-[30px] text-black dark:text-white text-center"
+              class="font-[400] text-[13px] md:text-[16px] leading-[30px] text-black dark:text-white text-center"
             >
               {{ $t(mysiteStore.currentPackage.type) }}
             </div>

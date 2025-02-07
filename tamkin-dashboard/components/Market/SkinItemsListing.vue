@@ -162,8 +162,8 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <button :disabled="!defaultApp" @click.stop="() => {
-              if (defaultApp) {
+            <button :disabled="!defaultApp || defaultApp.package.length <= 0" @click.stop="() => {
+              if (defaultApp || defaultApp.package.length >= 1) {
                 marketStore.addSkinToCart(
                   skin_item,
                   'skin_Item',
@@ -178,15 +178,15 @@ onUnmounted(() => {
                   : '',
               ]"
               class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder">
-              <div v-if="!defaultApp"
-                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200">
-                {{ $t("You have to set A default website to use the market") }}
+              <div v-if="!defaultApp || defaultApp.package.length <= 0"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10">
+                {{ $t("You have to set A default website and purchase A packege to use the market") }}
               </div>
               <svg :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'text-white'
                   : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : '',
+                (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
               ]" class="group-hover:text-white" width="25" height="25" viewBox="0 0 23 23" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -215,8 +215,8 @@ onUnmounted(() => {
             <div class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]">
               ${{ skin_item.cost }}
             </div>
-            <button :disabled="!defaultApp" @click.stop="() => {
-              if (defaultApp) {
+            <button :disabled="!defaultApp || defaultApp.package.length <= 0" @click.stop="() => {
+              if (defaultApp || defaultApp.package.length >= 1) {
                 marketStore.addToCart(
                   skin_item,
                   'skin_Item',
@@ -231,15 +231,15 @@ onUnmounted(() => {
                   : '',
               ]"
               class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder">
-              <div v-if="!defaultApp"
-                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200">
-                {{ $t("You have to set A default website to use the market") }}
+              <div v-if="!defaultApp || defaultApp.package.length <= 0"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10">
+                {{ $t("You have to set A default website and purchase A packege to use the market") }}
               </div>
               <svg :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'text-white'
                   : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : '',
+                (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
               ]" class="group-hover:text-white" width="25" height="25" viewBox="0 0 23 23" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -390,8 +390,8 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <button :disabled="!defaultApp" @click.stop="() => {
-              if (defaultApp) {
+            <button :disabled="!defaultApp || defaultApp.package.length <= 0" @click.stop="() => {
+              if (defaultApp || defaultApp.package.length >= 1) {
                 marketStore.addSkinToCart(
                   skin_item,
                   'skin_Item',
@@ -406,15 +406,15 @@ onUnmounted(() => {
                   : '',
               ]"
               class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder">
-              <div v-if="!defaultApp"
-                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200">
-                {{ $t("You have to set A default website to use the market") }}
+              <div v-if="!defaultApp || defaultApp.package.length <= 0"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10">
+                {{ $t("You have to set A default website and purchase A packege to use the market") }}
               </div>
               <svg :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'text-white'
                   : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : '',
+                (!defaultApp|| defaultApp.package.length <= 0) ? '!text-tamkin' : '',
               ]" class="group-hover:text-white" width="25" height="25" viewBox="0 0 23 23" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -443,8 +443,8 @@ onUnmounted(() => {
             <div class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]">
               ${{ skin_item.cost }}
             </div>
-            <button :disabled="!defaultApp" @click.stop="() => {
-              if (defaultApp) {
+            <button :disabled="!defaultApp || defaultApp.package.length <= 0" @click.stop="() => {
+              if (defaultApp || defaultApp.package.length >= 1) {
                 marketStore.addToCart(
                   skin_item,
                   'skin_Item',
@@ -459,15 +459,15 @@ onUnmounted(() => {
                   : '',
               ]"
               class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder">
-              <div v-if="!defaultApp"
-                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200">
-                {{ $t("You have to set A default website to use the market") }}
+              <div v-if="!defaultApp || defaultApp.package.length <= 0"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10">
+                {{ $t("You have to set A default website and purchase A packege to use the market") }}
               </div>
               <svg :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'text-white'
                   : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : '',
+                (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
               ]" class="group-hover:text-white" width="25" height="25" viewBox="0 0 23 23" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path

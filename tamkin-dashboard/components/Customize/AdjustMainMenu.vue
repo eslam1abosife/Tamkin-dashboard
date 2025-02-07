@@ -321,8 +321,8 @@ const getImagePath = (icon) => {
                   !collapseStore.collapses.includes(
                     "adjust_main_menu_customize_card"
                   )
-                    ? "Minisize"
-                    : "Maxsize"
+                    ? $t("Minisize")
+                    : $t("Maxsize")
                 }}
               </div>
             </div>

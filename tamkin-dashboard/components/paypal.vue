@@ -87,11 +87,15 @@ export default {
                   loading.value = false;
                   props.successPay();
                   paymentStore.setLoadingPaypal(false);
-                }, 20000);
+                }, 21000);
               });
             },
             onError: (err) => {
               console.error("Error Payment:", err);
+              props.errorPay();
+              paymentStore.setLoadingPaypal(false);
+            },
+            onCancel: () => {
               props.errorPay();
               paymentStore.setLoadingPaypal(false);
             },

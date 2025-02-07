@@ -162,23 +162,23 @@ const mysiteStore = useMySiteStore();
     <div
       v-if="isSearchfilled"
       @click="clearInput"
-      class="absolute top-[40%] rtl:left-0 cursor-pointer ltr:right-0 lg:top-[16px] lg:p-[16px]"
+      class="absolute top-[40%] rtl:left-[10px] cursor-pointer ltr:right-[10px] lg:top-[16px] lg:p-[16px]"
     >
       <img src="/assets/imgs/icons/clear_search.svg" />
     </div>
 
     <div
       v-if="isSearchfilled"
-      class="bg-white z-50 dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin w-full max-h-[400px] h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex flex-col items-start justify-start p-4"
+      class="bg-white z-50 dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin w-full max-h-[400px] h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex flex-col items-start justify-start p-3 md:p-4"
     >
       <div v-if="!loadingSearch && searchData.length" class="w-full">
         <div
           v-for="site in searchData"
           :key="site.id"
-          class="flex items-center divide-y justify-between p-3 rounded-[10px] cursor-pointer w-full hover:bg-gray-50 dark:hover:bg-darkTamkin"
+          class="flex items-center divide-y justify-between md:p-3 rounded-[10px] cursor-pointer w-full hover:bg-gray-50 dark:hover:bg-darkTamkin"
         >
           <div
-            class="flex items-center justify-start space-x-4 rtl:space-x-reverse w-full"
+            class="flex items-center justify-start md:space-x-4 space-x-2 rtl:space-x-reverse w-full"
           >
             <div>
               <img
@@ -215,7 +215,7 @@ const mysiteStore = useMySiteStore();
                   clearInput();
                 }
               "
-              class="rtl:!mr-auto ltr:!ml-auto btn-dashboard hover_tamkin w-[110px] !border-tamkin"
+              class="rtl:!mr-auto ltr:!ml-auto btn-dashboard hover_tamkin max-md:!h-auto w-fit md:w-[110px] !border-tamkin"
             >
               {{ $t("Manage") }}
             </button>

@@ -118,9 +118,9 @@ const isLinkActive = (path) => {
         <div
           :class="[
             isLinkActive('/my-site') ? 'px-[14px]' : '',
-            isOpen('upgrade_no_package') ? 'space-x-[30px]' : 'space-x-[30px] ',
+            isOpen('upgrade_no_package') ? 'lg:space-x-[30px]' : 'lg:space-x-[30px] ',
           ]"
-          class="bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4 w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col"
+          class="bg-white pr-[15px] pl-[15px] dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4 w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col"
         >
           <div class="">
             <img
@@ -130,7 +130,7 @@ const isLinkActive = (path) => {
           </div>
           <div
             :class="[isOpen('upgrade_no_package') ? 'w-auto' : 'w-[94%] ']"
-            class="font-[400] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey dark:text-whiteTamkin rtl:mr-auto ltr:ml-auto max-md:!mx-auto"
+            class="font-[400] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey dark:text-whiteTamkin rtl:mr-auto ltr:ml-auto max-md:!mx-auto text-center lg:text-start"
           >
             {{
               $t(
