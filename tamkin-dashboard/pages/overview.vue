@@ -30,6 +30,25 @@ onBeforeMount(async () => {
   statsStore.loadingStats = false;
 });
 
+const getCurrentAccessPackage = computed(() => {
+  return navStore.defaultappobj &&
+    Array.isArray(navStore.defaultappobj.package) &&
+    navStore.defaultappobj.package.length
+    ? navStore.defaultappobj.package.find((p) => p.type === "Accessibility")
+    : {
+        title: "No Package",
+        type: "Accessibility",
+      };
+});
+const isPackage = computed(() => {
+  return navStore.defaultappobj?.package?.length &&
+    navStore.defaultappobj.package.find(
+      (p) => p.type === 'Accessibility'
+    )
+});
+const isActivePackage = computed(() => {
+  return isPackage.value ? getCurrentAccessPackage.value.status === 'Active' : false;
+});
 const runtimec = useRuntimeConfig();
 </script>
 
@@ -137,8 +156,8 @@ const runtimec = useRuntimeConfig();
         ></div>
       </div>
       <div v-else>
-        <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
-        <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
+        <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" v-show="!isActivePackage" />
+        <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" v-show="!isActivePackage" />
         <LazyOverviewCurrentPlan
           :plan-type="'free'"
           :is-installed="false"
@@ -197,11 +216,8 @@ const runtimec = useRuntimeConfig();
               class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
             >
               <h1>
-                {{
-                  navStore.defaultappobj?.package?.find(
-                    (p) => p.type === "Accessibility"
-                  ).title
-                }}
+                {{ $t(getCurrentAccessPackage.title) }} -
+                  {{ $t(`${getCurrentAccessPackage.type}`) }}
               </h1>
             </div>
             <div

@@ -56,6 +56,26 @@ watch(plan, (ov, nv) => {
   }
 });
 
+const getCurrentAccessPackage = computed(() => {
+  return navStore.defaultappobj &&
+    Array.isArray(navStore.defaultappobj.package) &&
+    navStore.defaultappobj.package.length
+    ? navStore.defaultappobj.package.find((p) => p.type === "Sign language")
+    : {
+        // title: "No Package",
+        // type: "Sign language",
+      };
+});
+const isPackage = computed(() => {
+  return navStore.defaultappobj?.package?.length &&
+    navStore.defaultappobj.package.find(
+      (p) => p.type === 'Sign language'
+    )
+});
+const isActivePackage = computed(() => {
+  return isPackage.value ? getCurrentAccessPackage.value.status === 'Active' : false;
+});
+
 const settingsStore = useSettingsStore();
 const runtimec = useRuntimeConfig();
 </script>
@@ -163,14 +183,8 @@ const runtimec = useRuntimeConfig();
     </div>
     <div v-else>
       <div v-if="selectTab === 'webplugins'">
-        <OverviewWidgetEmbdedCode v-if="navStore.defaultappobj 
-        && navStore.defaultappobj.package 
-        && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
-        && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status !== 'Active'" />
-        <OverviewConnectWithUs v-if="navStore.defaultappobj 
-        && navStore.defaultappobj.package 
-        && navStore.defaultappobj.package.find(p => p.type === 'Sign language') 
-        && navStore.defaultappobj.package.find(p => p.type === 'Sign language').status !== 'Active'" />
+        <OverviewWidgetEmbdedCode v-if="!isActivePackage" />
+        <OverviewConnectWithUs v-if="!isActivePackage" />
         <LanguageServicesOverviewCurrentPlan
           :plan-type="'free'"
           :is-installed="false"
@@ -235,11 +249,8 @@ const runtimec = useRuntimeConfig();
               class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
             >
               <h1>
-                {{
-              $t(    navStore.defaultappobj?.package?.find(
-                (p) => p.type === "Sign language"
-              ).title)
-                }}
+                {{ $t(getCurrentAccessPackage.title) }} -
+                {{ $t(`${getCurrentAccessPackage.type}`) }}
               </h1>
             </div>
             <div

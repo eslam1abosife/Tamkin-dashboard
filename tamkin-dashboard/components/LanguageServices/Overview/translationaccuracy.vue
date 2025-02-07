@@ -401,7 +401,7 @@ const options = ref({
             class="small_circle !w-[150px] !h-[150px] text-[12px]"
           />
                   </div>
-          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328]">
+          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-white">
             {{ $t('Translation Accuracy') }}
           </div>
         </div>
