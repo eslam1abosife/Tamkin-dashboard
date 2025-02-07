@@ -95,6 +95,10 @@ export default {
               props.errorPay();
               paymentStore.setLoadingPaypal(false);
             },
+            onCancel: () => {
+              props.errorPay();
+              paymentStore.setLoadingPaypal(false);
+            },
           })
           .render(btn.value);
 

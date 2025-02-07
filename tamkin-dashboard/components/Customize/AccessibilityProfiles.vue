@@ -135,7 +135,7 @@ const getImagePath = (icon) => {
               ? 'active_notification !text-darkGrey'
               : '',
           ]"
-          class="menu_button_control"
+          class="menu_button_control "
         >
           <svg
             width="18"
@@ -221,8 +221,8 @@ const getImagePath = (icon) => {
                   !collapseStore.collapses.includes(
                     "manage_access_profiles_card"
                   )
-                    ? "Minisize"
-                    : "Maxsize"
+                    ? $t("Minisize")
+                    : $t("Maxsize")
                 }}
               </div>
             </div>

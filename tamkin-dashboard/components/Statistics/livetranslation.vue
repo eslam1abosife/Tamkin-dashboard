@@ -21,77 +21,75 @@ function calculatePercentage(total, usage) {
 
 <template>
   <div
-    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] pt-[48px] mb-[40px]
-     relative shadow-md -shadow-y-[1px] px-[15px]"
-
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] pt-[48px] mb-[40px] shadow-md -shadow-y-[1px] px-[15px]"
   >
-    <div class="flex flex-col items-start justify-start w-full">
-      <div>
-        <h1
-          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
-          :class="[
-            !collapseStore.collapses.includes('live_translation_stats_card')
-              ? 'mt-[-24px]'
-              : 'mt-[-24px]',
-          ]"
-        >
-          {{ $t("Live Translation") }}
-        </h1>
-
-        <p
-          class="text-[12px] lg:w-3/4 ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin"
-        >
-          {{
-            $t(
-              "Live translation converts speech or text from one language to another instantly, facilitating real-time communication."
-            )
-          }}
-        </p>
-      </div>
-
-      <div
-        class="flex flex-col items-center justify-center mt-[-24px] space-y-[24px] relative w-full"
+    <div>
+      <h1
+        class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        :class="[
+          !collapseStore.collapses.includes('live_translation_stats_card')
+            ? 'mt-[-24px]'
+            : 'mt-[-24px]',
+        ]"
       >
-        <div
-          @click.stop="collapseStore.collapseMenu('live_translation_stats')"
-          v-on-click-outside="
-            () => collapseStore.removeMenu('live_translation_stats')
-          "
-          :class="[
-            collapseStore.menus.includes('live_translation_stats')
-              ? 'active_notification !text-darkGrey'
-              : '',
+        {{ $t("Live Translation") }}
+      </h1>
 
-            collapseStore.collapses.includes('live_translation_stats_card')
-              ? 'top-[-20px] right-[0]'
-              : 'top-[16px] right-[0]',
-          ]"
-          class="menu_button_control lg:!top-[-67px] ipad-max:!top-[-86px] xs:!top-[-100px]"
+      <p
+        class="text-[12px] lg:w-3/4 ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin"
+      >
+        {{
+          $t(
+            "Live translation converts speech or text from one language to another instantly, facilitating real-time communication."
+          )
+        }}
+      </p>
+    </div>
+    <div class="relative">
+      <div class="flex flex-col items-start justify-start w-full">
+        <div
+          class="flex flex-col items-center justify-center mt-[-24px] space-y-[24px] relative w-full"
         >
-          <svg
-            width="18"
-            height="5"
-            viewBox="0 0 18 5"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            @click.stop="collapseStore.collapseMenu('live_translation_stats')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('live_translation_stats')
+            "
             :class="[
               collapseStore.menus.includes('live_translation_stats')
-                ? 'stroke-current !text-white !fill-white'
-                : 'dark:!text-white',
-            ]"
-          >
-            <path
-              d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
-              fill="currentColor"
-            />
-          </svg>
+                ? 'active_notification !text-darkGrey'
+                : '',
 
-          <div
-            v-if="collapseStore.menus.includes('live_translation_stats')"
-            style="box-shadow: 0px 2px 6px 0px #00000040"
-            class="mini_SizeMenu divide-y"
+              collapseStore.collapses.includes('live_translation_stats_card')
+                ? 'top-[-20px] right-[0]'
+                : 'top-[16px] right-[0]',
+            ]"
+            class="menu_button_control lg:!top-[-67px] ipad-max:!top-[-86px] xs:!top-[-100px]"
           >
-            <!-- <div
+            <svg
+              width="18"
+              height="5"
+              viewBox="0 0 18 5"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              :class="[
+                collapseStore.menus.includes('live_translation_stats')
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:!text-white',
+              ]"
+            >
+              <path
+                d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <div
+              v-if="collapseStore.menus.includes('live_translation_stats')"
+              style="box-shadow: 0px 2px 6px 0px #00000040"
+              class="mini_SizeMenu divide-y"
+            >
+              <!-- <div
               class="mini_wrap"
             >
               <div>
@@ -112,492 +110,537 @@ function calculatePercentage(total, usage) {
                 {{ $t('Switch To Annual') }}
               </div>
             </div> -->
-            <div
-              class="mini_wrap"
-              @click="collapseStore.collapseCard('live_translation_stats_card')"
-            >
-              <div>
+              <div
+                class="mini_wrap"
+                @click="
+                  collapseStore.collapseCard('live_translation_stats_card')
+                "
+              >
+                <div>
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes(
+                      "live_translation_stats_card"
+                    )
+                      ? $t("Minisize")
+                      : $t("Maxsize")
+                  }}
+                </div>
+              </div>
+
+              <div class="arrow">
                 <svg
-                  width="25"
-                  height="24"
-                  viewBox="0 0 25 24"
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
                   <path
-                    d="M13.7754 10.937L18.4995 7"
-                    class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M14.7207 7H18.5V10.1496"
-                    class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M11.2241 13.063L6.5 17"
-                    class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M10.2793 17.0002H6.5V13.8506"
-                    class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
                   />
                 </svg>
               </div>
-              <div class="text_mini">
-                {{
-                  !collapseStore.collapses.includes(
-                    "live_translation_stats_card"
-                  )
-                    ? "Minisize"
-                    : "Maxsize"
-                }}
-              </div>
-            </div>
-
-            <div class="arrow">
-              <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- start code collabse -->
-      <MessagesLockedFeature
-      v-if="
-        navStore.defaultappobj?.package?.filter(
-          (p) => p.type === 'Accessibility'
-        ).length === 0
-      "
-    />
-      <div
-        v-if="
-          !collapseStore.collapses.includes('live_translation_stats_card') &&
-          !statsStore.loadingStats 
-        "
-        class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] custom-border bg-tamkin-main-bg dark:bg-p"
-      >
         <div
-          class="circular-progress big bg-white dark:bg-transparent rounded-full mx-[24px]"
+          v-if="
+            !collapseStore.collapses.includes('live_translation_stats_card')
+          "
+          class="overflow-x-hidden"
         >
-          <svg viewBox="0 0 36 36" class=" " width="60" height="60">
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop
-                  offset="0%"
-                  style="stop-color: #bb67ff; stop-opacity: 1"
-                />
-                <stop
-                  offset="100%"
-                  style="stop-color: #ff5a7b; stop-opacity: 1"
-                />
-              </linearGradient>
-            </defs>
-            <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
-            <circle
-              class="progress-circle"
-              cx="18"
-              cy="18"
-              opacity="0.7" 
+          <!-- start code collabse -->
+          <MessagesLockedFeature
+            v-if="
+              navStore.defaultappobj?.package?.filter(
+                (p) => p.type === 'Accessibility'
+              ).length === 0
+            "
+          />
+        </div>
 
-              r="15.91549431"
-              :style="`stroke-dasharray: ${calculatePercentage(
-                statsStore.liveTranslationStats.header.totla,
-                statsStore.liveTranslationStats.header.usage
-              ) !== 'NaN' ? calculatePercentage(statsStore.liveTranslationStats.header.totla, statsStore.liveTranslationStats.header.usage) :0},100`"
-            ></circle>
-          </svg>
+        <div
+          v-if="
+            !collapseStore.collapses.includes('live_translation_stats_card') &&
+            !statsStore.loadingStats
+          "
+          class="mt-[40px] z-10 flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] custom-border bg-tamkin-main-bg dark:bg-p"
+        >
           <div
-            class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+            class="circular-progress big bg-white dark:bg-transparent rounded-full mx-[24px]"
           >
-            <div class="flex flex-col items-center justify-center">
-              <div>
-                {{
+            <svg viewBox="0 0 36 36" class=" " width="60" height="60">
+              <defs>
+                <linearGradient
+                  id="gradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style="stop-color: #bb67ff; stop-opacity: 1"
+                  />
+                  <stop
+                    offset="100%"
+                    style="stop-color: #ff5a7b; stop-opacity: 1"
+                  />
+                </linearGradient>
+              </defs>
+              <circle
+                class="bg-circle"
+                cx="18"
+                cy="18"
+                r="15.91549431"
+              ></circle>
+              <circle
+                class="progress-circle"
+                cx="18"
+                cy="18"
+                opacity="0.7"
+                r="15.91549431"
+                :style="`stroke-dasharray: ${
                   calculatePercentage(
                     statsStore.liveTranslationStats.header.totla,
                     statsStore.liveTranslationStats.header.usage
-                  ) !== "NaN"
+                  ) !== 'NaN'
                     ? calculatePercentage(
+                        statsStore.liveTranslationStats.header.totla,
+                        statsStore.liveTranslationStats.header.usage
+                      )
+                    : 0
+                },100`"
+              ></circle>
+            </svg>
+            <div
+              class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+            >
+              <div class="flex flex-col items-center justify-center">
+                <div>
+                  {{
+                    calculatePercentage(
                       statsStore.liveTranslationStats.header.totla,
                       statsStore.liveTranslationStats.header.usage
-                  ) : 0
-                }}%
+                    ) !== "NaN"
+                      ? calculatePercentage(
+                          statsStore.liveTranslationStats.header.totla,
+                          statsStore.liveTranslationStats.header.usage
+                        )
+                      : 0
+                  }}%
+                </div>
+                <div>
+                  {{
+                    formatNumber(statsStore.liveTranslationStats.header.totla)
+                  }}
+                </div>
               </div>
-              <div>
-                {{ formatNumber(statsStore.liveTranslationStats.header.totla) }}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="flex flex-col items-start justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
-        >
-          <div class="flex items-center justify-between w-full">
-            <div class="text-[13px] font-[400] leading-[19px]">
-              {{ $t("Used") }}
-            </div>
-            <div class="text-[13px] font-[600] leading-[19px]">
-              {{ statsStore.liveTranslationStats.header.usage.toFixed(0) }}%
             </div>
           </div>
 
-          <div class="flex items-center justify-between w-full">
-            <div class="text-[13px] font-[400] leading-[19px]">
-              {{ $t("User Assistance") }}
+          <div
+            class="flex flex-col items-start justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
+          >
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">
+                {{ $t("Used") }}
+              </div>
+              <div class="text-[13px] font-[600] leading-[19px]">
+                {{ statsStore.liveTranslationStats.header.usage.toFixed(0) }}%
+              </div>
             </div>
-            <div class="text-[13px] font-[600] leading-[19px]">
-              {{ statsStore.liveTranslationStats.header.user }}
+
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">
+                {{ $t("User Assistance") }}
+              </div>
+              <div class="text-[13px] font-[600] leading-[19px]">
+                {{ statsStore.liveTranslationStats.header.user }}
+              </div>
             </div>
-          </div>
-          <div class="flex items-center justify-between w-full">
-            <div class="text-[13px] font-[400] leading-[19px]">
-              {{ $t("Pages Translated") }}
-            </div>
-            <div class="text-[13px] font-[600] leading-[19px]">
-              {{ statsStore.liveTranslationStats.header.page }}
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">
+                {{ $t("Pages Translated") }}
+              </div>
+              <div class="text-[13px] font-[600] leading-[19px]">
+                {{ statsStore.liveTranslationStats.header.page }}
+              </div>
             </div>
           </div>
         </div>
       </div>
- 
-    </div>
-    <div
-    v-if="statsStore.loadingStats"
-    class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
-  ></div>
-    <div
-      class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
-      v-if="statsStore.loadingStats"
-    >
       <div
-        class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
+        v-if="statsStore.loadingStats"
+        class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
       ></div>
+      <div
+        class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
+        v-if="statsStore.loadingStats"
+      >
+        <div
+          class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
+        ></div>
 
-      <table class="min-w-full leading-normal">
-        <thead>
-          <tr>
-            <th
-              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
-            ></th>
-            <th
-              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
-            ></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="h-[56px]" v-for="i in 5" :key="i">
-            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+              ></th>
+              <th
+                class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+              ></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-[56px]" v-for="i in 5" :key="i">
+              <td
+                class="border-b border-gray-200 dark:border-darkborder text-sm"
               >
                 <div
-                  class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"
-                ></div>
-                <div
-                  class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"
-                ></div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <div
-                  class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
-                ></div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                >
+                  <div
+                    class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"
+                  ></div>
+                  <div
+                    class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"
+                  ></div>
+                </div>
+              </td>
+              <td
+                class="border-b border-gray-200 dark:border-darkborder text-sm"
+              >
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <div
+                    class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+                  ></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
+        ></div>
+
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
+              ></th>
+              <th
+                class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
+              ></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-[56px]" v-for="i in 5" :key="i">
+              <td
+                class="border-b border-gray-200 dark:border-darkborder text-sm"
+              >
+                <div class="flex items-start flex-col justify-center">
+                  <div
+                    class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"
+                  ></div>
+                  <div
+                    class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"
+                  ></div>
+                </div>
+              </td>
+              <td
+                class="border-b border-gray-200 dark:border-darkborder text-sm"
+              >
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <div
+                    class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
+                  ></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div
-        class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
-      ></div>
-
-      <table class="min-w-full leading-normal">
-        <thead>
-          <tr>
-            <th
-              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"
-            ></th>
-            <th
-              class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"
-            ></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="h-[56px]" v-for="i in 5" :key="i">
-            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-              <div class="flex items-start flex-col justify-center">
-                <div
-                  class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"
-                ></div>
-                <div
-                  class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"
-                ></div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 dark:border-darkborder text-sm">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <div
-                  class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"
-                ></div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
- 
-    <div
-      class="relative w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
-      v-if="
-        !collapseStore.collapses.includes('live_translation_stats_card') &&
-        !statsStore.loadingStats 
-      "
-    >
-     
-      <h1
-        class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin"
+        class="relative w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
+        v-if="
+          !collapseStore.collapses.includes('live_translation_stats_card') &&
+          !statsStore.loadingStats
+        "
       >
-        {{ $t("Translated languages") }}
-      </h1>
-    
-      <table class="min-w-full leading-normal">
-        <thead>
-          <tr>
-            <th
-              class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
-            >
-              {{ $t("languages") }}
-            </th>
-
-            <th
-              class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
-            >
-              {{ $t("Usage") }}
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          v-if="
-            statsStore.liveTranslationStats &&
-            statsStore.liveTranslationStats.translate_langs &&
-            statsStore.liveTranslationStats.translate_langs.length > 0
-          "
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin"
         >
-          <tr
-            class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]"
-            v-for="lang in statsStore.liveTranslationStats.translate_langs.sort(
-              (a, b) => b.sort - a.sort
-            )"
-            :key="lang.name"
-          >
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+          {{ $t("Translated languages") }}
+        </h1>
+
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
               >
-                <div>
-                  <img
-                    :src="runtimeob.public.baseImagerUrl + lang.image"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t(`${lang.language_name}`) }}
-                  </p>
-                </div>
-              </div>
-            </td>
+                {{ $t("languages") }}
+              </th>
 
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    opacity="0.7"
-
-                    :style="`stroke-dasharray: ${lang.usage !== 'NaN' ? lang.usage.toFixed(0) : 0},100`"
-                  ></circle>
-                </svg>
-                
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  {{ lang.usage.toFixed(0) }}%
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h1
-        class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin"
-      >
-        {{ $t("Pages Translated") }}
-      </h1>
-
-      <table class="min-w-full leading-normal">
-        <thead>
-          <tr>
-            <th
-              class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
-            >
-              {{ $t("Page") }}
-            </th>
-
-            <th
-              class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
-            >
-              {{ $t("Usage") }}
-            </th>
-          </tr>
-        </thead>
-
-        <tbody
-          v-if="
-            statsStore.liveTranslationStats &&
-            statsStore.liveTranslationStats.pages &&
-            statsStore.liveTranslationStats.pages.length > 0
-          "
-        >
-          <tr
-            class="bg-white h-[56px] dark:bg-tamkinDarkPrimary"
-            v-for="pageTr in statsStore.liveTranslationStats.pages.sort(
-              (a, b) => b.sort - a.sort
-            )"
+              <th
+                class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
+              >
+                {{ $t("Usage") }}
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            v-if="
+              statsStore.liveTranslationStats &&
+              statsStore.liveTranslationStats.translate_langs &&
+              statsStore.liveTranslationStats.translate_langs.length > 0
+            "
           >
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="flex items-start flex-col justify-center">
+            <tr
+              class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]"
+              v-for="lang in statsStore.liveTranslationStats.translate_langs.sort(
+                (a, b) => b.sort - a.sort
+              )"
+              :key="lang.name"
+            >
+              <td
+                class="border-b border-gray-200 text-sm dark:border-darkborder"
+              >
                 <div
-                  class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black"
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                 >
-                  /{{ pageTr.page }}
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Translated by") }} {{ pageTr.user_count }}
-                    {{ $t("user") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
+                  <div>
+                    <img
+                      :src="runtimeob.public.baseImagerUrl + lang.image"
+                      class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                    />
+                  </div>
+                  <div class="">
+                    <p
+                      class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
                     >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    :style="`stroke-dasharray: ${
-                      !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0
-                    },100`"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  {{ !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0 }}%
+                      {{ $t(`${lang.language_name}`) }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+
+              <td
+                class="border-b border-gray-200 text-sm dark:border-darkborder"
+              >
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <svg viewBox="0 0 36 36">
+                    <defs>
+                      <linearGradient
+                        id="gradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                      >
+                        <stop
+                          offset="0%"
+                          style="stop-color: #bb67ff; stop-opacity: 1"
+                        />
+                        <stop
+                          offset="100%"
+                          style="stop-color: #ff5a7b; stop-opacity: 1"
+                        />
+                      </linearGradient>
+                    </defs>
+                    <circle
+                      class="bg-circle"
+                      cx="18"
+                      cy="18"
+                      r="15.91549431"
+                    ></circle>
+                    <circle
+                      class="progress-circle"
+                      cx="18"
+                      cy="18"
+                      r="15.91549431"
+                      opacity="0.7"
+                      :style="`stroke-dasharray: ${
+                        lang.usage !== 'NaN' ? lang.usage.toFixed(0) : 0
+                      },100`"
+                    ></circle>
+                  </svg>
+
+                  <div
+                    class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  >
+                    {{ lang.usage.toFixed(0) }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin"
+        >
+          {{ $t("Pages Translated") }}
+        </h1>
+
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+              >
+                {{ $t("Page") }}
+              </th>
+
+              <th
+                class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
+              >
+                {{ $t("Usage") }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody
+            v-if="
+              statsStore.liveTranslationStats &&
+              statsStore.liveTranslationStats.pages &&
+              statsStore.liveTranslationStats.pages.length > 0
+            "
+          >
+            <tr
+              class="bg-white h-[56px] dark:bg-tamkinDarkPrimary"
+              v-for="pageTr in statsStore.liveTranslationStats.pages.sort(
+                (a, b) => b.sort - a.sort
+              )"
+            >
+              <td
+                class="border-b border-gray-200 text-sm dark:border-darkborder"
+              >
+                <div class="flex items-start flex-col justify-center">
+                  <div
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black"
+                  >
+                    /{{ pageTr.page }}
+                  </div>
+                  <div class="">
+                    <p
+                      class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin"
+                    >
+                      {{ $t("Translated by") }} {{ pageTr.user_count }}
+                      {{ $t("user") }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+
+              <td
+                class="border-b border-gray-200 text-sm dark:border-darkborder"
+              >
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <svg viewBox="0 0 36 36">
+                    <defs>
+                      <linearGradient
+                        id="gradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                      >
+                        <stop
+                          offset="0%"
+                          style="stop-color: #bb67ff; stop-opacity: 1"
+                        />
+                        <stop
+                          offset="100%"
+                          style="stop-color: #ff5a7b; stop-opacity: 1"
+                        />
+                      </linearGradient>
+                    </defs>
+                    <circle
+                      class="bg-circle"
+                      cx="18"
+                      cy="18"
+                      r="15.91549431"
+                    ></circle>
+                    <circle
+                      class="progress-circle"
+                      cx="18"
+                      cy="18"
+                      r="15.91549431"
+                      :style="`stroke-dasharray: ${
+                        !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0
+                      },100`"
+                    ></circle>
+                  </svg>
+                  <div
+                    class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  >
+                    {{ !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0 }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

@@ -1397,7 +1397,7 @@ watch(colorcurrentpicker, (newVal) => {
                     ? 'active_notification !text-darkGrey'
                     : '',
                 ]"
-                class="menu_button_control"
+                class="menu_button_control "
               >
                 <svg
                   width="18"
