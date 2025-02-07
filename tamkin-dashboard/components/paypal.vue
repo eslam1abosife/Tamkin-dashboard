@@ -87,7 +87,7 @@ export default {
                   loading.value = false;
                   props.successPay();
                   paymentStore.setLoadingPaypal(false);
-                }, 20000);
+                }, 21000);
               });
             },
             onError: (err) => {

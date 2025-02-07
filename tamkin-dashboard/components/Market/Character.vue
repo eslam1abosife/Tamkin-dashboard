@@ -49,17 +49,17 @@ onUnmounted(() => {
       class="group market_card_char !justify-center order-1 relative"
       @click="
         () => {
-          if (defaultApp) {
+          if (defaultApp || defaultApp.package.length >= 1) {
             openModalAndHideChat(), setData(null);
           }
         }
       "
     >
       <div
-        v-if="!defaultApp"
+        v-if="!defaultApp || defaultApp.package.length <= 0"
         class="absolute bottom-[0] inset-x-auto w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
       >
-        {{ $t("You have to set A default website to use the market") }}
+        {{ $t("You have to set A default website and purchase A packege to use the market") }}
       </div>
       <div>
         <img
@@ -71,10 +71,10 @@ onUnmounted(() => {
       <div class="relative max-md:w-full">
         <button
           class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2"
-          :disabled="!defaultApp"
+          :disabled="!defaultApp || defaultApp.package.length <= 0"
           @click="
             () => {
-              if (defaultApp) {
+              if (defaultApp || defaultApp.package.length >= 1) {
                 openModalAndHideChat(), setData(null);
               }
             }
@@ -251,7 +251,7 @@ onUnmounted(() => {
         </p>
 
         <!-- <div v-if="char.specialOffer || char.offer_cost > 0 || char.package" class="flex flex-col"> -->
-        <div class="flex flex-col !mt-[16px]">
+        <div v-if="!char.is_used" class="flex flex-col !mt-[16px]">
           <!-- item with discount -->
           <div
             v-if="marketStore.cartable(char) && char.offer_cost > 0"
@@ -291,11 +291,11 @@ onUnmounted(() => {
               </div>
             </div>
             <button
-              :disabled="!defaultApp"
+              :disabled="!defaultApp || defaultApp.package.length <= 0"
               v-if="marketStore.cartable(char)"
               @click.stop="
                 () => {
-                  if (defaultApp) {
+                  if (defaultApp || defaultApp.package.length >= 1) {
                     marketStore.addToCart(char, 'character');
                   }
                 }
@@ -303,24 +303,24 @@ onUnmounted(() => {
               :class="[
                 marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                  : !defaultApp
+                  : (!defaultApp || defaultApp.package.length <= 0)
                   ? 'bg-opacity-40 !cursor-not-allowed '
                   : '',
               ]"
               class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <div
-                v-if="!defaultApp"
-                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+                v-if="!defaultApp || defaultApp.package.length <= 0"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10"
               >
-                {{ $t("You have to set A default website to use the market") }}
+                {{ $t("You have to set A default website and purchase A packege to use the market") }}
               </div>
               <svg
                 :class="[
                   marketStore.isInCart(char.name)
                     ? 'text-white'
                     : 'text-tamkin',
-                  !defaultApp ? '!text-tamkin' : '',
+                  (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
                 ]"
                 class="group-hover:text-white"
                 width="25"
@@ -377,7 +377,7 @@ onUnmounted(() => {
               ${{ char.cost }}
             </div>
             <button
-              :disabled="!defaultApp"
+              :disabled="!defaultApp || defaultApp.package.length <= 0"
               @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
                 marketStore.isInCart(char.name)
@@ -391,7 +391,7 @@ onUnmounted(() => {
                   marketStore.isInCart(char.name)
                     ? 'text-white'
                     : 'text-tamkin',
-                  !defaultApp ? '!text-tamkin' : '',
+                  (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
                 ]"
                 class="group-hover:text-white"
                 width="25"
@@ -458,17 +458,17 @@ onUnmounted(() => {
         class="group market_card_char !justify-center order-1 relative"
         @click="
           () => {
-            if (defaultApp) {
+            if (defaultApp || defaultApp.package.length >= 1) {
               openModalAndHideChat(), setData(null);
             }
           }
         "
       >
         <div
-          v-if="!defaultApp"
+          v-if="!defaultApp || defaultApp.package.length <= 0"
           class="absolute bottom-[0] inset-x-auto w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
         >
-          {{ $t("You have to set A default website to use the market") }}
+          {{ $t("You have to set A default website and purchase A packege to use the market") }}
         </div>
         <div>
           <img
@@ -480,10 +480,10 @@ onUnmounted(() => {
         <div class="relative max-md:w-full">
           <button
             class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2"
-            :disabled="!defaultApp"
+            :disabled="!defaultApp || defaultApp.package.length <= 0"
             @click="
               () => {
-                if (defaultApp) {
+                if (defaultApp || defaultApp.package.length >= 1) {
                   openModalAndHideChat(), setData(null);
                 }
               }
@@ -700,11 +700,11 @@ onUnmounted(() => {
                 </div>
               </div>
               <button
-                :disabled="!defaultApp"
+                :disabled="!defaultApp || defaultApp.package.length <= 0"
                 v-if="marketStore.cartable(char)"
                 @click.stop="
                   () => {
-                    if (defaultApp) {
+                    if (defaultApp || defaultApp.package.length >= 1) {
                       marketStore.addToCart(char, 'character');
                     }
                   }
@@ -712,18 +712,18 @@ onUnmounted(() => {
                 :class="[
                   marketStore.isInCart(char.name)
                     ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                    : !defaultApp
+                    : (!defaultApp || defaultApp.package.length <= 0)
                     ? 'bg-opacity-40 !cursor-not-allowed '
                     : '',
                 ]"
                 class="disabled:bg-gray-200 hover:disabled:bg-gray-200 bg-white dark:bg-darkTamkin hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 rounded-lg flex items-center justify-center border dark:border-darkborder"
               >
                 <div
-                  v-if="!defaultApp"
-                  class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+                  v-if="!defaultApp || defaultApp.package.length <= 0"
+                  class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200 z-10"
                 >
                   {{
-                    $t("You have to set A default website to use the market")
+                    $t("You have to set A default website and purchase A packege to use the market")
                   }}
                 </div>
                 <svg
@@ -731,7 +731,7 @@ onUnmounted(() => {
                     marketStore.isInCart(char.name)
                       ? 'text-white'
                       : 'text-tamkin',
-                    !defaultApp ? '!text-tamkin' : '',
+                    (!defaultApp || defaultApp.package.length <= 0) ? '!text-tamkin' : '',
                   ]"
                   class="group-hover:text-white"
                   width="25"
@@ -788,7 +788,7 @@ onUnmounted(() => {
                 ${{ char.cost }}
               </div>
               <button
-                :disabled="!defaultApp"
+                :disabled="!defaultApp || defaultApp.package.length <= 0"
                 @click.stop="marketStore.addToCart(char, 'character')"
                 :class="[
                   marketStore.isInCart(char.name)
@@ -802,7 +802,7 @@ onUnmounted(() => {
                     marketStore.isInCart(char.name)
                       ? 'text-white'
                       : 'text-tamkin',
-                    !defaultApp ? '!text-tamkin' : '',
+                    (!defaultApp || defaultApp.package.length <= 0)? '!text-tamkin' : '',
                   ]"
                   class="group-hover:text-white"
                   width="25"

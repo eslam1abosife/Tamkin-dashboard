@@ -668,6 +668,17 @@ const openInvestor = (app, pack) => {
                 }}
                </span> -->
                 </div>
+                <div
+                v-if="
+                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
+                "
+              >
+                <img
+                  v-if="defaultApp && defaultApp.favicon"
+                  :src="defaultApp.favicon"
+                  class="w-[40px] h-[40px] rounded-full block"
+                />
+              </div>
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
@@ -684,17 +695,7 @@ const openInvestor = (app, pack) => {
                   </h2>
                 </div>
               </div>
-              <div
-                v-if="
-                  !mysiteStore.loadingApps && defaultApp && defaultApp?.favicon
-                "
-              >
-                <img
-                  v-if="defaultApp && defaultApp.favicon"
-                  :src="defaultApp.favicon"
-                  class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
-                />
-              </div>
+              
 
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <div

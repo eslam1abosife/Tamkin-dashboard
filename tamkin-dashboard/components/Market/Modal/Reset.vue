@@ -13,7 +13,7 @@ const resetAction = async () => {
 
 <template>
   <div
-    class="fixed z-[9999] top-[50%] translate-y-[-50%] bg-white dark:bg-p rounded-[10px] p-[10px] md:p-[30px] lg:w-[640px] h-auto w-10/12 left-[50%] translate-x-[-50%]"
+    class="fixed z-[9999] top-[50%] translate-y-[-50%] bg-white dark:bg-p rounded-[10px] p-[20px] md:p-[30px] lg:w-[640px] h-auto w-[90%] left-[50%] translate-x-[-50%]"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -53,7 +53,7 @@ const resetAction = async () => {
     <div
       class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] mt-[6px]"
     >
-      <div class="w-[30px] sm:w-[15px] h-[16px]">
+      <div class="w-[15px] h-[15px]">
         <img
           src="/public/assets/pngs/market/info.png"
           class="w-full h-full"
@@ -61,7 +61,7 @@ const resetAction = async () => {
         />
       </div>
       <div
-        class="text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60"
+        class="flex-1 text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60"
       >
         {{
           $t(

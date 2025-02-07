@@ -161,7 +161,7 @@ onMounted(async () => {
         </div>
         <div class="flex flex-col items-start justify-center w-full !mx-0">
           <h2
-            class="font-[400] ipad-max:text-[10px] truncate w-24 text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
+            class="font-[400] ipad-max:text-[10px] truncate w-[4.5rem] md:w-24 text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
           >
             {{
               profileStore.member.first_name +
@@ -176,7 +176,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="rtl:!mr-[-5px] ltr:!ml-[-5px]">
+      <div class="">
         <svg
           :class="[isMenuOpen ? 'rotate-90' : 'rtl:rotate-180 ltr:rotate-0']"
           width="6"
