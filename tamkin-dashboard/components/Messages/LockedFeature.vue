@@ -15,7 +15,7 @@ onMounted(() => {});
 
 <template>
   <div
-    class="absolute z-[50] h-full w-full inset-0 bg-white dark:bg-tamkinDarkPrimary !bg-opacity-50 backdrop-filter backdrop-blur-sm flex items-center justify-center rounded-[10px]"
+    class=" absolute z-[50] h-full w-full inset-0 bg-white dark:bg-tamkinDarkPrimary !bg-opacity-50 backdrop-filter backdrop-blur-sm flex items-center justify-center rounded-[10px]"
   >
     <!-- Modal -->
     <div

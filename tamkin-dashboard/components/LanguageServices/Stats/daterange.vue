@@ -7,7 +7,7 @@ import { useWindowSize } from "@vueuse/core";
 import { ar } from "date-fns/locale";
 
 import { useDownloadSignLangCSV } from "~/composables/useAccessibility";
-const {t,locale} = useI18n()
+const { t, locale } = useI18n();
 const { downloadSignLangChartCsv } = useDownloadSignLangCSV();
 const isOpen = ref(false);
 const localePath = useLocalePath();
@@ -99,13 +99,13 @@ const options = ref({
       },
 
       ticks: {
-        padding:5,
+        padding: 5,
         autoSkip: true,
         maxTicksLimit: 9,
         color: (c) => {
           return colorMode.preference === "dark" ? "white" : "#616161";
         },
-     
+
         callback: function (value) {
           const date = new Date(value);
           const options = { month: "short", day: "numeric" };
@@ -127,7 +127,6 @@ const options = ref({
     },
   },
 });
-
 
 const updateChartOptions = async (isDarkMode: any) => {
   if (isDarkMode === "dark") {
@@ -282,28 +281,29 @@ watchEffect(() => {
           label: t("Player Load"),
           data: sortedData.map((t: any) => t.count),
           borderColor: (ctx) => {
-        const chart = ctx.chart;
-        const { ctx: canvasCtx, chartArea } = chart;
-        if (!chartArea) {
-          // Return a default color until the chart is fully initialized
-          return "#2DADA3";
-        }
+            const chart = ctx.chart;
+            const { ctx: canvasCtx, chartArea } = chart;
+            if (!chartArea) {
+              // Return a default color until the chart is fully initialized
+              return "#2DADA3";
+            }
 
-        // Create the gradient
-        const gradient = canvasCtx.createLinearGradient(
-          0,
-          chartArea.top,
-          0,
-          chartArea.bottom
-        );
-        gradient.addColorStop(0, "#2DADA3"); // Start color
-        gradient.addColorStop(1, "#71DAD2"); // End color
-        return gradient;
-      },          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
+            // Create the gradient
+            const gradient = canvasCtx.createLinearGradient(
+              0,
+              chartArea.top,
+              0,
+              chartArea.bottom
+            );
+            gradient.addColorStop(0, "#2DADA3"); // Start color
+            gradient.addColorStop(1, "#71DAD2"); // End color
+            return gradient;
+          },
+          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
           fill: false,
           pointRadius: 0, // Removes dots from the line chart
-    pointHoverRadius: 0, // Disables the hover effect on points
-    tension: 0, // Optional: Add smooth curves to the line
+          pointHoverRadius: 0, // Disables the hover effect on points
+          tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };
@@ -328,28 +328,29 @@ watchEffect(() => {
           label: t("Player Opens"),
           data: sortedData.map((t: any) => t.count),
           borderColor: (ctx) => {
-        const chart = ctx.chart;
-        const { ctx: canvasCtx, chartArea } = chart;
-        if (!chartArea) {
-          // Return a default color until the chart is fully initialized
-          return "#2DADA3";
-        }
+            const chart = ctx.chart;
+            const { ctx: canvasCtx, chartArea } = chart;
+            if (!chartArea) {
+              // Return a default color until the chart is fully initialized
+              return "#2DADA3";
+            }
 
-        // Create the gradient
-        const gradient = canvasCtx.createLinearGradient(
-          0,
-          chartArea.top,
-          0,
-          chartArea.bottom
-        );
-        gradient.addColorStop(0, "#2DADA3"); // Start color
-        gradient.addColorStop(1, "#71DAD2"); // End color
-        return gradient;
-      },          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
+            // Create the gradient
+            const gradient = canvasCtx.createLinearGradient(
+              0,
+              chartArea.top,
+              0,
+              chartArea.bottom
+            );
+            gradient.addColorStop(0, "#2DADA3"); // Start color
+            gradient.addColorStop(1, "#71DAD2"); // End color
+            return gradient;
+          },
+          backgroundColor: "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)",
           fill: false,
           pointRadius: 0, // Removes dots from the line chart
-    pointHoverRadius: 0, // Disables the hover effect on points
-    tension: 0, // Optional: Add smooth curves to the line
+          pointHoverRadius: 0, // Disables the hover effect on points
+          tension: 0, // Optional: Add smooth curves to the line
         },
       ],
     };
@@ -488,8 +489,12 @@ function getLoadsCountSummary(
     : interval;
 
   return {
-    loadscountSummary: `${loadscountResult.currentTotal} ${t('Times during')} ${period}`,
-    opencountSummary: `${opencountResult.currentTotal} ${t('Times during')} ${period}`,
+    loadscountSummary: `${loadscountResult.currentTotal} ${t(
+      "Times during"
+    )} ${period}`,
+    opencountSummary: `${opencountResult.currentTotal} ${t(
+      "Times during"
+    )} ${period}`,
   };
 }
 // Computed properties for summary calculations
@@ -660,7 +665,7 @@ const loadscountSummary = computed(
 
     <div
       v-if="!collapseStore.collapses.includes('select_date_range_card')"
-      class="relative w-full"
+      class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-x-hidden "
     >
       <MessagesLockedFeature
         v-if="
@@ -896,9 +901,12 @@ const loadscountSummary = computed(
               class="bg-gray-200 dark:bg-p animate-pulse w-[160px] h-[32px] rounded-[13px]"
             ></div>
             <button
-              v-else-if="!statsStore.loadingStats &&  navStore.defaultappobj?.package?.filter(
-                (p) => p.type === 'Sign language'
-              ).length > 0"
+              v-else-if="
+                !statsStore.loadingStats &&
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length > 0
+              "
               @click="downloadCSV"
               :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
               class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-full md:w-[160px]"
@@ -943,7 +951,7 @@ const loadscountSummary = computed(
         ></div>
         <div
           v-else
-          class="container_chart mt-[30px] p-[8px] h-[255px] w-full  relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+          class="container_chart mt-[30px] p-[8px] h-[255px] w-full relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
         >
           <div class="custom-legend">
             <div
@@ -1005,7 +1013,7 @@ const loadscountSummary = computed(
 
         <div
           v-else
-          class="container_chart mt-[30px] p-[8px] w-full h-[255px]  relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
+          class="container_chart mt-[30px] p-[8px] w-full h-[255px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
         >
           <div class="custom-legend">
             <div
@@ -1059,7 +1067,7 @@ const loadscountSummary = computed(
   </div>
 </template>
 
-<style >
+<style>
 .bg_interval_open {
   @apply !text-white bg-gradient-to-b from-tamkinStart to-tamkinEnd dark:bg-tamkinDarkPrimary;
 
@@ -1202,13 +1210,13 @@ const loadscountSummary = computed(
   --dp-range-between-border-color: var(--dp-hover-color, #fff);
 }
 .dp__calendar_header_item {
-  @apply !text-[12px] ;
+  @apply !text-[12px];
 }
 :root[dir="rtl"] {
   --dp-font-family: "Almarai", sans-serif !important;
 }
 
 .dp__pointer::placeholder {
-  @apply rtl:!font-[Almarai] ;
+  @apply rtl:!font-[Almarai];
 }
 </style>

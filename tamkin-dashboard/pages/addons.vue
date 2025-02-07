@@ -405,7 +405,7 @@ const runtimec = useRuntimeConfig();
                   v-if="menus.includes('LiveTranslationAddons')"
                   class="mini_SizeMenu divide-y"
                 >
-                  <div
+                  <!-- <div
                     class="mini_wrap"
                     @click="annual_prices = !annual_prices"
                   >
@@ -427,7 +427,7 @@ const runtimec = useRuntimeConfig();
                       {{ $t("Convert to") }}
                       {{ annual_prices ? $t("Monthly") : $t("Annual") }}
                     </div>
-                  </div>
+                  </div> -->
 
                   <div
                     class="mini_wrap"
