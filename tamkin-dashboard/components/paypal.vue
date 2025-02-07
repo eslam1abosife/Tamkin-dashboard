@@ -55,7 +55,7 @@ export default {
         paymentStore.setLoadingPaypal(true);
         const paypal = await loadScript({
           "client-id":
-            "AX-2rQp0cxxu4_UqtnE5PNLcpNinAEZoqTNgaCFWaIrjReJVWhdUDNW3HFzn9pAba7KGGpYK9INIf1R0",
+            "AY7BJ3wqZRF96ZvHjyunXcMyEyHg5qxKoBRRAKN9urw9Mo4KfnY5eV9Sk9735c0sG3gQsFtqfe72Oeml",
         });
 
         if (!paypal) {
