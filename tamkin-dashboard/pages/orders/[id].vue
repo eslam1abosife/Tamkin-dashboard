@@ -423,6 +423,7 @@ function leaveCart(el, done) {
 
         <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
         <div
+        v-if="orderDetails && orderDetails?.Payment_Method == 'Crypto' || orderDetails?.Payment_Method == 'Credit' || orderDetails?.Payment_Method == 'PayPal'"
           class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center text-nowrap"
         >
           <img
@@ -434,6 +435,14 @@ function leaveCart(el, done) {
           <div>
             {{ $t("Via") }} {{ $t(orderDetails.Payment_Method) }} :
             {{ orderDetails.Account }}
+          </div>
+        </div>
+        <div
+        v-else
+          class="ipad-max:text-[10px] dark:text-whiteTamkin text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center text-nowrap"
+        >
+          <div>
+            {{ $t("Free") }}
           </div>
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9] dark:bg-darkborder"></div>
