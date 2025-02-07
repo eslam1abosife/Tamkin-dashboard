@@ -263,11 +263,9 @@ const selectCryptoMethod = (method) => {
   isCryptoMenuOpen.value = false;
 };
 const listofapps = computed(() => {
-  return apps.value.length > 1
-    ? apps.value.filter(
+  return apps.value.filter(
         (app) => app.app_domain !== null && app.status !== "deleted"
-      )
-    : [];
+      );
 });
 const websiteExists = ref(false);
 watch(
@@ -369,6 +367,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
     <div class="w-full overflow-x-hidden overflow-y-auto max-h-[500px]">
       <div class="w-full mt-[14px] relative">
         <TranslateSelectInput
+          v-if="!getSitesLoading"
           :disabled="state.website_new !== '' || isLinkActive('/subscriptions')"
           @getCurrentSelectedItem="selectWebsite"
           :enableSearch="false"
@@ -379,7 +378,8 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false);
           class=""
           :current-list-value="currentWebSite.title"
         />
-
+      <div v-if="getSitesLoading" class="animate-pulse mb-2 h-[36px] bg-gray-300 dark:bg-gray-600 rounded">
+      </div>
         <div
           v-if="currentWebSite !== '' && !mySiteStore.currentWebsite"
           @click="
