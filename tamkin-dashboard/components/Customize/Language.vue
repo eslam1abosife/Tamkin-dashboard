@@ -356,8 +356,8 @@ const filterdLanguages = computed(() => {
                       class="text-[12px] font-[400] leading-[20px] uppercase dark:text-whiteTamkin"
                     >
                       {{
-                        lang.language_code == "auto detect language"
-                          ? "AD"
+                        lang.language_code == $t('auto detect language')
+                          ?  $t('AD')
                           : lang.language_code
                       }}
                     </div>

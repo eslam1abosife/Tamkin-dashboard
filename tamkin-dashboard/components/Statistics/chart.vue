@@ -1048,6 +1048,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
             :options="options"
             :style="myStyles"
             :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
+            class="w-full"
           />
 
           <div v-else class="flex items-center justify-center h-full w-full">
