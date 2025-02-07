@@ -428,7 +428,7 @@ const sortedPlans = computed(() => {
               </div>
             </div>
             <div
-              class="flex items-center justify-start relative flex-1 ltr:px-[14px] px-[10px]"
+              class="flex items-center justify-start relative flex-1 px-[24px]"
             >
               <div class="order-2 mt-[22px] relative flex-1">
                 <h1
@@ -459,14 +459,14 @@ const sortedPlans = computed(() => {
                   :for="'plan_' + plan.name"
                   class="flex items-center cursor-pointer"
                 >
-                  <span class="radio-tamkin"></span>
+                  <span class="radio-tamkin !mr-0"></span>
                 </label>
               </div>
             </div>
           </div>
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[12px] mt-[-10px] z-[200] h-auto w-full custom-border-collapse rounded-t-none rounded-[10px] p-4"
+            class="flex flex-col items-start justify-center space-y-[12px] mt-[-10px] z-[200] h-auto w-full custom-border-collapse rounded-t-none rounded-[10px] px-[24px] py-4"
             :class="[
               selectedPlan && selectedPlan === plan
                 ? 'bg-selected dark:bg-p'

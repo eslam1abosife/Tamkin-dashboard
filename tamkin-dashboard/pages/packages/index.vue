@@ -111,7 +111,7 @@ onUpdated(() => {
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] lg:top-[90px] top-[170px] sm:top-[150px] p-[4px] border border-gray-300">
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[3.3%] ltr:right-[3.3%] lg:top-[90px] top-[170px] sm:top-[150px] p-[4px] border border-gray-300 z-[4]">
       <button @click="switchBetweenMonthlyAndAnnual('month')" :class="[
         packagesStore.discountType === 'month'
           ? 'bg-white dark:bg-darkTamkin rounded-full'

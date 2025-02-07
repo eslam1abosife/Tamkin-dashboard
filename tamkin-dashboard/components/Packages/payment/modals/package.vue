@@ -1536,12 +1536,15 @@ const formattedTotal = computed(() => {
                   "
                 >
                   <td
-                    class="py-2 border-b px-2 ltr:text-left whitespace-nowrap rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="flex ltr:pr-2 gap-1 rtl:pl-2 py-[0.56rem] border-b ltr:text-left rtl:text-right text-[12px] sm:text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin items-center rtl:space-x-reverse space-x-[33px]"
                   >
                     <div
                       class="flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
                     >
-                      <div class="w-[150px] flex items-center h-[40px]">
+                    <div
+                      class="gap-1 flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                    >
+                      <div class="truncate max-w-[130px] w-fit flex items-center h-[48px]">
                         <div
                           class="flex items-center justify-between dark:text-whiteTamkin text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                         >
@@ -1582,7 +1585,7 @@ const formattedTotal = computed(() => {
                         </div>
                       </div>
                       <div
-                        class="cursor-pointer"
+                        class="cursor-pointer !m-0"
                         @click="
                           removeWebsiteFromSelectedApps(website.app_domain)
                         "
@@ -1602,9 +1605,10 @@ const formattedTotal = computed(() => {
                         </svg>
                       </div>
                     </div>
+                    </div>
                   </td>
                   <td
-                    class="py-2 px-2 border-b text-[16px] w leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="py-2 border-b text-[16px] w leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{
                       packagesStore.currentPackage.package_type !== "Package" ||
@@ -1623,7 +1627,7 @@ const formattedTotal = computed(() => {
                       packagesStore.currentPackage.package_type === 'Package' &&
                       packagesStore.currentType.title !== 'Accessibility'
                     "
-                    class="py-2 px-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                    class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                   >
                     <div class="flex items-center justify-center">
                       <div v-if="!loadingPriceTraffic">

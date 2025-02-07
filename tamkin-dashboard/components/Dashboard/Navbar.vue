@@ -705,20 +705,20 @@ watch(
             >
               {{ $t("Sign language") }}
             </div>
-            <div v-if="sideBarOpen" class="absolute rtl:left-2 ltr:right-2">
+            <div v-if="sideBarOpen" class="absolute rtl:left-1 ltr:right-1">
               <svg
                 width="7"
                 height="12"
                 :class="[
-                  showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 rtl:rotate-180 ',
+                  showSubMenu[4] ? 'rotate-90 ' : 'rotate-0  rtl:rotate-180 ',
                 ]"
                 viewBox="0 0 7 12"
-                class="w-full h-full ]"
+                class="w-full h-full pr-[4px]"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
                   <linearGradient
-                    id="grad34311"
+                    id="grad_ni"
                     x1="0%"
                     y1="0%"
                     x2="0%"
@@ -731,8 +731,8 @@ watch(
                 <path
                   :class="[
                     showSubMenu[4]
-                      ? 'sign-gradient'
-                      : 'fill-[#585B5B] dark:fill-[white]',
+                      ? 'fill_access'
+                      : 'fill-[#585B5B] dark:fill-white',
                   ]"
                   fill-rule="evenodd"
                   clip-rule="evenodd"

@@ -120,7 +120,7 @@ const isLinkActive = (path) => {
             isLinkActive('/my-site') ? 'px-[14px]' : '',
             isOpen('upgrade_no_package') ? 'space-x-[30px]' : 'space-x-[30px] ',
           ]"
-          class="bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4 w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col"
+          class="gap-x-4 bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 max-md:px-4 py-4 lg:space-y-0 space-y-4 w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col"
         >
           <div class="">
             <img
