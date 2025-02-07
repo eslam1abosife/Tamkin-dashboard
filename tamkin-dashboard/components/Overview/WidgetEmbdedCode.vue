@@ -159,6 +159,9 @@ const isLinkActive = (path) => {
             {{ $t("Widget Embed Code") }}
           </h1>
           <h2
+          :class="{
+            'pb-[24px]': collapseStore.collapses.includes('widget_embded_code_card'),
+          }"
             class="rtl:text-right ltr:text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin/90"
           >
             {{
@@ -288,7 +291,7 @@ const isLinkActive = (path) => {
       </div>
 
       <div
-        class="flex flex-col items-start justify-center divide-y"
+        class="flex flex-col items-start justify-center"
         v-if="!collapseStore.collapses.includes('widget_embded_code_card')"
       >
         <AdvancedCodeBlock />
