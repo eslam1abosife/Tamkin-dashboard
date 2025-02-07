@@ -724,7 +724,7 @@ const getSettingsValue = (name: any) => {
                 </h1>
 
                 <p
-                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-full"
                 >
                   <span
                     v-if="
@@ -963,7 +963,7 @@ const getSettingsValue = (name: any) => {
                 </h1>
 
                 <p
-                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-full"
                 >
                   <span
                     v-if="

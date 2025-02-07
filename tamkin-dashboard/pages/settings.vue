@@ -562,7 +562,7 @@ const componentKey = ref(0);
                 </h1>
 
                 <p
-                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-full"
                 >
                   <span
                     v-if="
@@ -813,7 +813,7 @@ const componentKey = ref(0);
                 </h1>
 
                 <p
-                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+                  class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-full"
                 >
                   <span
                     v-if="
