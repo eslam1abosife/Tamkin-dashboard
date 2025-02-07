@@ -13,22 +13,39 @@ const slider = ref(null);
 const localePath = useLocalePath();
 
 // Function to move slider to the active link
-const moveSlider = async (path) => {
+const moveSlider = async (path,pageMounted) => {
   await nextTick();
 
   const newActiveIndex = getNavLinkIndex(path);
 
   if (newActiveIndex !== -1 && navContainer.value) {
-    const navLinks = navContainer.value.querySelectorAll("a");
-    const targetLink = navLinks[newActiveIndex];
-
-    if (targetLink && slider.value) {
-      const sliderWidth = targetLink.offsetWidth;
-      const sliderLeft = targetLink.offsetLeft;
-
-      // Update slider dimensions and position
-      slider.value.style.width = `${sliderWidth}px`;
-      slider.value.style.transform = `translateX(${sliderLeft}px)`;
+      if(pageMounted) {
+      setTimeout(() => {
+        const navLinks = navContainer.value.querySelectorAll("a");
+        const targetLink = navLinks[newActiveIndex];
+  
+        if (targetLink && slider.value) {
+          const sliderWidth = targetLink.offsetWidth;
+          const sliderLeft = targetLink.offsetLeft;
+  
+          // Update slider dimensions and position
+          slider.value.style.width = `${sliderWidth}px`;
+          slider.value.style.transform = `translateX(${sliderLeft}px)`;
+        }
+        
+      }, 600);
+    } else {
+      const navLinks = navContainer.value.querySelectorAll("a");
+        const targetLink = navLinks[newActiveIndex];
+  
+        if (targetLink && slider.value) {
+          const sliderWidth = targetLink.offsetWidth;
+          const sliderLeft = targetLink.offsetLeft;
+  
+          // Update slider dimensions and position
+          slider.value.style.width = `${sliderWidth}px`;
+          slider.value.style.transform = `translateX(${sliderLeft}px)`;
+        }
     }
   }
 };
@@ -57,7 +74,7 @@ onMounted(() => {
   setTimeout(() => {
 
   nextTick(() => {
-  moveSlider(currentRoute.value);
+  moveSlider(currentRoute.value, true);
 
     slider.value.style.transition = "transform 0.1s ease-in-out, width 0.1s ease-in-out"; // Enable transition after layout
   });

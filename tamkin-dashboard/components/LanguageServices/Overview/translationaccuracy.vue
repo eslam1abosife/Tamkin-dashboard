@@ -22,9 +22,10 @@ watch(width, (newWidth) => {
   }
 });
 const translationPercentage = computed(() => {
-  const translated = Number(statsStore.translation_quality.translated_content)
-  const total = Number(statsStore.sign_languageStats.total)
-  return total > 0 ? ((translated / total) * 100).toFixed(0) : 0
+  const translated = statsStore.translation_quality.translated_content;
+  const notTranslated = statsStore.translation_quality.untranslated_content;
+  const total =statsStore.sign_languageStats.total;
+  return Math.ceil((translated/(translated+notTranslated))*100);
 })
 const collapseStore = useCollapseStore();
 
@@ -391,8 +392,14 @@ const options = ref({
         <div class="flex flex-col items-center justify-start">
          
           <div class="  mt-[-20px] ipad-max:mx-auto w-1/4 flex justify-center">
-            <CircularProgressBar :initial-percentage="translationPercentage" 
-             :total="`${statsStore.sign_languageStats.total}`" class="!w-[200px] !h-[200px]"/>
+            <!-- <CircularProgressBar :initialPercentage="translationPercentage" 
+             :total="`${statsStore.sign_languageStats.total}`" class="!w-[200px] !h-[200px]"/> -->
+
+             <CircularProgressBar
+            textsize="32px"
+            :initialPercentage="translationPercentage ? translationPercentage : 0"
+            class="small_circle !w-[150px] !h-[150px] text-[12px]"
+          />
                   </div>
           <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328]">
             {{ $t('Translation Accuracy') }}
