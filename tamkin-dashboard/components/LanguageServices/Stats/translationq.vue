@@ -439,11 +439,11 @@ const options = ref({
           <CircularProgressBar
             textsize="32px"
             :initialPercentage="accuracy ? accuracy : 0"
-            class="small_circle !w-[150px] !h-[150px] text-[12px]"
+            class="small_circle !w-[150px] !h-[150px] text-[12px] dark:text-whiteTamkin"
           />
 
           <div
-            class="text-[18px] text-center leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin"
+            class="text-[18px] dark:text-whiteTamkin text-center leading-[28px] mt-[14px] font-[500] text-[#021328]"
           >
             {{ $t("Translation Accuracy") }}
           </div>

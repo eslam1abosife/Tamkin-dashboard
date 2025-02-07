@@ -2118,7 +2118,7 @@ const openInvestor = (app, pack) => {
                     >
                       <div
                         v-if="pk.status === 'Active' || pk.status === 'draft'"
-                        class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+                        class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] w-[88px] text-white text-[12px] leading-[18px]"
                       >
                         {{ $t(`Active`) }}
                       </div>

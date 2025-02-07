@@ -131,10 +131,10 @@ const getCurrentAccessPackage = computed(() => {
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
             >
-                <div class="text-black dark:text-white font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{ $t("SAVE") }}
               </div>
-                <div class="text-black dark:text-white font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{
                   packagesStore.types.length
                     ? packagesStore.types.find(
@@ -147,7 +147,7 @@ const getCurrentAccessPackage = computed(() => {
           </button>
         </div>
         <div
-          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-tamkinEnd lg:to-[#c8fdf9] dark:to-[#26687945]/[27%] "
+          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-tamkinEnd lg:to-[#c8fdf9] dark:to-[#26687945]/[27%]"
         >
           <div
             class="flex flex-col items-start justify-center w-full px-[15px]"
@@ -211,7 +211,7 @@ const getCurrentAccessPackage = computed(() => {
 
               <div
                 v-if="getCurrentAccessPackage.status === 'Active'"
-                class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+                class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] w-[88px] text-white text-[12px] leading-[18px]"
               >
                 {{ $t(`Active`) }}
               </div>
@@ -254,16 +254,25 @@ const getCurrentAccessPackage = computed(() => {
           </div>
 
           <div
-            class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden"
+            class="rtl:mr-auto rtl:scale-x-[-1] ltr:ml-auto h-full w-full lg:block hidden"
           >
             <!-- <img
               src="/imgs/vector_plan.png"
               class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
             /> -->
             <img
-                :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
-                class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
-                :style="navStore.isDark ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; ' : ''" />
+              :src="`/assets/imgs/overview/${
+                navStore.isDark
+                  ? 'current_plan_upgrade_dark.png'
+                  : 'current_plan_upgrade.svg'
+              }`"
+              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
+              :style="
+                navStore.isDark
+                  ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; '
+                  : ''
+              "
+            />
           </div>
         </div>
 

@@ -71,7 +71,7 @@ const filteredPackages = computed(() => {
           768: {
             perPage: 1,
           },
-          877: {
+          1300: {
             perPage: 2,
           },
         },
