@@ -431,30 +431,14 @@ const runtimec = useRuntimeConfig();
               !collapseStore.collapses.includes('LiveTranslationAddonsCard')
             ">
               <!-- -->
-              <Splide
+              <div
                 v-if="navStore.defaultappobj"
-                :options="{
-                  rewind: true,
-                  arrows: false,
-                  direction: `${locale === 'ar' ? 'rtl' : 'ltr'}`,
-                  gap: 36,
-                  perPage: 3,
-                  breakpoints: {
-                    768: {
-                      perPage: 1,
-                    },
-                    877: {
-                      perPage: 2,
-                    },
-                  },
-                  width: '100%',
-                }"
-                class="w-full"
+                class="w-full grid grid-cols-12 gap-y-[57px] gap-x-[20px] md:gap-x-[36px]"
               >
-                <SplideSlide
+                <div
                   v-for="pak in livePackages"
                   :key="pak.name"
-                  class="!mt-[34px]"
+                  class="col-span-12 md:col-span-6 lg:col-span-4"
                 >
                   <div
                     :class="[
@@ -559,8 +543,8 @@ const runtimec = useRuntimeConfig();
                       <img :src="runtimec.public.baseImagerUrl + pak.icon" />
                     </div>
                   </div>
-                </SplideSlide>
-              </Splide>
+                </div>
+              </div>
             </div>
 
             <div

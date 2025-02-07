@@ -290,7 +290,8 @@ export default function () {
         code: "auto detect language",
         icon: "",
       });
-      res.data.data.dictionary.forEach((el: any) => {
+      
+      (res.data?.data?.dictionary ?? []).forEach((el: any) => {
         customizeStore.$state.languages.push(el);
       });
 

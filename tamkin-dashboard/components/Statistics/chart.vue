@@ -709,7 +709,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
     </div>
 
     <div
-      class="w-full relative mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
+      class="w-full relative mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
     >
       <MessagesLockedFeature
         v-if="
@@ -717,7 +717,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
             (p) => p.type === 'Accessibility'
           ).length === 0
         "
-        class="w-full"
+        class="w-full mt-[24px]"
       />
       <div
         v-if="!collapseStore.collapses.includes('select_date_range_card')"
