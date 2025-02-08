@@ -357,7 +357,7 @@ const options = ref({
         </div>
       </div>
 
-      <div class="flex items-center justify-between gap-1 w-full mt-[66px]">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-1 w-full mt-[66px]">
         <div class="grid grid-cols-12 w-full">
           <div
             class="rounded-[10px] col-span-12 dark:bg-tamkinDarkPrimary lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
@@ -457,7 +457,7 @@ const options = ref({
     </div>
 
     <div
-      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg"
     >
       <div
         class="flex items-center justify-between rtl:space-x-reverse space-x-[40px]"

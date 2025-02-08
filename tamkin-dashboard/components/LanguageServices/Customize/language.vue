@@ -296,7 +296,7 @@ const closeDropdown = () => {
                 {{
                   selectedLang
                     ? $t(`${selectedLang.title}`)
-                    : $t("Auto detect Language")
+                    : $t("auto detect language")
                 }}
               </div>
 

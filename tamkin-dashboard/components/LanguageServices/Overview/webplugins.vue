@@ -109,6 +109,9 @@ const options = ref({
   maintainAspectRatio: true,
   plugins: {
     tooltip: {
+      font: {
+        family: 'Almarai'
+      },
       enabled: false, // Disable the default tooltip
       external: function (context) {
         let tooltipEl = document.getElementById("chartjs-tooltip");
@@ -158,7 +161,7 @@ const options = ref({
           position.left + window.pageXOffset + tooltipModel.caretX + "px";
         tooltipEl.style.top =
           position.top + window.pageYOffset + tooltipModel.caretY + "px";
-        tooltipEl.style.fontFamily = '"Almarai", sans-serif !important';
+        tooltipEl.style.fontFamily = 'Almarai !important';
         tooltipEl.style.fontSize = 16 + "px";
         tooltipEl.style.fontWeight = 500 + "px";
         tooltipEl.style.fontStyle = tooltipModel.options.bodyFont.style;
@@ -177,6 +180,14 @@ const options = ref({
     legend: {
       display: false,
       rtl: locale.value === "ar", // Dynamically set RTL for legend
+      font: {
+        family: 'Almarai'
+      },
+      labels: {
+        font: {
+        family: 'Almarai'
+      },
+      }
     },
   },
   scales: {
@@ -217,6 +228,9 @@ const options = ref({
         display: true,
       },
       ticks: {
+        font: {
+        family: 'Almarai'
+      },
         display: true,
         color: (c) => (colorMode.preference === "dark" ? "white" : "black"),
       },
@@ -347,6 +361,7 @@ watchEffect(() => {
           :options="options"
           :style="myStyles"
         />
+        ديسمبر
       </div>
     </div>
   </div>
