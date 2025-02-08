@@ -91,6 +91,16 @@ const getCurrentAccessPackage = computed(() => {
         // type:'Sign language'
       };
 });
+const isPackage = computed(() => {
+  return navStore.defaultappobj?.package?.length &&
+    navStore.defaultappobj.package.find(
+      (p) => p.type === 'Sign language'
+    )
+});
+const isActivePackage = computed(() => {
+  return isPackage.value ? getCurrentAccessPackage.value.status === 'Active' : false;
+});
+
 </script>
 
 <template>
@@ -105,6 +115,7 @@ const getCurrentAccessPackage = computed(() => {
         class="w-full bg-white relative dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
       >
         <div
+        v-if="!isActivePackage"
           class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px] w-auto dark:bg-tamkinDarkPrimary dark:border-darkborder absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
         >
           <button
@@ -261,18 +272,8 @@ const getCurrentAccessPackage = computed(() => {
               class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
             /> -->
             <img
-              :src="`/assets/imgs/overview/${
-                navStore.isDark
-                  ? 'current_plan_upgrade_dark.png'
-                  : 'current_plan_upgrade.svg'
-              }`"
-              class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px]"
-              :style="
-                navStore.isDark
-                  ? 'object-position:41px 36%; object-fit:cover; width:368px; margin-inline-start:auto; '
-                  : ''
-              "
-            />
+                :src="`/assets/imgs/overview/${navStore.isDark ? 'current_plan_upgrade_dark.png' : 'current_plan_upgrade.svg'}`"
+                class="w-full h-full rtl:rounded-tr-[10px] ltr:rounded-tr-[10px] dark:[object-position:41px_36%] dark:[object-fit:cover] dark:w-[368px] dark:ltr:ml-auto dark:rtl:mr-0" />
           </div>
         </div>
 
@@ -299,6 +300,7 @@ const getCurrentAccessPackage = computed(() => {
             getCurrentAccessPackage ? getCurrentAccessPackage : {}
           "
           :current-pack-id="getCurrentAccessPackage?.name"
+          v-show="!isActivePackage"
         />
       </div>
 

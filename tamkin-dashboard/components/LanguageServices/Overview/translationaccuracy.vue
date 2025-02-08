@@ -424,18 +424,14 @@ const options = ref({
             <!-- <CircularProgressBar :initialPercentage="translationPercentage" 
              :total="`${statsStore.sign_languageStats.total}`" class="!w-[200px] !h-[200px]"/> -->
 
-            <CircularProgressBar
-              textsize="32px"
-              :initialPercentage="
-                translationPercentage ? translationPercentage : 0
-              "
-              class="small_circle !w-[150px] !h-[150px] text-[12px] dark:text-whiteTamkin"
-            />
-          </div>
-          <div
-            class="whitespace-nowrap text-[12px] sm:text-[16px] dark:text-whiteTamkin leading-[28px] mt-[14px] font-[500] text-[#021328]"
-          >
-            {{ $t("Translation Accuracy") }}
+             <CircularProgressBar
+            textsize="32px"
+            :initialPercentage="translationPercentage ? translationPercentage : 0"
+            class="small_circle !w-[150px] !h-[150px] text-[12px]"
+          />
+                  </div>
+          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-white">
+            {{ $t('Translation Accuracy') }}
           </div>
         </div>
       </div>

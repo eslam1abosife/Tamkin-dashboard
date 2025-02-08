@@ -229,7 +229,7 @@ const filterdLanguages = computed(() => {
       </div>
 
       <div
-        class="relative flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
+        class="relative flex flex-col items-start justify-center mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
         :class="
           !settingsStore.manageAccessibility.find(
@@ -384,7 +384,7 @@ const filterdLanguages = computed(() => {
 
         <div
           v-if="customizeStore.accessibilityLanguage.active == 1"
-          class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
+          class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
         >
           <div
             class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"

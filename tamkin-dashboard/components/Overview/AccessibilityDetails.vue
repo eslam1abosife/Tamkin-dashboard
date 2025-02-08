@@ -419,12 +419,12 @@ function generateColorPalette() {
         </h1>
       </div>
       <div class="">
-        <button
+        <!-- <button
           @click="$router.push('/statistics')"
           class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full !p-[10px] lg:order-1 order-2 lg:my-0 my-4"
         >
           {{ $t("View All") }}
-        </button>
+        </button> -->
         <div
           @click="collapseStore.collapseMenu('access_details')"
           v-on-click-outside="() => collapseStore.removeMenu('access_details')"
