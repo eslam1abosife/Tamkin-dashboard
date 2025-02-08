@@ -85,7 +85,7 @@ function convertUsdToCrypto(usdTotal, rates) {
           768: {
             perPage: 1,
           },
-          877: {
+          1120: {
             perPage: 2,
           },
         },
@@ -125,7 +125,7 @@ function convertUsdToCrypto(usdTotal, rates) {
                 ? 'bg-gradient-to-br from-[#2dada3] to-[#71dad2]'
                 : 'bg-[#5E4352]',
             ]"
-            class="absolute flex dark:text-whiteTamkin items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white top-[-15px] rtl:right-[150px] ltr:left-[150px]"
+            class="absolute flex dark:text-whiteTamkin items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white top-[-15px] rtl:right-[50%] ltr:left-[50%]"
           >
             <div>{{ $t(pak.type_deal) }}</div>
           </div>

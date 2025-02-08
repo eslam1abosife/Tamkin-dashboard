@@ -941,7 +941,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
               </div>
             </div>
           </div>
-          <div class="lg:mr-[-15px] lg:px-[15px] max-md:w-full">
+          <div class="max-md:w-full">
             <div
               v-if="statsStore.loadingStats"
               class="bg-gray-200 animate-pulse dark:bg-p w-[160px] h-[32px] rounded-[13px]"
@@ -1048,6 +1048,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
             :options="options"
             :style="myStyles"
             :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
+            class="w-full"
           />
 
           <div v-else class="flex items-center justify-center h-full w-full">

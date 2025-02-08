@@ -374,12 +374,12 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px]] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Translated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{
                     statsStore.translation_quality.translated_content
@@ -405,12 +405,12 @@ const options = ref({
             >
               <div class="space-y-[16px]">
                 <h2
-                  class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+                  class="whitespace-nowrap text-[12px] sm:text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{ $t("Untranslated content") }}
                 </h2>
                 <h1
-                  class="text-[20px] font-[600] text-black dark:text-white leading-[30px]"
+                  class="text-[16px] md:text-[20px] font-[600] text-black dark:text-white leading-[30px]"
                 >
                   {{
                     statsStore.translation_quality.untranslated_content
@@ -439,11 +439,11 @@ const options = ref({
           <CircularProgressBar
             textsize="32px"
             :initialPercentage="accuracy ? accuracy : 0"
-            class="small_circle !w-[150px] !h-[150px] text-[12px]"
+            class="small_circle !w-[150px] !h-[150px] text-[12px] dark:text-whiteTamkin"
           />
 
           <div
-            class="text-[18px] text-center leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-whiteTamkin"
+            class="text-[18px] dark:text-whiteTamkin text-center leading-[28px] mt-[14px] font-[500] text-[#021328]"
           >
             {{ $t("Translation Accuracy") }}
           </div>

@@ -142,10 +142,10 @@ const isActivePackage = computed(() => {
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]"
             >
-                <div class="text-black dark:text-white font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{ $t("SAVE") }}
               </div>
-                <div class="text-black dark:text-white font-[800] !text-[10px]">
+              <div class="text-black dark:text-white font-[800] !text-[10px]">
                 {{
                   packagesStore.types.length
                     ? packagesStore.types.find(
@@ -158,7 +158,7 @@ const isActivePackage = computed(() => {
           </button>
         </div>
         <div
-          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-tamkinEnd lg:to-[#c8fdf9] dark:to-[#26687945]/[27%] "
+          class="flex items-center justify-start rounded-[10px] h-[212px] w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#423568] to-tamkinEnd lg:to-[#c8fdf9] dark:to-[#26687945]/[27%]"
         >
           <div
             class="flex flex-col items-start justify-center w-full px-[15px]"
@@ -222,7 +222,7 @@ const isActivePackage = computed(() => {
 
               <div
                 v-if="getCurrentAccessPackage.status === 'Active'"
-                class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+                class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] w-[88px] text-white text-[12px] leading-[18px]"
               >
                 {{ $t(`Active`) }}
               </div>
@@ -265,7 +265,7 @@ const isActivePackage = computed(() => {
           </div>
 
           <div
-            class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden"
+            class="rtl:mr-auto rtl:scale-x-[-1] ltr:ml-auto h-full w-full lg:block hidden"
           >
             <!-- <img
               src="/imgs/vector_plan.png"

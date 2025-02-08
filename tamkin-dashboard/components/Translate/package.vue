@@ -1,31 +1,25 @@
 <script lang="ts" setup>
-import {useGetPackages,useGetStats} from '@/composables/useInternal'
+import { useGetPackages, useGetStats } from "@/composables/useInternal";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import {
   useDeleteApp,
   useRestoreApp,
   useGetPackage,
 } from "@/composables/useMySite";
-const {locale} = useI18n()
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { locale } = useI18n();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const { fullUrl } = useFullUrl();
 
-const {getPackages} = useGetPackages()
-const {getStats} = useGetStats()
+const { getPackages } = useGetPackages();
+const { getStats } = useGetStats();
 const props = defineProps({
   type: {
     type: String,
   },
 });
 const emit = defineEmits(["changePlan"]);
-const translateStore = useTranslateStore()
+const translateStore = useTranslateStore();
 const currentPlan = ref(props.type);
 
 const changePlan = (data: string) => {
@@ -40,39 +34,40 @@ watch(
   }
 );
 // scrollToSection('types')
-const currentAPP = ref()
-const scrollToSection = (sectionId) =>{
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-    onBeforeMount(async ()=>{
-      translateStore.loadingPackage = true
+const currentAPP = ref();
+const scrollToSection = (sectionId) => {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
+onBeforeMount(async () => {
+  translateStore.loadingPackage = true;
 
-      const result = await getPackages()
-      const result2 = await getStats()
-      if(result){
-        currentAPP.value = result
-translateStore.internalPackages = result.package
-translateStore.statsPackage = result2
-      }
+  const result = await getPackages();
+  const result2 = await getStats();
+  if (result) {
+    currentAPP.value = result;
+    translateStore.internalPackages = result.package;
+    translateStore.statsPackage = result2;
+  }
 
-      translateStore.loadingPackage = false
+  translateStore.loadingPackage = false;
+});
 
-    })
+const getMediaPackage = computed(() => {
+  if (translateStore.internalPackages.length) {
+    return translateStore.internalPackages.find(
+      (p) => p.package_category === "Media"
+    );
+  }
+});
 
-    const getMediaPackage = computed(()=>{
-    if(translateStore.internalPackages.length){
-     return  translateStore.internalPackages.find(p=>p.package_category === 'Media') 
-     }
-    })
-
-    const getMediaStats = computed(()=>{
-      if(translateStore.statsPackage){
-        return translateStore.statsPackage.total.media.package
-      }
-    })
+const getMediaStats = computed(() => {
+  if (translateStore.statsPackage) {
+    return translateStore.statsPackage.total.media.package;
+  }
+});
 
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
 
@@ -109,28 +104,26 @@ const upgradeModalPackage = async (app, pack) => {
   navigateTo(null, "internalMediaservices", "upgrade_mysite_package");
   loadingUpgrade.value.splice({ app: app.name, pack: pack.package_name });
 };
-const loadingPlaceholder =ref(false)
+const loadingPlaceholder = ref(false);
 const refreshData = async () => {
-  translateStore.loadingPackage = true
+  translateStore.loadingPackage = true;
 
-  loadingPlaceholder.value = true
-  const result = await getPackages()
-      const result2 = await getStats()
-      if(result){
-        translateStore.currentApp = result
-translateStore.internalPackages = result.package
+  loadingPlaceholder.value = true;
+  const result = await getPackages();
+  const result2 = await getStats();
+  if (result) {
+    translateStore.currentApp = result;
+    translateStore.internalPackages = result.package;
 
-translateStore.statsPackage = result2
-loadingPlaceholder.value = false
+    translateStore.statsPackage = result2;
+    loadingPlaceholder.value = false;
+  }
 
-      }
-
-      translateStore.loadingPackage = false
-
+  translateStore.loadingPackage = false;
 };
-const loadingextra = ref([])
-const openBuyMoreExtra = async (app,pack,id)=>{
-  await loadingextra.value.push({ app: app.name, pack: pack.name,id:id });
+const loadingextra = ref([]);
+const openBuyMoreExtra = async (app, pack, id) => {
+  await loadingextra.value.push({ app: app.name, pack: pack.name, id: id });
 
   const packagemodal = await getPackage(pack.name);
   mysiteStore.currentWebsite = {
@@ -138,10 +131,9 @@ const openBuyMoreExtra = async (app,pack,id)=>{
     package: [packagemodal.package],
   };
 
-   navigateTo(null, "internalMediaservices", "buy_extra__service");
-   loadingextra.value.splice({ app: app.name, pack: pack.name,id:id });
-
-}
+  navigateTo(null, "internalMediaservices", "buy_extra__service");
+  loadingextra.value.splice({ app: app.name, pack: pack.name, id: id });
+};
 const getPackageAndOpenPaymenModal = async (app, pack) => {
   await loadingBlock.value.push({ app: app.name, pack: pack.name });
 
@@ -158,11 +150,12 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     package_price_role: packagemodal.price_roles,
     billing_duration:
       pack.month_difference > 0
-        ? Number(pack.month_difference) === 3 && pack.remarks !== 'Free Trial'
+        ? Number(pack.month_difference) === 3 && pack.remarks !== "Free Trial"
           ? "3 months"
-          : Number(pack.month_difference) === 12&& pack.remarks !== 'Free Trial'
+          : Number(pack.month_difference) === 12 &&
+            pack.remarks !== "Free Trial"
           ? "yearly"
-          : Number(pack.month_difference) === 1&& pack.remarks !== 'Free Trial'
+          : Number(pack.month_difference) === 1 && pack.remarks !== "Free Trial"
           ? "monthly"
           : "none"
         : "none",
@@ -179,260 +172,351 @@ const userconsume = computed(() => {
 
   if (media) {
     return (
-      translateStore.usedCredit.media.video_words + extre.media_words === pkg.video_words && 
-      translateStore.usedCredit.media.audio_words+ extre.media_words === pkg.aduio_words  &&
-      translateStore.usedCredit.media.audio_minutes + extre.media_minutes === pkg.aduio_minutes && 
-      translateStore.usedCredit.media.live_transaction_media + extre.media_minutes  === pkg.live_transaction_media && 
-      translateStore.usedCredit.media.video_minutes+ extre.media_minutes  === pkg.video_minutes 
+      translateStore.usedCredit.media.video_words + extre.media_words ===
+        pkg.video_words &&
+      translateStore.usedCredit.media.audio_words + extre.media_words ===
+        pkg.aduio_words &&
+      translateStore.usedCredit.media.audio_minutes + extre.media_minutes ===
+        pkg.aduio_minutes &&
+      translateStore.usedCredit.media.live_transaction_media +
+        extre.media_minutes ===
+        pkg.live_transaction_media &&
+      translateStore.usedCredit.media.video_minutes + extre.media_minutes ===
+        pkg.video_minutes
     );
   } else {
     return false;
   }
 });
-
 </script>
 
 <template>
   <div class="w-full">
     <div
-  v-if="getMediaPackage && !translateStore.loadingPackage "
-    :class="[getMediaPackage.title === 'Free' ? 'bg-gradient-to-l from-[#A3D9C6A8] via-[#FAECCCA8] to-[#A5D6F2A8]':'bg-gradient-services']"
-      class="w-full  rounded-[10px]
-       flex flex-col items-start justify-between h-full p-[15px] relative"
+      v-if="getMediaPackage && !translateStore.loadingPackage"
+      :class="[
+        getMediaPackage.title === 'Free'
+          ? 'bg-gradient-to-l from-[#A3D9C6A8] via-[#FAECCCA8] to-[#A5D6F2A8]'
+          : 'bg-gradient-services',
+      ]"
+      class="w-full rounded-[10px] flex flex-col items-start justify-between h-full p-[15px] relative"
     >
+      <transition
+        :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+        mode="out-in"
+      >
+        <MySiteBuyextra v-if="isOpen('buy_extra__service')" />
+      </transition>
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySiteBuyextra v-if="isOpen('buy_extra__service')"/>
-
-    </transition>
-
-
-  <transition
-  :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-  mode="out-in"
->
-  <MySitePaymentCryptoSuccess @update-data="refreshData"/>
-</transition>
+      <transition
+        :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+        mode="out-in"
+      >
+        <MySitePaymentCryptoSuccess @update-data="refreshData" />
+      </transition>
 
       <div class="flex flex-col items-start justify-between h-[160px] w-full">
         <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-          <img class="w-[40px] h-[40px]" :src="fullUrl(getMediaPackage.icon)" alt="" />
-          <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px] rtl:space-x-reverse">
-           <div>
-            {{ $t(getMediaPackage.title) }} - {{ $t(getMediaPackage.type) }} - {{ $t(getMediaPackage.package_category) }}
-           </div>
-            <div
-            class=" mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+          <img
+            class="w-[40px] h-[40px]"
+            :src="fullUrl(getMediaPackage.icon)"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px] rtl:space-x-reverse"
           >
-          
-            <div
-              v-if="new Date() < new Date(getMediaPackage.endpackage) && getMediaPackage.status === 'Active' || getMediaPackage.status === 'draft'  "
-              class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-            >
-              {{ $t(`Active`) }}
+            <div>
+              {{ $t(getMediaPackage.title) }} - {{ $t(getMediaPackage.type) }} -
+              {{ $t(getMediaPackage.package_category) }}
             </div>
+            <div
+              class="mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+            >
+              <div
+                v-if="
+                  (new Date() < new Date(getMediaPackage.endpackage) &&
+                    getMediaPackage.status === 'Active') ||
+                  getMediaPackage.status === 'draft'
+                "
+                class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] w-[88px] text-white text-[12px] leading-[18px]"
+              >
+                {{ $t(`Active`) }}
+              </div>
 
-            <div
-              v-if="new Date() > new Date(getMediaPackage.endpackage)"
-              class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-            >
-              {{ $t(`Expired`) }}
+              <div
+                v-if="new Date() > new Date(getMediaPackage.endpackage)"
+                class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+              >
+                {{ $t(`Expired`) }}
+              </div>
+              <div
+                v-if="
+                  getMediaPackage.status === 'Pending' ||
+                  getMediaPackage.status === 'Pendding'
+                "
+                class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
+              >
+                {{
+                  getMediaPackage.status === "Pending" ||
+                  getMediaPackage.status === "Pendding"
+                    ? $t("Under Review")
+                    : $t(`${getMediaPackage.status}`)
+                }}
+              </div>
+              <div
+                v-if="getMediaPackage.status === 'Rejected'"
+                class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
+              >
+                {{ $t(`${getMediaPackage.status}`) }}
+              </div>
             </div>
-            <div
-              v-if="
-              getMediaPackage.status === 'Pending' || getMediaPackage.status === 'Pendding'
-              "
-              class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
-            >
-              {{
-                getMediaPackage.status === "Pending" || getMediaPackage.status === "Pendding"
-                  ? $t("Under Review")
-                  : $t(`${getMediaPackage.status}`)
-              }}
-            </div>
-            <div
-              v-if="getMediaPackage.status === 'Rejected'"
-              class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
-            >
-              {{ $t(`${getMediaPackage.status}`) }}
-            </div>
-          </div>
           </div>
         </div>
-        <div class="text-[14px] lg:text-[14px] font-[500] text-[#3C3F49] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
-          {{$t(getMediaPackage.sub_title)}}
-         </div>
-     
+        <div
+          class="text-[14px] lg:text-[14px] font-[500] text-[#3C3F49] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          {{ $t(getMediaPackage.sub_title) }}
+        </div>
+
         <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
           <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-            <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="" />
-            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
+            <img
+              src="/assets/imgs/translatevideo/words_icon.png"
+              class="w-[25px] h-[25px]"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 <span class="font-[500]">WORDS</span>
+            </div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-            <img src="/assets/imgs/translatevideo/min_icon.png" class="w-[25px] h-[25px]" alt="" />
-            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Minutes</span></div>
+            <img
+              src="/assets/imgs/translatevideo/min_icon.png"
+              class="w-[25px] h-[25px]"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 <span class="font-[500]">Minutes</span>
+            </div>
           </div>
         </div>
 
-      <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-if="!userconsume">
-        <button v-if="getMediaPackage.title !== 'Free'"
-         :disabled="  loadingBlock.find(
-          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-        ) || getMediaPackage.status === 'Pending'"
-        @click="getPackageAndOpenPaymenModal(currentAPP,getMediaPackage)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-          {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade Plan') }}
-
-          <svg
-          v-if="
-            loadingBlock.find(
-              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-            )
-          "
-          class="animate-spin mx-1 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+        <div
+          class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse"
+          v-if="!userconsume"
         >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        </button>
-        <button
-        :disabled="  loadingUpgrade.find(
-          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-        ) || getMediaPackage.status === 'Pending'"
-        @click="upgradeModalPackage(currentAPP,getMediaPackage)" 
-        class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-          {{ $t('Upgrade Package') }}
+          <button
+            v-if="getMediaPackage.title !== 'Free'"
+            :disabled="
+              loadingBlock.find(
+                (entry) =>
+                  entry.pack === getMediaPackage.name &&
+                  entry.app === currentAPP.name
+              ) || getMediaPackage.status === 'Pending'
+            "
+            @click="getPackageAndOpenPaymenModal(currentAPP, getMediaPackage)"
+            class="btn-dashboard hover_tamkin mt-[8px] w-auto"
+          >
+            {{
+              $t(
+                getMediaPackage.endpackage &&
+                  new Date() > new Date(getMediaPackage.endpackage)
+                  ? "Renew Plan"
+                  : "Upgrade Plan"
+              )
+            }}
 
-          <svg
-          v-if="
-          loadingUpgrade.find(
-              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-            )
-          "
-          class="animate-spin mx-1 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+            <svg
+              v-if="
+                loadingBlock.find(
+                  (entry) =>
+                    entry.pack === getMediaPackage.name &&
+                    entry.app === currentAPP.name
+                )
+              "
+              class="animate-spin mx-1 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </button>
+          <button
+            :disabled="
+              loadingUpgrade.find(
+                (entry) =>
+                  entry.pack === getMediaPackage.name &&
+                  entry.app === currentAPP.name
+              ) || getMediaPackage.status === 'Pending'
+            "
+            @click="upgradeModalPackage(currentAPP, getMediaPackage)"
+            class="btn-dashboard hover_tamkin mt-[8px] w-auto"
+          >
+            {{ $t("Upgrade Package") }}
+
+            <svg
+              v-if="
+                loadingUpgrade.find(
+                  (entry) =>
+                    entry.pack === getMediaPackage.name &&
+                    entry.app === currentAPP.name
+                )
+              "
+              class="animate-spin mx-1 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <div
+          class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse"
+          v-else-if="userconsume"
         >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        </button>
+          <button
+            :disabled="
+              loadingextra.find(
+                (entry) =>
+                  entry.pack === getMediaPackage.name &&
+                  entry.app === currentAPP.name &&
+                  entry.id === 1
+              )
+            "
+            @click="openBuyMoreExtra(currentAPP, getMediaPackage, 1)"
+            class="btn-dashboard hover_tamkin mt-[8px] w-auto"
+          >
+            {{ $t("Buy more Minutes") }}
+
+            <svg
+              v-if="
+                loadingextra.find(
+                  (entry) =>
+                    entry.pack === getMediaPackage.name &&
+                    entry.app === currentAPP.name &&
+                    entry.id === 1
+                )
+              "
+              class="animate-spin mx-1 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </button>
+          <button
+            :disabled="
+              loadingextra.find(
+                (entry) =>
+                  entry.pack === getMediaPackage.name &&
+                  entry.app === currentAPP.name &&
+                  entry.id === 2
+              )
+            "
+            @click="openBuyMoreExtra(currentAPP, getMediaPackage, 2)"
+            class="btn-dashboard hover_tamkin mt-[8px] w-auto"
+          >
+            {{ $t("Buy more words") }}
+
+            <svg
+              v-if="
+                loadingextra.find(
+                  (entry) =>
+                    entry.pack === getMediaPackage.name &&
+                    entry.app === currentAPP.name &&
+                    entry.id === 2
+                )
+              "
+              class="animate-spin mx-1 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-else-if="userconsume">
-        <button 
-         :disabled="  loadingextra.find(
-          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
-        )"
-        @click="openBuyMoreExtra(currentAPP,getMediaPackage,1)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-
-                    {{ $t('Buy more Minutes') }}
-
-
-          <svg
-          v-if="
-          loadingextra.find(
-              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
-            )
-          "
-          class="animate-spin mx-1 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        </button>
-        <button
-        :disabled="  loadingextra.find(
-          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 2
-        )"
-        @click="openBuyMoreExtra(currentAPP,getMediaPackage,2)" 
-        class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-          {{ $t('Buy more words') }}
-
-          <svg
-          v-if="
-          loadingextra.find(
-              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 2
-            )
-          "
-          class="animate-spin mx-1 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        </button>
-      </div>
-      </div>
-
-
-      
-      <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-4 h-full">
+      <div
+        class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-4 h-full"
+      >
         <div class="relative h-full">
-          <img src="/assets/imgs/translatevideo/bg_package.svg" class="w-[218px] h-[240px]" alt="" />
+          <img
+            src="/assets/imgs/translatevideo/bg_package.svg"
+            class="w-[218px] h-[240px]"
+            alt=""
+          />
           <div class="absolute bottom-0 right-0 mr-[15px]">
             <img src="/assets/imgs/translatevideo/star.svg" alt="" />
           </div>
         </div>
         <div class="absolute right-[160px] w-full">
-          <img src="/assets/imgs/translatevideo/plan_vector.svg" class="w-[218px] h-[240px]" alt="" />
+          <img
+            src="/assets/imgs/translatevideo/plan_vector.svg"
+            class="w-[218px] h-[240px]"
+            alt=""
+          />
         </div>
       </div>
     </div>
 
-    <div v-if=" translateStore.loadingPackage" class="w-full h-[190px] rounded-[10px] bg-gray-200 animate-pulse"></div>
+    <div
+      v-if="translateStore.loadingPackage"
+      class="w-full h-[190px] rounded-[10px] bg-gray-200 animate-pulse"
+    ></div>
 
     <!-- <div
       v-if="currentPlan === 'freetrial'"
@@ -651,5 +735,3 @@ const userconsume = computed(() => {
     </div> -->
   </div>
 </template>
-
-

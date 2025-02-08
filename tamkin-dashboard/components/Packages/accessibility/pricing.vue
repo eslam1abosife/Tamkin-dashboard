@@ -218,7 +218,7 @@ watch(packagesStore.traffic_level, () => {
               class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
             >
               <div >
-                <img class="w-full h-full"
+                <img 
                   :src="
                     item.is_available
                       ? '/assets/imgs/checked_list_active.svg'

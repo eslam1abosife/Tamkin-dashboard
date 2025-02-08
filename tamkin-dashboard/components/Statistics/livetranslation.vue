@@ -59,12 +59,8 @@ function calculatePercentage(total, usage) {
               collapseStore.menus.includes('live_translation_stats')
                 ? 'active_notification !text-darkGrey'
                 : '',
-
-              collapseStore.collapses.includes('live_translation_stats_card')
-                ? 'top-[-20px] right-[0]'
-                : 'top-[16px] right-[0]',
             ]"
-            class="menu_button_control lg:!top-[-67px] ipad-max:!top-[-86px] xs:!top-[-100px]"
+            class="menu_button_control !top-[-67px] xl:!top-[-45px] lg:!top-[-40px] md:!top-[-40px] !mx-0"
           >
             <svg
               width="18"

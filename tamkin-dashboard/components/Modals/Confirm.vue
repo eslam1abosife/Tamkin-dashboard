@@ -96,7 +96,7 @@ const translatedSubTitle = computed(() => t(props.subTitle));
       </svg>
     </div>
     <h1
-      class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+      class="mt-[-12px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] sm:text-[18px] leading-[36px]"
     >
       {{ translatedTitle }}
     </h1>
@@ -109,9 +109,16 @@ const translatedSubTitle = computed(() => t(props.subTitle));
 
     <div
       class="flex items-center justify-end rtl:space-x-reverse space-x-[12px] md:space-x-[16px]"
-      :class="savetoAllSitesBtn ? 'max-md:!flex-col max-md:!space-x-0 max-md:gap-y-3 max-md:mt-4' : ''"
+      :class="
+        savetoAllSitesBtn
+          ? 'max-md:!flex-col max-md:!space-x-0 max-md:gap-y-3 max-md:mt-4'
+          : ''
+      "
     >
-      <div class="mt-[40px] max-md:flex-1" :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''">
+      <div
+        class="mt-[40px] max-md:flex-1"
+        :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''"
+      >
         <button
           class="btn_bordered_dashboard hover_tamkin max-md:w-full text-[13px] md:text-[16px]"
           @click="controlCancelButton"
@@ -119,7 +126,11 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           {{ cancelButtonName ? $t(cancelButtonName) : $t("Cancel") }}
         </button>
       </div>
-      <div class="mt-[40px] max-md:flex-1" :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''" v-if="savetoAllSitesBtn">
+      <div
+        class="mt-[40px] max-md:flex-1"
+        :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''"
+        v-if="savetoAllSitesBtn"
+      >
         <button
           :disabled="saveAllLoading || saveLoading"
           class="btn_bordered_dashboard hover_tamkin max-md:w-full"
@@ -149,7 +160,11 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </svg>
         </button>
       </div>
-      <div class="mt-[40px] max-md:flex-1" :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''" v-if="confirmBtnType === 'confirm'">
+      <div
+        class="mt-[40px] max-md:flex-1"
+        :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''"
+        v-if="confirmBtnType === 'confirm'"
+      >
         <button
           :disabled="cofirmisLoading"
           class="btn-dashboard hover_tamkin max-md:w-full"
@@ -182,7 +197,11 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </svg>
         </button>
       </div>
-      <div class="mt-[40px] max-md:flex-1" :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''" v-if="confirmBtnType === 'other'">
+      <div
+        class="mt-[40px] max-md:flex-1"
+        :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''"
+        v-if="confirmBtnType === 'other'"
+      >
         <button
           :disabled="saveLoading || saveAllLoading"
           class="btn-dashboard hover_tamkin max-md:w-full text-[13px] md:text-[16px]"
@@ -217,7 +236,11 @@ const translatedSubTitle = computed(() => t(props.subTitle));
           </div>
         </button>
       </div>
-      <div class="mt-[40px] max-md:flex-1" :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''" v-if="confirmBtnType === 'delete'">
+      <div
+        class="mt-[40px] max-md:flex-1"
+        :class="savetoAllSitesBtn ? 'max-md:!m-0 max-md:w-full' : ''"
+        v-if="confirmBtnType === 'delete'"
+      >
         <button
           :disabled="deleteisLoading"
           class="btn_bordered_dashboard error max-md:w-full"

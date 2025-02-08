@@ -296,7 +296,7 @@ const closeDropdown = () => {
                 {{
                   selectedLang
                     ? $t(`${selectedLang.title}`)
-                    : $t("Auto detect Language")
+                    : $t("auto detect language")
                 }}
               </div>
 
@@ -358,13 +358,15 @@ const closeDropdown = () => {
                       class="text-[12px] font-[400] leading-[20px] uppercase dark:text-whiteTamkin"
                     >
                       {{
-                        lang.code == "auto detect language" ? "AD" : lang.code
+                        lang.code == $t("auto detect language")
+                          ? $t("AD")
+                          : lang.code
                       }}
                     </div>
                   </div>
                   <!-- <img  :src="country.flag"  class="w-6 h-4 mr-2" /> -->
                   <span class="text-[14px] dark:text-whiteTamkin">
-                    {{ lang.title }}
+                    {{ $t(lang.title) }}
                   </span>
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
