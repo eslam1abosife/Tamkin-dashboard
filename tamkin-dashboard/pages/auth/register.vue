@@ -16,16 +16,16 @@ definePageMeta({
 });
 const route=useRoute();
 // console.log(route);
-if(route.query?.ref && process.client){
+if(route.query?.ref){
   console.log(route.query?.ref);
-  localStorage.setItem("ref", route.query?.ref );
+  var refer = route.query?.ref;
 }
 const state = reactive({
   email: "",
   password: "",
   full_name: "",
   confirm_password: "",
-  refer: localStorage.getItem("ref") || null,
+  refer: refer || null,
 });
 const rules = {
   email: { required, email },
