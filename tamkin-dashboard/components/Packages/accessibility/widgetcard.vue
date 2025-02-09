@@ -55,7 +55,7 @@ onUnmounted(() => {
       />
     </div>
 
-    <!-- <div v-if="windowWidth >= 1025"
+     <div v-if="windowWidth >= 1025"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative z-50">
       <div v-for="addon in packagesStore
         .getAddonsOrExtras('Addons')
@@ -128,8 +128,9 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <Splide
+      v-else
       :options="{
         rewind: true,
         arrows: false,
