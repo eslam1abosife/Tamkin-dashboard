@@ -2,6 +2,8 @@
 import { vOnClickOutside } from "@vueuse/components";
 
 import draggable from "vuedraggable";
+
+const packagesStore = usePackgesStore();
 const checkboxStore = useAddonStore();
 
 const collapseStore = useCollapseStore();
@@ -21,6 +23,11 @@ const toggleCheckbox = (name: string) => {
 const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
+
+const addonProfile = computed(()=>{
+  return packagesStore.packages.find((addon)=> addon.type === "Accessibility" && addon.title === "Usage Profile" && addon.package_type === "Addons");
+});
+
 onMounted(() => {});
 const navStore = useNavbarStore();
 const settingsStore = useSettingsStore();
@@ -192,15 +199,18 @@ const settingsStore = useSettingsStore();
     >
       <MessagesLockedFeature
         v-if="
-          navStore.defaultappobj?.package?.filter(
+        navStore.defaultappobj?.package?.filter(
             (p) => p.type === 'Accessibility'
-          ).length === 0 ||
+          ).length === 0 
+          ||
           !settingsStore.manageAccessibility.find(
             (t) =>
               t.feature ===
               'tamkin_accessibility_acc_manage_your_accessibility_profiles'
           )
         "
+        :typeModal="'addon'"
+        :package="addonProfile"
       />
       <draggable
         v-model="checkboxStore.manageProfileCards"

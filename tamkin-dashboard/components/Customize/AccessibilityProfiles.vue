@@ -10,6 +10,13 @@ const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 import { useCustomizeStore } from "@/stores/customize.js";
 const navStore = useNavbarStore();
+const packagesStore = usePackgesStore();
+const settingsStore = useSettingsStore();
+
+const addonProfile = computed(()=>{
+  return packagesStore.packages.find((addon)=> addon.type === "Accessibility" && addon.title === "Usage Profile" && addon.package_type === "Addons");
+});
+
 onMounted(() => {
   //   customizeStore.initializeCardsMenu([
   //  {
@@ -267,13 +274,21 @@ const getImagePath = (icon) => {
         class="relative flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
         v-if="!collapseStore.collapses.includes('manage_access_profiles_card')"
       >
-        <MessagesLockedFeature
-          v-if="
-            navStore.defaultappobj?.package?.filter(
-              (p) => p.type === 'Accessibility'
-            ).length === 0
-          "
-        />
+      <MessagesLockedFeature
+        v-if="
+        navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Accessibility'
+          ).length === 0 
+          ||
+          !settingsStore.manageAccessibility.find(
+            (t) =>
+              t.feature ===
+              'tamkin_accessibility_acc_manage_your_accessibility_profiles'
+          )
+        "
+        :typeModal="'addon'"
+        :package="addonProfile"
+      />
         <draggable
           v-model="customizeStore.manageProfileCardsCustomize"
           @change="

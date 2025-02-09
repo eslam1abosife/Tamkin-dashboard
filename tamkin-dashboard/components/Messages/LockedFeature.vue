@@ -2,12 +2,27 @@
 const { isOpen, openModal } = useModalManager();
 const localePath = useLocalePath();
 const props = defineProps({
-  isTranslatePackage: Boolean,
-  default: false,
+  isTranslatePackage: {
+    type: Boolean,
+    default: false,
+  },
+  typeModal: {
+    type: String,
+    default: 'package',
+  },
+  package: {
+    type: Object,
+  },
 });
+
+const mySiteStore = useMySiteStore();
 
 const openModalFromLocked = () => {
   openModal("upgrade_no_package");
+};
+const openModalAddon = (pck) => {
+  mySiteStore.setCurrentPackage(pck);
+  openModal("add_package_modal_mysite");
 };
 
 onMounted(() => {});
@@ -34,11 +49,19 @@ onMounted(() => {});
         {{ $t("Buy a package now to unlock these features.") }}
       </p>
       <nuxt-link
-        v-if="isTranslatePackage"
+        v-if="props.isTranslatePackage"
         :to="{ path: localePath('/addons'), query: { package: 'live' } }"
         class="btn-dashboard hover_tamkin w-[150px] mx-auto"
         >{{ $t("Buy Now") }}</nuxt-link
       >
+      <button
+        v-else-if="props.typeModal === 'addon'"
+        @click="openModalAddon(props.package)"
+        type="button"
+        class="btn-dashboard hover_tamkin w-[150px] mx-auto"
+      >
+        {{ $t("Buy Now") }}
+      </button>
       <button
         v-else
         @click="openModalFromLocked"
