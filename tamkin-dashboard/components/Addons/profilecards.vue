@@ -201,8 +201,11 @@ const settingsStore = useSettingsStore();
         v-if="
         navStore.defaultappobj?.package?.filter(
             (p) => p.type === 'Accessibility'
-          ).length === 0 
-          ||
+          ).length === 0
+        "
+      />
+      <MessagesLockedFeature
+        v-else-if="
           !settingsStore.manageAccessibility.find(
             (t) =>
               t.feature ===
