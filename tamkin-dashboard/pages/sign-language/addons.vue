@@ -86,12 +86,11 @@ const cancelAc = () => {
     );
   }
 };
-const loadingplayerdata = ref(true)
-
+const loadingplayerdata = ref(true);
 
 onBeforeMount(async () => {
   //  if(customizeStore.managePlayerPackages.length <= 0) {
-    getPlayerData();
+  getPlayerData();
   //  }
 
   [
@@ -109,7 +108,7 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
   ]);
 
-  loadingplayerdata.value = false
+  loadingplayerdata.value = false;
 });
 
 const loadingSave = ref(false);
@@ -277,7 +276,7 @@ const getSettingsValue = (name: any) => {
     <LanguageServicesNavbar />
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
-      v-if="!customizeStore.loadingData"
+        v-if="!customizeStore.loadingData"
         :show-footer="shouldShowFooter"
         :loadingSave="loadingSave"
         :loadingSavetoAll="loadingSavetoAll"
@@ -308,9 +307,7 @@ const getSettingsValue = (name: any) => {
         "
       />
 
-      <div
-        v-if="customizeStore.loadingData"
-      >
+      <div v-if="customizeStore.loadingData">
         <div
           class="animate-pulse space-y-4 mt-[40px] card bg-white rounded-[10px] p-4 dark:bg-tamkinDarkPrimary"
         >

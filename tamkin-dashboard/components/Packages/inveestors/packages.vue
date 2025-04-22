@@ -20,6 +20,7 @@ function convertUsdToCrypto(usdTotal, rates) {
   if (rate) {
     return (usdTotal / rate).toFixed(0);
   } else {
+    return "undefined";
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }

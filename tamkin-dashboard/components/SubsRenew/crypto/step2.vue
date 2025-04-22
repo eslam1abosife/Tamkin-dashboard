@@ -77,6 +77,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
+    return "undefined";
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }

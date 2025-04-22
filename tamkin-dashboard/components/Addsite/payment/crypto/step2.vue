@@ -74,6 +74,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
+    return "undefined";
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }
@@ -228,15 +229,15 @@ const cancelPayment = () => {
         <div class="flex flex-col items-start justify-center w-full relative">
           <div class="flex items-center justify-center">
             <div
+              class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
+              style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
               @click="
                 navigateTo(
                   'crypto_addsite_step2',
                   'marpackagesket',
-                  'crypto_packages_step1'
+                  'crypto_addsite_step1'
                 )
               "
-              class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-darkborder rounded-full w-[30px] h-[30px]"
-              style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
               <svg
                 width="9"
@@ -251,14 +252,13 @@ const cancelPayment = () => {
                 />
               </svg>
             </div>
-          </div>
-          <div>
             <h1
               class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[30px]"
             >
               {{ $t("Payment processes") }}
             </h1>
           </div>
+
           <div
             class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[24px]"
             style="box-shadow: 0px 4px 24px 8px #51459f14"
