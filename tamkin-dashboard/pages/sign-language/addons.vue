@@ -90,9 +90,9 @@ const loadingplayerdata = ref(true)
 
 
 onBeforeMount(async () => {
-   if(customizeStore.managePlayerPackages.length <= 0) {
+  //  if(customizeStore.managePlayerPackages.length <= 0) {
     getPlayerData();
-   }
+  //  }
 
   [
     "deaf-customize-sign-language-background-sign-language-background",

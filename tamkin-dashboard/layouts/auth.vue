@@ -63,7 +63,6 @@ onMounted(() => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
     <div class="mx-auto min-h-screen dark:bg-darkTamkin relative">
-      .
       <div class="grid grid-cols-12 lg:gap-[20px]">
 
         <transition name="fade" mode="out-in">

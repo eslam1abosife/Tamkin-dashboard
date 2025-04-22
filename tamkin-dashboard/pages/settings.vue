@@ -127,17 +127,16 @@ const deleteSite = async () => {
 const { $toast } = useNuxtApp();
 const resetAccessiility = async () => {
   try {
-    const res = await api.post("/Apps/ResetSettingDefaultApp", {
+    await api.post("/Apps/ResetSettingDefaultApp", {
       type: "Accessibility", //Accessibility|Sign language
     });
+    await getAccessability();
+    localStorage.removeItem("colorPanal");
     closeModal("resetModal");
-
-    getAccessability();
     $toast(t("All accessibility settings have been reset"), {
       hideIn: 3000,
       type: "success",
     });
-    localStorage.removeItem("colorPanal");
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";

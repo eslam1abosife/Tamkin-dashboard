@@ -101,9 +101,9 @@ onBeforeMount(() => {
     "deaf-setting-general-settings-player-sound-effects",
   ]);
 
-  if (customizeStore.managePlayerPackages.length <= 0) {
+  // if (customizeStore.managePlayerPackages.length <= 0) {
     getPlayerData();
-  }
+  // }
   loadingplayerdata.value = false;
 });
 const deleteSite = async () => {
@@ -130,16 +130,16 @@ const { t } = useI18n();
 
 const resetAccessiility = async () => {
   try {
-    const res = await api.post("/Apps/ResetSettingDefaultApp", {
+    await api.post("/Apps/ResetSettingDefaultApp", {
       type: "Sign language", //Accessibility|Sign language
     });
+    await getPlayerData();
+    localStorage.removeItem("playerColorPanal");
     closeModal("resetModal");
-    getPlayerData();
     $toast(t("All Player settings have been reset"), {
       hideIn: 3000,
       type: "success",
     });
-    localStorage.removeItem("playerColorPanal");
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";

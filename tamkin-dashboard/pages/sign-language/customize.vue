@@ -109,9 +109,9 @@ const detectUnsavedChanges = () => {
 };
 
 onBeforeMount(() => {
-  if(customizeStore.managePlayerPackages.length <= 0) {
+  // if(customizeStore.managePlayerPackages.length <= 0) {
     getPlayerData();
-   }
+  //  }
 });
 
 onMounted(() => {
