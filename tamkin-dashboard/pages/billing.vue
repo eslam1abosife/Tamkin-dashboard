@@ -34,6 +34,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
   if (rate) {
     return (usdTotal / rate).toFixed(2);
   } else {
+    return "undefined";
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }
@@ -290,7 +291,7 @@ function leaveCart(el, done) {
       </div>
     </div>
     <div
-    v-if="billingStore.loadCards"
+      v-if="billingStore.loadCards"
       class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px] dark:bg-tamkinDarkPrimary"
     >
       <div class="flex items-center justify-between w-full gap-4">
@@ -579,7 +580,9 @@ function leaveCart(el, done) {
                 </div>
               </td>
 
-              <td class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-right ltr:text-left">
+              <td
+                class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-right ltr:text-left"
+              >
                 <div
                   class="text-[14px] leading-[19px] text-darkGrey dark:text-white font-[500]"
                 >
@@ -592,7 +595,9 @@ function leaveCart(el, done) {
                 </div>
               </td>
 
-              <td class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-left ltr:text-right">
+              <td
+                class="py-4 max-md:px-3 text-nowrap space-y-[10px] rtl:text-left ltr:text-right"
+              >
                 <div
                   class="text-darkGrey dark:text-white text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >

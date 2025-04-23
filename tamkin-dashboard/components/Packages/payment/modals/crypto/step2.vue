@@ -74,6 +74,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
+    return "undefined";
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }
@@ -248,7 +249,7 @@ const cancelPayment = () => {
               </svg>
             </div>
             <h1
-              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] "
+              class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px]"
             >
               {{ $t("Payment processes") }}
             </h1>
