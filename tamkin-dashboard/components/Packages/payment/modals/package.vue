@@ -49,58 +49,47 @@ onBeforeMount(async () => {
 });
 const domainRegex =
   /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})$/;
-const listOfApps = computed(() => {
-  const category = getCategory.value;
-  const currentTypeTitle = packagesStore.currentType.title;
-  // Pre-filter apps by removing deleted ones
-  let validApps = apps.value.filter((app) => app.status !== "deleted");
 
-  // Filter Free Package
-  if (selectedPackage.value === 0) {
-    validApps = validApps.filter(app =>
-    !app.package.some(pkg => pkg.billing_duration === "Free Trial")
-  );
-}
+  const listOfApps = computed(() => {
+    const category = getCategory.value;
+    const currentTypeTitle = packagesStore.currentType.title;
 
+    // Pre-filter apps by removing deleted ones
+    let validApps = apps.value.filter((app) => app.status !== "deleted");
 
-  // Optimize logic based on conditions
-  if (category === 0 && currentTypeTitle === "Sign language") {
-    // Return apps with non-null domains
-    // return validApps.filter((app) => app.app_domain !== null && pdappsarr.value.filter(a=>a.app_name !== app.name).length);
-    return validApps.filter(
-      (app) =>
-        app.app_domain !== null &&
-        app.package &&
-        app.package.length > 0 &&
-        !pdappsarr.value.some(
-          (a) =>
-            a.app_name === app.name && a.package_type === app.package[0].type
-        )
-    );
-  }
+    // Filter Free Package
+    if (selectedPackage.value === 0) {
+        validApps = validApps.filter(app =>
+        !app.package.some(pkg => pkg.billing_duration === "Free Trial")
+      );
+    }
 
-  if (category && category !== 0) {
     // Return apps with null domains for non-'Plugins' category
-    return validApps.filter((app) => app.app_domain === null);
-  }
+    if (category && category !== 0) {
+      return validApps.filter((app) => app.app_domain === null);
+    }
 
-  if (!category && currentTypeTitle !== "Sign language") {
-    // Return apps with non-null domains for non-'Sign language' types
-    // return validApps.filter((app) => app.app_domain !== null);
-    return validApps.filter(
-      (app) =>
-        app.app_domain !== null &&
-        app.package &&
-        app.package.length > 0 &&
-        !pdappsarr.value.some(
-          (t) => t.app_name === app.name && t.package_type === currentTypeTitle
-        )
-    );
-  }
+    // Optimize logic based on conditions
+    // Return apps with non-null domains
+    if (!category) {
+      return validApps.filter(
+        (app) =>
+          app.app_domain !== null &&
+          !pdappsarr.value.some(
+            (a) =>
+              a.app_name === app.name && a.package_type === app.package[0].type
+          ) &&
+          !app.package?.some(
+            (p) =>
+            p.type.toLowerCase() === currentTypeTitle.toLowerCase() && p.status.toLowerCase() === "active"
+          )
+      );
+    }
 
-  return [];
+   
+
+    return [];
 });
-
 const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
 });
@@ -125,6 +114,7 @@ const selectedPackage = ref(
 
 const selectPackage = (plan: any) => {
   selectedPackage.value = plan;
+  pricebytraffic.value = [];
   webs.value = [];
 };
 

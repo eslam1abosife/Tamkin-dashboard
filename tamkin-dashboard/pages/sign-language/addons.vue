@@ -97,7 +97,7 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-background-sign-language-background",
     "deaf-customize-sign-language-player-contrast-sign-language-contrast",
     "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
-    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button",
   ].forEach((name) => {
     signLangStore.addCheckbox(name);
   });
@@ -105,7 +105,7 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-background-sign-language-background",
     "deaf-customize-sign-language-player-contrast-sign-language-contrast",
     "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
-    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button",
   ]);
 
   loadingplayerdata.value = false;
@@ -150,9 +150,9 @@ const handleSave = async (type: any) => {
         ),
       },
       {
-        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button",
         value: getSettingsValue(
-          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button"
         ),
       },
     ];

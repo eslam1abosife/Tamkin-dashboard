@@ -588,9 +588,10 @@ export default function () {
         .features.find(
           (el: any) =>
             el.name ===
-            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button"
         );
-      if (isSetMode.active == 1) {
+      if (isSetMode.active === 1 &&
+        isSetMode.value === "1") {
         signLangStore.initialCardsOrder.push({
           name: isSetMode.name,
           icon: isSetMode.icon,
@@ -612,10 +613,10 @@ export default function () {
 
         });
         signLangStore.toggleCheckbox(
-          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button"
         );
         signLangStore.toggleInitialCheckbox(
-          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button"
         );
       }
 
