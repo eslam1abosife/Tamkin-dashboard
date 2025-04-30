@@ -33,7 +33,7 @@ watch(
       // Call `window.loadedByName` to check the status
       const isLoaded = await window.loadedByName(playerStore.activeCharacter.text);
 
-      console.log("Character Loaded Status:", isLoaded);
+      // console.log("Character Loaded Status:", isLoaded);
 
       if (isLoaded) {
         // Simulate additional delay for character full loading
@@ -71,15 +71,15 @@ function controlPlayerLoad() {
     setTimeout(async () => {
       if(!loadedplayer.value && loaChar.value) {
         loadedplayer.value = true;
-        await window.changeCharacter(playerStore.activeCharacter.name);
-        await window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
+        // await window.changeCharacter(playerStore.activeCharacter.name);
+        // await window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
         playerStore.WearAllisWearedSkins();
       }
       if(loaChar.value) {
         playerStore.characterLoaded = true;
         showLoader.value = false; // Hide loader after loading is complete
       }
-    }, 2000); // Adjust delay to match loading time
+    }, 100); // Adjust delay to match loading time
   };
 
   window.onRunning = () => {
@@ -139,8 +139,10 @@ if (!Object.getOwnPropertyDescriptor(window, "loaChar")) {
       <!-- Show character once loaded -->
       <tamkin-sdk-web-character
         v-show="loaChar && playerStore.activeCharacter && !showLoader"
-        charWidth="250"
-        charHeight="500"
+        :character="playerStore.activeCharacter?.name"
+        charWidth="290"
+        charHeight="600"
+        :position="playerStore.cameraPosition"
         class="centered-div"
       ></tamkin-sdk-web-character>
     </div>
