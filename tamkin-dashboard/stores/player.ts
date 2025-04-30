@@ -333,12 +333,9 @@ export const usePlayerStore = defineStore("player", {
           $this.wear(skin_item);
         }
       });
+      marketStore.selectedForPreview.push(this.activeCharacter);
+
       await this.saveCharacterOptions(AppName, true);
-      this.loadingChanges = false;
-      this.toast(
-        useNuxtApp().$i18n.t("Default Mode Has Been Restored Successfully"),
-        { hideIn: 3000, type: "success" }
-      );
 
       marketStore.resetModal = false;
       // todo
@@ -387,7 +384,8 @@ export const usePlayerStore = defineStore("player", {
       } else {
         this.savetoallloading = true;
       }
-      if (item?.allowed_skins_list) {
+      if(reset){
+        // Errors
         if (!this.owned(item)) {
           this.loadingChanges = false;
           this.savetoallloading = false;
@@ -396,30 +394,6 @@ export const usePlayerStore = defineStore("player", {
             type: "warning",
           });
         }
-
-        let succeeded = await setAppCharacter(item.name, AppName);
-
-        if (succeeded) {
-          this.characters.map(function (character) {
-            character.is_used = character.name == item.name;
-          });
-          // emptying the selectedForPreview array
-          marketStore.resetAll();
-
-          if (!reset) {
-            this.toast("Character saved successfully.", {
-              hideIn: 3000,
-              type: "success",
-            });
-            this.loadingChanges = false;
-            this.savetoallloading = false;
-          }
-        }
-      }
-      // if a skin item
-      // skin item does not require existing skins in the selectedForPreview array
-      // it gets the items from userSelectedClothes
-      else {
         if (this.isActiveCharCurrentlyWearedSkinsHaveUnownedSkins) {
           this.loadingChanges = false;
           this.savetoallloading = false;
@@ -429,20 +403,26 @@ export const usePlayerStore = defineStore("player", {
           });
         }
 
+        // Succeededs
         let skins = this.activeCharCurrentlyWearedSkinsNames.map(
           (item_name) => ({ skin_item: item_name })
         );
-        let succeeded = await setCharacterOptions(
+        let succeededCharacter = await setAppCharacter(item.name, AppName);
+        let succeededOptions = await setCharacterOptions(
           skins,
           this.activeCharacter.name,
           AppName
         );
-
-        if (succeeded) {
-          // emptying the selectedForPreview array and hide the save footer
-          marketStore.resetAll();
+        if (succeededCharacter && succeededOptions) {
           let $this = this;
-          // updating the ui with the applied tag
+
+          // emptying the selectedForPreview array
+          marketStore.resetAll();
+
+          $this.characters.map(function (character) {
+            character.is_used = character.name == item.name;
+          });
+
           marketStore.categoriesWithSkinItems.map(function (category) {
             category.skin_items_list.map(function (skin_item) {
               if ($this.activeCharAllowedSkinsNames.includes(skin_item.name)) {
@@ -460,12 +440,93 @@ export const usePlayerStore = defineStore("player", {
               }
             });
           });
-          this.toast("Character clothes saved successfully.", {
+
+          this.toast("Default Mode Has Been Restored Successfully", {
             hideIn: 3000,
             type: "success",
           });
           this.loadingChanges = false;
           this.savetoallloading = false;
+        }
+      } else {
+        if (item?.allowed_skins_list) {
+          if (!this.owned(item)) {
+            this.loadingChanges = false;
+            this.savetoallloading = false;
+            return this.toast("You must buy this character first.", {
+              hideIn: 3000,
+              type: "warning",
+            });
+          }
+  
+          let succeeded = await setAppCharacter(item.name, AppName);
+  
+          if (succeeded) {
+            this.characters.map(function (character) {
+              character.is_used = character.name == item.name;
+            });
+            // emptying the selectedForPreview array
+            marketStore.resetAll();
+  
+              this.toast("Character saved successfully.", {
+                hideIn: 3000,
+                type: "success",
+              });
+              this.loadingChanges = false;
+              this.savetoallloading = false;
+          }
+        }
+        // if a skin item
+        // skin item does not require existing skins in the selectedForPreview array
+        // it gets the items from userSelectedClothes
+        else {
+          if (this.isActiveCharCurrentlyWearedSkinsHaveUnownedSkins) {
+            this.loadingChanges = false;
+            this.savetoallloading = false;
+            return this.toast("You must buy all the skins first.", {
+              hideIn: 3000,
+              type: "warning",
+            });
+          }
+  
+          let skins = this.activeCharCurrentlyWearedSkinsNames.map(
+            (item_name) => ({ skin_item: item_name })
+          );
+          let succeeded = await setCharacterOptions(
+            skins,
+            this.activeCharacter.name,
+            AppName
+          );
+  
+          if (succeeded) {
+            // emptying the selectedForPreview array and hide the save footer
+            marketStore.resetAll();
+            let $this = this;
+            // updating the ui with the applied tag
+            marketStore.categoriesWithSkinItems.map(function (category) {
+              category.skin_items_list.map(function (skin_item) {
+                if ($this.activeCharAllowedSkinsNames.includes(skin_item.name)) {
+                  let is_weared =
+                    $this.activeCharCurrentlyWearedSkinsNames.includes(
+                      skin_item.name
+                    );
+                  // used in applying the "applied" badge
+                  skin_item.is_weared = is_weared;
+                  // used in wearSavedClothes
+                  $this.activeCharAllowedSkins.find(
+                    (item) => item.name == skin_item.name
+                  ).is_weared = is_weared;
+                  // both should be done automatically after the getFullDataFormated() below
+                }
+              });
+            });
+            this.toast("Character clothes saved successfully.", {
+              hideIn: 3000,
+              type: "success",
+            });
+            this.loadingChanges = false;
+            this.savetoallloading = false;
+          }
         }
       }
       // updating the ui from backend
