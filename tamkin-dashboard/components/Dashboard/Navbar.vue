@@ -1270,7 +1270,317 @@ watch(
           </div>
         </div>
       </nuxt-link>
+      <nuxt-link
+        class="relative rounded-[10px]"
+        @click.stop="openMenuSub(5)"
+        :class="[!sideBarOpen ? '  ' : 'w-full ']"
+      >
+        <div
+          class="dashboard-nav-link"
+          :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
+          ref="accessMenuHover"
+        >
+          <div>
+            <svg
+              width="27"
+              class="w-[23px] h-auto dark:[filter:invert(1)_brightness(10)]"
+              height="26"
+              viewBox="0 0 27 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.7857 1H15.2143C20.063 1 22.4873 1 23.9937 2.50631C25.5 4.01262 25.5 6.43703 25.5 11.2857C25.5 16.1344 25.5 18.5587 23.9937 20.0651C22.4873 21.5714 20.063 21.5714 15.2143 21.5714H13.5C13.5 21.5714 12.6429 25 6.64286 25C6.64286 25 8.35714 23.2708 8.35714 21.5418C5.69409 21.4615 4.10568 21.1645 3.00631 20.0651C1.5 18.5587 1.5 16.1344 1.5 11.2857C1.5 6.43703 1.5 4.01262 3.00631 2.50631C4.51262 1 6.93698 1 11.7857 1Z"
+                stroke="url(#paint0_linear_14360_133328)"
+                stroke-width="1.2"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M8.35938 7.85693V9.57122M18.6451 7.85693V9.57122"
+                stroke="url(#paint1_linear_14360_133328)"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.0703 15.5703C10.0703 15.5703 11.2132 16.4275 13.4989 16.4275C15.7845 16.4275 16.9275 15.5703 16.9275 15.5703"
+                stroke="url(#paint2_linear_14360_133328)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_14360_133328"
+                  x1="13.5"
+                  y1="1"
+                  x2="13.5"
+                  y2="25"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#2DADA3" />
+                  <stop offset="1" stop-color="#71DAD2" />
+                </linearGradient>
+                <linearGradient
+                  id="paint1_linear_14360_133328"
+                  x1="13.5022"
+                  y1="7.85693"
+                  x2="13.5022"
+                  y2="9.57122"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#2DADA3" />
+                  <stop offset="1" stop-color="#71DAD2" />
+                </linearGradient>
+                <linearGradient
+                  id="paint2_linear_14360_133328"
+                  x1="13.4989"
+                  y1="15.5703"
+                  x2="13.4989"
+                  y2="16.4275"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#2DADA3" />
+                  <stop offset="1" stop-color="#71DAD2" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
 
+          <div
+            class="flex items-center justify-start ltr:justify-center"
+            :class="[!sideBarOpen ? 'hidden' : '']"
+          >
+            <div
+              v-if="sideBarOpen"
+              :class="[
+                showSubMenu[5]
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                  : '',
+              ]"
+            >
+              {{ $t("Chatbot") }}
+            </div>
+            <div v-if="sideBarOpen" class="absolute rtl:left-1 ltr:right-1">
+              <svg
+                width="7"
+                height="12"
+                :class="[
+                  showSubMenu[5] ? 'rotate-90 ' : 'rotate-0  rtl:rotate-180 ',
+                ]"
+                viewBox="0 0 7 12"
+                class="w-full h-full pr-[4px]"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient
+                    id="grad_ni"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                    <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                  </linearGradient>
+                </defs>
+                <path
+                  :class="[
+                    showSubMenu[5]
+                      ? 'fill_access'
+                      : 'fill-[#585B5B] dark:fill-white',
+                  ]"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
+          ref="submenuHover"
+          v-show="showSubMenu[5]"
+          :class="[
+            !sideBarOpen && showSubMenu[5]
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] bg-white p-3 py-[10px]  dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
+              : ' w-full',
+          ]"
+          v-on-click-outside="() => closeSubMenuOnClickOutside(5)"
+        >
+          <div class="flex flex-col items-start justify-center w-full">
+            <div class="flex items-center justify-between w-full">
+              <div
+                v-if="!sideBarOpen"
+                class="bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent"
+              >
+                {{ $t("chat-bot") }}
+              </div>
+              <div v-if="!sideBarOpen">
+                <svg
+                  width="7"
+                  height="12"
+                  :class="[showSubMenu[5] ? 'rotate-90 ' : 'rotate-0 ']"
+                  viewBox="0 0 7 12"
+                  class="w-full h-full pr-[8px]"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient
+                      id="grad13"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                      <stop
+                        offset="100%"
+                        stop-color="#71DAD2"
+                        stop-opacity="1"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    fill="url(#grad13)"
+                    d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="dark:bg-tamkinDarkPrimary w-full" @click.stop>
+              <nuxt-link
+                :to="localePath('/overview')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/overview')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    isLinkActive('/overview')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]"
+                  >{{ $t("General") }}</span
+                >
+              </nuxt-link>
+
+              <nuxt-link
+                :to="localePath('/chat-bot/customize')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/chat-bot/customize')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    isLinkActive('/chat-bot/customize')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]"
+                  >{{ $t("Customize") }}</span
+                >
+              </nuxt-link>
+              <nuxt-link
+                :to="localePath('/statistics')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/statistics')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    isLinkActive('/statistics')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]"
+                  >{{ $t("Chatbot") }}</span
+                >
+              </nuxt-link>
+
+              <nuxt-link
+                :to="localePath('/customize')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/customize')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    isLinkActive('/customize')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]"
+                  >{{ $t("Articles") }}</span
+                >
+              </nuxt-link>
+
+              <nuxt-link
+                :to="localePath('/settings')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/settings')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    isLinkActive('/settings')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]"
+                  >{{ $t("Settings") }}</span
+                >
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+      </nuxt-link>
       <nuxt-link
         :to="localePath('/packages')"
         class="dashboard-nav-link"

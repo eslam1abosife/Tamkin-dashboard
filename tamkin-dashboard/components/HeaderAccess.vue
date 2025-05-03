@@ -159,8 +159,8 @@ const isLinkActive = (path) => {
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
               <div>
                 <h2
-                  class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
-                >
+                class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
+                  >
                   <span v-if="settingsStore.appHeader">
                     {{ $t(settingsStore.appHeader.title) }}
                   </span>
