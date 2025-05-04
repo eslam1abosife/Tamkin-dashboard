@@ -17,7 +17,7 @@ const openBuyModal = (pck) => {
   openModal("add_package_modal_packages");
 };
 </script>
--
+
 <template>
   <div class="flex flex-col items-center justify-center w-full">
     <div
