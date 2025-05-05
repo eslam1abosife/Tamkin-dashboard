@@ -81,7 +81,6 @@ const copyCode = () => {
 
 watch(copyDone, (newValue) => {
   if (newValue) {
-    // Reset copyDone after the hideIn duration
     setTimeout(() => {
       copyDone.value = false;
     }, 2000);
@@ -102,9 +101,7 @@ onBeforeMount(() => {
     "deaf-setting-general-settings-player-sound-effects",
   ]);
 
-  // if (customizeStore.managePlayerPackages.length <= 0) {
   getPlayerData();
-  // }
   loadingplayerdata.value = false;
 });
 const deleteSite = async () => {
@@ -117,12 +114,12 @@ const deleteSite = async () => {
       type: "success",
     });
     closeModal("deleteModal");
-    const router = useRouter(); // Import the router instance
+    const router = useRouter();
     router.push({
       path: `/${locale.value}/my-site`,
     });
   } catch (error) {
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -132,7 +129,7 @@ const { t } = useI18n();
 const resetAccessiility = async () => {
   try {
     await api.post("/Apps/ResetSettingDefaultApp", {
-      type: "Sign language", //Accessibility|Sign language
+      type: "Sign language",
     });
     await getPlayerData();
     localStorage.removeItem("playerColorPanal");
@@ -142,7 +139,7 @@ const resetAccessiility = async () => {
       type: "success",
     });
   } catch (error) {
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -157,8 +154,8 @@ const handleSaveAndMove = () => {
   handleSave("default");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 const handleSaveToAllAndMove = () => {
@@ -166,8 +163,8 @@ const handleSaveToAllAndMove = () => {
   handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 
@@ -176,8 +173,8 @@ const DiscardAndMove = () => {
   settingsStore.routeLeaveModal = false;
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 
@@ -186,7 +183,7 @@ onBeforeRouteLeave((to, from, next) => {
     settingsStore.showSaveBeforeLeaveModal();
     pendingNavigation = { next, to };
   } else {
-    next(); // No unsaved changes, proceed normally
+    next();
   }
 });
 const localePath = useLocalePath();
@@ -195,12 +192,10 @@ const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
   if (!pattern.includes("*")) {
     return currentPath === pattern;
   }
 
-  // Convert wildcard pattern to regex
   const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
 
   return regex.test(currentPath);
@@ -276,7 +271,7 @@ const handleSave = async (type: any) => {
   } catch (error) {
     loadingSave.value = false;
     loadingSavetoAll.value = false;
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -303,19 +298,17 @@ const getSettingsValue = (name: any) => {
   }
 };
 
-// State for managing project items
+// State for managing project items with unique names
 const projectItems = ref([
-  { name: "Tamkin Question Bot", children: [] },
-  { name: "Project (21)", children: [] },
-  { name: "Project (21)", children: [] },
-  { name: "Project (21)", children: [] },
+  { name: "Project A (21)", children: [] },
+  { name: "Project B (21)", children: [] },
+  { name: "Project C (21)", children: [] },
 ]);
 
 const selectedParentIndex = ref(null);
 const selectedChildIndex = ref(null);
 const currentItemName = ref("");
 
-// Function to add a new child
 const addChild = (index) => {
   selectedParentIndex.value = index;
   openModal("chatbotResponseModal");
@@ -328,33 +321,33 @@ const handleCreateNew = (newTitle) => {
       children: [],
     });
     closeModal("chatbotResponseModal");
-    selectedParentIndex.value = null; // Reset after adding
+    selectedParentIndex.value = null;
   }
 };
 
-// Edit function (placeholder for now)
 const editItem = (parentIndex, childIndex) => {
   console.log(`Editing item at parent ${parentIndex}, child ${childIndex}`);
 };
 
-// Rename function
 const openRenameModal = (parentIndex, childIndex) => {
   selectedParentIndex.value = parentIndex;
   selectedChildIndex.value = childIndex;
   currentItemName.value =
-    projectItems.value[parentIndex].children[childIndex].name;
+    childIndex !== null
+      ? projectItems.value[parentIndex].children[childIndex].name
+      : projectItems.value[parentIndex].name;
   openModal("renameModal");
 };
 
 const handleRename = (newName) => {
-  if (
-    newName &&
-    selectedParentIndex.value !== null &&
-    selectedChildIndex.value !== null
-  ) {
-    projectItems.value[selectedParentIndex.value].children[
-      selectedChildIndex.value
-    ].name = newName;
+  if (newName && selectedParentIndex.value !== null) {
+    if (selectedChildIndex.value !== null) {
+      projectItems.value[selectedParentIndex.value].children[
+        selectedChildIndex.value
+      ].name = newName;
+    } else {
+      projectItems.value[selectedParentIndex.value].name = newName;
+    }
     closeModal("renameModal");
     selectedParentIndex.value = null;
     selectedChildIndex.value = null;
@@ -362,11 +355,19 @@ const handleRename = (newName) => {
   }
 };
 
-// Delete function
 const deleteItem = (parentIndex, childIndex) => {
-  if (projectItems.value[parentIndex]?.children[childIndex]) {
+  if (childIndex !== null) {
     projectItems.value[parentIndex].children.splice(childIndex, 1);
+  } else {
+    projectItems.value.splice(parentIndex, 1);
   }
+};
+const addNewProject = () => {
+  const newProjectIndex = projectItems.value.length + 1;
+  projectItems.value.push({
+    name: `Project ${String.fromCharCode(64 + newProjectIndex)} (21)`,
+    children: [],
+  });
 };
 </script>
 
@@ -394,7 +395,6 @@ const deleteItem = (parentIndex, childIndex) => {
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
     >
-      <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
     </transition>
     <transition
@@ -523,7 +523,6 @@ const deleteItem = (parentIndex, childIndex) => {
             <!-- Header with Title and Add Child Button -->
             <div class="flex items-center justify-between pt-[24px]">
               <div class="flex items-center">
-                <!-- Folder Icon -->
                 <svg
                   width="17"
                   height="14"
@@ -552,7 +551,7 @@ const deleteItem = (parentIndex, childIndex) => {
                   {{ $t("Tamkin Question Bot") }}
                 </h1>
                 <button
-                  @click="addChild(0)"
+                  @click="addNewProject"
                   class="bg-white border border-gray-300 ml-[35px] dark:bg-gray-700 text-[12px] px-[10px] py-[6px] rounded-[10px] text-darkGrey dark:text-whiteTamkin shadow-sm"
                 >
                   Add Child
@@ -610,6 +609,18 @@ const deleteItem = (parentIndex, childIndex) => {
                       class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Add Child
+                    </button>
+                    <button
+                      @click="openRenameModal(parentIndex, null)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Rename
+                    </button>
+                    <button
+                      @click="deleteItem(parentIndex, null)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
