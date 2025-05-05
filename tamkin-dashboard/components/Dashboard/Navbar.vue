@@ -204,8 +204,6 @@ watch(
     showChildMenu.value[2] = false;
   }
 );
-
-
 </script>
 
 <template>
@@ -402,7 +400,6 @@ watch(
     <div
       class="flex flex-col items-center justify-center w-full transform-gpu transition-all ease-in-out"
     >
-    
       <TamkinSideBarLink
         class="dashboard-nav-link mt-[10px]"
         :to="goToLink('/embed-code')"
@@ -1344,7 +1341,7 @@ watch(
             </div>
             <div class="dark:bg-tamkinDarkPrimary w-full" @click.stop>
               <nuxt-link
-                :to="localePath('/overview')"
+                :to="localePath('/chat-bot/General')"
                 class="dashboard-nav-link w-11/12"
                 :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
@@ -1353,7 +1350,7 @@ watch(
                     class="w-[8px] h-[2px] rounded-[10px]"
                     v-if="sideBarOpen"
                     :class="[
-                      isLinkActive('/overview')
+                      isLinkActive('/chat-bot/General')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                         : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
@@ -1361,7 +1358,7 @@ watch(
                 </div>
                 <span
                   :class="[
-                    isLinkActive('/overview')
+                    isLinkActive('/chat-bot/General')
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
                       : '',
                   ]"
@@ -1395,7 +1392,7 @@ watch(
                 >
               </nuxt-link>
               <nuxt-link
-                :to="localePath('/statistics')"
+                :to="localePath('/chat-bot/Chatbot')"
                 class="dashboard-nav-link w-11/12"
                 :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
@@ -1404,7 +1401,7 @@ watch(
                     class="w-[8px] h-[2px] rounded-[10px]"
                     v-if="sideBarOpen"
                     :class="[
-                      isLinkActive('/statistics')
+                      isLinkActive('/chat-bot/Chatbot')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                         : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
@@ -1412,7 +1409,7 @@ watch(
                 </div>
                 <span
                   :class="[
-                    isLinkActive('/statistics')
+                    isLinkActive('/chat-bot/Chatbot')
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
                       : '',
                   ]"
@@ -1421,7 +1418,7 @@ watch(
               </nuxt-link>
 
               <nuxt-link
-                :to="localePath('/customize')"
+                :to="localePath('/chat-bot/Articles')"
                 class="dashboard-nav-link w-11/12"
                 :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
@@ -1430,7 +1427,7 @@ watch(
                     class="w-[8px] h-[2px] rounded-[10px]"
                     v-if="sideBarOpen"
                     :class="[
-                      isLinkActive('/customize')
+                      isLinkActive('/chat-bot/Articles')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                         : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
@@ -1438,7 +1435,7 @@ watch(
                 </div>
                 <span
                   :class="[
-                    isLinkActive('/customize')
+                    isLinkActive('/chat-bot/Articles')
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
                       : '',
                   ]"
@@ -1447,7 +1444,7 @@ watch(
               </nuxt-link>
 
               <nuxt-link
-                :to="localePath('/settings')"
+                :to="localePath('/chat-bot/Settings')"
                 class="dashboard-nav-link w-11/12"
                 :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
@@ -1456,7 +1453,7 @@ watch(
                     class="w-[8px] h-[2px] rounded-[10px]"
                     v-if="sideBarOpen"
                     :class="[
-                      isLinkActive('/settings')
+                      isLinkActive('/chat-bot/Settings')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                         : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
@@ -1464,7 +1461,7 @@ watch(
                 </div>
                 <span
                   :class="[
-                    isLinkActive('/settings')
+                    isLinkActive('/chat-bot/Settings')
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
                       : '',
                   ]"

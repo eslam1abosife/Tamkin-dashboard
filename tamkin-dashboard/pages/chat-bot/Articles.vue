@@ -101,9 +101,7 @@ onBeforeMount(() => {
     "deaf-setting-general-settings-player-sound-effects",
   ]);
 
-  // if (customizeStore.managePlayerPackages.length <= 0) {
   getPlayerData();
-  // }
   loadingplayerdata.value = false;
 });
 const deleteSite = async () => {
@@ -116,12 +114,12 @@ const deleteSite = async () => {
       type: "success",
     });
     closeModal("deleteModal");
-    const router = useRouter(); // Import the router instance
+    const router = useRouter();
     router.push({
       path: `/${locale.value}/my-site`,
     });
   } catch (error) {
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -131,7 +129,7 @@ const { t } = useI18n();
 const resetAccessiility = async () => {
   try {
     await api.post("/Apps/ResetSettingDefaultApp", {
-      type: "Sign language", //Accessibility|Sign language
+      type: "Sign language",
     });
     await getPlayerData();
     localStorage.removeItem("playerColorPanal");
@@ -141,7 +139,7 @@ const resetAccessiility = async () => {
       type: "success",
     });
   } catch (error) {
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -156,8 +154,8 @@ const handleSaveAndMove = () => {
   handleSave("default");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 const handleSaveToAllAndMove = () => {
@@ -165,8 +163,8 @@ const handleSaveToAllAndMove = () => {
   handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 
@@ -175,8 +173,8 @@ const DiscardAndMove = () => {
   settingsStore.routeLeaveModal = false;
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    next();
+    pendingNavigation = null;
   }
 };
 
@@ -185,7 +183,7 @@ onBeforeRouteLeave((to, from, next) => {
     settingsStore.showSaveBeforeLeaveModal();
     pendingNavigation = { next, to };
   } else {
-    next(); // No unsaved changes, proceed normally
+    next();
   }
 });
 const localePath = useLocalePath();
@@ -194,12 +192,10 @@ const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
   if (!pattern.includes("*")) {
     return currentPath === pattern;
   }
 
-  // Convert wildcard pattern to regex
   const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
 
   return regex.test(currentPath);
@@ -275,7 +271,7 @@ const handleSave = async (type: any) => {
   } catch (error) {
     loadingSave.value = false;
     loadingSavetoAll.value = false;
-    console.error(error); // Better error handling
+    console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
@@ -300,6 +296,50 @@ const getSettingsValue = (name: any) => {
   } else {
     return "0";
   }
+};
+
+// Store for articles
+const articles = ref([
+  {
+    title: "Enhancing Accessibility with Tamkin...",
+    subject: "Inclusive Technology",
+    description:
+      "Learn about the Tamkin platform and its accessibility features.",
+    date: "2025-02-17",
+    page: "Home",
+  },
+  {
+    title: "How Tamkin Supports Education",
+    subject: "Inclusive Technology",
+    description: "Explore the role of Tamkin in inclusive learning.",
+    date: "2025-02-17",
+    page: "Home",
+  },
+  {
+    title: "How Tamkin Supports Education",
+    subject: "Inclusive Technology",
+    description: "Explore the role of Tamkin in inclusive learning.",
+    date: "2025-02-17",
+    page: "Home",
+  },
+]);
+
+// Function to handle opening the AddArticle modal
+const openAddArticleModal = () => {
+  openModal("addArticleModal");
+};
+
+// Function to handle creating a new article
+const handleCreateNew = (newArticleData) => {
+  const newArticle = {
+    title: newArticleData.title || "Untitled Article",
+    subject: "Inclusive Technology", // Default subject as per the image
+    description: newArticleData.subject || "No description provided.",
+    date: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
+    page: newArticleData.page || "Home",
+  };
+  articles.value.unshift(newArticle); // Add the new article to the beginning of the list
+  closeModal("addArticleModal");
 };
 </script>
 
@@ -327,7 +367,6 @@ const getSettingsValue = (name: any) => {
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
     >
-      <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
     </transition>
     <transition
@@ -489,6 +528,7 @@ const getSettingsValue = (name: any) => {
                   />
                 </div>
                 <button
+                  @click="openAddArticleModal"
                   class="bg-white border text-teal-500 px-4 py-2 rounded-md flex items-center"
                 >
                   <span class="mr-2"
@@ -529,125 +569,34 @@ const getSettingsValue = (name: any) => {
                   Add Article
                 </button>
               </div>
-              <p class="mb-4">Total Articles: 3</p>
+              <p class="mb-4">Total Articles: {{ articles.length }}</p>
               <div
+                v-for="(article, index) in articles"
+                :key="index"
                 class="mt-[20px] w-full bg-white rounded-[10px] px-[15px] border relative pb-[20px]"
               >
                 <div class="flex items-center justify-between">
                   <div class="pt-[24px]">
                     <h1 class="text-[18px] font-[500] leading-[30px]">
-                      Enhancing Accessibility with Tamkin...
+                      {{ article.title }}
                     </h1>
                     <h2
                       class="font-[400] text-[12px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                     >
-                      Inclusive Technology
+                      {{ article.subject }}
                     </h2>
                     <h2
                       class="text-[14px] font-[400] leading-[28.5px] text-darkGrey"
                     >
-                      Learn about the Tamkin platform and its accessibility
-                      features.
+                      {{ article.description }}
                     </h2>
                   </div>
                   <div
                     style="flex-direction: column"
                     class="text-right flex text-[12px] mt-[5px]"
                   >
-                    <span> Date: 2025-02-17</span>
-                    <span>Page: Home</span>
-                  </div>
-                </div>
-                <div class="flex justify-start flex-1 w-[50%] mt-[10px]">
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Rename
-                  </button>
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div
-                class="mt-[20px] w-full bg-white rounded-[10px] px-[15px] border relative pb-[20px]"
-              >
-                <div class="flex items-center justify-between">
-                  <div class="pt-[24px]">
-                    <h1 class="text-[18px] font-[500] leading-[30px]">
-                      How Tamkin Supports Education
-                    </h1>
-                    <h2
-                      class="font-[400] text-[12px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
-                    >
-                      Inclusive Technology
-                    </h2>
-                    <h2
-                      class="text-[14px] font-[400] leading-[28.5px] text-darkGrey"
-                    >
-                      Explore the role of Tamkin in inclusive learning.
-                    </h2>
-                  </div>
-                  <div
-                    style="flex-direction: column"
-                    class="text-right flex text-[12px] mt-[5px]"
-                  >
-                    <span> Date: 2025-02-17</span>
-                    <span>Page: Home</span>
-                  </div>
-                </div>
-                <div class="flex justify-start flex-1 w-[50%] mt-[10px]">
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Rename
-                  </button>
-                  <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div
-                class="mt-[20px] w-full bg-white rounded-[10px] px-[15px] border relative pb-[20px]"
-              >
-                <div class="flex items-center justify-between">
-                  <div class="pt-[24px]">
-                    <h1 class="text-[18px] font-[500] leading-[30px]">
-                      How Tamkin Supports Education
-                    </h1>
-                    <h2
-                      class="font-[400] text-[12px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
-                    >
-                      Inclusive Technology
-                    </h2>
-                    <h2
-                      class="text-[14px] font-[400] leading-[28.5px] text-darkGrey"
-                    >
-                      Explore the role of Tamkin in inclusive learning.
-                    </h2>
-                  </div>
-                  <div
-                    style="flex-direction: column"
-                    class="text-right flex text-[12px] mt-[5px]"
-                  >
-                    <span> Date: 2025-02-17</span>
-                    <span>Page: Home</span>
+                    <span>Date: {{ article.date }}</span>
+                    <span>Page: {{ article.page }}</span>
                   </div>
                 </div>
                 <div class="flex justify-start flex-1 w-[50%] mt-[10px]">
@@ -674,6 +623,12 @@ const getSettingsValue = (name: any) => {
           <OverviewWidgetembdedcode />
         </div>
       </div>
+
+      <chat-botArticlesAddArticle
+        v-if="isOpen('addArticleModal')"
+        @create-new="handleCreateNew"
+        @close="closeModal('addArticleModal')"
+      />
     </div>
   </div>
 </template>

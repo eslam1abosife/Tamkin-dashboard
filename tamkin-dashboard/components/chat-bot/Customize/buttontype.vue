@@ -189,24 +189,7 @@ watch(currentColor, (ov, nv) => {
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-          <!-- <div class="mini_wrap">
-            <div>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                  class="fill-[#585B5B] dark:fill-whiteTamkin"
-                />
-              </svg>
-            </div>
-
-            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div> -->
+         
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('button_type_card')"

@@ -6,6 +6,7 @@ import { useSettingsStore } from "@/stores/settings";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetPlayerData } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
+
 const { locale } = useI18n();
 
 const { useApiInstance } = useApi();
@@ -301,6 +302,72 @@ const getSettingsValue = (name: any) => {
     return "0";
   }
 };
+
+// State for managing project items
+const projectItems = ref([
+  { name: "Tamkin Question Bot", children: [] },
+  { name: "Project (21)", children: [] },
+  { name: "Project (21)", children: [] },
+  { name: "Project (21)", children: [] },
+]);
+
+const selectedParentIndex = ref(null);
+const selectedChildIndex = ref(null);
+const currentItemName = ref("");
+
+// Function to add a new child
+const addChild = (index) => {
+  selectedParentIndex.value = index;
+  openModal("chatbotResponseModal");
+};
+
+const handleCreateNew = (newTitle) => {
+  if (newTitle && selectedParentIndex.value !== null) {
+    projectItems.value[selectedParentIndex.value].children.push({
+      name: newTitle,
+      children: [],
+    });
+    closeModal("chatbotResponseModal");
+    selectedParentIndex.value = null; // Reset after adding
+  }
+};
+
+// Edit function (placeholder for now)
+const editItem = (parentIndex, childIndex) => {
+  console.log(`Editing item at parent ${parentIndex}, child ${childIndex}`);
+};
+
+// Rename function
+const openRenameModal = (parentIndex, childIndex) => {
+  selectedParentIndex.value = parentIndex;
+  selectedChildIndex.value = childIndex;
+  currentItemName.value =
+    projectItems.value[parentIndex].children[childIndex].name;
+  openModal("renameModal");
+};
+
+const handleRename = (newName) => {
+  if (
+    newName &&
+    selectedParentIndex.value !== null &&
+    selectedChildIndex.value !== null
+  ) {
+    projectItems.value[selectedParentIndex.value].children[
+      selectedChildIndex.value
+    ].name = newName;
+    closeModal("renameModal");
+    selectedParentIndex.value = null;
+    selectedChildIndex.value = null;
+    currentItemName.value = "";
+  }
+};
+
+// Delete function
+const deleteItem = (parentIndex, childIndex) => {
+  if (projectItems.value[parentIndex]?.children[childIndex]) {
+    projectItems.value[parentIndex].children.splice(childIndex, 1);
+  }
+};
 </script>
 
 <template>
@@ -485,6 +552,7 @@ const getSettingsValue = (name: any) => {
                   {{ $t("Tamkin Question Bot") }}
                 </h1>
                 <button
+                  @click="addChild(0)"
                   class="bg-white border border-gray-300 ml-[35px] dark:bg-gray-700 text-[12px] px-[10px] py-[6px] rounded-[10px] text-darkGrey dark:text-whiteTamkin shadow-sm"
                 >
                   Add Child
@@ -497,117 +565,111 @@ const getSettingsValue = (name: any) => {
               class="relative flex flex-col items-start justify-center mt-[18px] divide-y"
               v-if="!collapseStore.collapses.includes('general_settings_card')"
             >
-              <!-- Project Item 1 (Selected) -->
               <div
-                class="flex items-center justify-between w-full py-[10px] px-[10px] rounded-[5px] group hover:bg-[#F6F6F6]"
+                v-for="(item, parentIndex) in projectItems"
+                :key="parentIndex"
+                class="flex flex-col items-start w-full"
               >
-                <div class="flex items-center">
-                  <!-- Folder Icon -->
-                  <svg
-                    width="17"
-                    height="14"
-                    viewBox="0 0 17 14"
-                    fill="none"
-                    class="mr-[8px]"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2 4.58154V2.01011C2 1.63123 2.14267 1.26787 2.39663 0.999962C2.65058 0.732053 2.99502 0.581543 3.35417 0.581543H5.92336C6.19074 0.58155 6.45213 0.665059 6.67458 0.821543L7.61708 1.4844C7.83954 1.64088 8.10093 1.72439 8.36831 1.7244H13.6458C14.005 1.7244 14.3494 1.87491 14.6034 2.14282C14.8573 2.41073 15 2.77409 15 3.15297V4.58154"
-                      stroke="black"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M15.9966 5.73321L15.4535 11.2482C15.4535 11.6014 15.3127 11.9402 15.0621 12.1902C14.8114 12.4402 14.4714 12.5809 14.1166 12.5815H2.88341C2.52862 12.5809 2.18858 12.4402 1.93792 12.1902C1.68726 11.9402 1.54648 11.6014 1.54648 11.2482L1.00341 5.73321C0.991621 5.58643 1.01049 5.43882 1.05882 5.29966C1.10715 5.16049 1.18389 5.0328 1.28422 4.92462C1.38456 4.81643 1.5063 4.7301 1.64179 4.67106C1.77728 4.61201 1.92358 4.58153 2.07148 4.58154H14.9319C15.0795 4.58199 15.2254 4.61281 15.3605 4.67206C15.4956 4.7313 15.6169 4.8177 15.7169 4.92584C15.8169 5.03397 15.8933 5.16151 15.9415 5.30044C15.9896 5.43938 16.0084 5.58671 15.9966 5.73321Z"
-                      stroke="black"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-
-                  <span class="text-[14px] text-darkGrey dark:text-whiteTamkin">
-                    Project (21)
-                  </span>
-                </div>
                 <div
-                  class="buttons-group flex space-x-[8px] opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="flex items-center justify-between w-full py-[10px] px-[10px] rounded-[5px] group hover:bg-[#F6F6F6]"
                 >
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Add Child
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Rename
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+                  <div class="flex items-center">
+                    <svg
+                      width="17"
+                      height="14"
+                      viewBox="0 0 17 14"
+                      fill="none"
+                      class="mr-[8px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2 4.58154V2.01011C2 1.63123 2.14267 1.26787 2.39663 0.999962C2.65058 0.732053 2.99502 0.581543 3.35417 0.581543H5.92336C6.19074 0.58155 6.45213 0.665059 6.67458 0.821543L7.61708 1.4844C7.83954 1.64088 8.10093 1.72439 8.36831 1.7244H13.6458C14.005 1.7244 14.3494 1.87491 14.6034 2.14282C14.8573 2.41073 15 2.77409 15 3.15297V4.58154"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M15.9966 5.73321L15.4535 11.2482C15.4535 11.6014 15.3127 11.9402 15.0621 12.1902C14.8114 12.4402 14.4714 12.5809 14.1166 12.5815H2.88341C2.52862 12.5809 2.18858 12.4402 1.93792 12.1902C1.68726 11.9402 1.54648 11.6014 1.54648 11.2482L1.00341 5.73321C0.991621 5.58643 1.01049 5.43882 1.05882 5.29966C1.10715 5.16049 1.18389 5.0328 1.28422 4.92462C1.38456 4.81643 1.5063 4.7301 1.64179 4.67106C1.77728 4.61201 1.92358 4.58153 2.07148 4.58154H14.9319C15.0795 4.58199 15.2254 4.61281 15.3605 4.67206C15.4956 4.7313 15.6169 4.8177 15.7169 4.92584C15.8169 5.03397 15.8933 5.16151 15.9415 5.30044C15.9896 5.43938 16.0084 5.58671 15.9966 5.73321Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
 
-              <!-- Project Item 2 -->
-              <div
-                class="flex items-center justify-between w-full py-[10px] px-[10px] group hover:bg-[#F6F6F6] rounded-[5px]"
-              >
-                <div class="flex items-center">
-                  <svg
-                    width="17"
-                    height="14"
-                    viewBox="0 0 17 14"
-                    fill="none"
-                    class="mr-[8px]"
-                    xmlns="http://www.w3.org/2000/svg"
+                    <span
+                      class="text-[14px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      {{ item.name }}
+                    </span>
+                  </div>
+                  <div
+                    class="buttons-group flex space-x-[8px] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
-                    <path
-                      d="M2 4.58154V2.01011C2 1.63123 2.14267 1.26787 2.39663 0.999962C2.65058 0.732053 2.99502 0.581543 3.35417 0.581543H5.92336C6.19074 0.58155 6.45213 0.665059 6.67458 0.821543L7.61708 1.4844C7.83954 1.64088 8.10093 1.72439 8.36831 1.7244H13.6458C14.005 1.7244 14.3494 1.87491 14.6034 2.14282C14.8573 2.41073 15 2.77409 15 3.15297V4.58154"
-                      stroke="black"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M15.9966 5.73321L15.4535 11.2482C15.4535 11.6014 15.3127 11.9402 15.0621 12.1902C14.8114 12.4402 14.4714 12.5809 14.1166 12.5815H2.88341C2.52862 12.5809 2.18858 12.4402 1.93792 12.1902C1.68726 11.9402 1.54648 11.6014 1.54648 11.2482L1.00341 5.73321C0.991621 5.58643 1.01049 5.43882 1.05882 5.29966C1.10715 5.16049 1.18389 5.0328 1.28422 4.92462C1.38456 4.81643 1.5063 4.7301 1.64179 4.67106C1.77728 4.61201 1.92358 4.58153 2.07148 4.58154H14.9319C15.0795 4.58199 15.2254 4.61281 15.3605 4.67206C15.4956 4.7313 15.6169 4.8177 15.7169 4.92584C15.8169 5.03397 15.8933 5.16151 15.9415 5.30044C15.9896 5.43938 16.0084 5.58671 15.9966 5.73321Z"
-                      stroke="black"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <span class="text-[14px] text-darkGrey dark:text-whiteTamkin">
-                    Project (21)
-                  </span>
+                    <button
+                      @click="addChild(parentIndex)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Add Child
+                    </button>
+                  </div>
                 </div>
+
+                <!-- Render children -->
                 <div
-                  class="buttons-group flex space-x-[8px] opacity-0 group-hover:opacity-100 transition-opacity"
+                  v-for="(child, childIndex) in item.children"
+                  :key="childIndex"
+                  class="flex items-center justify-between w-full py-[10px] px-[10px] pl-[40px] rounded-[5px] group hover:bg-[#F6F6F6]"
                 >
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                  <div class="flex items-center">
+                    <svg
+                      width="17"
+                      height="14"
+                      viewBox="0 0 17 14"
+                      fill="none"
+                      class="mr-[8px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2 4.58154V2.01011C2 1.63123 2.14267 1.26787 2.39663 0.999962C2.65058 0.732053 2.99502 0.581543 3.35417 0.581543H5.92336C6.19074 0.58155 6.45213 0.665059 6.67458 0.821543L7.61708 1.4844C7.83954 1.64088 8.10093 1.72439 8.36831 1.7244H13.6458C14.005 1.7244 14.3494 1.87491 14.6034 2.14282C14.8573 2.41073 15 2.77409 15 3.15297V4.58154"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M15.9966 5.73321L15.4535 11.2482C15.4535 11.6014 15.3127 11.9402 15.0621 12.1902C14.8114 12.4402 14.4714 12.5809 14.1166 12.5815H2.88341C2.52862 12.5809 2.18858 12.4402 1.93792 12.1902C1.68726 11.9402 1.54648 11.6014 1.54648 11.2482L1.00341 5.73321C0.991621 5.58643 1.01049 5.43882 1.05882 5.29966C1.10715 5.16049 1.18389 5.0328 1.28422 4.92462C1.38456 4.81643 1.5063 4.7301 1.64179 4.67106C1.77728 4.61201 1.92358 4.58153 2.07148 4.58154H14.9319C15.0795 4.58199 15.2254 4.61281 15.3605 4.67206C15.4956 4.7313 15.6169 4.8177 15.7169 4.92584C15.8169 5.03397 15.8933 5.16151 15.9415 5.30044C15.9896 5.43938 16.0084 5.58671 15.9966 5.73321Z"
+                        stroke="black"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span
+                      class="text-[14px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      {{ child.name }}
+                    </span>
+                  </div>
+                  <div
+                    class="buttons-group flex space-x-[8px] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
-                    Add Child
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Rename
-                  </button>
-                  <button
-                    class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
-                  >
-                    Delete
-                  </button>
+                    <button
+                      @click="editItem(parentIndex, childIndex)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      @click="openRenameModal(parentIndex, childIndex)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Rename
+                    </button>
+                    <button
+                      @click="deleteItem(parentIndex, childIndex)"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -632,6 +694,22 @@ const getSettingsValue = (name: any) => {
                 "
               />
             </div>
+
+            <!-- Chatbot Response Component -->
+            <chat-botChatbotResponse
+              v-if="isOpen('chatbotResponseModal')"
+              :title="settingsStore.defaultapp.name"
+              @create-new="handleCreateNew"
+              @close="closeModal('chatbotResponseModal')"
+            />
+
+            <!-- Rename Component -->
+            <chat-botChatbotRename
+              v-if="isOpen('renameModal')"
+              :initial-name="currentItemName"
+              @save="handleRename"
+              @close="closeModal('renameModal')"
+            />
           </div>
 
           <OverviewWidgetembdedcode />

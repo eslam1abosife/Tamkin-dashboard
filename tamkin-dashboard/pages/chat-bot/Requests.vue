@@ -668,7 +668,12 @@ const getSettingsValue = (name: any) => {
                     </td>
                     <td class="py-2 px-4">2025-02-25</td>
                     <td class="py-2 px-4">
-                      <button class="underline">Details</button>
+                      <button
+                        :to="localePath('/chat-bot/RequestsId')"
+                        class="underline"
+                      >
+                        Details
+                      </button>
                     </td>
                   </tr>
                 </tbody>
