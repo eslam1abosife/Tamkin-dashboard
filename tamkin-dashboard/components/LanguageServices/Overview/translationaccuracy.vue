@@ -378,7 +378,7 @@ const options = ref({
                   {{ $t("Words") }}
                 </h1>
               </div>
-              <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
+              <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
                 <Line
                   ref="chart13"
                   :data="chartData"
@@ -407,19 +407,19 @@ const options = ref({
                   {{ $t("Words") }}
                 </h1>
               </div>
-              <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
+              <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
                 <Line
                   ref="chart14"
                   :data="chartData2"
                   :options="options"
-                  class="h-[40px]"
+                  class="h-[80px]"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-col items-center justify-start">
+        <div class="flex flex-col items-center justify-start w-2/4">
           <div class="mt-[-20px] ipad-max:mx-auto w-1/4 flex justify-center">
             <!-- <CircularProgressBar :initialPercentage="translationPercentage" 
              :total="`${statsStore.sign_languageStats.total}`" class="!w-[200px] !h-[200px]"/> -->
@@ -430,7 +430,7 @@ const options = ref({
             class="small_circle !w-[150px] !h-[150px] text-[12px]"
           />
                   </div>
-          <div class="text-[18px]  leading-[28px] mt-[14px] font-[500] text-[#021328] dark:text-white">
+          <div class="text-[18px] dark:text-whiteTamkin text-center leading-[28px] mt-[14px] font-[500] text-[#021328]">
             {{ $t('Translation Accuracy') }}
           </div>
         </div>

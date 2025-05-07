@@ -319,7 +319,7 @@ const formattedTotal = computed(() => {
           </svg>
 
           <div
-            class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+            class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
           >
             <div class="flex flex-col items-center justify-center">
               <div>{{ usagePercentage }}%</div>
@@ -472,7 +472,7 @@ const formattedTotal = computed(() => {
                   ></circle>
                 </svg>
                 <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
                   {{ Number(lang.percentage).toFixed(0) }}%
                 </div>
@@ -588,7 +588,7 @@ const formattedTotal = computed(() => {
                   ></circle>
                 </svg>
                 <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
                   {{ Number(page.percentage).toFixed(0) }}%
                 </div>

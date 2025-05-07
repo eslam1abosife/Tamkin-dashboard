@@ -708,7 +708,7 @@ input[type=number] {
 
 .circular-progress {
     position: relative;
-   @apply lg:h-[36px] lg:w-[36px] h-[25px] w-[25px];
+   @apply h-[45px] w-[45px];
 }
 
 .circular-progress.big {

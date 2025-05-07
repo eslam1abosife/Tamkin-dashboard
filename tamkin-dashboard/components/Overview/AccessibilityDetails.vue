@@ -605,7 +605,7 @@ function generateColorPalette() {
               </p>
             </div>
           </div>
-          <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
+          <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
             <Line
               ref="chart13"
               :data="chartData"
@@ -732,12 +732,12 @@ function generateColorPalette() {
               </p>
             </div>
           </div>
-          <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
+          <div class="h-[80px] ltr:right-[33px] rtl:left-[33px] absolute">
             <Line
               ref="chart14"
               :data="chartData2"
               :options="options"
-              class="w-auto h-[80px]"
+              class="h-[80px]"
             />
           </div>
         </div>

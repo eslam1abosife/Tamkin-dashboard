@@ -263,7 +263,7 @@ function calculatePercentage(total, usage) {
               ></circle>
             </svg>
             <div
-              class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+              class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
             >
               <div class="flex flex-col items-center justify-center">
                 <div>
@@ -521,7 +521,7 @@ function calculatePercentage(total, usage) {
                   </svg>
 
                   <div
-                    class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                    class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                   >
                     {{ lang.usage.toFixed(0) }}%
                   </div>
@@ -627,7 +627,7 @@ function calculatePercentage(total, usage) {
                     ></circle>
                   </svg>
                   <div
-                    class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                    class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                   >
                     {{ !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0 }}%
                   </div>

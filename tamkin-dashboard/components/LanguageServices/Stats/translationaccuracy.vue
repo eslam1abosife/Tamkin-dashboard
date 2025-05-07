@@ -254,7 +254,7 @@ const collapseStore = useCollapseStore();
                   ></circle>
                 </svg>
                 <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
                   80%
                 </div>
@@ -332,7 +332,7 @@ const collapseStore = useCollapseStore();
                   ></circle>
                 </svg>
                 <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
                   80%
                 </div>
@@ -410,7 +410,7 @@ const collapseStore = useCollapseStore();
                   ></circle>
                 </svg>
                 <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                  class="progress-text text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
                   80%
                 </div>
