@@ -528,7 +528,7 @@ const addNewProject = () => {
                   height="14"
                   viewBox="0 0 17 14"
                   fill="none"
-                  class="mr-[8px]"
+                  class="dark:fill-whiteTamkin mr-[8px]"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -569,8 +569,8 @@ const addNewProject = () => {
                 :key="parentIndex"
                 class="flex flex-col items-start w-full"
               >
-                <div
-                  class="flex items-center justify-between w-full py-[10px] px-[10px] rounded-[5px] group hover:bg-[#F6F6F6]"
+                <div style="border-radius: 15px;"
+                  class="flex items-center justify-between w-full py-[6px] px-[10px] rounded-[5px] group dark:hover:bg-gray-700 hover:bg-[#F6F6F6]"
                 >
                   <div class="flex items-center">
                     <svg
@@ -578,7 +578,7 @@ const addNewProject = () => {
                       height="14"
                       viewBox="0 0 17 14"
                       fill="none"
-                      class="mr-[8px]"
+                      class="dark:fill-whiteTamkin mr-[8px]"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
@@ -602,23 +602,23 @@ const addNewProject = () => {
                     </span>
                   </div>
                   <div
-                    class="buttons-group flex space-x-[8px] opacity-0 group-hover:opacity-100 transition-opacity"
+                    class="buttons-group flex space-x-[8px] px-[10px] py-[6px] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <button
                       @click="addChild(parentIndex)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-tamkinDarkPrimary px-[10px] py-[6px] text-[12px]  rounded-[5px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Add Child
                     </button>
                     <button
                       @click="openRenameModal(parentIndex, null)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-tamkinDarkPrimary px-[10px] py-[6px] text-[12px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Rename
                     </button>
                     <button
                       @click="deleteItem(parentIndex, null)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-tamkinDarkPrimary text-[12px] px-[10px] py-[6px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Delete
                     </button>
@@ -629,7 +629,7 @@ const addNewProject = () => {
                 <div
                   v-for="(child, childIndex) in item.children"
                   :key="childIndex"
-                  class="flex items-center justify-between w-full py-[10px] px-[10px] pl-[40px] rounded-[5px] group hover:bg-[#F6F6F6]"
+                  class="flex items-center justify-between w-full py-[8px] px-[10px] pl-[40px] rounded-[5px] group hover:bg-[#F6F6F6]"
                 >
                   <div class="flex items-center">
                     <svg
@@ -664,19 +664,19 @@ const addNewProject = () => {
                   >
                     <button
                       @click="editItem(parentIndex, childIndex)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[10px] py-[6px] rounded-[5px] text-[#727983] dark:text-whiteTamkin"
                     >
                       Edit
                     </button>
                     <button
                       @click="openRenameModal(parentIndex, childIndex)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[10px] py-[6px] rounded-[5px] text-[#727983] dark:text-whiteTamkin"
                     >
                       Rename
                     </button>
                     <button
                       @click="deleteItem(parentIndex, childIndex)"
-                      class="bg-white dark:bg-gray-700 text-[12px] px-[8px] py-[4px] rounded-[5px] text-darkGrey dark:text-whiteTamkin"
+                      class="bg-white dark:bg-gray-700 text-[12px] px-[10px] py-[6px] rounded-[5px] text-[#727983] dark:text-whiteTamkin"
                     >
                       Delete
                     </button>

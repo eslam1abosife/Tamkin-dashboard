@@ -642,7 +642,7 @@ const getSettingsValue = (name: any) => {
               >
                 <div
                   v-if="item.active == 1"
-                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
+                  class="h-[55px] pl-4 bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -938,8 +938,6 @@ const getSettingsValue = (name: any) => {
               </button>
             </div>
           </div>
-
-     
         </div>
       </div>
     </div>

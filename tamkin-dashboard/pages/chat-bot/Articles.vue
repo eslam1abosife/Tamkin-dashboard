@@ -515,7 +515,9 @@ const handleCreateNew = (newArticleData) => {
                   ).length == 0
                 "
               />
-              <h1 class="text-xl font-bold mt-4 mb-4">
+              <h1
+                class="text-xl font-bold mt-4 mb-4 text-gray-800 dark:text-whiteTamkin"
+              >
                 Tamkin Article Management
               </h1>
               <div class="flex justify-between w-full items-center mb-4">
@@ -529,7 +531,7 @@ const handleCreateNew = (newArticleData) => {
                 </div>
                 <button
                   @click="openAddArticleModal"
-                  class="bg-white border text-teal-500 px-4 py-2 rounded-md flex items-center"
+                  class="bg-white dark:bg-tamkinDarkPrimary border text-teal-500 dark:text-whiteTamkin px-4 py-2 rounded-md flex items-center"
                 >
                   <span class="mr-2"
                     ><svg
@@ -569,15 +571,19 @@ const handleCreateNew = (newArticleData) => {
                   Add Article
                 </button>
               </div>
-              <p class="mb-4">Total Articles: {{ articles.length }}</p>
+              <p class="mb-4 text-gray-600 dark:text-whiteTamkin">
+                Total Articles: {{ articles.length }}
+              </p>
               <div
                 v-for="(article, index) in articles"
                 :key="index"
-                class="mt-[20px] w-full bg-white rounded-[10px] px-[15px] border relative pb-[20px]"
+                class="mt-[20px] w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] border dark:border-gray-600 relative pb-[20px]"
               >
                 <div class="flex items-center justify-between">
                   <div class="pt-[24px]">
-                    <h1 class="text-[18px] font-[500] leading-[30px]">
+                    <h1
+                      class="text-[18px] font-[500] leading-[30px] text-gray-800 dark:text-whiteTamkin"
+                    >
                       {{ article.title }}
                     </h1>
                     <h2
@@ -586,32 +592,32 @@ const handleCreateNew = (newArticleData) => {
                       {{ article.subject }}
                     </h2>
                     <h2
-                      class="text-[14px] font-[400] leading-[28.5px] text-darkGrey"
+                      class="text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ article.description }}
                     </h2>
                   </div>
                   <div
                     style="flex-direction: column"
-                    class="text-right flex text-[12px] mt-[5px]"
+                    class="text-right flex text-[12px] mt-[5px] text-gray-600 dark:text-whiteTamkin"
                   >
                     <span>Date: {{ article.date }}</span>
-                    <span>Page: {{ article.page }}</span>
+                    <span class="mt-4">Page: {{ article.page }}</span>
                   </div>
                 </div>
                 <div class="flex justify-start flex-1 w-[50%] mt-[10px]">
                   <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
+                    class="px-[12px] py-[6px] bg-white dark:bg-tamkinDarkPrimary border border-gray-300 dark:border-gray-600 rounded-md mr-[10px] text-gray-700 dark:text-whiteTamkin text-sm font-medium hover:shadow-sm transition-shadow"
                   >
                     Edit
                   </button>
                   <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md mr-[10px] text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
+                    class="px-[12px] py-[6px] bg-white dark:bg-tamkinDarkPrimary border border-gray-300 dark:border-gray-600 rounded-md mr-[10px] text-gray-700 dark:text-whiteTamkin text-sm font-medium hover:shadow-sm transition-shadow"
                   >
                     Rename
                   </button>
                   <button
-                    class="px-[12px] py-[6px] bg-white border border-gray-300 rounded-md text-gray-700 text-sm font-medium hover:shadow-sm transition-shadow"
+                    class="px-[12px] py-[6px] bg-white dark:bg-tamkinDarkPrimary border border-gray-300 dark:border-gray-600 rounded-md mr-[10px] text-gray-700 dark:text-whiteTamkin text-sm font-medium hover:shadow-sm transition-shadow"
                   >
                     Delete
                   </button>

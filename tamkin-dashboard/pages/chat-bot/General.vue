@@ -851,7 +851,7 @@ const getSettingsValue = (name: any) => {
               >
                 <div
                   v-if="item.active == 1"
-                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
+                  class="h-[70px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[0px]"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
@@ -891,7 +891,22 @@ const getSettingsValue = (name: any) => {
                           </defs>
                         </svg>
 
-                        <span>{{ $t(item.label) }}</span>
+                        <div class="d-flex flex-column">
+                          <h1 class="rtl:mr-[10px] ltr:ml-[10px]">
+                            {{ $t(item.label) }}
+                          </h1>
+                          <h2
+                            class="text-[12px] rtl:mr-[10px] ltr:ml-[10px] mb-2 lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+                          >
+                            <span>
+                              {{
+                                $t(
+                                  "Manage Your Sign Language Settings for a Customized and Accessible Communication Experience"
+                                )
+                              }}
+                            </span>
+                          </h2>
+                        </div>
                       </div>
                     </div>
                     <div class="rtl:mr-auto ltr:ml-auto">
