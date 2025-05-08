@@ -1217,15 +1217,15 @@ const openInvestor = (app, pack) => {
                         >
                           <div
                             href="#"
-                            class="gap-3 h-[50px] flex items-center justify-start"
+                            class="gap-3 h-[50px] flex items-center justify-start flex-nowrap"
                           >
                             <div
-                              class="flex items-center justify-center"
+                              class="size-8 flex items-center justify-center"
                               v-if="app.favicon"
                             >
                               <img
                                 :src="app.favicon"
-                                class="size-8 ipad-max:hidden lg:block hidden rounded-full"
+                                class="size-8 rounded-full"
                               />
                             </div>
                             <div
@@ -1270,7 +1270,7 @@ const openInvestor = (app, pack) => {
                       >
                         <div
                           v-if="app.package.length > 0"
-                          class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                          class="flex items-center flex-nowrap justify-start rtl:space-x-reverse space-x-[10px]"
                         >
                           <div
                             class="w-[20px] h-[20px] inline-block align-middle"

@@ -31,6 +31,7 @@ export const useStatsStore = defineStore("stats", {
     pagesTranslated: [],
     loadingStatsIntranlsation:true
   }),
+  
   actions: {
     showSaveBeforeLeaveModal() {
       this.routeLeaveModal = !this.routeLeaveModal;
