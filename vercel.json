@@ -1,0 +1,17 @@
+{
+  "builds": [
+    {
+      "src": "tamkin-dashboard/**",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "tamkin-dashboard/.vercel/output"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "tamkin-dashboard/.vercel/output/$1"
+    }
+  ]
+}
