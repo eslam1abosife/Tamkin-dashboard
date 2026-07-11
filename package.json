@@ -1,0 +1,15 @@
+{
+  "name": "tamkin-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "tamkin-dashboard",
+    "tamkin-video-player"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=tamkin-dashboard"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.13.8"
+  }
+}

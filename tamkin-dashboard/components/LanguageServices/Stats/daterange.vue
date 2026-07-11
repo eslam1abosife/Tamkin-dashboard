@@ -4,7 +4,7 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useNavbarStore } from "@/stores/navbar";
 import { useWindowSize } from "@vueuse/core";
-import { ar } from "date-fns/locale";
+import { ar } from "date-fns/locale/ar";
 
 import { useDownloadSignLangCSV } from "~/composables/useAccessibility";
 const { t, locale } = useI18n();
