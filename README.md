@@ -1,21 +1,29 @@
 # Tamkin Dashboard
 
-Advanced admin dashboard built with Vue.js.
+Comprehensive administration command center for specialized assistive tools.
+
+---
+
+### Overview
+
+Admin dashboard engineered to control accessibility features including an integrated sign-language avatar, screen reader utilities, and high-contrast styling layers.
 
 ---
 
 ### Features
 
-- Modern admin dashboard interface
-- Clean and professional UI
+- Admin command center interface
+- Sign-language avatar integration
+- Screen reader utilities
+- High-contrast styling layers
 - Fully responsive layout
-- Built with Vue.js
 
 ---
 
 ### Tech Stack
 
-- Vue.js
+- **Vue.js**
+- **Node.js** · **Express** · **MongoDB**
 - HTML5 · CSS3 · JavaScript
 
 ---
@@ -32,5 +40,5 @@ npm run build
 
 ### Author
 
-**Eslam Abosife** — Front-End Developer  
+**Eslam Abosife** — Vue.js Front-End Developer  
 [GitHub](https://github.com/eslam1abosife) · [Portfolio](https://eslam-abosife-profile-two.vercel.app)
